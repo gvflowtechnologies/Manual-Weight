@@ -20,6 +20,8 @@ Public Class PalletData
     Private CountGood As Integer ' Number of good parts in pallet
 
     Private number_of_Canisters As Integer ' number of canisters in pallet
+    Private canisternumber As Integer ' Currrent Canister weighed
+
     '************************
     ' File Handling  
     '************************
@@ -31,7 +33,9 @@ Public Class PalletData
     Private completed As String ' String with completed Data Path
 
     Public Sub New()
-
+        number_of_Canisters = 0
+        canisternumber = 0
+        FirstWeightReading() = ""
 
     End Sub
 
@@ -156,7 +160,7 @@ Public Class PalletData
 
         End Set
     End Property
-    Public ReadOnly Property firstweightexists As Boolean
+    Public ReadOnly Property firstweightexists As Boolean ' Flag if first weight exists
         Get
 
             Return BFirstweightExists
@@ -220,6 +224,23 @@ Public Class PalletData
     Public ReadOnly Property NScaleCalDate As String
         Get
             Return DateScaleCalNext
+        End Get
+    End Property
+    Property canisternum As Integer 'increment
+        Set(value As Integer)
+
+            canisternumber += 1
+
+        End Set
+        Get
+            Return canisternumber
+        End Get
+    End Property
+
+
+    ReadOnly Property initialweight As Single
+        Get
+            Return CSng(FirstWeightReading(canisternumber))
         End Get
     End Property
 

@@ -39,14 +39,13 @@ Public Class CSorter
         Next
 
         If Boardfound = False Then
-            MsgBox("No USB-231/4 found in system.  Please run InstaCal.", MsgBoxStyle.Critical, "No Board detected")
+            MsgBox("No USB-1208 found in system.  Please run InstaCal.", MsgBoxStyle.Critical, "No Board detected")
             End
         End If
 
 
         daqhealthy = True
         ' Creates a new sort object
-
 
 
         sortererror = sorter.DConfigPort(Psortout, dsortout)

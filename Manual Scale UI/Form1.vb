@@ -177,7 +177,6 @@ Public Class Manual_Weight
 
 
 
-
     Private Sub Btn_FinalFolder_Click(sender As Object, e As EventArgs) Handles Btn_FinalFolder.Click
         sdataset.createdirs()
         LBFinal_Data_File.Text = sdataset.basedir
@@ -186,6 +185,11 @@ Public Class Manual_Weight
 
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
+
+        ' determine which canister you are weighing.
+        ' Load that data in.
+
+
 
         Select Case teststate
 
@@ -241,6 +245,9 @@ Public Class Manual_Weight
                 End If
 
             Case Weighprocess.prompting
+
+
+
                 If entering Then
                     entering = False
                     tmrsort.Start()
@@ -257,6 +264,17 @@ Public Class Manual_Weight
 
                 End If
 
+                If MDataset.firstweightexists = False Then
+                    ' Fist weights
+
+
+                Else
+                    ' second weight
+
+
+                End If
+
+
 
 
                 'Test for Switch Position based on good or bad result.
@@ -272,12 +290,6 @@ Public Class Manual_Weight
 
 
         End Select
-
-
-
-
-
-
 
 
 
