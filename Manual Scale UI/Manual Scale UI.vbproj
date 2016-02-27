@@ -71,6 +71,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CSorter.vb" />
     <Compile Include="Datawriting.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
@@ -95,7 +96,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PlantOutput.vb" />
     <Compile Include="scalemanagment.vb" />
     <Compile Include="Static Data.vb" />
   </ItemGroup>

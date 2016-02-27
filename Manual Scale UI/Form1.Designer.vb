@@ -26,15 +26,15 @@ Partial Class Manual_Weight
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Lbl_Bad = New System.Windows.Forms.Label()
+        Me.Lbl_Good = New System.Windows.Forms.Label()
+        Me.Lbl_Weighing = New System.Windows.Forms.Label()
         Me.Lbl_IDLE = New System.Windows.Forms.Label()
-        Me.Lbl_PN = New System.Windows.Forms.Label()
-        Me.Lbl_BN = New System.Windows.Forms.Label()
+        Me.sLbl_PN = New System.Windows.Forms.Label()
+        Me.sLbl_BN = New System.Windows.Forms.Label()
         Me.GB_Scale = New System.Windows.Forms.GroupBox()
         Me.Lbl_CurrentScale = New System.Windows.Forms.Label()
-        Me.Lbl_SR = New System.Windows.Forms.Label()
+        Me.sLbl_SR = New System.Windows.Forms.Label()
         Me.GBBinData = New System.Windows.Forms.GroupBox()
         Me.Lbl_BadCount = New System.Windows.Forms.Label()
         Me.Lbl_GoodCount = New System.Windows.Forms.Label()
@@ -43,8 +43,8 @@ Partial Class Manual_Weight
         Me.GBCurrentPallet = New System.Windows.Forms.GroupBox()
         Me.Lbl_CurrentBad = New System.Windows.Forms.Label()
         Me.Lbl_CurrentGood = New System.Windows.Forms.Label()
-        Me.Lbl_B = New System.Windows.Forms.Label()
-        Me.Lbl_G = New System.Windows.Forms.Label()
+        Me.sLbl_B = New System.Windows.Forms.Label()
+        Me.sLbl_G = New System.Windows.Forms.Label()
         Me.Btn_StopPallet = New System.Windows.Forms.Button()
         Me.Lbl_PalletN = New System.Windows.Forms.Label()
         Me.Lbl_BatchN = New System.Windows.Forms.Label()
@@ -54,6 +54,16 @@ Partial Class Manual_Weight
         Me.Btn_FinalFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.Lbl_Remove = New System.Windows.Forms.Label()
+        Me.sLbl_Row = New System.Windows.Forms.Label()
+        Me.sLbl_Col = New System.Windows.Forms.Label()
+        Me.LBL_CRow = New System.Windows.Forms.Label()
+        Me.LBL_CCOL = New System.Windows.Forms.Label()
+        Me.Btn_Settings = New System.Windows.Forms.Button()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -76,8 +86,8 @@ Partial Class Manual_Weight
         'RunPage
         '
         Me.RunPage.Controls.Add(Me.GroupBox1)
-        Me.RunPage.Controls.Add(Me.Lbl_PN)
-        Me.RunPage.Controls.Add(Me.Lbl_BN)
+        Me.RunPage.Controls.Add(Me.sLbl_PN)
+        Me.RunPage.Controls.Add(Me.sLbl_BN)
         Me.RunPage.Controls.Add(Me.GB_Scale)
         Me.RunPage.Controls.Add(Me.GBBinData)
         Me.RunPage.Controls.Add(Me.GBCurrentPallet)
@@ -95,78 +105,81 @@ Partial Class Manual_Weight
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.Label4)
-        Me.GroupBox1.Controls.Add(Me.Label3)
-        Me.GroupBox1.Controls.Add(Me.Label2)
+        Me.GroupBox1.Controls.Add(Me.Lbl_Remove)
+        Me.GroupBox1.Controls.Add(Me.Lbl_Bad)
+        Me.GroupBox1.Controls.Add(Me.Lbl_Good)
+        Me.GroupBox1.Controls.Add(Me.Lbl_Weighing)
         Me.GroupBox1.Controls.Add(Me.Lbl_IDLE)
+        Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(54, 250)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(437, 113)
+        Me.GroupBox1.Size = New System.Drawing.Size(437, 84)
         Me.GroupBox1.TabIndex = 9
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Test Status"
         '
-        'Label4
+        'Lbl_Bad
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(259, 31)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(39, 13)
-        Me.Label4.TabIndex = 3
-        Me.Label4.Text = "Label4"
+        Me.Lbl_Bad.AutoSize = True
+        Me.Lbl_Bad.Location = New System.Drawing.Point(266, 31)
+        Me.Lbl_Bad.Name = "Lbl_Bad"
+        Me.Lbl_Bad.Size = New System.Drawing.Size(55, 25)
+        Me.Lbl_Bad.TabIndex = 3
+        Me.Lbl_Bad.Text = "BAD"
         '
-        'Label3
+        'Lbl_Good
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(164, 31)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(39, 13)
-        Me.Label3.TabIndex = 2
-        Me.Label3.Text = "Label3"
+        Me.Lbl_Good.AutoSize = True
+        Me.Lbl_Good.Location = New System.Drawing.Point(186, 31)
+        Me.Lbl_Good.Name = "Lbl_Good"
+        Me.Lbl_Good.Size = New System.Drawing.Size(64, 25)
+        Me.Lbl_Good.TabIndex = 2
+        Me.Lbl_Good.Text = "Good"
         '
-        'Label2
+        'Lbl_Weighing
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(93, 31)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(39, 13)
-        Me.Label2.TabIndex = 1
-        Me.Label2.Text = "Label2"
+        Me.Lbl_Weighing.AutoSize = True
+        Me.Lbl_Weighing.Location = New System.Drawing.Point(68, 31)
+        Me.Lbl_Weighing.Name = "Lbl_Weighing"
+        Me.Lbl_Weighing.Size = New System.Drawing.Size(102, 25)
+        Me.Lbl_Weighing.TabIndex = 1
+        Me.Lbl_Weighing.Text = "Weighing"
         '
         'Lbl_IDLE
         '
         Me.Lbl_IDLE.AutoSize = True
-        Me.Lbl_IDLE.Location = New System.Drawing.Point(24, 31)
+        Me.Lbl_IDLE.BackColor = System.Drawing.Color.Transparent
+        Me.Lbl_IDLE.Location = New System.Drawing.Point(6, 31)
         Me.Lbl_IDLE.Name = "Lbl_IDLE"
-        Me.Lbl_IDLE.Size = New System.Drawing.Size(24, 13)
+        Me.Lbl_IDLE.Size = New System.Drawing.Size(46, 25)
         Me.Lbl_IDLE.TabIndex = 0
         Me.Lbl_IDLE.Text = "Idle"
         '
-        'Lbl_PN
+        'sLbl_PN
         '
-        Me.Lbl_PN.AutoSize = True
-        Me.Lbl_PN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_PN.Location = New System.Drawing.Point(258, 28)
-        Me.Lbl_PN.Name = "Lbl_PN"
-        Me.Lbl_PN.Size = New System.Drawing.Size(66, 25)
-        Me.Lbl_PN.TabIndex = 8
-        Me.Lbl_PN.Text = "Pallet:"
+        Me.sLbl_PN.AutoSize = True
+        Me.sLbl_PN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.sLbl_PN.Location = New System.Drawing.Point(258, 28)
+        Me.sLbl_PN.Name = "sLbl_PN"
+        Me.sLbl_PN.Size = New System.Drawing.Size(66, 25)
+        Me.sLbl_PN.TabIndex = 8
+        Me.sLbl_PN.Text = "Pallet:"
         '
-        'Lbl_BN
+        'sLbl_BN
         '
-        Me.Lbl_BN.AutoSize = True
-        Me.Lbl_BN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_BN.Location = New System.Drawing.Point(49, 28)
-        Me.Lbl_BN.Name = "Lbl_BN"
-        Me.Lbl_BN.Size = New System.Drawing.Size(68, 25)
-        Me.Lbl_BN.TabIndex = 7
-        Me.Lbl_BN.Text = "Batch:"
+        Me.sLbl_BN.AutoSize = True
+        Me.sLbl_BN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.sLbl_BN.Location = New System.Drawing.Point(49, 28)
+        Me.sLbl_BN.Name = "sLbl_BN"
+        Me.sLbl_BN.Size = New System.Drawing.Size(68, 25)
+        Me.sLbl_BN.TabIndex = 7
+        Me.sLbl_BN.Text = "Batch:"
         '
         'GB_Scale
         '
         Me.GB_Scale.Controls.Add(Me.Lbl_CurrentScale)
-        Me.GB_Scale.Controls.Add(Me.Lbl_SR)
-        Me.GB_Scale.Location = New System.Drawing.Point(267, 82)
+        Me.GB_Scale.Controls.Add(Me.sLbl_SR)
+        Me.GB_Scale.Location = New System.Drawing.Point(263, 116)
         Me.GB_Scale.Name = "GB_Scale"
         Me.GB_Scale.Size = New System.Drawing.Size(243, 103)
         Me.GB_Scale.TabIndex = 6
@@ -184,15 +197,15 @@ Partial Class Manual_Weight
         Me.Lbl_CurrentScale.TabIndex = 1
         Me.Lbl_CurrentScale.Text = "Grams"
         '
-        'Lbl_SR
+        'sLbl_SR
         '
-        Me.Lbl_SR.AutoSize = True
-        Me.Lbl_SR.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_SR.Location = New System.Drawing.Point(6, 43)
-        Me.Lbl_SR.Name = "Lbl_SR"
-        Me.Lbl_SR.Size = New System.Drawing.Size(139, 25)
-        Me.Lbl_SR.TabIndex = 0
-        Me.Lbl_SR.Text = "Scale Reading"
+        Me.sLbl_SR.AutoSize = True
+        Me.sLbl_SR.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.sLbl_SR.Location = New System.Drawing.Point(6, 43)
+        Me.sLbl_SR.Name = "sLbl_SR"
+        Me.sLbl_SR.Size = New System.Drawing.Size(139, 25)
+        Me.sLbl_SR.TabIndex = 0
+        Me.sLbl_SR.Text = "Scale Reading"
         '
         'GBBinData
         '
@@ -249,13 +262,18 @@ Partial Class Manual_Weight
         '
         'GBCurrentPallet
         '
+        Me.GBCurrentPallet.Controls.Add(Me.LBL_CCOL)
+        Me.GBCurrentPallet.Controls.Add(Me.LBL_CRow)
+        Me.GBCurrentPallet.Controls.Add(Me.sLbl_Col)
+        Me.GBCurrentPallet.Controls.Add(Me.sLbl_Row)
         Me.GBCurrentPallet.Controls.Add(Me.Lbl_CurrentBad)
         Me.GBCurrentPallet.Controls.Add(Me.Lbl_CurrentGood)
-        Me.GBCurrentPallet.Controls.Add(Me.Lbl_B)
-        Me.GBCurrentPallet.Controls.Add(Me.Lbl_G)
+        Me.GBCurrentPallet.Controls.Add(Me.sLbl_B)
+        Me.GBCurrentPallet.Controls.Add(Me.sLbl_G)
+        Me.GBCurrentPallet.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GBCurrentPallet.Location = New System.Drawing.Point(575, 169)
         Me.GBCurrentPallet.Name = "GBCurrentPallet"
-        Me.GBCurrentPallet.Size = New System.Drawing.Size(257, 165)
+        Me.GBCurrentPallet.Size = New System.Drawing.Size(257, 295)
         Me.GBCurrentPallet.TabIndex = 4
         Me.GBCurrentPallet.TabStop = False
         Me.GBCurrentPallet.Text = "Current Pallet Data"
@@ -265,7 +283,7 @@ Partial Class Manual_Weight
         Me.Lbl_CurrentBad.AutoSize = True
         Me.Lbl_CurrentBad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_CurrentBad.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_CurrentBad.Location = New System.Drawing.Point(149, 98)
+        Me.Lbl_CurrentBad.Location = New System.Drawing.Point(149, 109)
         Me.Lbl_CurrentBad.Name = "Lbl_CurrentBad"
         Me.Lbl_CurrentBad.Size = New System.Drawing.Size(97, 27)
         Me.Lbl_CurrentBad.TabIndex = 3
@@ -282,25 +300,25 @@ Partial Class Manual_Weight
         Me.Lbl_CurrentGood.TabIndex = 2
         Me.Lbl_CurrentGood.Text = "Current G"
         '
-        'Lbl_B
+        'sLbl_B
         '
-        Me.Lbl_B.AutoSize = True
-        Me.Lbl_B.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_B.Location = New System.Drawing.Point(19, 100)
-        Me.Lbl_B.Name = "Lbl_B"
-        Me.Lbl_B.Size = New System.Drawing.Size(96, 25)
-        Me.Lbl_B.TabIndex = 1
-        Me.Lbl_B.Text = "Bad Units"
+        Me.sLbl_B.AutoSize = True
+        Me.sLbl_B.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.sLbl_B.Location = New System.Drawing.Point(32, 110)
+        Me.sLbl_B.Name = "sLbl_B"
+        Me.sLbl_B.Size = New System.Drawing.Size(102, 25)
+        Me.sLbl_B.TabIndex = 1
+        Me.sLbl_B.Text = "Bad Units:"
         '
-        'Lbl_G
+        'sLbl_G
         '
-        Me.Lbl_G.AutoSize = True
-        Me.Lbl_G.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_G.Location = New System.Drawing.Point(19, 41)
-        Me.Lbl_G.Name = "Lbl_G"
-        Me.Lbl_G.Size = New System.Drawing.Size(109, 25)
-        Me.Lbl_G.TabIndex = 0
-        Me.Lbl_G.Text = "Good Units"
+        Me.sLbl_G.AutoSize = True
+        Me.sLbl_G.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.sLbl_G.Location = New System.Drawing.Point(19, 41)
+        Me.sLbl_G.Name = "sLbl_G"
+        Me.sLbl_G.Size = New System.Drawing.Size(115, 25)
+        Me.sLbl_G.TabIndex = 0
+        Me.sLbl_G.Text = "Good Units:"
         '
         'Btn_StopPallet
         '
@@ -345,6 +363,11 @@ Partial Class Manual_Weight
         '
         'Setup
         '
+        Me.Setup.Controls.Add(Me.TextBox4)
+        Me.Setup.Controls.Add(Me.TextBox3)
+        Me.Setup.Controls.Add(Me.TextBox2)
+        Me.Setup.Controls.Add(Me.TextBox1)
+        Me.Setup.Controls.Add(Me.Btn_Settings)
         Me.Setup.Controls.Add(Me.LBFinal_Data_File)
         Me.Setup.Controls.Add(Me.Btn_FinalFolder)
         Me.Setup.Location = New System.Drawing.Point(4, 22)
@@ -352,7 +375,7 @@ Partial Class Manual_Weight
         Me.Setup.Padding = New System.Windows.Forms.Padding(3)
         Me.Setup.Size = New System.Drawing.Size(838, 527)
         Me.Setup.TabIndex = 1
-        Me.Setup.Text = "Setup"
+        Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
         '
         'LBFinal_Data_File
@@ -379,6 +402,93 @@ Partial Class Manual_Weight
         'Tmr_ScreenUpdate
         '
         Me.Tmr_ScreenUpdate.Interval = 50
+        '
+        'Lbl_Remove
+        '
+        Me.Lbl_Remove.AutoSize = True
+        Me.Lbl_Remove.Location = New System.Drawing.Point(337, 31)
+        Me.Lbl_Remove.Name = "Lbl_Remove"
+        Me.Lbl_Remove.Size = New System.Drawing.Size(91, 25)
+        Me.Lbl_Remove.TabIndex = 4
+        Me.Lbl_Remove.Text = "Remove"
+        '
+        'sLbl_Row
+        '
+        Me.sLbl_Row.AutoSize = True
+        Me.sLbl_Row.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.sLbl_Row.Location = New System.Drawing.Point(67, 178)
+        Me.sLbl_Row.Name = "sLbl_Row"
+        Me.sLbl_Row.Size = New System.Drawing.Size(67, 25)
+        Me.sLbl_Row.TabIndex = 4
+        Me.sLbl_Row.Text = "ROW:"
+        '
+        'sLbl_Col
+        '
+        Me.sLbl_Col.AutoSize = True
+        Me.sLbl_Col.Location = New System.Drawing.Point(48, 246)
+        Me.sLbl_Col.Name = "sLbl_Col"
+        Me.sLbl_Col.Size = New System.Drawing.Size(86, 25)
+        Me.sLbl_Col.TabIndex = 5
+        Me.sLbl_Col.Text = "Column:"
+        '
+        'LBL_CRow
+        '
+        Me.LBL_CRow.AutoSize = True
+        Me.LBL_CRow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LBL_CRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBL_CRow.Location = New System.Drawing.Point(149, 177)
+        Me.LBL_CRow.Name = "LBL_CRow"
+        Me.LBL_CRow.Size = New System.Drawing.Size(78, 27)
+        Me.LBL_CRow.TabIndex = 6
+        Me.LBL_CRow.Text = "C_Row"
+        '
+        'LBL_CCOL
+        '
+        Me.LBL_CCOL.AutoSize = True
+        Me.LBL_CCOL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LBL_CCOL.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBL_CCOL.Location = New System.Drawing.Point(149, 245)
+        Me.LBL_CCOL.Name = "LBL_CCOL"
+        Me.LBL_CCOL.Size = New System.Drawing.Size(70, 27)
+        Me.LBL_CCOL.TabIndex = 7
+        Me.LBL_CCOL.Text = "C_Col"
+        '
+        'Btn_Settings
+        '
+        Me.Btn_Settings.Location = New System.Drawing.Point(75, 463)
+        Me.Btn_Settings.Name = "Btn_Settings"
+        Me.Btn_Settings.Size = New System.Drawing.Size(75, 23)
+        Me.Btn_Settings.TabIndex = 2
+        Me.Btn_Settings.Text = "Update Settings"
+        Me.Btn_Settings.UseVisualStyleBackColor = True
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(206, 191)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox1.TabIndex = 3
+        '
+        'TextBox2
+        '
+        Me.TextBox2.Location = New System.Drawing.Point(206, 248)
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox2.TabIndex = 4
+        '
+        'TextBox3
+        '
+        Me.TextBox3.Location = New System.Drawing.Point(206, 316)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox3.TabIndex = 5
+        '
+        'TextBox4
+        '
+        Me.TextBox4.Location = New System.Drawing.Point(206, 365)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox4.TabIndex = 6
         '
         'Manual_Weight
         '
@@ -418,23 +528,33 @@ Partial Class Manual_Weight
     Friend WithEvents Btn_ResetBad As System.Windows.Forms.Button
     Friend WithEvents Btn_ResetGood As System.Windows.Forms.Button
     Friend WithEvents GBCurrentPallet As System.Windows.Forms.GroupBox
-    Friend WithEvents Lbl_G As System.Windows.Forms.Label
+    Friend WithEvents sLbl_G As System.Windows.Forms.Label
     Friend WithEvents Lbl_CurrentBad As System.Windows.Forms.Label
     Friend WithEvents Lbl_CurrentGood As System.Windows.Forms.Label
-    Friend WithEvents Lbl_B As System.Windows.Forms.Label
-    Friend WithEvents Lbl_PN As System.Windows.Forms.Label
-    Friend WithEvents Lbl_BN As System.Windows.Forms.Label
+    Friend WithEvents sLbl_B As System.Windows.Forms.Label
+    Friend WithEvents sLbl_PN As System.Windows.Forms.Label
+    Friend WithEvents sLbl_BN As System.Windows.Forms.Label
     Friend WithEvents GB_Scale As System.Windows.Forms.GroupBox
     Friend WithEvents Lbl_CurrentScale As System.Windows.Forms.Label
-    Friend WithEvents Lbl_SR As System.Windows.Forms.Label
+    Friend WithEvents sLbl_SR As System.Windows.Forms.Label
     Friend WithEvents Tmr_ScreenUpdate As System.Windows.Forms.Timer
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Lbl_Bad As System.Windows.Forms.Label
+    Friend WithEvents Lbl_Good As System.Windows.Forms.Label
+    Friend WithEvents Lbl_Weighing As System.Windows.Forms.Label
     Friend WithEvents Lbl_IDLE As System.Windows.Forms.Label
     Friend WithEvents LBFinal_Data_File As System.Windows.Forms.Label
     Friend WithEvents Btn_FinalFolder As System.Windows.Forms.Button
     Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents Lbl_Remove As System.Windows.Forms.Label
+    Friend WithEvents LBL_CCOL As System.Windows.Forms.Label
+    Friend WithEvents LBL_CRow As System.Windows.Forms.Label
+    Friend WithEvents sLbl_Col As System.Windows.Forms.Label
+    Friend WithEvents sLbl_Row As System.Windows.Forms.Label
+    Friend WithEvents Btn_Settings As System.Windows.Forms.Button
+    Friend WithEvents TextBox4 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
 
 End Class

@@ -3,25 +3,53 @@ Imports System.IO
 Imports System.Windows.Forms
 
 Public Class Manual_Weight
+    Enum Weighprocess
+        idle
+        taring
+        weighing
+        prompting
+        erroring
+    End Enum
+
+    ' Constants
+    Const sloginvalue As String = "AV_QAE"
+
+    ' Variables
+
     Dim MDataset As PalletData
     Dim Sartorius As scalemanagment
     Dim sdataset As Static_Data
+    Dim cylindersorter As CSorter
+  
+    Dim teststate As Weighprocess
+    Dim entering As Boolean ' Entering a new state
 
+    Dim tmrcycle As Stopwatch
+    Dim tmrsort As Stopwatch
 
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' form loading
+
+        loginhandling()
+
+
+
         sdataset = New Static_Data
 
         MDataset = New PalletData
 
         renewstaticdata()
 
+        cylindersorter = New CSorter
 
         Sartorius = New scalemanagment
+
         Btn_StartPallet.Enabled = True
         Btn_StopPallet.Enabled = False
 
         LBFinal_Data_File.Text = sdataset.basedir
+
+        teststate = Weighprocess.idle ' Start us out in an idle condition.
+
 
     End Sub
 
@@ -89,6 +117,7 @@ Public Class Manual_Weight
 
         Btn_StartPallet.Enabled = False
         Btn_StopPallet.Enabled = True
+        teststate = Weighprocess.taring ' Start weighing Process
 
     End Sub
 
@@ -99,7 +128,7 @@ Public Class Manual_Weight
         ' Toggle buttons
         Btn_StartPallet.Enabled = True
         Btn_StopPallet.Enabled = False
-
+        teststate = Weighprocess.idle
 
     End Sub
     Public Sub WritefileHeader1() ' write the header to the inital data set.
@@ -154,6 +183,143 @@ Public Class Manual_Weight
         LBFinal_Data_File.Text = sdataset.basedir
 
     End Sub
+
+
+    Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
+
+        Select Case teststate
+
+            Case Weighprocess.idle
+                If entering Then
+                    entering = False
+
+                    'Set Label Colors
+                    Lbl_IDLE.BackColor = Color.Gold
+                    Lbl_Weighing.BackColor = Color.Transparent
+                    Lbl_Good.BackColor = Color.Transparent
+                    Lbl_Bad.BackColor = Color.Transparent
+                    Lbl_Remove.BackColor = Color.Transparent
+                End If
+
+                ' Wait for start pallet ButtonClick  When Clickek
+
+
+            Case Weighprocess.taring
+                If entering Then
+                    entering = False
+
+                    'Set Label Colors
+                    Lbl_IDLE.BackColor = Color.Gold
+                    Lbl_IDLE.Text = "Taring"
+                    Lbl_Weighing.BackColor = Color.Transparent
+                    Lbl_Good.BackColor = Color.Transparent
+                    Lbl_Bad.BackColor = Color.Transparent
+                    Lbl_Remove.BackColor = Color.Transparent
+                End If
+
+                ' Check for Scale health and stability
+                If Sartorius.ishealthy Then
+                    If Sartorius.Stable Then
+
+                    End If
+                Else
+                    teststate = Weighprocess.erroring
+                End If
+
+            Case Weighprocess.weighing
+                If entering Then
+                    entering = False
+                    'Set Label Colors
+                    Lbl_IDLE.BackColor = Color.Transparent
+                    Lbl_IDLE.Text = "IDLE"
+                    Lbl_Weighing.BackColor = Color.Gold
+                    Lbl_Good.BackColor = Color.Transparent
+                    Lbl_Bad.BackColor = Color.Transparent
+                    Lbl_Remove.BackColor = Color.Transparent
+
+
+                End If
+
+            Case Weighprocess.prompting
+                If entering Then
+                    entering = False
+                    tmrsort.Start()
+                    'Set Label Colors
+                    Lbl_IDLE.BackColor = Color.Transparent
+                    Lbl_IDLE.Text = "IDLE"
+                    Lbl_Weighing.BackColor = Color.Transparent
+
+                    'Set Good and Bad Colors Here 
+                    Lbl_Good.BackColor = Color.Transparent
+                    Lbl_Bad.BackColor = Color.Transparent
+
+                    Lbl_Remove.BackColor = Color.Gold
+
+                End If
+
+
+
+                'Test for Switch Position based on good or bad result.
+                If tmrsort.ElapsedMilliseconds > 500 Then ' if the switch has not set then fire off error
+                    teststate = Weighprocess.erroring
+                    entering = True
+                End If
+
+            Case Weighprocess.erroring ' IF we end up here stop processing
+                If entering Then
+                    entering = False
+                End If
+
+
+        End Select
+
+
+
+
+
+
+
+
+
+
+    End Sub
+    Sub loginhandling()
+
+        Dim count As Integer
+        Dim login As String
+        Dim logintype As MsgBoxResult
+
+        ' form loading
+
+
+        count = 0
+        logintype = MsgBox("Setup Login?", MsgBoxStyle.YesNo)
+        If logintype = MsgBoxResult.Yes Then
+
+            Do
+                login = InputBox("Enter Login key for Setup?", "Altaviz Quality Login", "")
+
+                If login <> sloginvalue Then
+
+                    MsgBox("You have " & (3 - count).ToString & " attempts remaining", MsgBoxStyle.OkOnly, "Login Incorrect")
+                    count += 1
+
+                    If count > 3 Then
+                        Me.TabControl1.TabPages.Remove(Setup)
+                        Exit Sub
+                    End If
+
+                End If
+
+            Loop Until login = "AV_QAE"
+        Else
+            Me.TabControl1.TabPages.Remove(Setup)
+
+        End If
+
+
+    End Sub
+
 
 
 End Class

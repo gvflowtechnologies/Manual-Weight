@@ -14,11 +14,10 @@ Public Class Static_Data
         ' read datafile
         If Not File.Exists(configdata) Then
             MsgBox("Software Configuration File Missing", MsgBoxStyle.OkOnly, "Software Error")
-            End
+            '          End
         End If
 
-        '    scompleteddata 
-= "C:\completeddata"
+        '    scompleteddata  "C:\completeddata"
         '     sfweigtdata = "C:\fweightdata"
 
         ' Create Directories if they do not exist
