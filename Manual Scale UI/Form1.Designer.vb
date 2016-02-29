@@ -26,6 +26,7 @@ Partial Class Manual_Weight
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Lbl_Remove = New System.Windows.Forms.Label()
         Me.Lbl_Bad = New System.Windows.Forms.Label()
         Me.Lbl_Good = New System.Windows.Forms.Label()
         Me.Lbl_Weighing = New System.Windows.Forms.Label()
@@ -41,6 +42,10 @@ Partial Class Manual_Weight
         Me.Btn_ResetBad = New System.Windows.Forms.Button()
         Me.Btn_ResetGood = New System.Windows.Forms.Button()
         Me.GBCurrentPallet = New System.Windows.Forms.GroupBox()
+        Me.LBL_CCOL = New System.Windows.Forms.Label()
+        Me.LBL_CRow = New System.Windows.Forms.Label()
+        Me.sLbl_Col = New System.Windows.Forms.Label()
+        Me.sLbl_Row = New System.Windows.Forms.Label()
         Me.Lbl_CurrentBad = New System.Windows.Forms.Label()
         Me.Lbl_CurrentGood = New System.Windows.Forms.Label()
         Me.sLbl_B = New System.Windows.Forms.Label()
@@ -50,25 +55,20 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN = New System.Windows.Forms.Label()
         Me.Btn_StartPallet = New System.Windows.Forms.Button()
         Me.Setup = New System.Windows.Forms.TabPage()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.TB_TareError = New System.Windows.Forms.TextBox()
+        Me.TB_RetareLimit = New System.Windows.Forms.TextBox()
+        Me.sLbl_retare = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.TextBox4 = New System.Windows.Forms.TextBox()
+        Me.T = New System.Windows.Forms.TextBox()
+        Me.Btn_Settings = New System.Windows.Forms.Button()
         Me.LBFinal_Data_File = New System.Windows.Forms.Label()
         Me.Btn_FinalFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.Lbl_Remove = New System.Windows.Forms.Label()
-        Me.sLbl_Row = New System.Windows.Forms.Label()
-        Me.sLbl_Col = New System.Windows.Forms.Label()
-        Me.LBL_CRow = New System.Windows.Forms.Label()
-        Me.LBL_CCOL = New System.Windows.Forms.Label()
-        Me.Btn_Settings = New System.Windows.Forms.Button()
-        Me.TB_RetareLimit = New System.Windows.Forms.TextBox()
-        Me.TB_TareError = New System.Windows.Forms.TextBox()
-        Me.T = New System.Windows.Forms.TextBox()
-        Me.TextBox4 = New System.Windows.Forms.TextBox()
-        Me.sLbl_retare = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -117,12 +117,21 @@ Partial Class Manual_Weight
         Me.GroupBox1.Controls.Add(Me.Lbl_Weighing)
         Me.GroupBox1.Controls.Add(Me.Lbl_IDLE)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(54, 250)
+        Me.GroupBox1.Location = New System.Drawing.Point(54, 323)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(437, 84)
         Me.GroupBox1.TabIndex = 9
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Test Status"
+        '
+        'Lbl_Remove
+        '
+        Me.Lbl_Remove.AutoSize = True
+        Me.Lbl_Remove.Location = New System.Drawing.Point(337, 31)
+        Me.Lbl_Remove.Name = "Lbl_Remove"
+        Me.Lbl_Remove.Size = New System.Drawing.Size(91, 25)
+        Me.Lbl_Remove.TabIndex = 4
+        Me.Lbl_Remove.Text = "Remove"
         '
         'Lbl_Bad
         '
@@ -284,6 +293,47 @@ Partial Class Manual_Weight
         Me.GBCurrentPallet.TabStop = False
         Me.GBCurrentPallet.Text = "Current Pallet Data"
         '
+        'LBL_CCOL
+        '
+        Me.LBL_CCOL.AutoSize = True
+        Me.LBL_CCOL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LBL_CCOL.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBL_CCOL.Location = New System.Drawing.Point(149, 245)
+        Me.LBL_CCOL.Name = "LBL_CCOL"
+        Me.LBL_CCOL.Size = New System.Drawing.Size(70, 27)
+        Me.LBL_CCOL.TabIndex = 7
+        Me.LBL_CCOL.Text = "C_Col"
+        '
+        'LBL_CRow
+        '
+        Me.LBL_CRow.AutoSize = True
+        Me.LBL_CRow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LBL_CRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBL_CRow.Location = New System.Drawing.Point(149, 177)
+        Me.LBL_CRow.Name = "LBL_CRow"
+        Me.LBL_CRow.Size = New System.Drawing.Size(78, 27)
+        Me.LBL_CRow.TabIndex = 6
+        Me.LBL_CRow.Text = "C_Row"
+        '
+        'sLbl_Col
+        '
+        Me.sLbl_Col.AutoSize = True
+        Me.sLbl_Col.Location = New System.Drawing.Point(48, 246)
+        Me.sLbl_Col.Name = "sLbl_Col"
+        Me.sLbl_Col.Size = New System.Drawing.Size(86, 25)
+        Me.sLbl_Col.TabIndex = 5
+        Me.sLbl_Col.Text = "Column:"
+        '
+        'sLbl_Row
+        '
+        Me.sLbl_Row.AutoSize = True
+        Me.sLbl_Row.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.sLbl_Row.Location = New System.Drawing.Point(67, 178)
+        Me.sLbl_Row.Name = "sLbl_Row"
+        Me.sLbl_Row.Size = New System.Drawing.Size(67, 25)
+        Me.sLbl_Row.TabIndex = 4
+        Me.sLbl_Row.Text = "ROW:"
+        '
         'Lbl_CurrentBad
         '
         Me.Lbl_CurrentBad.AutoSize = True
@@ -385,6 +435,92 @@ Partial Class Manual_Weight
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
         '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.TB_TareError)
+        Me.GroupBox2.Controls.Add(Me.TB_RetareLimit)
+        Me.GroupBox2.Controls.Add(Me.sLbl_retare)
+        Me.GroupBox2.Controls.Add(Me.Label2)
+        Me.GroupBox2.Location = New System.Drawing.Point(559, 6)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(273, 194)
+        Me.GroupBox2.TabIndex = 11
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Tare Limits and Calibration"
+        '
+        'TB_TareError
+        '
+        Me.TB_TareError.Location = New System.Drawing.Point(136, 99)
+        Me.TB_TareError.Name = "TB_TareError"
+        Me.TB_TareError.Size = New System.Drawing.Size(100, 20)
+        Me.TB_TareError.TabIndex = 4
+        '
+        'TB_RetareLimit
+        '
+        Me.TB_RetareLimit.Location = New System.Drawing.Point(136, 42)
+        Me.TB_RetareLimit.Name = "TB_RetareLimit"
+        Me.TB_RetareLimit.Size = New System.Drawing.Size(100, 20)
+        Me.TB_RetareLimit.TabIndex = 3
+        '
+        'sLbl_retare
+        '
+        Me.sLbl_retare.AutoSize = True
+        Me.sLbl_retare.Location = New System.Drawing.Point(30, 42)
+        Me.sLbl_retare.Name = "sLbl_retare"
+        Me.sLbl_retare.Size = New System.Drawing.Size(89, 13)
+        Me.sLbl_retare.TabIndex = 7
+        Me.sLbl_retare.Text = "Retare Limit (mg):"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(50, 102)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(80, 13)
+        Me.Label2.TabIndex = 8
+        Me.Label2.Text = "Tare Error (mg):"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(75, 365)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(39, 13)
+        Me.Label4.TabIndex = 10
+        Me.Label4.Text = "Label4"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(68, 316)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(39, 13)
+        Me.Label3.TabIndex = 9
+        Me.Label3.Text = "Label3"
+        '
+        'TextBox4
+        '
+        Me.TextBox4.Location = New System.Drawing.Point(206, 365)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox4.TabIndex = 6
+        '
+        'T
+        '
+        Me.T.Location = New System.Drawing.Point(206, 316)
+        Me.T.Name = "T"
+        Me.T.Size = New System.Drawing.Size(100, 20)
+        Me.T.TabIndex = 5
+        '
+        'Btn_Settings
+        '
+        Me.Btn_Settings.Location = New System.Drawing.Point(75, 463)
+        Me.Btn_Settings.Name = "Btn_Settings"
+        Me.Btn_Settings.Size = New System.Drawing.Size(75, 23)
+        Me.Btn_Settings.TabIndex = 2
+        Me.Btn_Settings.Text = "Update Settings"
+        Me.Btn_Settings.UseVisualStyleBackColor = True
+        '
         'LBFinal_Data_File
         '
         Me.LBFinal_Data_File.AutoSize = True
@@ -409,142 +545,6 @@ Partial Class Manual_Weight
         'Tmr_ScreenUpdate
         '
         Me.Tmr_ScreenUpdate.Interval = 50
-        '
-        'Lbl_Remove
-        '
-        Me.Lbl_Remove.AutoSize = True
-        Me.Lbl_Remove.Location = New System.Drawing.Point(337, 31)
-        Me.Lbl_Remove.Name = "Lbl_Remove"
-        Me.Lbl_Remove.Size = New System.Drawing.Size(91, 25)
-        Me.Lbl_Remove.TabIndex = 4
-        Me.Lbl_Remove.Text = "Remove"
-        '
-        'sLbl_Row
-        '
-        Me.sLbl_Row.AutoSize = True
-        Me.sLbl_Row.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sLbl_Row.Location = New System.Drawing.Point(67, 178)
-        Me.sLbl_Row.Name = "sLbl_Row"
-        Me.sLbl_Row.Size = New System.Drawing.Size(67, 25)
-        Me.sLbl_Row.TabIndex = 4
-        Me.sLbl_Row.Text = "ROW:"
-        '
-        'sLbl_Col
-        '
-        Me.sLbl_Col.AutoSize = True
-        Me.sLbl_Col.Location = New System.Drawing.Point(48, 246)
-        Me.sLbl_Col.Name = "sLbl_Col"
-        Me.sLbl_Col.Size = New System.Drawing.Size(86, 25)
-        Me.sLbl_Col.TabIndex = 5
-        Me.sLbl_Col.Text = "Column:"
-        '
-        'LBL_CRow
-        '
-        Me.LBL_CRow.AutoSize = True
-        Me.LBL_CRow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBL_CRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBL_CRow.Location = New System.Drawing.Point(149, 177)
-        Me.LBL_CRow.Name = "LBL_CRow"
-        Me.LBL_CRow.Size = New System.Drawing.Size(78, 27)
-        Me.LBL_CRow.TabIndex = 6
-        Me.LBL_CRow.Text = "C_Row"
-        '
-        'LBL_CCOL
-        '
-        Me.LBL_CCOL.AutoSize = True
-        Me.LBL_CCOL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBL_CCOL.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBL_CCOL.Location = New System.Drawing.Point(149, 245)
-        Me.LBL_CCOL.Name = "LBL_CCOL"
-        Me.LBL_CCOL.Size = New System.Drawing.Size(70, 27)
-        Me.LBL_CCOL.TabIndex = 7
-        Me.LBL_CCOL.Text = "C_Col"
-        '
-        'Btn_Settings
-        '
-        Me.Btn_Settings.Location = New System.Drawing.Point(75, 463)
-        Me.Btn_Settings.Name = "Btn_Settings"
-        Me.Btn_Settings.Size = New System.Drawing.Size(75, 23)
-        Me.Btn_Settings.TabIndex = 2
-        Me.Btn_Settings.Text = "Update Settings"
-        Me.Btn_Settings.UseVisualStyleBackColor = True
-        '
-        'TB_RetareLimit
-        '
-        Me.TB_RetareLimit.Location = New System.Drawing.Point(136, 42)
-        Me.TB_RetareLimit.Name = "TB_RetareLimit"
-        Me.TB_RetareLimit.Size = New System.Drawing.Size(100, 20)
-        Me.TB_RetareLimit.TabIndex = 3
-        '
-        'TB_TareError
-        '
-        Me.TB_TareError.Location = New System.Drawing.Point(136, 99)
-        Me.TB_TareError.Name = "TB_TareError"
-        Me.TB_TareError.Size = New System.Drawing.Size(100, 20)
-        Me.TB_TareError.TabIndex = 4
-        '
-        'T
-        '
-        Me.T.Location = New System.Drawing.Point(206, 316)
-        Me.T.Name = "T"
-        Me.T.Size = New System.Drawing.Size(100, 20)
-        Me.T.TabIndex = 5
-        '
-        'TextBox4
-        '
-        Me.TextBox4.Location = New System.Drawing.Point(206, 365)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox4.TabIndex = 6
-        '
-        'sLbl_retare
-        '
-        Me.sLbl_retare.AutoSize = True
-        Me.sLbl_retare.Location = New System.Drawing.Point(30, 42)
-        Me.sLbl_retare.Name = "sLbl_retare"
-        Me.sLbl_retare.Size = New System.Drawing.Size(89, 13)
-        Me.sLbl_retare.TabIndex = 7
-        Me.sLbl_retare.Text = "Retare Limit (mg):"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(50, 102)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(80, 13)
-        Me.Label2.TabIndex = 8
-        Me.Label2.Text = "Tare Error (mg):"
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(68, 316)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(39, 13)
-        Me.Label3.TabIndex = 9
-        Me.Label3.Text = "Label3"
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(75, 365)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(39, 13)
-        Me.Label4.TabIndex = 10
-        Me.Label4.Text = "Label4"
-        '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.TB_TareError)
-        Me.GroupBox2.Controls.Add(Me.TB_RetareLimit)
-        Me.GroupBox2.Controls.Add(Me.sLbl_retare)
-        Me.GroupBox2.Controls.Add(Me.Label2)
-        Me.GroupBox2.Location = New System.Drawing.Point(559, 6)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(273, 194)
-        Me.GroupBox2.TabIndex = 11
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Tare Limits and Calibration"
         '
         'Manual_Weight
         '

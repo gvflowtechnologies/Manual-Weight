@@ -54,8 +54,8 @@ Public Class Manual_Weight
     End Sub
 
     Sub renewstaticdata()
-        MDataset.firstweightdata = sdataset.inprocess
-        MDataset.firstweightdata = sdataset.completeddata
+        MDataset.firstweightpath = sdataset.inprocess
+        MDataset.firstweightpath = sdataset.completeddata
 
     End Sub
 

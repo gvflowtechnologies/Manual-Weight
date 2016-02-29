@@ -244,12 +244,12 @@ Public Class PalletData
         End Get
     End Property
 
-    WriteOnly Property firstweightdata As String 'Datapath of first weight
+    WriteOnly Property firstweightpath As String 'Datapath of first weight
         Set(value As String)
             fweight = value
         End Set
     End Property
-    WriteOnly Property finalweightdata As String ' datapath of second weight
+    WriteOnly Property finalweightpath As String ' datapath of second weight
         Set(value As String)
             completed = value
         End Set
