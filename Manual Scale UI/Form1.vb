@@ -311,7 +311,7 @@ Public Class Manual_Weight
             Do
                 login = InputBox("Enter Login key for Setup?", "Altaviz Quality Login", "")
 
-                If login <> sloginvalue Then
+                If login <> My.Settings.Password Then
 
                     MsgBox("You have " & (3 - count).ToString & " attempts remaining", MsgBoxStyle.OkOnly, "Login Incorrect")
                     count += 1
@@ -334,4 +334,16 @@ Public Class Manual_Weight
 
 
 
+    Private Sub Setup_Click(sender As Object, e As EventArgs) Handles Setup.Click
+
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        ChangePassword.Enabled = True
+        ChangePassword.Show()
+
+
+
+
+    End Sub
 End Class

@@ -35,7 +35,10 @@ Public Class PalletData
     Public Sub New()
         number_of_Canisters = 0
         canisternumber = 0
-        FirstWeightReading() = ""
+        Dim sclr As String
+        For Each sclr In FirstWeightReading
+            sclr = ""
+        Next
 
     End Sub
 

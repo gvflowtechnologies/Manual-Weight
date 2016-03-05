@@ -69,6 +69,7 @@ Partial Class Manual_Weight
         Me.Btn_FinalFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -419,6 +420,7 @@ Partial Class Manual_Weight
         '
         'Setup
         '
+        Me.Setup.Controls.Add(Me.Button1)
         Me.Setup.Controls.Add(Me.GroupBox2)
         Me.Setup.Controls.Add(Me.Label4)
         Me.Setup.Controls.Add(Me.Label3)
@@ -514,7 +516,7 @@ Partial Class Manual_Weight
         '
         'Btn_Settings
         '
-        Me.Btn_Settings.Location = New System.Drawing.Point(75, 463)
+        Me.Btn_Settings.Location = New System.Drawing.Point(71, 462)
         Me.Btn_Settings.Name = "Btn_Settings"
         Me.Btn_Settings.Size = New System.Drawing.Size(75, 23)
         Me.Btn_Settings.TabIndex = 2
@@ -539,12 +541,21 @@ Partial Class Manual_Weight
         Me.Btn_FinalFolder.Name = "Btn_FinalFolder"
         Me.Btn_FinalFolder.Size = New System.Drawing.Size(75, 55)
         Me.Btn_FinalFolder.TabIndex = 0
-        Me.Btn_FinalFolder.Text = "Final Data File Folder"
+        Me.Btn_FinalFolder.Text = "Data File Folder"
         Me.Btn_FinalFolder.UseVisualStyleBackColor = True
         '
         'Tmr_ScreenUpdate
         '
         Me.Tmr_ScreenUpdate.Interval = 50
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(50, 141)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 59)
+        Me.Button1.TabIndex = 12
+        Me.Button1.Text = "Update Admin Password"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'Manual_Weight
         '
@@ -619,5 +630,6 @@ Partial Class Manual_Weight
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents sLbl_retare As System.Windows.Forms.Label
+    Friend WithEvents Button1 As System.Windows.Forms.Button
 
 End Class
