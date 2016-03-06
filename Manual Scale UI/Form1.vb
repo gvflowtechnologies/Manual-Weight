@@ -64,11 +64,11 @@ Public Class Manual_Weight
         Btn_StopPallet.Enabled = False
 
         LBFinal_Data_File.Text = My.Settings.File_Directory
-        TB_RetareLimit.Text = My.Settings.TareLimit.ToString
-        TB_TareError.Text = My.Settings.TareError.ToString
+        TB_RetareLimit.Text = My.Settings.TareLimit.ToString("N4")
+        TB_TareError.Text = My.Settings.TareError.ToString("N4")
         Lbl_CalFolder.Text = My.Settings.Caldirectory
-        Lbl_LastCal.Text = My.Settings.LastCalDate.ToString
-        Lbl_NextCal.Text = My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString
+        Lbl_LastCal.Text = My.Settings.LastCalDate.ToString("d")
+        Lbl_NextCal.Text = My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString("d")
         Lbl_CalInt.Text = My.Settings.CalFrequency.ToString
         teststate = Weighprocess.idle ' Start us out in an idle condition.
 
@@ -369,9 +369,42 @@ Public Class Manual_Weight
 
     Private Sub Btn_Tare_Click(sender As Object, e As EventArgs) Handles Btn_Tare.Click
         'InputBox()
+        Dim tareerror As Single = 0
+        Dim stareerror As String = ""
+        Dim sretare As String = ""
+        Dim retarelimit As Single = 0
+        Dim notnumbers As Boolean = True
+
+        While notnumbers = True
+            sretare = InputBox("Enter value at which to retare scale", , My.Settings.TareLimit.ToString("N4"))
+
+            If IsNumeric(sretare) Then
+                notnumbers = False
+                retarelimit = CSng(sretare)
+                My.Settings.TareLimit = retarelimit
+                TB_RetareLimit.Text = retarelimit.ToString("N4")
+            End If
+
+        End While
+
+
+        notnumbers = True
+
+        While notnumbers = True
+            stareerror = (InputBox("Enter Limit For Tare Error", , My.Settings.TareError.ToString("N4")))
+            If IsNumeric(stareerror) Then
+                notnumbers = False
+                tareerror = CSng(stareerror)
+                My.Settings.TareError = tareerror
+                TB_TareError.Text = tareerror.ToString("N4")
+            Else
+                MsgBox("Numbers Only Please")
+            End If
+        End While
 
 
 
+   
 
     End Sub
 

@@ -55,6 +55,7 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN = New System.Windows.Forms.Label()
         Me.Btn_StartPallet = New System.Windows.Forms.Button()
         Me.Setup = New System.Windows.Forms.TabPage()
+        Me.ListBox1 = New System.Windows.Forms.ListBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.Lbl_CalFolder = New System.Windows.Forms.Label()
         Me.Lbl_CalInt = New System.Windows.Forms.Label()
@@ -432,6 +433,7 @@ Partial Class Manual_Weight
         '
         'Setup
         '
+        Me.Setup.Controls.Add(Me.ListBox1)
         Me.Setup.Controls.Add(Me.GroupBox3)
         Me.Setup.Controls.Add(Me.Button1)
         Me.Setup.Controls.Add(Me.GroupBox2)
@@ -449,6 +451,14 @@ Partial Class Manual_Weight
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
         '
+        'ListBox1
+        '
+        Me.ListBox1.FormattingEnabled = True
+        Me.ListBox1.Location = New System.Drawing.Point(162, 447)
+        Me.ListBox1.Name = "ListBox1"
+        Me.ListBox1.Size = New System.Drawing.Size(173, 17)
+        Me.ListBox1.TabIndex = 14
+        '
         'GroupBox3
         '
         Me.GroupBox3.Controls.Add(Me.Lbl_CalFolder)
@@ -463,7 +473,7 @@ Partial Class Manual_Weight
         Me.GroupBox3.Controls.Add(Me.Btn_ScaleCal)
         Me.GroupBox3.Location = New System.Drawing.Point(559, 223)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(272, 243)
+        Me.GroupBox3.Size = New System.Drawing.Size(272, 267)
         Me.GroupBox3.TabIndex = 13
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Calibration Data"
@@ -472,7 +482,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_CalFolder.AutoSize = True
         Me.Lbl_CalFolder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_CalFolder.Location = New System.Drawing.Point(14, 70)
+        Me.Lbl_CalFolder.Location = New System.Drawing.Point(17, 64)
         Me.Lbl_CalFolder.MinimumSize = New System.Drawing.Size(200, 13)
         Me.Lbl_CalFolder.Name = "Lbl_CalFolder"
         Me.Lbl_CalFolder.Size = New System.Drawing.Size(200, 15)
@@ -483,7 +493,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_CalInt.AutoSize = True
         Me.Lbl_CalInt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_CalInt.Location = New System.Drawing.Point(162, 169)
+        Me.Lbl_CalInt.Location = New System.Drawing.Point(170, 195)
         Me.Lbl_CalInt.MinimumSize = New System.Drawing.Size(75, 13)
         Me.Lbl_CalInt.Name = "Lbl_CalInt"
         Me.Lbl_CalInt.Size = New System.Drawing.Size(75, 15)
@@ -494,7 +504,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_NextCal.AutoSize = True
         Me.Lbl_NextCal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_NextCal.Location = New System.Drawing.Point(162, 134)
+        Me.Lbl_NextCal.Location = New System.Drawing.Point(170, 160)
         Me.Lbl_NextCal.MinimumSize = New System.Drawing.Size(75, 13)
         Me.Lbl_NextCal.Name = "Lbl_NextCal"
         Me.Lbl_NextCal.Size = New System.Drawing.Size(75, 15)
@@ -505,7 +515,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_LastCal.AutoSize = True
         Me.Lbl_LastCal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_LastCal.Location = New System.Drawing.Point(162, 99)
+        Me.Lbl_LastCal.Location = New System.Drawing.Point(170, 125)
         Me.Lbl_LastCal.MinimumSize = New System.Drawing.Size(75, 13)
         Me.Lbl_LastCal.Name = "Lbl_LastCal"
         Me.Lbl_LastCal.Size = New System.Drawing.Size(75, 15)
@@ -515,7 +525,7 @@ Partial Class Manual_Weight
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(5, 170)
+        Me.Label7.Location = New System.Drawing.Point(13, 196)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(141, 13)
         Me.Label7.TabIndex = 14
@@ -524,7 +534,7 @@ Partial Class Manual_Weight
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(62, 135)
+        Me.Label6.Location = New System.Drawing.Point(70, 161)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(84, 13)
         Me.Label6.TabIndex = 13
@@ -533,7 +543,7 @@ Partial Class Manual_Weight
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(64, 100)
+        Me.Label5.Location = New System.Drawing.Point(72, 126)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(82, 13)
         Me.Label5.TabIndex = 12
@@ -559,7 +569,7 @@ Partial Class Manual_Weight
         '
         'Btn_ScaleCal
         '
-        Me.Btn_ScaleCal.Location = New System.Drawing.Point(17, 204)
+        Me.Btn_ScaleCal.Location = New System.Drawing.Point(13, 224)
         Me.Btn_ScaleCal.Name = "Btn_ScaleCal"
         Me.Btn_ScaleCal.Size = New System.Drawing.Size(113, 23)
         Me.Btn_ScaleCal.TabIndex = 9
@@ -606,7 +616,7 @@ Partial Class Manual_Weight
         'sLbl_retare
         '
         Me.sLbl_retare.AutoSize = True
-        Me.sLbl_retare.Location = New System.Drawing.Point(30, 42)
+        Me.sLbl_retare.Location = New System.Drawing.Point(41, 46)
         Me.sLbl_retare.Name = "sLbl_retare"
         Me.sLbl_retare.Size = New System.Drawing.Size(89, 13)
         Me.sLbl_retare.TabIndex = 7
@@ -615,7 +625,7 @@ Partial Class Manual_Weight
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(50, 80)
+        Me.Label2.Location = New System.Drawing.Point(50, 81)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(80, 13)
         Me.Label2.TabIndex = 8
@@ -642,7 +652,7 @@ Partial Class Manual_Weight
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(68, 316)
+        Me.Label3.Location = New System.Drawing.Point(75, 447)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(39, 13)
         Me.Label3.TabIndex = 9
@@ -774,5 +784,6 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_NextCal As System.Windows.Forms.Label
     Friend WithEvents Lbl_LastCal As System.Windows.Forms.Label
     Friend WithEvents Lbl_CalFolder As System.Windows.Forms.Label
+    Friend WithEvents ListBox1 As System.Windows.Forms.ListBox
 
 End Class
