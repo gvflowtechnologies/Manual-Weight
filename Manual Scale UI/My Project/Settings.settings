@@ -11,5 +11,20 @@
     <Setting Name="SerialPort" Type="System.String" Scope="User">
       <Value Profile="(Default)">COM1</Value>
     </Setting>
+    <Setting Name="LastCalDate" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">2000-12-31</Value>
+    </Setting>
+    <Setting Name="TareLimit" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.005</Value>
+    </Setting>
+    <Setting Name="TareError" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.05</Value>
+    </Setting>
+    <Setting Name="Caldirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\weighcal</Value>
+    </Setting>
+    <Setting Name="CalFrequency" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">12</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

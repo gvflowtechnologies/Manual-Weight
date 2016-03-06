@@ -27,13 +27,14 @@ Partial Class ChangePassword
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TB_PWord1 = New System.Windows.Forms.TextBox()
         Me.TB_PWord2 = New System.Windows.Forms.TextBox()
+        Me.Btn_Cancel = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Btn_UpdatePassword
         '
-        Me.Btn_UpdatePassword.Location = New System.Drawing.Point(162, 93)
+        Me.Btn_UpdatePassword.Location = New System.Drawing.Point(43, 93)
         Me.Btn_UpdatePassword.Name = "Btn_UpdatePassword"
-        Me.Btn_UpdatePassword.Size = New System.Drawing.Size(162, 23)
+        Me.Btn_UpdatePassword.Size = New System.Drawing.Size(101, 23)
         Me.Btn_UpdatePassword.TabIndex = 0
         Me.Btn_UpdatePassword.Text = "ENTER"
         Me.Btn_UpdatePassword.UseVisualStyleBackColor = True
@@ -70,11 +71,21 @@ Partial Class ChangePassword
         Me.TB_PWord2.Size = New System.Drawing.Size(190, 20)
         Me.TB_PWord2.TabIndex = 4
         '
+        'Btn_Cancel
+        '
+        Me.Btn_Cancel.Location = New System.Drawing.Point(217, 93)
+        Me.Btn_Cancel.Name = "Btn_Cancel"
+        Me.Btn_Cancel.Size = New System.Drawing.Size(112, 23)
+        Me.Btn_Cancel.TabIndex = 5
+        Me.Btn_Cancel.Text = "Cancel"
+        Me.Btn_Cancel.UseVisualStyleBackColor = True
+        '
         'ChangePassword
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(364, 128)
+        Me.Controls.Add(Me.Btn_Cancel)
         Me.Controls.Add(Me.TB_PWord2)
         Me.Controls.Add(Me.TB_PWord1)
         Me.Controls.Add(Me.Label2)
@@ -92,4 +103,5 @@ Partial Class ChangePassword
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents TB_PWord1 As System.Windows.Forms.TextBox
     Friend WithEvents TB_PWord2 As System.Windows.Forms.TextBox
+    Friend WithEvents Btn_Cancel As System.Windows.Forms.Button
 End Class

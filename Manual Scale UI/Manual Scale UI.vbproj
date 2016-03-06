@@ -71,6 +71,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calibration_File.vb" />
     <Compile Include="ChangePassword.Designer.vb">
       <DependentUpon>ChangePassword.vb</DependentUpon>
     </Compile>
@@ -78,7 +79,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CSorter.vb" />
-    <Compile Include="Datawriting.vb" />
+    <Compile Include="caldata.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -102,10 +103,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Calibration.Designer.vb">
+      <DependentUpon>Calibration.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Calibration.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="scalemanagment.vb" />
     <Compile Include="Serialcomm.vb" />
     <Compile Include="Settings.vb" />
-    <Compile Include="Static Data.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ChangePassword.resx">
@@ -119,6 +125,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Calibration.resx">
+      <DependentUpon>Calibration.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

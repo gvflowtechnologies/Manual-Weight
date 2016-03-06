@@ -89,6 +89,66 @@ Namespace My
                 Me("SerialPort") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2000-12-31")>  _
+        Public Property LastCalDate() As Date
+            Get
+                Return CType(Me("LastCalDate"),Date)
+            End Get
+            Set
+                Me("LastCalDate") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.005")>  _
+        Public Property TareLimit() As Double
+            Get
+                Return CType(Me("TareLimit"),Double)
+            End Get
+            Set
+                Me("TareLimit") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.05")>  _
+        Public Property TareError() As Double
+            Get
+                Return CType(Me("TareError"),Double)
+            End Get
+            Set
+                Me("TareError") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("c:\weighcal")>  _
+        Public Property Caldirectory() As String
+            Get
+                Return CType(Me("Caldirectory"),String)
+            End Get
+            Set
+                Me("Caldirectory") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("12")>  _
+        Public Property CalFrequency() As Integer
+            Get
+                Return CType(Me("CalFrequency"),Integer)
+            End Get
+            Set
+                Me("CalFrequency") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

@@ -55,21 +55,32 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN = New System.Windows.Forms.Label()
         Me.Btn_StartPallet = New System.Windows.Forms.Button()
         Me.Setup = New System.Windows.Forms.TabPage()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.Lbl_CalFolder = New System.Windows.Forms.Label()
+        Me.Lbl_CalInt = New System.Windows.Forms.Label()
+        Me.Lbl_NextCal = New System.Windows.Forms.Label()
+        Me.Lbl_LastCal = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Btn_CalFolder = New System.Windows.Forms.Button()
+        Me.Btn_ScaleCal = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.TB_TareError = New System.Windows.Forms.TextBox()
         Me.TB_RetareLimit = New System.Windows.Forms.TextBox()
         Me.sLbl_retare = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.Btn_Tare = New System.Windows.Forms.Button()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.T = New System.Windows.Forms.TextBox()
-        Me.Btn_Settings = New System.Windows.Forms.Button()
         Me.LBFinal_Data_File = New System.Windows.Forms.Label()
         Me.Btn_FinalFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -77,6 +88,7 @@ Partial Class Manual_Weight
         Me.GBBinData.SuspendLayout()
         Me.GBCurrentPallet.SuspendLayout()
         Me.Setup.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -420,13 +432,13 @@ Partial Class Manual_Weight
         '
         'Setup
         '
+        Me.Setup.Controls.Add(Me.GroupBox3)
         Me.Setup.Controls.Add(Me.Button1)
         Me.Setup.Controls.Add(Me.GroupBox2)
         Me.Setup.Controls.Add(Me.Label4)
         Me.Setup.Controls.Add(Me.Label3)
         Me.Setup.Controls.Add(Me.TextBox4)
         Me.Setup.Controls.Add(Me.T)
-        Me.Setup.Controls.Add(Me.Btn_Settings)
         Me.Setup.Controls.Add(Me.LBFinal_Data_File)
         Me.Setup.Controls.Add(Me.Btn_FinalFolder)
         Me.Setup.Location = New System.Drawing.Point(4, 22)
@@ -437,22 +449,149 @@ Partial Class Manual_Weight
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
         '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.Lbl_CalFolder)
+        Me.GroupBox3.Controls.Add(Me.Lbl_CalInt)
+        Me.GroupBox3.Controls.Add(Me.Lbl_NextCal)
+        Me.GroupBox3.Controls.Add(Me.Lbl_LastCal)
+        Me.GroupBox3.Controls.Add(Me.Label7)
+        Me.GroupBox3.Controls.Add(Me.Label6)
+        Me.GroupBox3.Controls.Add(Me.Label5)
+        Me.GroupBox3.Controls.Add(Me.Label1)
+        Me.GroupBox3.Controls.Add(Me.Btn_CalFolder)
+        Me.GroupBox3.Controls.Add(Me.Btn_ScaleCal)
+        Me.GroupBox3.Location = New System.Drawing.Point(559, 223)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(272, 243)
+        Me.GroupBox3.TabIndex = 13
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Calibration Data"
+        '
+        'Lbl_CalFolder
+        '
+        Me.Lbl_CalFolder.AutoSize = True
+        Me.Lbl_CalFolder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_CalFolder.Location = New System.Drawing.Point(14, 70)
+        Me.Lbl_CalFolder.MinimumSize = New System.Drawing.Size(200, 13)
+        Me.Lbl_CalFolder.Name = "Lbl_CalFolder"
+        Me.Lbl_CalFolder.Size = New System.Drawing.Size(200, 15)
+        Me.Lbl_CalFolder.TabIndex = 19
+        Me.Lbl_CalFolder.Text = "Label10"
+        '
+        'Lbl_CalInt
+        '
+        Me.Lbl_CalInt.AutoSize = True
+        Me.Lbl_CalInt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_CalInt.Location = New System.Drawing.Point(162, 169)
+        Me.Lbl_CalInt.MinimumSize = New System.Drawing.Size(75, 13)
+        Me.Lbl_CalInt.Name = "Lbl_CalInt"
+        Me.Lbl_CalInt.Size = New System.Drawing.Size(75, 15)
+        Me.Lbl_CalInt.TabIndex = 18
+        Me.Lbl_CalInt.Text = "Label11"
+        '
+        'Lbl_NextCal
+        '
+        Me.Lbl_NextCal.AutoSize = True
+        Me.Lbl_NextCal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_NextCal.Location = New System.Drawing.Point(162, 134)
+        Me.Lbl_NextCal.MinimumSize = New System.Drawing.Size(75, 13)
+        Me.Lbl_NextCal.Name = "Lbl_NextCal"
+        Me.Lbl_NextCal.Size = New System.Drawing.Size(75, 15)
+        Me.Lbl_NextCal.TabIndex = 16
+        Me.Lbl_NextCal.Text = "Label9"
+        '
+        'Lbl_LastCal
+        '
+        Me.Lbl_LastCal.AutoSize = True
+        Me.Lbl_LastCal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_LastCal.Location = New System.Drawing.Point(162, 99)
+        Me.Lbl_LastCal.MinimumSize = New System.Drawing.Size(75, 13)
+        Me.Lbl_LastCal.Name = "Lbl_LastCal"
+        Me.Lbl_LastCal.Size = New System.Drawing.Size(75, 15)
+        Me.Lbl_LastCal.TabIndex = 15
+        Me.Lbl_LastCal.Text = "Label8"
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(5, 170)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(141, 13)
+        Me.Label7.TabIndex = 14
+        Me.Label7.Text = "Calibration Interval (Months):"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(62, 135)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(84, 13)
+        Me.Label6.TabIndex = 13
+        Me.Label6.Text = "Next Calibration:"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(64, 100)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(82, 13)
+        Me.Label5.TabIndex = 12
+        Me.Label5.Text = "Last Calibration:"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(14, 39)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(114, 13)
+        Me.Label1.TabIndex = 11
+        Me.Label1.Text = "Calibration Data Folder" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        '
+        'Btn_CalFolder
+        '
+        Me.Btn_CalFolder.Location = New System.Drawing.Point(136, 29)
+        Me.Btn_CalFolder.Name = "Btn_CalFolder"
+        Me.Btn_CalFolder.Size = New System.Drawing.Size(109, 23)
+        Me.Btn_CalFolder.TabIndex = 10
+        Me.Btn_CalFolder.Text = "Update File Folder"
+        Me.Btn_CalFolder.UseVisualStyleBackColor = True
+        '
+        'Btn_ScaleCal
+        '
+        Me.Btn_ScaleCal.Location = New System.Drawing.Point(17, 204)
+        Me.Btn_ScaleCal.Name = "Btn_ScaleCal"
+        Me.Btn_ScaleCal.Size = New System.Drawing.Size(113, 23)
+        Me.Btn_ScaleCal.TabIndex = 9
+        Me.Btn_ScaleCal.Text = "Calibrate Scale"
+        Me.Btn_ScaleCal.UseVisualStyleBackColor = True
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(33, 134)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(92, 59)
+        Me.Button1.TabIndex = 12
+        Me.Button1.Text = "Update Admin Password"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.TB_TareError)
         Me.GroupBox2.Controls.Add(Me.TB_RetareLimit)
         Me.GroupBox2.Controls.Add(Me.sLbl_retare)
         Me.GroupBox2.Controls.Add(Me.Label2)
+        Me.GroupBox2.Controls.Add(Me.Btn_Tare)
         Me.GroupBox2.Location = New System.Drawing.Point(559, 6)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(273, 194)
+        Me.GroupBox2.Size = New System.Drawing.Size(273, 171)
         Me.GroupBox2.TabIndex = 11
         Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Tare Limits and Calibration"
+        Me.GroupBox2.Text = "Tare Limits"
         '
         'TB_TareError
         '
-        Me.TB_TareError.Location = New System.Drawing.Point(136, 99)
+        Me.TB_TareError.Location = New System.Drawing.Point(136, 77)
         Me.TB_TareError.Name = "TB_TareError"
         Me.TB_TareError.Size = New System.Drawing.Size(100, 20)
         Me.TB_TareError.TabIndex = 4
@@ -476,11 +615,20 @@ Partial Class Manual_Weight
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(50, 102)
+        Me.Label2.Location = New System.Drawing.Point(50, 80)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(80, 13)
         Me.Label2.TabIndex = 8
         Me.Label2.Text = "Tare Error (mg):"
+        '
+        'Btn_Tare
+        '
+        Me.Btn_Tare.Location = New System.Drawing.Point(111, 117)
+        Me.Btn_Tare.Name = "Btn_Tare"
+        Me.Btn_Tare.Size = New System.Drawing.Size(125, 23)
+        Me.Btn_Tare.TabIndex = 2
+        Me.Btn_Tare.Text = "Update Tare Limits"
+        Me.Btn_Tare.UseVisualStyleBackColor = True
         '
         'Label4
         '
@@ -514,15 +662,6 @@ Partial Class Manual_Weight
         Me.T.Size = New System.Drawing.Size(100, 20)
         Me.T.TabIndex = 5
         '
-        'Btn_Settings
-        '
-        Me.Btn_Settings.Location = New System.Drawing.Point(71, 462)
-        Me.Btn_Settings.Name = "Btn_Settings"
-        Me.Btn_Settings.Size = New System.Drawing.Size(75, 23)
-        Me.Btn_Settings.TabIndex = 2
-        Me.Btn_Settings.Text = "Update Settings"
-        Me.Btn_Settings.UseVisualStyleBackColor = True
-        '
         'LBFinal_Data_File
         '
         Me.LBFinal_Data_File.AutoSize = True
@@ -537,25 +676,16 @@ Partial Class Manual_Weight
         '
         'Btn_FinalFolder
         '
-        Me.Btn_FinalFolder.Location = New System.Drawing.Point(50, 46)
+        Me.Btn_FinalFolder.Location = New System.Drawing.Point(33, 48)
         Me.Btn_FinalFolder.Name = "Btn_FinalFolder"
-        Me.Btn_FinalFolder.Size = New System.Drawing.Size(75, 55)
+        Me.Btn_FinalFolder.Size = New System.Drawing.Size(92, 55)
         Me.Btn_FinalFolder.TabIndex = 0
-        Me.Btn_FinalFolder.Text = "Data File Folder"
+        Me.Btn_FinalFolder.Text = "Update Data File Folder"
         Me.Btn_FinalFolder.UseVisualStyleBackColor = True
         '
         'Tmr_ScreenUpdate
         '
         Me.Tmr_ScreenUpdate.Interval = 50
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(50, 141)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 59)
-        Me.Button1.TabIndex = 12
-        Me.Button1.Text = "Update Admin Password"
-        Me.Button1.UseVisualStyleBackColor = True
         '
         'Manual_Weight
         '
@@ -579,6 +709,8 @@ Partial Class Manual_Weight
         Me.GBCurrentPallet.PerformLayout()
         Me.Setup.ResumeLayout(False)
         Me.Setup.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
         Me.ResumeLayout(False)
@@ -620,7 +752,7 @@ Partial Class Manual_Weight
     Friend WithEvents LBL_CRow As System.Windows.Forms.Label
     Friend WithEvents sLbl_Col As System.Windows.Forms.Label
     Friend WithEvents sLbl_Row As System.Windows.Forms.Label
-    Friend WithEvents Btn_Settings As System.Windows.Forms.Button
+    Friend WithEvents Btn_Tare As System.Windows.Forms.Button
     Friend WithEvents TextBox4 As System.Windows.Forms.TextBox
     Friend WithEvents T As System.Windows.Forms.TextBox
     Friend WithEvents TB_TareError As System.Windows.Forms.TextBox
@@ -631,5 +763,16 @@ Partial Class Manual_Weight
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents sLbl_retare As System.Windows.Forms.Label
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents Btn_ScaleCal As System.Windows.Forms.Button
+    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Btn_CalFolder As System.Windows.Forms.Button
+    Friend WithEvents Lbl_CalInt As System.Windows.Forms.Label
+    Friend WithEvents Lbl_NextCal As System.Windows.Forms.Label
+    Friend WithEvents Lbl_LastCal As System.Windows.Forms.Label
+    Friend WithEvents Lbl_CalFolder As System.Windows.Forms.Label
 
 End Class

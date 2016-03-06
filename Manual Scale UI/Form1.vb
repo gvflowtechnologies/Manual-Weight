@@ -18,26 +18,43 @@ Public Class Manual_Weight
 
     Dim MDataset As PalletData
     Dim Sartorius As scalemanagment
-    Dim sdataset As Static_Data
+    ' Dim sdataset As Static_Data
     Dim cylindersorter As CSorter
-  
+
+    Public cancelclicked As Boolean
+
+
     Dim teststate As Weighprocess
     Dim entering As Boolean ' Entering a new state
 
     Dim tmrcycle As Stopwatch
     Dim tmrsort As Stopwatch
 
+
+
+
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+
         loginhandling()
+        If My.Settings.File_Directory = "" Then
+            caldata.SelectDataFolder()
+        End If
+        If My.Settings.Caldirectory = "" Then
+            caldata.selectcalfolder()
+            If Not Directory.Exists(My.Settings.Caldirectory) Then
+                caldata.selectcalfolder()
+
+            End If
 
 
+        End If
 
-        sdataset = New Static_Data
+        ' sdataset = New Static_Data
 
         MDataset = New PalletData
 
-        renewstaticdata()
+        '  renewstaticdata()
 
         cylindersorter = New CSorter
 
@@ -46,18 +63,19 @@ Public Class Manual_Weight
         Btn_StartPallet.Enabled = True
         Btn_StopPallet.Enabled = False
 
-        LBFinal_Data_File.Text = sdataset.basedir
-
+        LBFinal_Data_File.Text = My.Settings.File_Directory
+        TB_RetareLimit.Text = My.Settings.TareLimit.ToString
+        TB_TareError.Text = My.Settings.TareError.ToString
+        Lbl_CalFolder.Text = My.Settings.Caldirectory
+        Lbl_LastCal.Text = My.Settings.LastCalDate.ToString
+        Lbl_NextCal.Text = My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString
+        Lbl_CalInt.Text = My.Settings.CalFrequency.ToString
         teststate = Weighprocess.idle ' Start us out in an idle condition.
 
 
     End Sub
 
-    Sub renewstaticdata()
-        MDataset.firstweightpath = sdataset.inprocess
-        MDataset.firstweightpath = sdataset.completeddata
 
-    End Sub
 
 
 
@@ -149,6 +167,8 @@ Public Class Manual_Weight
 
     Public Sub writefileheader2() ' Write the header data for the Final data set
 
+
+
         Dim Myfile As String
         Myfile = MDataset.currentfilepath & "\" & MDataset.filename
 
@@ -178,8 +198,8 @@ Public Class Manual_Weight
 
 
     Private Sub Btn_FinalFolder_Click(sender As Object, e As EventArgs) Handles Btn_FinalFolder.Click
-        sdataset.createdirs()
-        LBFinal_Data_File.Text = sdataset.basedir
+        caldata.SelectDataFolder()
+        LBFinal_Data_File.Text = My.Settings.File_Directory
 
     End Sub
 
@@ -344,6 +364,114 @@ Public Class Manual_Weight
 
 
 
+
+    End Sub
+
+    Private Sub Btn_Tare_Click(sender As Object, e As EventArgs) Handles Btn_Tare.Click
+        'InputBox()
+
+
+
+
+    End Sub
+
+    Private Sub Btn_ScaleCal_Click(sender As Object, e As EventArgs) Handles Btn_ScaleCal.Click
+ 
+        recalibrate()
+
+
+
+    End Sub
+
+    Sub recalibrate()
+
+        ' Handles process for recalibration of the scale.
+        cancelclicked = False
+        Calibration.Enabled = True
+        Calibration.Show()
+        Dim CalID As String
+        Dim calweight As String
+        Dim AsReecievedWt As String
+        Dim AsReturnedwt As String
+        Dim Operatorid As String
+        Dim newcal As String
+        Const caldata As String = "Updating Calibration Data"
+
+
+        Const titles As String = "Calibration Sequence"
+
+
+
+        Calibration.Text = titles
+        Calibration.Lbl_CalPrompts.Text = "Remove all weight from scale"
+        ' Wait for scale to become unloaded
+        ' Need to work on the test when the scale arrives
+        '****************************************
+        Do Until Sartorius.ScaleEmpty ' Add value for scale weight less than 1.0 grams
+
+            If cancelclicked Then
+                Exit Do   ' change to exit sub when lie
+            End If
+
+            Application.DoEvents()
+
+        Loop
+        '****************************************************
+        '****************************************
+        Calibration.Lbl_CalPrompts.Text = "zero Scale"
+        Threading.Thread.Sleep(1000)
+
+        Operatorid = InputBox("Enter Operator Identification", caldata)
+        Calibration.Lbl_OPID.Text = Operatorid
+
+        CalID = InputBox("Enter Calibration Standard ID", caldata)
+        Calibration.Lbl_CalStd.Text = CalID
+
+        calweight = InputBox("Enter Weight of Calibration Standard", caldata)
+
+        Calibration.Lbl_CalVal.Text = calweight
+
+        Calibration.Lbl_CalPrompts.Text = "Place Calibration Weight on Scale"
+
+        MsgBox("Place calibration weight " & CalID & " on Scale and then press OK", MsgBoxStyle.OkOnly)
+        ' Wait for scale to become unloaded
+        ' Need to work on the test when the scale arrives
+        '****************************************
+        ' Send stability unstable and
+        'Send stabilty delay long
+        '*****************************************
+        '*****************************************
+        '*****************************************
+        '*****************************************
+        '*****************************************
+
+        Do Until Sartorius.Stable ' Add value for scale weight less than 1.0 grams
+            Dim GOODVALUE As Boolean
+
+            If cancelclicked Then
+                Exit Do   ' change to exit sub when lie
+            End If
+
+            Application.DoEvents()
+
+        Loop
+        '****************************************************
+        '****************************************
+        Calibration.Lbl_CalPrompts.Text = "Updating Scale Calibration"
+
+        Threading.Thread.Sleep(1000)
+
+        Calibration.Lbl_CalPrompts.Text = "Writing Scale Calibration"
+
+        Threading.Thread.Sleep(1000)
+
+        Calibration.Close()
+
+    End Sub
+   
+   
+    Private Sub Btn_CalFolder_Click(sender As Object, e As EventArgs) Handles Btn_CalFolder.Click
+        caldata.selectcalfolder()
 
     End Sub
 End Class

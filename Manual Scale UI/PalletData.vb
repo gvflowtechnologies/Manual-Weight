@@ -13,8 +13,8 @@ Public Class PalletData
     Private BFirstweightExists As Boolean
     Private sttimefirst As String ' time stamp of first weight
     Private Sttimesecond As String ' time stamp of second weight
-    Private DateScaleCalLast As String ' Date of last scale calibration.
-    Private DateScaleCalNext As String ' Date of next scale calibratin.
+    Private DateScaleCalLast As Date ' Date of last scale calibration.
+    Private DateScaleCalNext As Date ' Date of next scale calibratin.
     Private FirstWeightReading() As String
     Private CountBad As Integer    ' Number of bad parts in pallet
     Private CountGood As Integer ' Number of good parts in pallet
@@ -35,10 +35,12 @@ Public Class PalletData
     Public Sub New()
         number_of_Canisters = 0
         canisternumber = 0
-        Dim sclr As String
-        For Each sclr In FirstWeightReading
-            sclr = ""
-        Next
+        ' fweight = 
+        DateScaleCalLast = My.Settings.LastCalDate
+        DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
+
+        fweight = My.Settings.File_Directory & "\In Process"
+        completed = My.Settings.File_Directory & "\Completed"
 
     End Sub
 
@@ -229,6 +231,8 @@ Public Class PalletData
             Return DateScaleCalNext
         End Get
     End Property
+
+
     Property canisternum As Integer 'increment
         Set(value As Integer)
 

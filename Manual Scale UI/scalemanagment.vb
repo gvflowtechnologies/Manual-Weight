@@ -7,7 +7,7 @@ Public Class scalemanagment
     Private noerror As Boolean
     Private scalewatch As Stopwatch
 
-
+    Const scalenoweight As Double = 0.05
 
     Public Sub New()
         scalewatch = New Stopwatch
@@ -55,6 +55,16 @@ Public Class scalemanagment
         Set(ByVal value As Boolean)
 
         End Set
+    End Property
+
+    Public ReadOnly Property ScaleEmpty As Boolean
+        Get
+            If Me.isstable And Me.lastreading < ScaleEmpty Then
+                Return True
+            Else
+                Return False
+            End If
+        End Get
     End Property
 
 End Class
