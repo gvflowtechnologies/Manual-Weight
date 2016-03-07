@@ -82,6 +82,14 @@ Partial Class Manual_Weight
         Me.Btn_FinalFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Btn_UpdatePall = New System.Windows.Forms.Button()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -91,6 +99,7 @@ Partial Class Manual_Weight
         Me.Setup.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -433,14 +442,13 @@ Partial Class Manual_Weight
         '
         'Setup
         '
+        Me.Setup.Controls.Add(Me.GroupBox4)
+        Me.Setup.Controls.Add(Me.Button2)
         Me.Setup.Controls.Add(Me.ListBox1)
         Me.Setup.Controls.Add(Me.GroupBox3)
         Me.Setup.Controls.Add(Me.Button1)
         Me.Setup.Controls.Add(Me.GroupBox2)
-        Me.Setup.Controls.Add(Me.Label4)
         Me.Setup.Controls.Add(Me.Label3)
-        Me.Setup.Controls.Add(Me.TextBox4)
-        Me.Setup.Controls.Add(Me.T)
         Me.Setup.Controls.Add(Me.LBFinal_Data_File)
         Me.Setup.Controls.Add(Me.Btn_FinalFolder)
         Me.Setup.Location = New System.Drawing.Point(4, 22)
@@ -454,7 +462,7 @@ Partial Class Manual_Weight
         'ListBox1
         '
         Me.ListBox1.FormattingEnabled = True
-        Me.ListBox1.Location = New System.Drawing.Point(162, 447)
+        Me.ListBox1.Location = New System.Drawing.Point(51, 419)
         Me.ListBox1.Name = "ListBox1"
         Me.ListBox1.Size = New System.Drawing.Size(173, 17)
         Me.ListBox1.TabIndex = 14
@@ -643,7 +651,7 @@ Partial Class Manual_Weight
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(75, 365)
+        Me.Label4.Location = New System.Drawing.Point(59, 72)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(39, 13)
         Me.Label4.TabIndex = 10
@@ -652,7 +660,7 @@ Partial Class Manual_Weight
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(75, 447)
+        Me.Label3.Location = New System.Drawing.Point(75, 365)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(39, 13)
         Me.Label3.TabIndex = 9
@@ -660,14 +668,14 @@ Partial Class Manual_Weight
         '
         'TextBox4
         '
-        Me.TextBox4.Location = New System.Drawing.Point(206, 365)
+        Me.TextBox4.Location = New System.Drawing.Point(132, 113)
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(100, 20)
         Me.TextBox4.TabIndex = 6
         '
         'T
         '
-        Me.T.Location = New System.Drawing.Point(206, 316)
+        Me.T.Location = New System.Drawing.Point(132, 65)
         Me.T.Name = "T"
         Me.T.Size = New System.Drawing.Size(100, 20)
         Me.T.TabIndex = 5
@@ -697,6 +705,83 @@ Partial Class Manual_Weight
         '
         Me.Tmr_ScreenUpdate.Interval = 50
         '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(357, 144)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.TabIndex = 15
+        Me.Button2.Text = "Button2"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'Btn_UpdatePall
+        '
+        Me.Btn_UpdatePall.Location = New System.Drawing.Point(24, 250)
+        Me.Btn_UpdatePall.Name = "Btn_UpdatePall"
+        Me.Btn_UpdatePall.Size = New System.Drawing.Size(208, 23)
+        Me.Btn_UpdatePall.TabIndex = 16
+        Me.Btn_UpdatePall.Text = "Update Pallet Configuration"
+        Me.Btn_UpdatePall.UseVisualStyleBackColor = True
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.Label10)
+        Me.GroupBox4.Controls.Add(Me.Label9)
+        Me.GroupBox4.Controls.Add(Me.Label8)
+        Me.GroupBox4.Controls.Add(Me.TextBox2)
+        Me.GroupBox4.Controls.Add(Me.TextBox1)
+        Me.GroupBox4.Controls.Add(Me.Btn_UpdatePall)
+        Me.GroupBox4.Controls.Add(Me.T)
+        Me.GroupBox4.Controls.Add(Me.TextBox4)
+        Me.GroupBox4.Controls.Add(Me.Label4)
+        Me.GroupBox4.Location = New System.Drawing.Point(276, 197)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(252, 293)
+        Me.GroupBox4.TabIndex = 17
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Pallet Settings"
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(132, 161)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox1.TabIndex = 17
+        '
+        'TextBox2
+        '
+        Me.TextBox2.Location = New System.Drawing.Point(132, 209)
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(100, 20)
+        Me.TextBox2.TabIndex = 18
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(107, 140)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(39, 13)
+        Me.Label8.TabIndex = 19
+        Me.Label8.Text = "Label8"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(115, 148)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(39, 13)
+        Me.Label9.TabIndex = 20
+        Me.Label9.Text = "Label9"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(53, 209)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(45, 13)
+        Me.Label10.TabIndex = 21
+        Me.Label10.Text = "Label10"
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -723,6 +808,8 @@ Partial Class Manual_Weight
         Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -785,5 +872,13 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_LastCal As System.Windows.Forms.Label
     Friend WithEvents Lbl_CalFolder As System.Windows.Forms.Label
     Friend WithEvents ListBox1 As System.Windows.Forms.ListBox
+    Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
+    Friend WithEvents Btn_UpdatePall As System.Windows.Forms.Button
+    Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
+    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents Label8 As System.Windows.Forms.Label
 
 End Class
