@@ -6,7 +6,7 @@
       <Value Profile="(Default)">AV_QAE</Value>
     </Setting>
     <Setting Name="File_Directory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">c:\fweightdata</Value>
+      <Value Profile="(Default)">""</Value>
     </Setting>
     <Setting Name="SerialPort" Type="System.String" Scope="User">
       <Value Profile="(Default)">COM1</Value>
@@ -21,10 +21,31 @@
       <Value Profile="(Default)">0.05</Value>
     </Setting>
     <Setting Name="Caldirectory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">c:\weighcal</Value>
+      <Value Profile="(Default)">""</Value>
     </Setting>
     <Setting Name="CalFrequency" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">12</Value>
+    </Setting>
+    <Setting Name="ColNum" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="RowNum" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="ColSpace" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="RowSpace" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="WeightLoss" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.2</Value>
+    </Setting>
+    <Setting Name="MaxWeight" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">2.9</Value>
+    </Setting>
+    <Setting Name="MinWeight" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">2.1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

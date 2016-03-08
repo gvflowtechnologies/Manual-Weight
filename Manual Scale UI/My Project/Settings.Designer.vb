@@ -68,7 +68,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("c:\fweightdata")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("""""")>  _
         Public Property File_Directory() As String
             Get
                 Return CType(Me("File_Directory"),String)
@@ -128,7 +128,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("c:\weighcal")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("""""")>  _
         Public Property Caldirectory() As String
             Get
                 Return CType(Me("Caldirectory"),String)
@@ -147,6 +147,90 @@ Namespace My
             End Get
             Set
                 Me("CalFrequency") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("20")>  _
+        Public Property ColNum() As Integer
+            Get
+                Return CType(Me("ColNum"),Integer)
+            End Get
+            Set
+                Me("ColNum") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("20")>  _
+        Public Property RowNum() As Integer
+            Get
+                Return CType(Me("RowNum"),Integer)
+            End Get
+            Set
+                Me("RowNum") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.5")>  _
+        Public Property ColSpace() As Single
+            Get
+                Return CType(Me("ColSpace"),Single)
+            End Get
+            Set
+                Me("ColSpace") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.5")>  _
+        Public Property RowSpace() As Single
+            Get
+                Return CType(Me("RowSpace"),Single)
+            End Get
+            Set
+                Me("RowSpace") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.2")>  _
+        Public Property WeightLoss() As Single
+            Get
+                Return CType(Me("WeightLoss"),Single)
+            End Get
+            Set
+                Me("WeightLoss") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2.9")>  _
+        Public Property MaxWeight() As Single
+            Get
+                Return CType(Me("MaxWeight"),Single)
+            End Get
+            Set
+                Me("MaxWeight") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2.1")>  _
+        Public Property MinWeight() As Single
+            Get
+                Return CType(Me("MinWeight"),Single)
+            End Get
+            Set
+                Me("MinWeight") = value
             End Set
         End Property
     End Class

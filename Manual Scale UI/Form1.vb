@@ -37,6 +37,7 @@ Public Class Manual_Weight
 
 
         loginhandling()
+
         If My.Settings.File_Directory = "" Then
             caldata.SelectDataFolder()
         End If
@@ -49,6 +50,12 @@ Public Class Manual_Weight
 
 
         End If
+
+        For Each sp As String In My.Computer.Ports.SerialPortNames
+            LB_SerialPorts.Items.Add(sp)
+        Next
+
+
 
         ' sdataset = New Static_Data
 
@@ -64,12 +71,21 @@ Public Class Manual_Weight
         Btn_StopPallet.Enabled = False
 
         LBFinal_Data_File.Text = My.Settings.File_Directory
-        TB_RetareLimit.Text = My.Settings.TareLimit.ToString("N4")
-        TB_TareError.Text = My.Settings.TareError.ToString("N4")
+        Lbl_RetareLimit.Text = My.Settings.TareLimit.ToString("N4")
+        Lbl_TareError.Text = My.Settings.TareError.ToString("N4")
         Lbl_CalFolder.Text = My.Settings.Caldirectory
         Lbl_LastCal.Text = My.Settings.LastCalDate.ToString("d")
         Lbl_NextCal.Text = My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString("d")
         Lbl_CalInt.Text = My.Settings.CalFrequency.ToString
+        Lbl_NumCol.Text = My.Settings.ColNum.ToString("N0")
+        LB_SerialPorts.ScrollAlwaysVisible = True
+        Lbl_NumRow.Text = My.Settings.RowNum.ToString("N0")
+        Lbl_ColSpace.Text = My.Settings.ColSpace.ToString("N4")
+        Lbl_RowSpace.Text = My.Settings.RowSpace.ToString("N4")
+        Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
+        Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
+        Lbl_WeightLoss.Text = My.Settings.WeightLoss.ToString("N4")
+
         teststate = Weighprocess.idle ' Start us out in an idle condition.
 
 
@@ -382,7 +398,9 @@ Public Class Manual_Weight
                 notnumbers = False
                 retarelimit = CSng(sretare)
                 My.Settings.TareLimit = retarelimit
-                TB_RetareLimit.Text = retarelimit.ToString("N4")
+                Lbl_RetareLimit.Text = retarelimit.ToString("N4")
+            Else
+                MsgBox("Numbers Only Please")
             End If
 
         End While
@@ -396,7 +414,7 @@ Public Class Manual_Weight
                 notnumbers = False
                 tareerror = CSng(stareerror)
                 My.Settings.TareError = tareerror
-                TB_TareError.Text = tareerror.ToString("N4")
+                Lbl_TareError.Text = tareerror.ToString("N4")
             Else
                 MsgBox("Numbers Only Please")
             End If
@@ -507,4 +525,116 @@ Public Class Manual_Weight
         caldata.selectcalfolder()
 
     End Sub
+
+  
+    Private Sub Btn_UpdatePallet_Click(sender As Object, e As EventArgs) Handles Btn_UpdatePallet.Click
+
+        Dim IColNum As Integer
+        Dim IRowNum As Integer
+        Dim SColSpace As Single = My.Settings.ColSpace
+        Dim SRowSpace As Single = My.Settings.RowSpace
+        Dim sinputstring As String
+        Dim inerror As Boolean = True
+
+
+        While inerror = True
+            sinputstring = InputBox("Enter Number of Columns in Pallet", , My.Settings.ColNum.ToString("N0"))
+
+            If Integer.TryParse(sinputstring, IColNum) Then
+                inerror = False
+
+                My.Settings.ColNum = IColNum
+                Lbl_NumCol.Text = IColNum.ToString("N0")
+            Else
+                MsgBox("Integer Numbers Only Please")
+            End If
+
+        End While
+
+        inerror = True
+
+        supdatevalues("Enter Distance between Columns in Pallet", SColSpace)
+
+        My.Settings.ColSpace = SColSpace
+        Lbl_ColSpace.Text = SColSpace.ToString("N4")
+        
+        inerror = True
+
+        While inerror = True
+            sinputstring = InputBox("Enter Number of Rows in Pallet", , My.Settings.RowNum.ToString("N0"))
+
+            If Integer.TryParse(sinputstring, IRowNum) Then
+                inerror = False
+
+                My.Settings.RowNum = IRowNum
+                Lbl_NumRow.Text = IRowNum.ToString("N0")
+            Else
+                MsgBox("Integer Numbers Only Please")
+            End If
+
+        End While
+
+        inerror = True
+
+        supdatevalues("Enter Distance between Rows in Pallet", SRowSpace)
+
+
+        My.Settings.RowSpace = SRowSpace
+        Lbl_RowSpace.Text = SRowSpace.ToString("N4")
+
+        My.Settings.Save()
+
+    End Sub
+
+   
+    Private Sub Btn_UpdateWeight_Click(sender As Object, e As EventArgs) Handles Btn_UpdateWeight.Click
+
+
+        Dim smaxweight As Single = My.Settings.MaxWeight
+        Dim sminweight As Single = My.Settings.MinWeight
+        Dim sweightloss As Single = My.Settings.WeightLoss
+
+
+        supdatevalues("Enter Maximum Accepatble Weight in grams", smaxweight)
+
+        supdatevalues("Enter Weight Loss limit in grams", sweightloss)
+
+        supdatevalues("Enter Minimum Acceptable Weight in grams", sminweight)
+
+
+
+        My.Settings.MaxWeight = smaxweight
+        My.Settings.MinWeight = sminweight
+        My.Settings.WeightLoss = sweightloss
+        My.Settings.Save()
+
+        Lbl_MaxWeight.Text = smaxweight.ToString("N4")
+        Lbl_MinWeight.Text = sminweight.ToString("N4")
+        Lbl_WeightLoss.Text = sweightloss.ToString("N4")
+
+    End Sub
+
+
+    Private Sub supdatevalues(ByVal sprompt As String, ByRef Sdata As Single)
+        Dim inerror As Boolean = True
+        Dim sinputstring As String = ""
+
+        While inerror = True
+            sinputstring = InputBox(sprompt, , Sdata.ToString("N4"))
+
+            If IsNumeric(sinputstring) Then
+                inerror = False
+                Sdata = CSng(sinputstring)
+
+            Else
+                MsgBox("Numbers Only Please")
+            End If
+
+        End While
+
+
+
+    End Sub
+
+
 End Class
