@@ -594,13 +594,11 @@ Public Class Manual_Weight
         Dim sminweight As Single = My.Settings.MinWeight
         Dim sweightloss As Single = My.Settings.WeightLoss
 
+        supdatevalues("Enter Weight Loss limit in grams", sweightloss)
 
         supdatevalues("Enter Maximum Accepatble Weight in grams", smaxweight)
 
-        supdatevalues("Enter Weight Loss limit in grams", sweightloss)
-
         supdatevalues("Enter Minimum Acceptable Weight in grams", sminweight)
-
 
 
         My.Settings.MaxWeight = smaxweight
