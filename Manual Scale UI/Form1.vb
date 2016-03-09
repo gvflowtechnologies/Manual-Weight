@@ -31,21 +31,34 @@ Public Class Manual_Weight
     Dim tmrsort As Stopwatch
 
 
+    Private Sub SetupClick() Handles Setup.Enter
+
+
+        loginhandling()
+
+
+    End Sub
 
 
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
 
-        loginhandling()
+        ' loginhandling()
 
-        If My.Settings.File_Directory = "" Then
+        If Not Directory.Exists(My.Settings.File_Directory) Then
             caldata.SelectDataFolder()
-        End If
-        If My.Settings.Caldirectory = "" Then
-            caldata.selectcalfolder()
-            If Not Directory.Exists(My.Settings.Caldirectory) Then
-                caldata.selectcalfolder()
+            If My.Settings.File_Directory = "" Then
 
+                caldata.SelectDataFolder()
+            End If
+        End If
+
+
+        If Not Directory.Exists(My.Settings.Caldirectory) Then
+            caldata.selectcalfolder()
+            If My.Settings.Caldirectory = "" Then
+                MsgBox("Creating File Locations For Data Retention", MsgBoxStyle.OkOnly, "File Location Not Found")
+                caldata.selectcalfolder()
             End If
 
 
@@ -90,7 +103,6 @@ Public Class Manual_Weight
 
 
     End Sub
-
 
 
 
@@ -152,6 +164,8 @@ Public Class Manual_Weight
         Btn_StartPallet.Enabled = False
         Btn_StopPallet.Enabled = True
         teststate = Weighprocess.taring ' Start weighing Process
+        Tmr_ScreenUpdate.Start()
+
 
     End Sub
 
@@ -341,27 +355,30 @@ Public Class Manual_Weight
 
 
         count = 0
-        logintype = MsgBox("Setup Login?", MsgBoxStyle.YesNo)
+        logintype = MsgBox("Do Want to Acess Settings", MsgBoxStyle.YesNo, "Password Required To Acess Settings")
         If logintype = MsgBoxResult.Yes Then
 
             Do
                 login = InputBox("Enter Login key for Setup?", "Altaviz Quality Login", "")
-
+                If login = "" Then
+                    Me.TabControl1.SelectedTab = RunPage
+                    Exit Sub
+                End If
                 If login <> My.Settings.Password Then
 
                     MsgBox("You have " & (3 - count).ToString & " attempts remaining", MsgBoxStyle.OkOnly, "Login Incorrect")
                     count += 1
 
                     If count > 3 Then
-                        Me.TabControl1.TabPages.Remove(Setup)
+                        Me.TabControl1.SelectedTab = RunPage
                         Exit Sub
                     End If
 
                 End If
 
-            Loop Until login = "AV_QAE"
+            Loop Until login = My.Settings.Password
         Else
-            Me.TabControl1.TabPages.Remove(Setup)
+            Me.TabControl1.SelectedTab = RunPage
 
         End If
 

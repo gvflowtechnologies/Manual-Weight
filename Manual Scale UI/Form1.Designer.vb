@@ -56,12 +56,15 @@ Partial Class Manual_Weight
         Me.Btn_StartPallet = New System.Windows.Forms.Button()
         Me.Setup = New System.Windows.Forms.TabPage()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.Lbl_RowSpace = New System.Windows.Forms.Label()
+        Me.Lbl_NumRow = New System.Windows.Forms.Label()
+        Me.Lbl_NumCol = New System.Windows.Forms.Label()
+        Me.Lbl_ColSpace = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Btn_UpdatePallet = New System.Windows.Forms.Button()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.LB_SerialPorts = New System.Windows.Forms.ListBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.Lbl_CalFolder = New System.Windows.Forms.Label()
         Me.Lbl_CalInt = New System.Windows.Forms.Label()
@@ -75,27 +78,24 @@ Partial Class Manual_Weight
         Me.Btn_ScaleCal = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Lbl_MinWeight = New System.Windows.Forms.Label()
+        Me.Lbl_MaxWeight = New System.Windows.Forms.Label()
+        Me.Lbl_WeightLoss = New System.Windows.Forms.Label()
+        Me.Lbl_TareError = New System.Windows.Forms.Label()
+        Me.Lbl_RetareLimit = New System.Windows.Forms.Label()
+        Me.LB_SerialPorts = New System.Windows.Forms.ListBox()
+        Me.Btn_UpdateWeight = New System.Windows.Forms.Button()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
         Me.sLbl_retare = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Btn_Tare = New System.Windows.Forms.Button()
-        Me.Label3 = New System.Windows.Forms.Label()
         Me.LBFinal_Data_File = New System.Windows.Forms.Label()
         Me.Btn_FinalFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.Btn_UpdateWeight = New System.Windows.Forms.Button()
-        Me.Lbl_ColSpace = New System.Windows.Forms.Label()
-        Me.Lbl_NumCol = New System.Windows.Forms.Label()
-        Me.Lbl_NumRow = New System.Windows.Forms.Label()
-        Me.Lbl_RowSpace = New System.Windows.Forms.Label()
-        Me.Lbl_RetareLimit = New System.Windows.Forms.Label()
-        Me.Lbl_TareError = New System.Windows.Forms.Label()
-        Me.Lbl_WeightLoss = New System.Windows.Forms.Label()
-        Me.Lbl_MaxWeight = New System.Windows.Forms.Label()
-        Me.Lbl_MinWeight = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -480,6 +480,46 @@ Partial Class Manual_Weight
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Pallet Settings"
         '
+        'Lbl_RowSpace
+        '
+        Me.Lbl_RowSpace.AutoSize = True
+        Me.Lbl_RowSpace.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_RowSpace.Location = New System.Drawing.Point(121, 178)
+        Me.Lbl_RowSpace.Name = "Lbl_RowSpace"
+        Me.Lbl_RowSpace.Size = New System.Drawing.Size(47, 15)
+        Me.Lbl_RowSpace.TabIndex = 17
+        Me.Lbl_RowSpace.Text = "Label14"
+        '
+        'Lbl_NumRow
+        '
+        Me.Lbl_NumRow.AutoSize = True
+        Me.Lbl_NumRow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_NumRow.Location = New System.Drawing.Point(121, 130)
+        Me.Lbl_NumRow.Name = "Lbl_NumRow"
+        Me.Lbl_NumRow.Size = New System.Drawing.Size(73, 15)
+        Me.Lbl_NumRow.TabIndex = 16
+        Me.Lbl_NumRow.Text = "Lbl_NumRow"
+        '
+        'Lbl_NumCol
+        '
+        Me.Lbl_NumCol.AutoSize = True
+        Me.Lbl_NumCol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_NumCol.Location = New System.Drawing.Point(121, 34)
+        Me.Lbl_NumCol.Name = "Lbl_NumCol"
+        Me.Lbl_NumCol.Size = New System.Drawing.Size(47, 15)
+        Me.Lbl_NumCol.TabIndex = 15
+        Me.Lbl_NumCol.Text = "Label14"
+        '
+        'Lbl_ColSpace
+        '
+        Me.Lbl_ColSpace.AutoSize = True
+        Me.Lbl_ColSpace.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_ColSpace.Location = New System.Drawing.Point(121, 83)
+        Me.Lbl_ColSpace.Name = "Lbl_ColSpace"
+        Me.Lbl_ColSpace.Size = New System.Drawing.Size(47, 15)
+        Me.Lbl_ColSpace.TabIndex = 14
+        Me.Lbl_ColSpace.Text = "Label14"
+        '
         'Label10
         '
         Me.Label10.AutoSize = True
@@ -524,14 +564,6 @@ Partial Class Manual_Weight
         Me.Label4.Size = New System.Drawing.Size(102, 13)
         Me.Label4.TabIndex = 10
         Me.Label4.Text = "Number of Columns:"
-        '
-        'LB_SerialPorts
-        '
-        Me.LB_SerialPorts.FormattingEnabled = True
-        Me.LB_SerialPorts.Location = New System.Drawing.Point(35, 317)
-        Me.LB_SerialPorts.Name = "LB_SerialPorts"
-        Me.LB_SerialPorts.Size = New System.Drawing.Size(173, 17)
-        Me.LB_SerialPorts.TabIndex = 14
         '
         'GroupBox3
         '
@@ -682,6 +714,112 @@ Partial Class Manual_Weight
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Scale Parameters"
         '
+        'Lbl_MinWeight
+        '
+        Me.Lbl_MinWeight.AutoSize = True
+        Me.Lbl_MinWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_MinWeight.Location = New System.Drawing.Point(134, 213)
+        Me.Lbl_MinWeight.Name = "Lbl_MinWeight"
+        Me.Lbl_MinWeight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.Lbl_MinWeight.Size = New System.Drawing.Size(47, 15)
+        Me.Lbl_MinWeight.TabIndex = 23
+        Me.Lbl_MinWeight.Text = "Label14"
+        '
+        'Lbl_MaxWeight
+        '
+        Me.Lbl_MaxWeight.AutoSize = True
+        Me.Lbl_MaxWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_MaxWeight.Location = New System.Drawing.Point(134, 183)
+        Me.Lbl_MaxWeight.Name = "Lbl_MaxWeight"
+        Me.Lbl_MaxWeight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.Lbl_MaxWeight.Size = New System.Drawing.Size(47, 15)
+        Me.Lbl_MaxWeight.TabIndex = 22
+        Me.Lbl_MaxWeight.Text = "Label14"
+        '
+        'Lbl_WeightLoss
+        '
+        Me.Lbl_WeightLoss.AutoSize = True
+        Me.Lbl_WeightLoss.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_WeightLoss.Location = New System.Drawing.Point(134, 153)
+        Me.Lbl_WeightLoss.Name = "Lbl_WeightLoss"
+        Me.Lbl_WeightLoss.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.Lbl_WeightLoss.Size = New System.Drawing.Size(47, 15)
+        Me.Lbl_WeightLoss.TabIndex = 16
+        Me.Lbl_WeightLoss.Text = "Label14"
+        '
+        'Lbl_TareError
+        '
+        Me.Lbl_TareError.AutoSize = True
+        Me.Lbl_TareError.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_TareError.Location = New System.Drawing.Point(98, 64)
+        Me.Lbl_TareError.Name = "Lbl_TareError"
+        Me.Lbl_TareError.Size = New System.Drawing.Size(47, 15)
+        Me.Lbl_TareError.TabIndex = 21
+        Me.Lbl_TareError.Text = "Label14"
+        '
+        'Lbl_RetareLimit
+        '
+        Me.Lbl_RetareLimit.AutoSize = True
+        Me.Lbl_RetareLimit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_RetareLimit.Location = New System.Drawing.Point(101, 29)
+        Me.Lbl_RetareLimit.Name = "Lbl_RetareLimit"
+        Me.Lbl_RetareLimit.Size = New System.Drawing.Size(47, 15)
+        Me.Lbl_RetareLimit.TabIndex = 16
+        Me.Lbl_RetareLimit.Text = "Label14"
+        '
+        'LB_SerialPorts
+        '
+        Me.LB_SerialPorts.FormattingEnabled = True
+        Me.LB_SerialPorts.Location = New System.Drawing.Point(35, 317)
+        Me.LB_SerialPorts.Name = "LB_SerialPorts"
+        Me.LB_SerialPorts.Size = New System.Drawing.Size(173, 17)
+        Me.LB_SerialPorts.TabIndex = 14
+        '
+        'Btn_UpdateWeight
+        '
+        Me.Btn_UpdateWeight.Location = New System.Drawing.Point(67, 236)
+        Me.Btn_UpdateWeight.Name = "Btn_UpdateWeight"
+        Me.Btn_UpdateWeight.Size = New System.Drawing.Size(125, 23)
+        Me.Btn_UpdateWeight.TabIndex = 18
+        Me.Btn_UpdateWeight.Text = "Update Weight Limits"
+        Me.Btn_UpdateWeight.UseVisualStyleBackColor = True
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(64, 213)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(67, 13)
+        Me.Label13.TabIndex = 17
+        Me.Label13.Text = "Min Wt (gm):"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(63, 183)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(70, 13)
+        Me.Label12.TabIndex = 16
+        Me.Label12.Text = "Max Wt (gm):"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(32, 289)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(189, 13)
+        Me.Label3.TabIndex = 9
+        Me.Label3.Text = "Available Comunication Ports for Scale"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(15, 153)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(116, 13)
+        Me.Label11.TabIndex = 9
+        Me.Label11.Text = "Weight Loss Limit (gm):"
+        '
         'sLbl_retare
         '
         Me.sLbl_retare.AutoSize = True
@@ -709,15 +847,6 @@ Partial Class Manual_Weight
         Me.Btn_Tare.Text = "Update Tare Limits"
         Me.Btn_Tare.UseVisualStyleBackColor = True
         '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(32, 289)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(189, 13)
-        Me.Label3.TabIndex = 9
-        Me.Label3.Text = "Available Comunication Ports for Scale"
-        '
         'LBFinal_Data_File
         '
         Me.LBFinal_Data_File.AutoSize = True
@@ -743,135 +872,6 @@ Partial Class Manual_Weight
         '
         Me.Tmr_ScreenUpdate.Interval = 50
         '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(15, 153)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(116, 13)
-        Me.Label11.TabIndex = 9
-        Me.Label11.Text = "Weight Loss Limit (gm):"
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(63, 183)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(70, 13)
-        Me.Label12.TabIndex = 16
-        Me.Label12.Text = "Max Wt (gm):"
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(64, 213)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(67, 13)
-        Me.Label13.TabIndex = 17
-        Me.Label13.Text = "Min Wt (gm):"
-        '
-        'Btn_UpdateWeight
-        '
-        Me.Btn_UpdateWeight.Location = New System.Drawing.Point(67, 236)
-        Me.Btn_UpdateWeight.Name = "Btn_UpdateWeight"
-        Me.Btn_UpdateWeight.Size = New System.Drawing.Size(125, 23)
-        Me.Btn_UpdateWeight.TabIndex = 18
-        Me.Btn_UpdateWeight.Text = "Update Weight Limits"
-        Me.Btn_UpdateWeight.UseVisualStyleBackColor = True
-        '
-        'Lbl_ColSpace
-        '
-        Me.Lbl_ColSpace.AutoSize = True
-        Me.Lbl_ColSpace.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_ColSpace.Location = New System.Drawing.Point(121, 83)
-        Me.Lbl_ColSpace.Name = "Lbl_ColSpace"
-        Me.Lbl_ColSpace.Size = New System.Drawing.Size(47, 15)
-        Me.Lbl_ColSpace.TabIndex = 14
-        Me.Lbl_ColSpace.Text = "Label14"
-        '
-        'Lbl_NumCol
-        '
-        Me.Lbl_NumCol.AutoSize = True
-        Me.Lbl_NumCol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_NumCol.Location = New System.Drawing.Point(121, 34)
-        Me.Lbl_NumCol.Name = "Lbl_NumCol"
-        Me.Lbl_NumCol.Size = New System.Drawing.Size(47, 15)
-        Me.Lbl_NumCol.TabIndex = 15
-        Me.Lbl_NumCol.Text = "Label14"
-        '
-        'Lbl_NumRow
-        '
-        Me.Lbl_NumRow.AutoSize = True
-        Me.Lbl_NumRow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_NumRow.Location = New System.Drawing.Point(121, 130)
-        Me.Lbl_NumRow.Name = "Lbl_NumRow"
-        Me.Lbl_NumRow.Size = New System.Drawing.Size(73, 15)
-        Me.Lbl_NumRow.TabIndex = 16
-        Me.Lbl_NumRow.Text = "Lbl_NumRow"
-        '
-        'Lbl_RowSpace
-        '
-        Me.Lbl_RowSpace.AutoSize = True
-        Me.Lbl_RowSpace.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_RowSpace.Location = New System.Drawing.Point(121, 178)
-        Me.Lbl_RowSpace.Name = "Lbl_RowSpace"
-        Me.Lbl_RowSpace.Size = New System.Drawing.Size(47, 15)
-        Me.Lbl_RowSpace.TabIndex = 17
-        Me.Lbl_RowSpace.Text = "Label14"
-        '
-        'Lbl_RetareLimit
-        '
-        Me.Lbl_RetareLimit.AutoSize = True
-        Me.Lbl_RetareLimit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_RetareLimit.Location = New System.Drawing.Point(101, 29)
-        Me.Lbl_RetareLimit.Name = "Lbl_RetareLimit"
-        Me.Lbl_RetareLimit.Size = New System.Drawing.Size(47, 15)
-        Me.Lbl_RetareLimit.TabIndex = 16
-        Me.Lbl_RetareLimit.Text = "Label14"
-        '
-        'Lbl_TareError
-        '
-        Me.Lbl_TareError.AutoSize = True
-        Me.Lbl_TareError.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_TareError.Location = New System.Drawing.Point(98, 64)
-        Me.Lbl_TareError.Name = "Lbl_TareError"
-        Me.Lbl_TareError.Size = New System.Drawing.Size(47, 15)
-        Me.Lbl_TareError.TabIndex = 21
-        Me.Lbl_TareError.Text = "Label14"
-        '
-        'Lbl_WeightLoss
-        '
-        Me.Lbl_WeightLoss.AutoSize = True
-        Me.Lbl_WeightLoss.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_WeightLoss.Location = New System.Drawing.Point(134, 153)
-        Me.Lbl_WeightLoss.Name = "Lbl_WeightLoss"
-        Me.Lbl_WeightLoss.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.Lbl_WeightLoss.Size = New System.Drawing.Size(47, 15)
-        Me.Lbl_WeightLoss.TabIndex = 16
-        Me.Lbl_WeightLoss.Text = "Label14"
-        '
-        'Lbl_MaxWeight
-        '
-        Me.Lbl_MaxWeight.AutoSize = True
-        Me.Lbl_MaxWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_MaxWeight.Location = New System.Drawing.Point(134, 183)
-        Me.Lbl_MaxWeight.Name = "Lbl_MaxWeight"
-        Me.Lbl_MaxWeight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.Lbl_MaxWeight.Size = New System.Drawing.Size(47, 15)
-        Me.Lbl_MaxWeight.TabIndex = 22
-        Me.Lbl_MaxWeight.Text = "Label14"
-        '
-        'Lbl_MinWeight
-        '
-        Me.Lbl_MinWeight.AutoSize = True
-        Me.Lbl_MinWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_MinWeight.Location = New System.Drawing.Point(134, 213)
-        Me.Lbl_MinWeight.Name = "Lbl_MinWeight"
-        Me.Lbl_MinWeight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.Lbl_MinWeight.Size = New System.Drawing.Size(47, 15)
-        Me.Lbl_MinWeight.TabIndex = 23
-        Me.Lbl_MinWeight.Text = "Label14"
-        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -880,7 +880,7 @@ Partial Class Manual_Weight
         Me.ClientSize = New System.Drawing.Size(870, 568)
         Me.Controls.Add(Me.TabControl1)
         Me.Name = "Manual_Weight"
-        Me.Text = "Altaviz Manual Weiging System"
+        Me.Text = "Altaviz Manual Weighing System"
         Me.TabControl1.ResumeLayout(False)
         Me.RunPage.ResumeLayout(False)
         Me.RunPage.PerformLayout()

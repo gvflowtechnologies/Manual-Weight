@@ -41,7 +41,7 @@ Module caldata
 
         Dim fd = New FolderBrowserDialog
         Dim result As DialogResult
-
+        result = DialogResult.Abort
         If calfolder = "" Then
             fd.SelectedPath = "C:\"
         Else
@@ -54,21 +54,24 @@ Module caldata
 
         End If
 
-        result = fd.ShowDialog()
-
-        If result = Windows.Forms.DialogResult.OK Then
-
-            My.Settings.Caldirectory = fd.SelectedPath
-            calfolder = My.Settings.Caldirectory
-            My.Settings.Save()
+        Do Until result = DialogResult.OK
+            result = fd.ShowDialog()
+            If result = DialogResult.Cancel Then Exit Sub
+        Loop
 
 
-            If Not Directory.Exists(calfolder) Then
-                Directory.CreateDirectory(calfolder)
-            End If
 
+        My.Settings.Caldirectory = fd.SelectedPath
+        calfolder = My.Settings.Caldirectory
+        My.Settings.Save()
+        Manual_Weight.Lbl_CalFolder.Text = calfolder
 
+        If Not Directory.Exists(calfolder) Then
+            Directory.CreateDirectory(calfolder)
         End If
+
+
+
 
         fd.Dispose()
 
@@ -84,7 +87,7 @@ Module caldata
 
         Dim fd = New FolderBrowserDialog
         Dim result As DialogResult
-
+        result = DialogResult.Abort
         If DataFolder = "" Then
             fd.SelectedPath = "C:\"
         Else
@@ -96,31 +99,35 @@ Module caldata
 
         End If
 
-        result = fd.ShowDialog()
+        Do Until result = DialogResult.OK
 
-        If result = Windows.Forms.DialogResult.OK Then
-
-            My.Settings.File_Directory = fd.SelectedPath
-            DataFolder = My.Settings.File_Directory
-            My.Settings.Save()
-
-            If Not Directory.Exists(DataFolder) Then
-                Directory.CreateDirectory(DataFolder)
-            End If
-
-            scompleteddata = My.Settings.File_Directory & "\Completed"
-            sfweigtdata = My.Settings.File_Directory & "\In Process"
-            If Not Directory.Exists(sfweigtdata) Then
-                Directory.CreateDirectory(sfweigtdata)
-            End If
-            If Not Directory.Exists(scompleteddata) Then
-                Directory.CreateDirectory(scompleteddata)
-            End If
+            result = fd.ShowDialog()
+            If result = DialogResult.Cancel Then Exit Sub
+        Loop
 
 
+        My.Settings.File_Directory = fd.SelectedPath
+        DataFolder = My.Settings.File_Directory
+        My.Settings.Save()
+
+        If Not Directory.Exists(DataFolder) Then
+            Directory.CreateDirectory(DataFolder)
         End If
 
-        fd.Dispose()
+        scompleteddata = DataFolder & "\Completed"
+        sfweigtdata = DataFolder & "\In Process"
+
+        If Not Directory.Exists(sfweigtdata) Then
+            Directory.CreateDirectory(sfweigtdata)
+        End If
+        If Not Directory.Exists(scompleteddata) Then
+            Directory.CreateDirectory(scompleteddata)
+        End If
+
+
+
+
+            fd.Dispose()
 
 
     End Sub

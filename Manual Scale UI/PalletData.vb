@@ -49,22 +49,27 @@ Public Class PalletData
         currentfirstweights = Nothing
 
         'Process File names to get a list of file names
-        Dim allfiles() As String = Directory.GetFiles(fweight)
-        Dim x As Integer = allfiles.GetUpperBound(0)
-        Dim fweightflname As String
-        ReDim currentfirstweights(x)
+        If Directory.Exists(fweight) Then
+            Dim allfiles() As String = Directory.GetFiles(fweight)
+            Dim x As Integer = allfiles.GetUpperBound(0)
+            Dim fweightflname As String
+            ReDim currentfirstweights(x)
 
-        Dim y As Integer
-        y = 0
+            Dim y As Integer
+            y = 0
 
-        For Each fweightflname In allfiles
-            ' get the file name portion only.
+            For Each fweightflname In allfiles
+                ' get the file name portion only.
 
-            currentfirstweights(y) = Path.GetFileName(fweightflname)
-            y += 1
+                currentfirstweights(y) = Path.GetFileName(fweightflname)
+                y += 1
 
-        Next
+            Next
+        Else
+            MsgBox("Error - No File Location For Weight Data", MsgBoxStyle.OkOnly, "File Location Not Found")
+            MsgBox("Please Create New Directory For Weight Data", MsgBoxStyle.OkOnly, "File Location Not Found")
 
+        End If
 
 
     End Sub
