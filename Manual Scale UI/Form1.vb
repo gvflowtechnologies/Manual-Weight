@@ -42,27 +42,27 @@ Public Class Manual_Weight
 
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-
+        tmrcycle = New Stopwatch
         ' loginhandling()
 
-        If Not Directory.Exists(My.Settings.File_Directory) Then
-            caldata.SelectDataFolder()
-            If My.Settings.File_Directory = "" Then
+        'If Not Directory.Exists(My.Settings.File_Directory) Then
+        '    caldata.SelectDataFolder()
+        '    If My.Settings.File_Directory = "" Then
 
-                caldata.SelectDataFolder()
-            End If
-        End If
-
-
-        If Not Directory.Exists(My.Settings.Caldirectory) Then
-            caldata.selectcalfolder()
-            If My.Settings.Caldirectory = "" Then
-                MsgBox("Creating File Locations For Data Retention", MsgBoxStyle.OkOnly, "File Location Not Found")
-                caldata.selectcalfolder()
-            End If
+        '        caldata.SelectDataFolder()
+        '    End If
+        'End If
 
 
-        End If
+        'If Not Directory.Exists(My.Settings.Caldirectory) Then
+        '    caldata.selectcalfolder()
+        '    If My.Settings.Caldirectory = "" Then
+        '        MsgBox("Creating File Locations For Data Retention", MsgBoxStyle.OkOnly, "File Location Not Found")
+        '        caldata.selectcalfolder()
+        '    End If
+
+
+        '        End If
 
         For Each sp As String In My.Computer.Ports.SerialPortNames
             LB_SerialPorts.Items.Add(sp)
@@ -72,7 +72,6 @@ Public Class Manual_Weight
 
         ' sdataset = New Static_Data
 
-        MDataset = New PalletData
 
         '  renewstaticdata()
 
@@ -109,6 +108,10 @@ Public Class Manual_Weight
 
     Private Sub Btn_StartPallet_Click(sender As Object, e As EventArgs) Handles Btn_StartPallet.Click
         Dim followup As MsgBoxResult
+
+
+        MDataset = New PalletData
+
         MDataset.RenewFileList()
 
         Do
@@ -165,13 +168,14 @@ Public Class Manual_Weight
         Btn_StopPallet.Enabled = True
         teststate = Weighprocess.taring ' Start weighing Process
         Tmr_ScreenUpdate.Start()
-
+        tmrcycle.Start()
 
     End Sub
 
     Private Sub Btn_StopPallet_Click(sender As Object, e As EventArgs) Handles Btn_StopPallet.Click
         ' Empty MDataset of ID information.
 
+        Tmr_ScreenUpdate.Stop()
 
         ' Toggle buttons
         Btn_StartPallet.Enabled = True
@@ -227,7 +231,7 @@ Public Class Manual_Weight
 
 
 
-    Private Sub Btn_FinalFolder_Click(sender As Object, e As EventArgs) Handles Btn_FinalFolder.Click
+    Private Sub Btn_WeighFolders(sender As Object, e As EventArgs) Handles Btn_WeighFolder.Click
         caldata.SelectDataFolder()
         LBFinal_Data_File.Text = My.Settings.File_Directory
 
@@ -239,7 +243,11 @@ Public Class Manual_Weight
         ' determine which canister you are weighing.
         ' Load that data in.
 
+        Dim cycle As Integer
+        Dim longtime As Long
+        longtime = tmrcycle.ElapsedMilliseconds
 
+        cycle = longtime Mod 5000
 
         Select Case teststate
 
@@ -254,7 +262,12 @@ Public Class Manual_Weight
                     Lbl_Bad.BackColor = Color.Transparent
                     Lbl_Remove.BackColor = Color.Transparent
                 End If
+                If cycle > 1000 Then
+                    teststate = Weighprocess.taring
 
+                    entering = True
+                End If
+                teststate = Weighprocess.taring
                 ' Wait for start pallet ButtonClick  When Clickek
 
 
@@ -270,15 +283,17 @@ Public Class Manual_Weight
                     Lbl_Bad.BackColor = Color.Transparent
                     Lbl_Remove.BackColor = Color.Transparent
                 End If
+                If cycle > 2000 Then teststate = Weighprocess.weighing
 
-                ' Check for Scale health and stability
-                If Sartorius.ishealthy Then
-                    If Sartorius.Stable Then
 
-                    End If
-                Else
-                    teststate = Weighprocess.erroring
-                End If
+                '' Check for Scale health and stability
+                'If Sartorius.ishealthy Then
+                '    If Sartorius.Stable Then
+
+                '    End If
+                'Else
+                '    '   teststate = Weighprocess.erroring
+                'End If
 
             Case Weighprocess.weighing
                 If entering Then
@@ -293,6 +308,8 @@ Public Class Manual_Weight
 
 
                 End If
+                If cycle > 3000 Then teststate = Weighprocess.prompting
+
 
             Case Weighprocess.prompting
 
@@ -325,13 +342,14 @@ Public Class Manual_Weight
                 End If
 
 
+                If cycle > 4000 Then teststate = Weighprocess.taring
 
 
                 'Test for Switch Position based on good or bad result.
-                If tmrsort.ElapsedMilliseconds > 500 Then ' if the switch has not set then fire off error
-                    teststate = Weighprocess.erroring
-                    entering = True
-                End If
+                'If tmrsort.ElapsedMilliseconds > 500 Then ' if the switch has not set then fire off error
+                '    '   teststate = Weighprocess.erroring
+                '    entering = True
+                'End If
 
             Case Weighprocess.erroring ' IF we end up here stop processing
                 If entering Then

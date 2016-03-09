@@ -93,7 +93,7 @@ Partial Class Manual_Weight
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Btn_Tare = New System.Windows.Forms.Button()
         Me.LBFinal_Data_File = New System.Windows.Forms.Label()
-        Me.Btn_FinalFolder = New System.Windows.Forms.Button()
+        Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TabControl1.SuspendLayout()
@@ -453,7 +453,7 @@ Partial Class Manual_Weight
         Me.Setup.Controls.Add(Me.Button1)
         Me.Setup.Controls.Add(Me.GroupBox2)
         Me.Setup.Controls.Add(Me.LBFinal_Data_File)
-        Me.Setup.Controls.Add(Me.Btn_FinalFolder)
+        Me.Setup.Controls.Add(Me.Btn_WeighFolder)
         Me.Setup.Location = New System.Drawing.Point(4, 22)
         Me.Setup.Name = "Setup"
         Me.Setup.Padding = New System.Windows.Forms.Padding(3)
@@ -859,14 +859,14 @@ Partial Class Manual_Weight
         Me.LBFinal_Data_File.TabIndex = 1
         Me.LBFinal_Data_File.Text = "Final Weights"
         '
-        'Btn_FinalFolder
+        'Btn_WeighFolder
         '
-        Me.Btn_FinalFolder.Location = New System.Drawing.Point(33, 48)
-        Me.Btn_FinalFolder.Name = "Btn_FinalFolder"
-        Me.Btn_FinalFolder.Size = New System.Drawing.Size(92, 55)
-        Me.Btn_FinalFolder.TabIndex = 0
-        Me.Btn_FinalFolder.Text = "Update Data File Folder"
-        Me.Btn_FinalFolder.UseVisualStyleBackColor = True
+        Me.Btn_WeighFolder.Location = New System.Drawing.Point(33, 48)
+        Me.Btn_WeighFolder.Name = "Btn_WeighFolder"
+        Me.Btn_WeighFolder.Size = New System.Drawing.Size(92, 55)
+        Me.Btn_WeighFolder.TabIndex = 0
+        Me.Btn_WeighFolder.Text = "Update Data File Folder"
+        Me.Btn_WeighFolder.UseVisualStyleBackColor = True
         '
         'Tmr_ScreenUpdate
         '
@@ -932,7 +932,7 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_Weighing As System.Windows.Forms.Label
     Friend WithEvents Lbl_IDLE As System.Windows.Forms.Label
     Friend WithEvents LBFinal_Data_File As System.Windows.Forms.Label
-    Friend WithEvents Btn_FinalFolder As System.Windows.Forms.Button
+    Friend WithEvents Btn_WeighFolder As System.Windows.Forms.Button
     Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents Lbl_Remove As System.Windows.Forms.Label
     Friend WithEvents LBL_CCOL As System.Windows.Forms.Label
