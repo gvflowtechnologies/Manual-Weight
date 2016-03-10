@@ -18,7 +18,7 @@ Public Class Manual_Weight
 
     Dim MDataset As PalletData
     Dim Sartorius As scalemanagment
-    ' Dim sdataset As Static_Data
+
     Dim cylindersorter As CSorter
 
     Public cancelclicked As Boolean
@@ -373,7 +373,7 @@ Public Class Manual_Weight
 
 
         count = 0
-        logintype = MsgBox("Do Want to Acess Settings", MsgBoxStyle.YesNo, "Password Required To Acess Settings")
+        logintype = MsgBox("Do you want to access settings", MsgBoxStyle.YesNo, "Password Required To Access Settings")
         If logintype = MsgBoxResult.Yes Then
 
             Do
