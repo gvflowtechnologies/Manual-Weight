@@ -1,6 +1,9 @@
 ﻿Option Explicit On
 Imports System.IO
+Imports System.IO.Ports
+Imports System.Threading
 Imports System.Windows.Forms
+
 
 Public Class Manual_Weight
     Enum Weighprocess
@@ -13,23 +16,27 @@ Public Class Manual_Weight
 
     ' Constants
     Const sloginvalue As String = "AV_QAE"
+    Dim WithEvents mycom As SerialPort
 
     ' Variables
 
     Dim MDataset As PalletData
-    Dim Sartorius As scalemanagment
-
+    ' Dim Sartorius As scalemanagment
+    Dim sartorius As Scalemanagement
     Dim cylindersorter As CSorter
 
     Public cancelclicked As Boolean
-
-
+    Delegate Sub scaledata(ByVal sdata As String)
+    Dim updateweight As scaledata
     Dim teststate As Weighprocess
     Dim entering As Boolean ' Entering a new state
 
     Dim tmrcycle As Stopwatch
     Dim tmrsort As Stopwatch
 
+    Public Sub UpdateDisplay(ByVal weightstring As String)
+        Label14.Text = sartorius.LastReading
+    End Sub
 
     Private Sub SetupClick() Handles Setup.Enter
 
@@ -39,12 +46,16 @@ Public Class Manual_Weight
 
     End Sub
 
+    Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
+        sartorius.closeport()
+
+    End Sub
 
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         tmrcycle = New Stopwatch
         ' loginhandling()
-
+        '  sartorius = New Scalemanagement
         'If Not Directory.Exists(My.Settings.File_Directory) Then
         '    caldata.SelectDataFolder()
         '    If My.Settings.File_Directory = "" Then
@@ -77,7 +88,7 @@ Public Class Manual_Weight
 
         cylindersorter = New CSorter
 
-        Sartorius = New scalemanagment
+        '   Sartorius = New scalemanagment
 
         Btn_StartPallet.Enabled = True
         Btn_StopPallet.Enabled = False
@@ -99,7 +110,7 @@ Public Class Manual_Weight
         Lbl_WeightLoss.Text = My.Settings.WeightLoss.ToString("N4")
 
         teststate = Weighprocess.idle ' Start us out in an idle condition.
-
+        Tmr_ScreenUpdate.Stop()
 
     End Sub
 
@@ -169,7 +180,7 @@ Public Class Manual_Weight
         teststate = Weighprocess.taring ' Start weighing Process
         Tmr_ScreenUpdate.Start()
         tmrcycle.Start()
-
+        sartorius.startreceiving = True
     End Sub
 
     Private Sub Btn_StopPallet_Click(sender As Object, e As EventArgs) Handles Btn_StopPallet.Click
@@ -246,118 +257,120 @@ Public Class Manual_Weight
         Dim cycle As Integer
         Dim longtime As Long
         longtime = tmrcycle.ElapsedMilliseconds
+        Lbl_CurrentScale.Text = sartorius.LastReading.ToString
+        Label14.Text = longtime
 
-        cycle = longtime Mod 5000
+        '     Lbl_CurrentScale.Text = sartorius.LastReading.ToString
 
-        Select Case teststate
+        'Select Case teststate
 
-            Case Weighprocess.idle
-                If entering Then
-                    entering = False
+        '    Case Weighprocess.idle
+        '        If entering Then
+        '            entering = False
 
-                    'Set Label Colors
-                    Lbl_IDLE.BackColor = Color.Gold
-                    Lbl_Weighing.BackColor = Color.Transparent
-                    Lbl_Good.BackColor = Color.Transparent
-                    Lbl_Bad.BackColor = Color.Transparent
-                    Lbl_Remove.BackColor = Color.Transparent
-                End If
-                If cycle > 1000 Then
-                    teststate = Weighprocess.taring
+        '            'Set Label Colors
+        '            Lbl_IDLE.BackColor = Color.Gold
+        '            Lbl_Weighing.BackColor = Color.Transparent
+        '            Lbl_Good.BackColor = Color.Transparent
+        '            Lbl_Bad.BackColor = Color.Transparent
+        '            Lbl_Remove.BackColor = Color.Transparent
+        '        End If
+        '        If cycle > 1000 Then
+        '            teststate = Weighprocess.taring
 
-                    entering = True
-                End If
-                teststate = Weighprocess.taring
-                ' Wait for start pallet ButtonClick  When Clickek
-
-
-            Case Weighprocess.taring
-                If entering Then
-                    entering = False
-
-                    'Set Label Colors
-                    Lbl_IDLE.BackColor = Color.Gold
-                    Lbl_IDLE.Text = "Taring"
-                    Lbl_Weighing.BackColor = Color.Transparent
-                    Lbl_Good.BackColor = Color.Transparent
-                    Lbl_Bad.BackColor = Color.Transparent
-                    Lbl_Remove.BackColor = Color.Transparent
-                End If
-                If cycle > 2000 Then teststate = Weighprocess.weighing
+        '            entering = True
+        '        End If
+        '        teststate = Weighprocess.taring
+        '        ' Wait for start pallet ButtonClick  When Clickek
 
 
-                '' Check for Scale health and stability
-                'If Sartorius.ishealthy Then
-                '    If Sartorius.Stable Then
+        '    Case Weighprocess.taring
+        '        If entering Then
+        '            entering = False
 
-                '    End If
-                'Else
-                '    '   teststate = Weighprocess.erroring
-                'End If
-
-            Case Weighprocess.weighing
-                If entering Then
-                    entering = False
-                    'Set Label Colors
-                    Lbl_IDLE.BackColor = Color.Transparent
-                    Lbl_IDLE.Text = "IDLE"
-                    Lbl_Weighing.BackColor = Color.Gold
-                    Lbl_Good.BackColor = Color.Transparent
-                    Lbl_Bad.BackColor = Color.Transparent
-                    Lbl_Remove.BackColor = Color.Transparent
+        '            'Set Label Colors
+        '            Lbl_IDLE.BackColor = Color.Gold
+        '            Lbl_IDLE.Text = "Taring"
+        '            Lbl_Weighing.BackColor = Color.Transparent
+        '            Lbl_Good.BackColor = Color.Transparent
+        '            Lbl_Bad.BackColor = Color.Transparent
+        '            Lbl_Remove.BackColor = Color.Transparent
+        '        End If
+        '        If cycle > 2000 Then teststate = Weighprocess.weighing
 
 
-                End If
-                If cycle > 3000 Then teststate = Weighprocess.prompting
+        '        '' Check for Scale health and stability
+        '        'If Sartorius.ishealthy Then
+        '        '    If Sartorius.Stable Then
+
+        '        '    End If
+        '        'Else
+        '        '    '   teststate = Weighprocess.erroring
+        '        'End If
+
+        '    Case Weighprocess.weighing
+        '        If entering Then
+        '            entering = False
+        '            'Set Label Colors
+        '            Lbl_IDLE.BackColor = Color.Transparent
+        '            Lbl_IDLE.Text = "IDLE"
+        '            Lbl_Weighing.BackColor = Color.Gold
+        '            Lbl_Good.BackColor = Color.Transparent
+        '            Lbl_Bad.BackColor = Color.Transparent
+        '            Lbl_Remove.BackColor = Color.Transparent
 
 
-            Case Weighprocess.prompting
+        '        End If
+        '        If cycle > 3000 Then teststate = Weighprocess.prompting
+
+
+        '    Case Weighprocess.prompting
 
 
 
-                If entering Then
-                    entering = False
-                    tmrsort.Start()
-                    'Set Label Colors
-                    Lbl_IDLE.BackColor = Color.Transparent
-                    Lbl_IDLE.Text = "IDLE"
-                    Lbl_Weighing.BackColor = Color.Transparent
+        '        If entering Then
+        '            entering = False
+        '            tmrsort.Start()
+        '            'Set Label Colors
+        '            Lbl_IDLE.BackColor = Color.Transparent
+        '            Lbl_IDLE.Text = "IDLE"
+        '            Lbl_Weighing.BackColor = Color.Transparent
 
-                    'Set Good and Bad Colors Here 
-                    Lbl_Good.BackColor = Color.Transparent
-                    Lbl_Bad.BackColor = Color.Transparent
+        '            'Set Good and Bad Colors Here 
+        '            Lbl_Good.BackColor = Color.Transparent
+        '            Lbl_Bad.BackColor = Color.Transparent
 
-                    Lbl_Remove.BackColor = Color.Gold
+        '            Lbl_Remove.BackColor = Color.Gold
 
-                End If
+        '        End If
 
-                If MDataset.firstweightexists = False Then
-                    ' Fist weights
-
-
-                Else
-                    ' second weight
+        '        If MDataset.firstweightexists = False Then
+        '            ' Fist weights
 
 
-                End If
+        '        Else
+        '            ' second weight
 
 
-                If cycle > 4000 Then teststate = Weighprocess.taring
+        '        End If
 
 
-                'Test for Switch Position based on good or bad result.
-                'If tmrsort.ElapsedMilliseconds > 500 Then ' if the switch has not set then fire off error
-                '    '   teststate = Weighprocess.erroring
-                '    entering = True
-                'End If
-
-            Case Weighprocess.erroring ' IF we end up here stop processing
-                If entering Then
-                    entering = False
-                End If
+        '        If cycle > 4000 Then teststate = Weighprocess.taring
 
 
-        End Select
+        '        'Test for Switch Position based on good or bad result.
+        '        'If tmrsort.ElapsedMilliseconds > 500 Then ' if the switch has not set then fire off error
+        '        '    '   teststate = Weighprocess.erroring
+        '        '    entering = True
+        '        'End If
+
+        '    Case Weighprocess.erroring ' IF we end up here stop processing
+        '        If entering Then
+        '            entering = False
+        '        End If
+
+
+        'End Select
 
 
 
@@ -457,12 +470,12 @@ Public Class Manual_Weight
 
 
 
-   
+
 
     End Sub
 
     Private Sub Btn_ScaleCal_Click(sender As Object, e As EventArgs) Handles Btn_ScaleCal.Click
- 
+
         recalibrate()
 
 
@@ -493,16 +506,17 @@ Public Class Manual_Weight
         ' Wait for scale to become unloaded
         ' Need to work on the test when the scale arrives
         '****************************************
-        Do Until Sartorius.ScaleEmpty ' Add value for scale weight less than 1.0 grams
+        'Do Until Sartorius.ScaleEmpty ' Add value for scale weight less than 1.0 grams
 
-            If cancelclicked Then
-                Exit Do   ' change to exit sub when lie
-            End If
+        '    If cancelclicked Then
+        '        Exit Do   ' change to exit sub when lie
+        '    End If
 
-            Application.DoEvents()
+        '    Application.DoEvents()
+        '    Threading.Thread.Sleep(1)
 
-        Loop
-        '****************************************************
+        'Loop
+        ''****************************************************
         '****************************************
         Calibration.Lbl_CalPrompts.Text = "zero Scale"
         Threading.Thread.Sleep(1000)
@@ -531,7 +545,7 @@ Public Class Manual_Weight
         '*****************************************
         '*****************************************
 
-        Do Until Sartorius.Stable ' Add value for scale weight less than 1.0 grams
+        Do Until sartorius.Stable ' Add value for scale weight less than 1.0 grams
             Dim GOODVALUE As Boolean
 
             If cancelclicked Then
@@ -539,7 +553,7 @@ Public Class Manual_Weight
             End If
 
             Application.DoEvents()
-
+            Threading.Thread.Sleep(1)
         Loop
         '****************************************************
         '****************************************
@@ -554,14 +568,14 @@ Public Class Manual_Weight
         Calibration.Close()
 
     End Sub
-   
-   
+
+
     Private Sub Btn_CalFolder_Click(sender As Object, e As EventArgs) Handles Btn_CalFolder.Click
         caldata.selectcalfolder()
 
     End Sub
 
-  
+
     Private Sub Btn_UpdatePallet_Click(sender As Object, e As EventArgs) Handles Btn_UpdatePallet.Click
 
         Dim IColNum As Integer
@@ -592,7 +606,7 @@ Public Class Manual_Weight
 
         My.Settings.ColSpace = SColSpace
         Lbl_ColSpace.Text = SColSpace.ToString("N4")
-        
+
         inerror = True
 
         While inerror = True
@@ -621,7 +635,7 @@ Public Class Manual_Weight
 
     End Sub
 
-   
+
     Private Sub Btn_UpdateWeight_Click(sender As Object, e As EventArgs) Handles Btn_UpdateWeight.Click
 
 
@@ -668,6 +682,141 @@ Public Class Manual_Weight
 
 
     End Sub
+
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        'sartorius = New Scalemanagement
+        'Tmr_ScreenUpdate.Start()
+        newcommport()
+        tmrcycle.Start()
+    End Sub
+
+    Private Sub newcommport()
+
+        Dim myportnames() As String
+        myportnames = SerialPort.GetPortNames
+
+        mycom = New SerialPort
+
+        AddHandler mycom.DataReceived, AddressOf mycom_Datareceived ' handler for data received event
+
+
+        With mycom
+            .PortName = My.Settings.SerialPort ' gets port name from static data set
+            .BaudRate = 9600
+            .Parity = Parity.Odd
+            .StopBits = StopBits.One
+            .Handshake = Handshake.RequestToSend ' Need to think here
+            .DataBits = 7
+            .ReceivedBytesThreshold = 15 ' one byte short of a complete messsage string of 16 asci characters   
+
+        End With
+
+        If (Not mycom.IsOpen) Then
+
+            Try
+                mycom.Open()
+
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
+
+
+        End If
+
+
+
+        '        The object's PortName property should match a name in the array returned by the GetPortNames method described above. An application that wants to use a specific port can search for a match in the array:
+
+        'Dim index As Integer = -1
+        'Dim nameArray() As String
+        'Dim myComPortName As String
+
+        '' Specify the port to look for.
+
+        'myComPortName = "COM1"
+
+        ' Get an array of names of installed ports.
+
+        '   nameArray = SerialPort.GetPortNames
+
+        'Do
+        '    ' Look in the array for the desired port name.
+
+        '    index += 1
+
+        'Loop Until ((nameArray(index) = myComPortName) Or _
+        '              (index = nameArray.GetUpperBound(0)))
+
+        '' If the desired port isn't found, select the first port in the array.
+
+        'If (index = nameArray.GetUpperBound(0)) Then
+        '    myComPortName = nameArray(0)
+        'End If
+
+
+        mycom.DtrEnable = True
+
+
+        '     tmrlasttime.Start()
+        mycom.DiscardInBuffer()
+        mycom.Write("P" & ControlChars.CrLf)
+
+    End Sub
+
+    Private Sub mycom_Datareceived(ByVal sendor As Object, ByVal e As SerialDataReceivedEventArgs) Handles mycom.DataReceived
+        ' Handles data when it comes in on serial port.
+        Dim sweight As String
+        Dim position As Integer
+        Dim newdata As Datareceive
+        Const stabconst As String = " g "
+        Dim Bstable As Boolean
+        Dim dweightreading As Double
+
+
+
+
+        newdata = New Datareceive
+
+        ' Reset timer  - Provides time since last reading
+        '        tmrlasttime.Reset()
+
+        ' When data comes in read the line
+        sweight = mycom.ReadLine
+
+
+        ' Check to see if the stability character is present
+        ' 
+        'Bstable = sweight.Contains(stabconst)
+        '' Check for other error codes.
+
+        '' if no other error codes then parse string.
+
+        '' Parse number out of string
+        '' and set weight
+
+
+
+        'sweight = sweight.Trim()
+
+        'position = sweight.IndexOf(" ")
+        'Try
+        '    sweight = sweight.Remove(position)
+        '    dweightreading = CDbl(sweight)
+        'Catch ex As Exception
+
+        'End Try
+
+        updateweight = New scaledata(AddressOf newdata.newweightdata)
+        Lbl_CurrentScale.BeginInvoke(updateweight, sweight)
+        Application.DoEvents()
+        '      Me.
+        ' update propery values 
+        Thread.Sleep(15)
+
+    End Sub
+
+
 
 
 End Class

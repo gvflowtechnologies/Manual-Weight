@@ -25,6 +25,8 @@ Partial Class Manual_Weight
         Me.components = New System.ComponentModel.Container()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Label14 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Lbl_Remove = New System.Windows.Forms.Label()
         Me.Lbl_Bad = New System.Windows.Forms.Label()
@@ -120,6 +122,8 @@ Partial Class Manual_Weight
         '
         'RunPage
         '
+        Me.RunPage.Controls.Add(Me.Button2)
+        Me.RunPage.Controls.Add(Me.Label14)
         Me.RunPage.Controls.Add(Me.GroupBox1)
         Me.RunPage.Controls.Add(Me.sLbl_PN)
         Me.RunPage.Controls.Add(Me.sLbl_BN)
@@ -137,6 +141,25 @@ Partial Class Manual_Weight
         Me.RunPage.TabIndex = 0
         Me.RunPage.Text = "Weighing"
         Me.RunPage.UseVisualStyleBackColor = True
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(76, 195)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.TabIndex = 11
+        Me.Button2.Text = "Button2"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(322, 239)
+        Me.Label14.MinimumSize = New System.Drawing.Size(200, 0)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(200, 13)
+        Me.Label14.TabIndex = 10
+        Me.Label14.Text = "Label14"
         '
         'GroupBox1
         '
@@ -976,5 +999,7 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_MaxWeight As System.Windows.Forms.Label
     Friend WithEvents Lbl_WeightLoss As System.Windows.Forms.Label
     Friend WithEvents Lbl_TareError As System.Windows.Forms.Label
+    Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents Button2 As System.Windows.Forms.Button
 
 End Class
