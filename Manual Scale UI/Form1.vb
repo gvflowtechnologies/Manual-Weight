@@ -22,7 +22,7 @@ Public Class Manual_Weight
 
     Dim MDataset As PalletData
     ' Dim Sartorius As scalemanagment
-    Dim sartorius As Scalemanagement
+    Public sartorius As Scalemanagement
     Dim cylindersorter As CSorter
 
     Public cancelclicked As Boolean
@@ -35,7 +35,7 @@ Public Class Manual_Weight
     Dim tmrsort As Stopwatch
 
     Public Sub UpdateDisplay(ByVal weightstring As String)
-        Label14.Text = sartorius.LastReading
+        Label14.Text = sartorius.CurrentReading
     End Sub
 
     Private Sub SetupClick() Handles Setup.Enter
@@ -56,7 +56,9 @@ Public Class Manual_Weight
         newdata = New Datareceive
         tmrcycle = New Stopwatch
         ' loginhandling()
-        '  sartorius = New Scalemanagement
+        sartorius = New Scalemanagement
+
+
         'If Not Directory.Exists(My.Settings.File_Directory) Then
         '    caldata.SelectDataFolder()
         '    If My.Settings.File_Directory = "" Then
@@ -181,7 +183,7 @@ Public Class Manual_Weight
         teststate = Weighprocess.taring ' Start weighing Process
         Tmr_ScreenUpdate.Start()
         tmrcycle.Start()
-        sartorius.startreceiving = True
+        'sartorius.startreceiving = True
     End Sub
 
     Private Sub Btn_StopPallet_Click(sender As Object, e As EventArgs) Handles Btn_StopPallet.Click
@@ -250,18 +252,31 @@ Public Class Manual_Weight
     End Sub
 
 
+
+
+
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
 
         ' determine which canister you are weighing.
         ' Load that data in.
 
-        Dim cycle As Integer
-        Dim longtime As Long
-        longtime = tmrcycle.ElapsedMilliseconds
-        'Lbl_CurrentScale.Text = sartorius.LastReading.ToString
-        Label14.Text = longtime.ToString
 
-        '     Lbl_CurrentScale.Text = sartorius.LastReading.ToString
+
+        'Dim cycle As Integer
+        'Dim longtime As Long
+
+        'longtime = tmrcycle.ElapsedMilliseconds
+        Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
+        If sartorius.Stable Then
+            GB_Scale.BackColor = Color.LimeGreen
+        Else
+            GB_Scale.BackColor = Color.Transparent
+
+
+        End If
+        'Label14.Text = longtime.ToString
+
+        '  Lbl_CurrentScale.Text = DataProcessing.ParseReading(WeightProcess.Text).ToString
 
         'Select Case teststate
 
@@ -441,13 +456,13 @@ Public Class Manual_Weight
         Dim notnumbers As Boolean = True
 
         While notnumbers = True
-            sretare = InputBox("Enter value at which to retare scale", , My.Settings.TareLimit.ToString("N4"))
+            sretare = InputBox("Enter value at which to retare scale", , My.Settings.TareLimit.ToString("N1"))
 
             If IsNumeric(sretare) Then
                 notnumbers = False
                 retarelimit = CSng(sretare)
                 My.Settings.TareLimit = retarelimit
-                Lbl_RetareLimit.Text = retarelimit.ToString("N4")
+                Lbl_RetareLimit.Text = retarelimit.ToString("N1")
             Else
                 MsgBox("Numbers Only Please")
             End If
@@ -458,12 +473,12 @@ Public Class Manual_Weight
         notnumbers = True
 
         While notnumbers = True
-            stareerror = (InputBox("Enter Limit For Tare Error", , My.Settings.TareError.ToString("N4")))
+            stareerror = (InputBox("Enter Limit For Tare Error", , My.Settings.TareError.ToString("N1")))
             If IsNumeric(stareerror) Then
                 notnumbers = False
                 tareerror = CSng(stareerror)
                 My.Settings.TareError = tareerror
-                Lbl_TareError.Text = tareerror.ToString("N4")
+                Lbl_TareError.Text = tareerror.ToString("N1")
             Else
                 MsgBox("Numbers Only Please")
             End If
@@ -491,10 +506,10 @@ Public Class Manual_Weight
         Calibration.Show()
         Dim CalID As String
         Dim calweight As String
-        Dim AsReecievedWt As String
-        Dim AsReturnedwt As String
+        '   Dim AsReecievedWt As String
+        '  Dim AsReturnedwt As String
         Dim Operatorid As String
-        Dim newcal As String
+        ' Dim newcal As String
         Const caldata As String = "Updating Calibration Data"
 
 
@@ -547,7 +562,7 @@ Public Class Manual_Weight
         '*****************************************
 
         Do Until sartorius.Stable ' Add value for scale weight less than 1.0 grams
-            Dim GOODVALUE As Boolean
+            '  Dim GOODVALUE As Boolean
 
             If cancelclicked Then
                 Exit Do   ' change to exit sub when lie
@@ -789,43 +804,8 @@ Public Class Manual_Weight
         Dim sweight As String
         'Dim position As Integer
 
-        'Const stabconst As String = " g "
-        'Dim Bstable As Boolean
-        'Dim dweightreading As Double
+          sweight = mycom.ReadLine
 
-
-
-
-
-
-        ' Reset timer  - Provides time since last reading
-        '        tmrlasttime.Reset()
-
-        ' When data comes in read the line
-        sweight = mycom.ReadLine
-
-
-        ' Check to see if the stability character is present
-        ' 
-        'Bstable = sweight.Contains(stabconst)
-        '' Check for other error codes.
-
-        '' if no other error codes then parse string.
-
-        '' Parse number out of string
-        '' and set weight
-
-
-
-        'sweight = sweight.Trim()
-
-        'position = sweight.IndexOf(" ")
-        'Try
-        '    sweight = sweight.Remove(position)
-        '    dweightreading = CDbl(sweight)
-        'Catch ex As Exception
-
-        'End Try
 
         updateweight = New scaledata(AddressOf newdata.newweightdata)
         Lbl_CurrentScale.BeginInvoke(updateweight, sweight)

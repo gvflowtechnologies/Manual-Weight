@@ -98,6 +98,7 @@ Partial Class Manual_Weight
         Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.WeightProcess = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -259,6 +260,7 @@ Partial Class Manual_Weight
         Me.Lbl_CurrentScale.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_CurrentScale.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lbl_CurrentScale.Location = New System.Drawing.Point(152, 41)
+        Me.Lbl_CurrentScale.MinimumSize = New System.Drawing.Size(72, 27)
         Me.Lbl_CurrentScale.Name = "Lbl_CurrentScale"
         Me.Lbl_CurrentScale.Size = New System.Drawing.Size(72, 27)
         Me.Lbl_CurrentScale.TabIndex = 1
@@ -471,6 +473,7 @@ Partial Class Manual_Weight
         '
         'Setup
         '
+        Me.Setup.Controls.Add(Me.WeightProcess)
         Me.Setup.Controls.Add(Me.GroupBox4)
         Me.Setup.Controls.Add(Me.GroupBox3)
         Me.Setup.Controls.Add(Me.Button1)
@@ -895,6 +898,17 @@ Partial Class Manual_Weight
         '
         Me.Tmr_ScreenUpdate.Interval = 50
         '
+        'WeightProcess
+        '
+        Me.WeightProcess.AllowDrop = True
+        Me.WeightProcess.AutoSize = True
+        Me.WeightProcess.Location = New System.Drawing.Point(282, 133)
+        Me.WeightProcess.Name = "WeightProcess"
+        Me.WeightProcess.Size = New System.Drawing.Size(45, 13)
+        Me.WeightProcess.TabIndex = 16
+        Me.WeightProcess.Text = "Label15"
+        Me.WeightProcess.UseWaitCursor = True
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1001,5 +1015,6 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_TareError As System.Windows.Forms.Label
     Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents WeightProcess As System.Windows.Forms.Label
 
 End Class

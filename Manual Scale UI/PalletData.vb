@@ -39,6 +39,8 @@ Public Class PalletData
         DateScaleCalLast = My.Settings.LastCalDate
         DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
 
+        'If 
+
         fweight = My.Settings.File_Directory & "\In Process"
         completed = My.Settings.File_Directory & "\Completed"
 
