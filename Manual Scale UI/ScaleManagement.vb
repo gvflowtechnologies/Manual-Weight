@@ -32,7 +32,7 @@ Public Class Scalemanagement
 
         mycom = New SerialPort
 
-        AddHandler mycom.DataReceived, AddressOf mycom_Datareceived ' handler for data received event
+        '     AddHandler mycom.DataReceived, AddressOf mycom_Datareceived ' handler for data received event
 
 
         With mycom
@@ -103,49 +103,7 @@ Public Class Scalemanagement
 
     End Sub
 
-    Private Sub mycom_Datareceived(ByVal sendor As Object, ByVal e As SerialDataReceivedEventArgs) Handles mycom.DataReceived
-        ' Handles data when it comes in on serial port.
-        Dim sweight As String
-        Dim position As Integer
-        newdata = New Datareceive
-
-        ' Reset timer  - Provides time since last reading
-        '        tmrlasttime.Reset()
-
-        ' When data comes in read the line
-        sweight = mycom.ReadLine
-
-
-        ' Check to see if the stability character is present
-        ' 
-        Bstable = sweight.Contains(stabconst)
-        ' Check for other error codes.
-
-        ' if no other error codes then parse string.
-        sweight = sweight.Substring(1) ' Removing first string character    
-        ' Parse number out of string
-        ' and set weight
-        sweight = sweight.Trim()
-
-        position = sweight.IndexOf(" ")
-
-        Try
-            sweight = sweight.Remove(position)
-            dweightreading = CDbl(sweight)
-        Catch ex As Exception
-
-        End Try
-
-        '   updateweight = New updateproperty(AddressOf newdata.newweightdata)
-        '  Manual_Weight.Lbl_CurrentScale.BeginInvoke(updateweight, dweightreading)
-
-        Application.DoEvents()
-        '      Me.
-        ' update propery values 
-        Thread.Sleep(10)
-
-    End Sub
-
+    
     Sub updatemyweight(ByVal dataval As Double)
         dweightreading = dataval
 

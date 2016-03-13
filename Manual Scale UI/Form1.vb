@@ -17,7 +17,7 @@ Public Class Manual_Weight
     ' Constants
     Const sloginvalue As String = "AV_QAE"
     Dim WithEvents mycom As SerialPort
-
+    Private newdata As Datareceive
     ' Variables
 
     Dim MDataset As PalletData
@@ -47,12 +47,14 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
-        sartorius.closeport()
+        '   sartorius.closeport()
+        mycom.DtrEnable = False
+        mycom.Close()
 
     End Sub
 
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        newdata = New Datareceive
         tmrcycle = New Stopwatch
         ' loginhandling()
         '  sartorius = New Scalemanagement
@@ -257,8 +259,8 @@ Public Class Manual_Weight
         Dim cycle As Integer
         Dim longtime As Long
         longtime = tmrcycle.ElapsedMilliseconds
-        Lbl_CurrentScale.Text = sartorius.LastReading.ToString
-        Label14.Text = longtime
+        'Lbl_CurrentScale.Text = sartorius.LastReading.ToString
+        Label14.Text = longtime.ToString
 
         '     Lbl_CurrentScale.Text = sartorius.LastReading.ToString
 
@@ -686,134 +688,9 @@ Public Class Manual_Weight
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         'sartorius = New Scalemanagement
-        'Tmr_ScreenUpdate.Start()
+        Tmr_ScreenUpdate.Start()
         newcommport()
         tmrcycle.Start()
-    End Sub
-
-    Private Sub newcommport()
-
-        Dim myportnames() As String
-        myportnames = SerialPort.GetPortNames
-
-        mycom = New SerialPort
-
-        AddHandler mycom.DataReceived, AddressOf mycom_Datareceived ' handler for data received event
-
-
-        With mycom
-            .PortName = My.Settings.SerialPort ' gets port name from static data set
-            .BaudRate = 9600
-            .Parity = Parity.Odd
-            .StopBits = StopBits.One
-            .Handshake = Handshake.RequestToSend ' Need to think here
-            .DataBits = 7
-            .ReceivedBytesThreshold = 15 ' one byte short of a complete messsage string of 16 asci characters   
-
-        End With
-
-        If (Not mycom.IsOpen) Then
-
-            Try
-                mycom.Open()
-
-            Catch ex As Exception
-                MessageBox.Show(ex.Message)
-            End Try
-
-
-        End If
-
-
-
-        '        The object's PortName property should match a name in the array returned by the GetPortNames method described above. An application that wants to use a specific port can search for a match in the array:
-
-        'Dim index As Integer = -1
-        'Dim nameArray() As String
-        'Dim myComPortName As String
-
-        '' Specify the port to look for.
-
-        'myComPortName = "COM1"
-
-        ' Get an array of names of installed ports.
-
-        '   nameArray = SerialPort.GetPortNames
-
-        'Do
-        '    ' Look in the array for the desired port name.
-
-        '    index += 1
-
-        'Loop Until ((nameArray(index) = myComPortName) Or _
-        '              (index = nameArray.GetUpperBound(0)))
-
-        '' If the desired port isn't found, select the first port in the array.
-
-        'If (index = nameArray.GetUpperBound(0)) Then
-        '    myComPortName = nameArray(0)
-        'End If
-
-
-        mycom.DtrEnable = True
-
-
-        '     tmrlasttime.Start()
-        mycom.DiscardInBuffer()
-        mycom.Write("P" & ControlChars.CrLf)
-
-    End Sub
-
-    Private Sub mycom_Datareceived(ByVal sendor As Object, ByVal e As SerialDataReceivedEventArgs) Handles mycom.DataReceived
-        ' Handles data when it comes in on serial port.
-        Dim sweight As String
-        Dim position As Integer
-        Dim newdata As Datareceive
-        Const stabconst As String = " g "
-        Dim Bstable As Boolean
-        Dim dweightreading As Double
-
-
-
-
-        newdata = New Datareceive
-
-        ' Reset timer  - Provides time since last reading
-        '        tmrlasttime.Reset()
-
-        ' When data comes in read the line
-        sweight = mycom.ReadLine
-
-
-        ' Check to see if the stability character is present
-        ' 
-        'Bstable = sweight.Contains(stabconst)
-        '' Check for other error codes.
-
-        '' if no other error codes then parse string.
-
-        '' Parse number out of string
-        '' and set weight
-
-
-
-        'sweight = sweight.Trim()
-
-        'position = sweight.IndexOf(" ")
-        'Try
-        '    sweight = sweight.Remove(position)
-        '    dweightreading = CDbl(sweight)
-        'Catch ex As Exception
-
-        'End Try
-
-        updateweight = New scaledata(AddressOf newdata.newweightdata)
-        Lbl_CurrentScale.BeginInvoke(updateweight, sweight)
-        Application.DoEvents()
-        '      Me.
-        ' update propery values 
-        Thread.Sleep(15)
-
     End Sub
 
 
