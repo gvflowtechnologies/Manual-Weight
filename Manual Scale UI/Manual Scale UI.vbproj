@@ -145,7 +145,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ScaleManagement.vb" />
-    <Compile Include="Serial Communications.vb" />
     <Compile Include="Settings.vb" />
   </ItemGroup>
   <ItemGroup>
