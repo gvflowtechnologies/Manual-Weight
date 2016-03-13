@@ -686,6 +686,12 @@ Public Class Manual_Weight
 
 
     Private Sub portclosing()
+        mycom.ReceivedBytesThreshold = 500
+        Thread.Sleep(10)
+        Do Until mycom.BytesToRead < 10
+            Application.DoEvents()
+            mycom.DiscardInBuffer()
+        Loop
         mycom.DtrEnable = False
         mycom.Close()
 
@@ -826,7 +832,7 @@ Public Class Manual_Weight
         Application.DoEvents()
         '      Me.
         ' update propery values 
-        Thread.Sleep(10)
+        Thread.Sleep(1)
 
     End Sub
 
