@@ -722,6 +722,7 @@ Public Class Manual_Weight
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         'sartorius = New Scalemanagement
+        Button2.Enabled = False
         Tmr_ScreenUpdate.Start()
         newcommport()
         tmrcycle.Start()

@@ -35,7 +35,10 @@ Public Class Scalemanagement
 
 
 
-        ' Parses the data string from the scale when it comes in on serial port.
+        ' Parses the data string from the scale when it comes in on serial port.  
+        ' Getting Stability and weight reading.
+        ' Not parsing for error codes 
+
 
         Dim position As Integer
         Const stabconst As String = " g "
