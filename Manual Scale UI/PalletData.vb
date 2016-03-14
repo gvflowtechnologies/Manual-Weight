@@ -80,12 +80,15 @@ Public Class PalletData
     Public Sub firstweight(ByVal firstpallet As String)
         ' Looking for two things here.
         ' one set a flag if the fist file is found.
+        ' It the first weight is found the flag Bfirstweigtexists is set to "True"
+        ' The second function is to set the time of either the first weight date and time or the second weight date and time.
 
 
         Dim filename As String
         Dim x As Integer
         x = 0
-        BFirstweightExists = False
+        BFirstweightExists = 
+            ' Looking through all files in the first weight directory.
         For Each filename In currentfirstweights
             If BFirstweightExists = True Then
                 Sttimesecond = DateTime.Now.TimeOfDay.ToString
