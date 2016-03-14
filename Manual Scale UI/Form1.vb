@@ -318,7 +318,7 @@ Public Class Manual_Weight
                 '' check for scale health and stability
                 If sartorius.ishealthy Then
                     If sartorius.Stable Then
-                        Select sartorius.CurrentReading
+                        Select Case sartorius.CurrentReading
 
                             Case Is < My.Settings.TareLimit
                                 teststate = Weighprocess.weighing
