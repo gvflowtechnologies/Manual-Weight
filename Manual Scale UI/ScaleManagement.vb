@@ -147,15 +147,15 @@ Public Class Scalemanagement
     '    End Set
     'End Property
 
-    'Public Property ishealthy As Boolean
-    '    Get
-    '        'Return Me.noerror
+    Public Property ishealthy As Boolean
+        Get
+            Return True
 
-    '    End Get
-    '    Set(ByVal value As Boolean)
+        End Get
+        Set(ByVal value As Boolean)
 
-    '    End Set
-    'End Property
+        End Set
+    End Property
 
     'Public ReadOnly Property ScaleEmpty As Boolean
     '    Get

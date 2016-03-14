@@ -278,115 +278,145 @@ Public Class Manual_Weight
 
 
 
-        'select case teststate
+        Select Case teststate
 
-        '    case weighprocess.idle
-        '        if entering then
-        '            entering = false
+            Case Weighprocess.idle
+                If entering Then
+                    entering = False
 
-        '            'set label colors
-        '            lbl_idle.backcolor = color.gold
-        '            lbl_weighing.backcolor = color.transparent
-        '            lbl_good.backcolor = color.transparent
-        '            lbl_bad.backcolor = color.transparent
-        '            lbl_remove.backcolor = color.transparent
-        '        end if
-        '        if cycle > 1000 then
-        '            teststate = weighprocess.taring
+                    'set label colors
+                    Lbl_IDLE.BackColor = Color.Gold
+                    Lbl_Weighing.BackColor = Color.Transparent
+                    Lbl_Good.BackColor = Color.Transparent
+                    Lbl_Bad.BackColor = Color.Transparent
+                    Lbl_Remove.BackColor = Color.Transparent
+                End If
+                '                If cycle > 1000 Then
+                'teststate = Weighprocess.taring
 
-        '            entering = true
-        '        end if
-        '        teststate = weighprocess.taring
-        '        ' wait for start pallet buttonclick  when clickek
-
-
-        '    case weighprocess.taring
-        '        if entering then
-        '            entering = false
-
-        '            'set label colors
-        '            lbl_idle.backcolor = color.gold
-        '            lbl_idle.text = "taring"
-        '            lbl_weighing.backcolor = color.transparent
-        '            lbl_good.backcolor = color.transparent
-        '            lbl_bad.backcolor = color.transparent
-        '            lbl_remove.backcolor = color.transparent
-        '        end if
-        '        if cycle > 2000 then teststate = weighprocess.weighing
+                'entering = True
+                'End If
+                teststate = Weighprocess.taring
+                ' wait for start pallet buttonclick  when clickek
 
 
-        '        '' check for scale health and stability
-        '        'if sartorius.ishealthy then
-        '        '    if sartorius.stable then
+            Case Weighprocess.taring
+                If entering Then
+                    entering = False
 
-        '        '    end if
-        '        'else
-        '        '    '   teststate = weighprocess.erroring
-        '        'end if
-
-        '    case weighprocess.weighing
-        '        if entering then
-        '            entering = false
-        '            'set label colors
-        '            lbl_idle.backcolor = color.transparent
-        '            lbl_idle.text = "idle"
-        '            lbl_weighing.backcolor = color.gold
-        '            lbl_good.backcolor = color.transparent
-        '            lbl_bad.backcolor = color.transparent
-        '            lbl_remove.backcolor = color.transparent
-
-
-        '        end if
-        '        if cycle > 3000 then teststate = weighprocess.prompting
-
-
-        '    case weighprocess.prompting
+                    'set label colors
+                    Lbl_IDLE.BackColor = Color.Gold
+                    Lbl_IDLE.Text = "taring"
+                    Lbl_Weighing.BackColor = Color.Transparent
+                    Lbl_Good.BackColor = Color.Transparent
+                    Lbl_Bad.BackColor = Color.Transparent
+                    Lbl_Remove.BackColor = Color.Transparent
+                End If
 
 
 
-        '        if entering then
-        '            entering = false
-        '            tmrsort.start()
-        '            'set label colors
-        '            lbl_idle.backcolor = color.transparent
-        '            lbl_idle.text = "idle"
-        '            lbl_weighing.backcolor = color.transparent
+                '' check for scale health and stability
+                If sartorius.ishealthy Then
+                    If sartorius.Stable Then
+                        Select sartorius.CurrentReading
 
-        '            'set good and bad colors here 
-        '            lbl_good.backcolor = color.transparent
-        '            lbl_bad.backcolor = color.transparent
+                            Case Is < My.Settings.TareLimit
+                                teststate = Weighprocess.weighing
+                                entering = True
+                                'Case    > My.Settings.TareLimit and < my.Settings.TareError
 
-        '            lbl_remove.backcolor = color.gold
+                            Case Is > My.Settings.TareError
 
-        '        end if
+                        End Select
 
-        '        if mdataset.firstweightexists = false then
-        '            ' fist weights
-
-
-        '        else
-        '            ' second weight
+                    Else
+                        '    '   teststate = weighprocess.erroring
+                    End If
+                End If
 
 
-        '        end if
+            Case Weighprocess.weighing
+                If entering Then
+                    entering = False
+                    'set label colors
+                    Lbl_IDLE.BackColor = Color.Transparent
+                    Lbl_IDLE.Text = "idle"
+                    Lbl_Weighing.BackColor = Color.Gold
+                    Lbl_Good.BackColor = Color.Transparent
+                    Lbl_Bad.BackColor = Color.Transparent
+                    Lbl_Remove.BackColor = Color.Transparent
 
 
-        '        if cycle > 4000 then teststate = weighprocess.taring
+                End If
+
+                If sartorius.ishealthy Then
+                    If sartorius.Stable Then
+                        Select Case sartorius.CurrentReading
+
+                            Case Is > 2.0
+                                teststate = Weighprocess.prompting
+
+                                entering = True
+                                'Case    > My.Settings.TareLimit and < my.Settings.TareError
+
+                            Case Is > 2.8
+
+                        End Select
+
+                    Else
+                        '    '   teststate = weighprocess.erroring
+                    End If
+                End If
 
 
-        '        'test for switch position based on good or bad result.
-        '        'if tmrsort.elapsedmilliseconds > 500 then ' if the switch has not set then fire off error
-        '        '    '   teststate = weighprocess.erroring
-        '        '    entering = true
-        '        'end if
 
-        '    case weighprocess.erroring ' if we end up here stop processing
-        '        if entering then
-        '            entering = false
-        '        end if
+            Case Weighprocess.prompting
 
 
-        'end select
+
+                If entering Then
+                    entering = False
+                    '   tmrsort.Start()
+                    'set label colors
+                    Lbl_IDLE.BackColor = Color.Transparent
+                    Lbl_IDLE.Text = "idle"
+                    Lbl_Weighing.BackColor = Color.Transparent
+
+                    'set good and bad colors here 
+                    Lbl_Good.BackColor = Color.Transparent
+                    Lbl_Bad.BackColor = Color.Transparent
+
+                    Lbl_Remove.BackColor = Color.Gold
+
+                End If
+
+                '     If MDataset.firstweightexists = False Then
+                ' fist weights
+
+
+                'Else
+                ' second weight
+
+
+                'End If
+
+
+                '  If cycle > 4000 Then teststate = Weighprocess.taring
+
+
+                'test for switch position based on good or bad result.
+                'if tmrsort.elapsedmilliseconds > 500 then ' if the switch has not set then fire off error
+                '    '   teststate = weighprocess.erroring
+                '    entering = true
+                'end if
+
+            Case Weighprocess.erroring ' if we end up here stop processing
+                If entering Then
+                    entering = False
+                End If
+
+
+        End Select
 
 
 
@@ -726,6 +756,9 @@ Public Class Manual_Weight
         Tmr_ScreenUpdate.Start()
         newcommport()
         tmrcycle.Start()
+        teststate = Weighprocess.taring
+        entering = True
+
     End Sub
     Private Sub newcommport()
 
