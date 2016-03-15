@@ -21,9 +21,10 @@ Public Class Manual_Weight
     ' Variables
 
     Dim MDataset As PalletData
-    ' Dim Sartorius As scalemanagment
     Public sartorius As Scalemanagement
     Dim cylindersorter As CSorter
+    Dim cylinder As 
+
 
     Public cancelclicked As Boolean
     Delegate Sub scaledata(ByVal sdata As String)
@@ -306,7 +307,7 @@ Public Class Manual_Weight
 
                     'set label colors
                     Lbl_IDLE.BackColor = Color.Gold
-                    Lbl_IDLE.Text = "taring"
+                    Lbl_IDLE.Text = "Taring"
                     Lbl_Weighing.BackColor = Color.Transparent
                     Lbl_Good.BackColor = Color.Transparent
                     Lbl_Bad.BackColor = Color.Transparent

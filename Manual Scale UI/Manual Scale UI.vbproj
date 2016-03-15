@@ -114,6 +114,7 @@
     </Compile>
     <Compile Include="caldata.vb" />
     <Compile Include="CSorter.vb" />
+    <Compile Include="Cylinder.vb" />
     <Compile Include="DataProcessing.vb" />
     <Compile Include="Datareceive.vb" />
     <Compile Include="Form1.vb">
