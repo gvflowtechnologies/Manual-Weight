@@ -87,8 +87,8 @@ Public Class PalletData
         Dim filename As String
         Dim x As Integer
         x = 0
-        BFirstweightExists = 
-            ' Looking through all files in the first weight directory.
+        '  BFirstweightExists = 
+        ' Looking through all files in the first weight directory.
         For Each filename In currentfirstweights
             If BFirstweightExists = True Then
                 Sttimesecond = DateTime.Now.TimeOfDay.ToString

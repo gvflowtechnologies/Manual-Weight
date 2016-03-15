@@ -23,7 +23,7 @@ Public Class Manual_Weight
     Dim MDataset As PalletData
     Public sartorius As Scalemanagement
     Dim cylindersorter As CSorter
-    Dim cylinder As 
+    Dim cylinder As Cylinder
 
 
     Public cancelclicked As Boolean
@@ -35,9 +35,7 @@ Public Class Manual_Weight
     Dim tmrcycle As Stopwatch
     Dim tmrsort As Stopwatch
 
-    Public Sub UpdateDisplay(ByVal weightstring As String)
-        Label14.Text = sartorius.CurrentReading
-    End Sub
+
 
     Private Sub SetupClick() Handles Setup.Enter
 
@@ -732,20 +730,21 @@ Public Class Manual_Weight
 
 
     Private Sub portclosing()
-        mycom.ReceivedBytesThreshold = 500
-        Thread.Sleep(10)
-        Do Until mycom.BytesToRead < 10
-            Application.DoEvents()
-            mycom.DiscardInBuffer()
-        Loop
-        mycom.DtrEnable = False
-        mycom.Close()
+        If mycom.IsOpen = True Then
+            mycom.ReceivedBytesThreshold = 500
+            Thread.Sleep(10)
+            Do Until mycom.BytesToRead < 10
+                Application.DoEvents()
+                mycom.DiscardInBuffer()
+            Loop
+            mycom.DtrEnable = False
+            mycom.Close()
 
-        Do Until mycom.IsOpen = False
-            Application.DoEvents()
-            Thread.Sleep(15)
-        Loop
-
+            Do Until mycom.IsOpen = False
+                Application.DoEvents()
+                Thread.Sleep(15)
+            Loop
+        End If
 
     End Sub
 

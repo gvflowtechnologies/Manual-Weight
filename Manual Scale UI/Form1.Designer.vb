@@ -23,10 +23,10 @@ Partial Class Manual_Weight
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Manual_Weight))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
         Me.Button2 = New System.Windows.Forms.Button()
-        Me.Label14 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Lbl_Remove = New System.Windows.Forms.Label()
         Me.Lbl_Bad = New System.Windows.Forms.Label()
@@ -57,6 +57,7 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN = New System.Windows.Forms.Label()
         Me.Btn_StartPallet = New System.Windows.Forms.Button()
         Me.Setup = New System.Windows.Forms.TabPage()
+        Me.WeightProcess = New System.Windows.Forms.Label()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.Lbl_RowSpace = New System.Windows.Forms.Label()
         Me.Lbl_NumRow = New System.Windows.Forms.Label()
@@ -98,7 +99,7 @@ Partial Class Manual_Weight
         Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.WeightProcess = New System.Windows.Forms.Label()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -109,6 +110,7 @@ Partial Class Manual_Weight
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -123,8 +125,8 @@ Partial Class Manual_Weight
         '
         'RunPage
         '
+        Me.RunPage.Controls.Add(Me.PictureBox1)
         Me.RunPage.Controls.Add(Me.Button2)
-        Me.RunPage.Controls.Add(Me.Label14)
         Me.RunPage.Controls.Add(Me.GroupBox1)
         Me.RunPage.Controls.Add(Me.sLbl_PN)
         Me.RunPage.Controls.Add(Me.sLbl_BN)
@@ -145,22 +147,12 @@ Partial Class Manual_Weight
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(76, 195)
+        Me.Button2.Location = New System.Drawing.Point(51, 196)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(75, 23)
         Me.Button2.TabIndex = 11
         Me.Button2.Text = "Button2"
         Me.Button2.UseVisualStyleBackColor = True
-        '
-        'Label14
-        '
-        Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(322, 239)
-        Me.Label14.MinimumSize = New System.Drawing.Size(200, 0)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(200, 13)
-        Me.Label14.TabIndex = 10
-        Me.Label14.Text = "Label14"
         '
         'GroupBox1
         '
@@ -170,7 +162,7 @@ Partial Class Manual_Weight
         Me.GroupBox1.Controls.Add(Me.Lbl_Weighing)
         Me.GroupBox1.Controls.Add(Me.Lbl_IDLE)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(54, 323)
+        Me.GroupBox1.Location = New System.Drawing.Point(54, 255)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(437, 84)
         Me.GroupBox1.TabIndex = 9
@@ -487,6 +479,17 @@ Partial Class Manual_Weight
         Me.Setup.TabIndex = 1
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
+        '
+        'WeightProcess
+        '
+        Me.WeightProcess.AllowDrop = True
+        Me.WeightProcess.AutoSize = True
+        Me.WeightProcess.Location = New System.Drawing.Point(282, 133)
+        Me.WeightProcess.Name = "WeightProcess"
+        Me.WeightProcess.Size = New System.Drawing.Size(45, 13)
+        Me.WeightProcess.TabIndex = 16
+        Me.WeightProcess.Text = "Label15"
+        Me.WeightProcess.UseWaitCursor = True
         '
         'GroupBox4
         '
@@ -898,16 +901,15 @@ Partial Class Manual_Weight
         '
         Me.Tmr_ScreenUpdate.Interval = 50
         '
-        'WeightProcess
+        'PictureBox1
         '
-        Me.WeightProcess.AllowDrop = True
-        Me.WeightProcess.AutoSize = True
-        Me.WeightProcess.Location = New System.Drawing.Point(282, 133)
-        Me.WeightProcess.Name = "WeightProcess"
-        Me.WeightProcess.Size = New System.Drawing.Size(45, 13)
-        Me.WeightProcess.TabIndex = 16
-        Me.WeightProcess.Text = "Label15"
-        Me.WeightProcess.UseWaitCursor = True
+        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
+        Me.PictureBox1.InitialImage = CType(resources.GetObject("PictureBox1.InitialImage"), System.Drawing.Image)
+        Me.PictureBox1.Location = New System.Drawing.Point(47, 350)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(176, 161)
+        Me.PictureBox1.TabIndex = 12
+        Me.PictureBox1.TabStop = False
         '
         'Manual_Weight
         '
@@ -937,6 +939,7 @@ Partial Class Manual_Weight
         Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1013,8 +1016,8 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_MaxWeight As System.Windows.Forms.Label
     Friend WithEvents Lbl_WeightLoss As System.Windows.Forms.Label
     Friend WithEvents Lbl_TareError As System.Windows.Forms.Label
-    Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents WeightProcess As System.Windows.Forms.Label
+    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
 
 End Class

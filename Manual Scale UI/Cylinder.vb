@@ -1,5 +1,10 @@
 ﻿Public Class Cylinder
 
+    Sub PickDisposition()
+
+    End Sub
+
+
     Property Firstweight As Double
         Get
 
