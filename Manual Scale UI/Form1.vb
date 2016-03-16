@@ -27,6 +27,7 @@ Public Class Manual_Weight
     Dim cylindersorter As CSorter
     Dim cylinder As Cylinder
 
+    Dim swdataset As StreamWriter
 
     Public cancelclicked As Boolean
     Delegate Sub scaledata(ByVal sdata As String)
@@ -196,55 +197,68 @@ Public Class Manual_Weight
         Btn_StartPallet.Enabled = True
         Btn_StopPallet.Enabled = False
         teststate = Weighprocess.idle
+        swdataset.Close() ' Need to think if we close here or create a routine to handle closing
 
     End Sub
-    Public Sub WritefileHeader1() ' write the header to the inital data set.
-
+    Private Sub WritefileHeader1() ' write the header to the firstweight data set.
+        ' Very simple file to hold first pass data.
         Dim Myfile As String
         Myfile = MDataset.currentfilepath & "\" & MDataset.filename
 
         'Write
 
 
-        Dim SWDataheader As New StreamWriter(Myfile, False)
-        SWDataheader.WriteLine(MDataset.batch)
-        SWDataheader.WriteLine(MDataset.pallet)
-        SWDataheader.WriteLine(MDataset.timefirstwt)
-        SWDataheader.Close()
+        swdataset = New StreamWriter(Myfile, False)
+        swdataset.WriteLine(MDataset.batch)
+        swdataset.WriteLine(MDataset.pallet)
+        swdataset.WriteLine(MDataset.timefirstwt)
+
 
     End Sub
 
-    Public Sub writefileheader2() ' Write the header data for the Final data set
+    Private Sub writefirstweight(ByVal cylweight As String)
+        swdataset.WriteLine(cylinder.Firstweight.ToString)
 
+    End Sub
 
+    Private Sub writefileheader2() ' Write the header data for the Final data set
 
         Dim Myfile As String
         Myfile = MDataset.currentfilepath & "\" & MDataset.filename
 
         'Write
 
-        Dim SWDataheader As New StreamWriter(Myfile, False)
-        SWDataheader.Write("1st Weight Time,")
-        SWDataheader.WriteLine(MDataset.timefirstwt)
-        SWDataheader.Write("2nd Weight Time,")
-        SWDataheader.WriteLine(MDataset.timesecondwt)
-        SWDataheader.Write("Pallet ID,")
-        SWDataheader.WriteLine(MDataset.pallet)
-        SWDataheader.Write("Lot#,")
-        SWDataheader.WriteLine(MDataset.batch)
-        SWDataheader.Write("Scale Calibration Date,")
-        SWDataheader.WriteLine(MDataset.Lscalecaldate)
-        SWDataheader.Write("Scale Calibration Due Date,")
-        SWDataheader.WriteLine(MDataset.NScaleCalDate)
-        SWDataheader.WriteLine("Index,1st Wt,2nd Wt,Disposition")
-        SWDataheader.Close()
-
-
-
+        swdataset = New StreamWriter(Myfile, False)
+        swdataset.Write("1st Weight Time,")
+        swdataset.WriteLine(MDataset.timefirstwt)
+        swdataset.Write("2nd Weight Time,")
+        swdataset.WriteLine(MDataset.timesecondwt)
+        swdataset.Write("Pallet ID,")
+        swdataset.WriteLine(MDataset.pallet)
+        swdataset.Write("Lot#,")
+        swdataset.WriteLine(MDataset.batch)
+        swdataset.Write("Scale Calibration Date,")
+        swdataset.WriteLine(MDataset.Lscalecaldate)
+        swdataset.Write("Scale Calibration Due Date,")
+        swdataset.WriteLine(MDataset.NScaleCalDate)
+        swdataset.WriteLine("Index,1st Wt,2nd Wt,Disposition")
 
     End Sub
 
+    Private Sub write_second_weight()
 
+        swdataset.Write(cylinder.CylIndex.ToString & ", ")
+        swdataset.Write(cylinder.Firstweight.ToString & ", ")
+        swdataset.Write(cylinder.Secondweight.ToString & ", ")
+        swdataset.WriteLine(cylinder.Disposition)
+
+    End Sub
+
+    Private Sub write_Summary()
+        ' Write summary data line and Close Stream
+        '  swdataset.WriteLine(MDataset.)
+        swdataset.Close()
+    End Sub
 
     Private Sub Btn_WeighFolders(sender As Object, e As EventArgs) Handles Btn_WeighFolder.Click
         caldata.SelectDataFolder()
@@ -304,7 +318,13 @@ Public Class Manual_Weight
             Case Weighprocess.taring
                 If entering Then
                     entering = False
+                    cylinder = New Cylinder
 
+                    If MDataset.firstweightexists Then
+
+                    Else
+
+                    End If
                     'set label colors
                     Lbl_IDLE.BackColor = Color.Gold
                     Lbl_IDLE.Text = "Taring"
@@ -847,7 +867,7 @@ Public Class Manual_Weight
         Dim sweight As String
         'Dim position As Integer
 
-          sweight = mycom.ReadLine
+        sweight = mycom.ReadLine
 
 
         updateweight = New scaledata(AddressOf newdata.newweightdata)

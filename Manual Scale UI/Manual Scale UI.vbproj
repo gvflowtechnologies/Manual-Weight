@@ -117,6 +117,7 @@
     <Compile Include="Cylinder.vb" />
     <Compile Include="DataProcessing.vb" />
     <Compile Include="Datareceive.vb" />
+    <Compile Include="FileWriting.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>

@@ -7,6 +7,8 @@
     Private dMyfirstweight As Double
     Private dMySecondweight As Double
     Private ddisposition As dmydisposition
+    Private myindex As Integer
+
 
     Sub New()
 
@@ -31,6 +33,14 @@
 
     End Sub
 
+    Property CylIndex As Integer
+        Get
+            Return myindex
+        End Get
+        Set(value As Integer)
+            myindex = value
+        End Set
+    End Property
 
 
 
