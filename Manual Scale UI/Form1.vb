@@ -16,6 +16,8 @@ Public Class Manual_Weight
 
     ' Constants
     Const sloginvalue As String = "AV_QAE"
+    Const nocanweight As Double = 2.0
+
     Dim WithEvents mycom As SerialPort
     Private newdata As Datareceive
     ' Variables
@@ -408,6 +410,13 @@ Public Class Manual_Weight
                 '    '   teststate = weighprocess.erroring
                 '    entering = true
                 'end if
+                If sartorius.CurrentReading < nocanweight Then
+                    teststate = Weighprocess.taring
+                    entering = True
+
+                End If
+
+
 
             Case Weighprocess.erroring ' if we end up here stop processing
                 If entering Then
