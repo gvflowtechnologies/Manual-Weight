@@ -104,7 +104,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.005")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.004")>  _
         Public Property TareLimit() As Double
             Get
                 Return CType(Me("TareLimit"),Double)
@@ -231,6 +231,30 @@ Namespace My
             End Get
             Set
                 Me("MinWeight") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property TotalGood() As Integer
+            Get
+                Return CType(Me("TotalGood"),Integer)
+            End Get
+            Set
+                Me("TotalGood") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property TotalBad() As Integer
+            Get
+                Return CType(Me("TotalBad"),Integer)
+            End Get
+            Set
+                Me("TotalBad") = value
             End Set
         End Property
     End Class

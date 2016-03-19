@@ -1,31 +1,33 @@
 ﻿Public Class Cylinder
-    Enum dmydisposition As Short
-        PASS
-        FAIL
-    End Enum
+
 
     Private dMyfirstweight As Double
     Private dMySecondweight As Double
-    Private ddisposition As dmydisposition
+    Private ddisposition As Boolean 'True = pass, False = Fail
     Private myindex As Integer
 
 
     Sub New()
 
-        ddisposition = dmydisposition.FAIL
+        ddisposition = False
 
     End Sub
 
-    Sub PickDisposition()
+    Sub dispose()
+        Me.Finalize()
+    End Sub
+
+
+    Sub DetermineDisposition()
 
         Dim weightdifference As Double
         'Deterimine if the device is good or bad.
         weightdifference = dMySecondweight - dMyfirstweight
         If weightdifference < -My.Settings.WeightLoss Then
-            ddisposition = dmydisposition.FAIL
+            ddisposition = False
 
         Else
-            ddisposition = dmydisposition.PASS
+            ddisposition = True
 
 
         End If
@@ -46,19 +48,19 @@
 
     Property Firstweight As Double
         Get
-            Return dMyfirstweight.ToString
+            Return dMyfirstweight
         End Get
         Set(value As Double)
-
+            dMyfirstweight = value
         End Set
     End Property
 
     Property Secondweight As Double
         Get
-            Return dMySecondweight.ToString
+            Return dMySecondweight
         End Get
         Set(value As Double)
-
+            dMySecondweight = value
         End Set
     End Property
 
@@ -67,7 +69,7 @@
             Return ddisposition
         End Get
         Set(value As Boolean)
-
+            ddisposition = value
         End Set
     End Property
 

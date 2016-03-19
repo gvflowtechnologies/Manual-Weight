@@ -38,7 +38,8 @@ Public Class PalletData
         ' fweight = 
         DateScaleCalLast = My.Settings.LastCalDate
         DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
-
+        CountBad = 0
+        CountGood = 0
         'If 
 
         fweight = My.Settings.File_Directory & "\In Process"
@@ -122,18 +123,22 @@ Public Class PalletData
             tmpstream.ReadLine()
             sttimefirst = tmpstream.ReadLine()
 
-            number_of_Canisters = 0
+            number_of_Canisters = -1
             Do While tmpstream.Peek <> -1
+                number_of_Canisters += 1
                 ReDim Preserve FirstWeightReading(number_of_Canisters)
                 FirstWeightReading(number_of_Canisters) = tmpstream.ReadLine
-                number_of_Canisters += 1
+
 
             Loop
 
 
             Sttimesecond = DateTime.Now.TimeOfDay.ToString
             tmpstream.Dispose()
+            File.Delete(FNreadfirst)
         End If
+
+
     End Sub
 
     Public Property filename As String
@@ -242,16 +247,41 @@ Public Class PalletData
         End Get
     End Property
 
+    ReadOnly Property palletcount As Integer
+        Get
+            Return number_of_Canisters
+        End Get
+
+    End Property
+
 
     Property canisternum As Integer 'increment
         Set(value As Integer)
 
-            canisternumber += 1
+            canisternumber = value
 
         End Set
         Get
             Return canisternumber
         End Get
+    End Property
+
+    Property numgood As Integer
+        Get
+            Return CountGood
+        End Get
+        Set(value As Integer)
+            CountGood = value
+        End Set
+    End Property
+
+    Property numbad As Integer
+        Get
+            Return CountBad
+        End Get
+        Set(value As Integer)
+            CountBad = value
+        End Set
     End Property
 
 

@@ -80,6 +80,7 @@ Partial Class Manual_Weight
         Me.Btn_ScaleCal = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Btn_SerialPort = New System.Windows.Forms.Button()
         Me.Lbl_MinWeight = New System.Windows.Forms.Label()
         Me.Lbl_MaxWeight = New System.Windows.Forms.Label()
         Me.Lbl_WeightLoss = New System.Windows.Forms.Label()
@@ -98,6 +99,7 @@ Partial Class Manual_Weight
         Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.Lbl_Instruction = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -152,6 +154,7 @@ Partial Class Manual_Weight
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Lbl_Instruction)
         Me.GroupBox1.Controls.Add(Me.Lbl_Remove)
         Me.GroupBox1.Controls.Add(Me.Lbl_Bad)
         Me.GroupBox1.Controls.Add(Me.Lbl_Good)
@@ -160,7 +163,7 @@ Partial Class Manual_Weight
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(54, 255)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(437, 84)
+        Me.GroupBox1.Size = New System.Drawing.Size(485, 118)
         Me.GroupBox1.TabIndex = 9
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Test Status"
@@ -168,7 +171,7 @@ Partial Class Manual_Weight
         'Lbl_Remove
         '
         Me.Lbl_Remove.AutoSize = True
-        Me.Lbl_Remove.Location = New System.Drawing.Point(337, 31)
+        Me.Lbl_Remove.Location = New System.Drawing.Point(385, 89)
         Me.Lbl_Remove.Name = "Lbl_Remove"
         Me.Lbl_Remove.Size = New System.Drawing.Size(91, 25)
         Me.Lbl_Remove.TabIndex = 4
@@ -177,7 +180,7 @@ Partial Class Manual_Weight
         'Lbl_Bad
         '
         Me.Lbl_Bad.AutoSize = True
-        Me.Lbl_Bad.Location = New System.Drawing.Point(266, 31)
+        Me.Lbl_Bad.Location = New System.Drawing.Point(302, 89)
         Me.Lbl_Bad.Name = "Lbl_Bad"
         Me.Lbl_Bad.Size = New System.Drawing.Size(55, 25)
         Me.Lbl_Bad.TabIndex = 3
@@ -186,7 +189,7 @@ Partial Class Manual_Weight
         'Lbl_Good
         '
         Me.Lbl_Good.AutoSize = True
-        Me.Lbl_Good.Location = New System.Drawing.Point(186, 31)
+        Me.Lbl_Good.Location = New System.Drawing.Point(210, 89)
         Me.Lbl_Good.Name = "Lbl_Good"
         Me.Lbl_Good.Size = New System.Drawing.Size(64, 25)
         Me.Lbl_Good.TabIndex = 2
@@ -195,7 +198,7 @@ Partial Class Manual_Weight
         'Lbl_Weighing
         '
         Me.Lbl_Weighing.AutoSize = True
-        Me.Lbl_Weighing.Location = New System.Drawing.Point(68, 31)
+        Me.Lbl_Weighing.Location = New System.Drawing.Point(80, 89)
         Me.Lbl_Weighing.Name = "Lbl_Weighing"
         Me.Lbl_Weighing.Size = New System.Drawing.Size(102, 25)
         Me.Lbl_Weighing.TabIndex = 1
@@ -205,7 +208,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_IDLE.AutoSize = True
         Me.Lbl_IDLE.BackColor = System.Drawing.Color.Transparent
-        Me.Lbl_IDLE.Location = New System.Drawing.Point(6, 31)
+        Me.Lbl_IDLE.Location = New System.Drawing.Point(6, 89)
         Me.Lbl_IDLE.Name = "Lbl_IDLE"
         Me.Lbl_IDLE.Size = New System.Drawing.Size(46, 25)
         Me.Lbl_IDLE.TabIndex = 0
@@ -445,6 +448,7 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_BatchN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lbl_BatchN.Location = New System.Drawing.Point(123, 26)
+        Me.Lbl_BatchN.MinimumSize = New System.Drawing.Size(64, 13)
         Me.Lbl_BatchN.Name = "Lbl_BatchN"
         Me.Lbl_BatchN.Size = New System.Drawing.Size(119, 27)
         Me.Lbl_BatchN.TabIndex = 1
@@ -718,6 +722,7 @@ Partial Class Manual_Weight
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.Btn_SerialPort)
         Me.GroupBox2.Controls.Add(Me.Lbl_MinWeight)
         Me.GroupBox2.Controls.Add(Me.Lbl_MaxWeight)
         Me.GroupBox2.Controls.Add(Me.Lbl_WeightLoss)
@@ -738,6 +743,15 @@ Partial Class Manual_Weight
         Me.GroupBox2.TabIndex = 11
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Scale Parameters"
+        '
+        'Btn_SerialPort
+        '
+        Me.Btn_SerialPort.Location = New System.Drawing.Point(35, 354)
+        Me.Btn_SerialPort.Name = "Btn_SerialPort"
+        Me.Btn_SerialPort.Size = New System.Drawing.Size(173, 23)
+        Me.Btn_SerialPort.TabIndex = 24
+        Me.Btn_SerialPort.Text = "Update Serial Port"
+        Me.Btn_SerialPort.UseVisualStyleBackColor = True
         '
         'Lbl_MinWeight
         '
@@ -897,6 +911,16 @@ Partial Class Manual_Weight
         '
         Me.Tmr_ScreenUpdate.Interval = 50
         '
+        'Lbl_Instruction
+        '
+        Me.Lbl_Instruction.AutoSize = True
+        Me.Lbl_Instruction.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_Instruction.Location = New System.Drawing.Point(20, 40)
+        Me.Lbl_Instruction.MinimumSize = New System.Drawing.Size(250, 0)
+        Me.Lbl_Instruction.Name = "Lbl_Instruction"
+        Me.Lbl_Instruction.Size = New System.Drawing.Size(250, 27)
+        Me.Lbl_Instruction.TabIndex = 5
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1003,5 +1027,7 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_TareError As System.Windows.Forms.Label
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents WeightProcess As System.Windows.Forms.Label
+    Friend WithEvents Btn_SerialPort As System.Windows.Forms.Button
+    Friend WithEvents Lbl_Instruction As System.Windows.Forms.Label
 
 End Class

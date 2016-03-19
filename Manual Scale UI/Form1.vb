@@ -18,14 +18,14 @@ Public Class Manual_Weight
     Const sloginvalue As String = "AV_QAE"
     Const nocanweight As Double = 2.0
 
-    Dim WithEvents mycom As SerialPort
+    Dim WithEvents mycom As SerialPort 'Serial port for communicating with the scale
     Private newdata As Datareceive
     ' Variables
 
     Dim MDataset As PalletData
     Public sartorius As Scalemanagement
     Dim cylindersorter As CSorter
-    Dim cylinder As Cylinder
+    Dim ccylinder As Cylinder
 
     Dim swdataset As StreamWriter
 
@@ -39,21 +39,7 @@ Public Class Manual_Weight
     Dim tmrsort As Stopwatch
 
 
-
-    Private Sub SetupClick() Handles Setup.Enter
-
-
-        loginhandling()
-
-
-    End Sub
-
-    Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
-        portclosing()
-
-
-    End Sub
-
+    ' Form open close stuff
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         newdata = New Datareceive
         tmrcycle = New Stopwatch
@@ -83,7 +69,7 @@ Public Class Manual_Weight
         For Each sp As String In My.Computer.Ports.SerialPortNames
             LB_SerialPorts.Items.Add(sp)
         Next
-
+        LB_SerialPorts.SelectedIndex = -1
 
 
         ' sdataset = New Static_Data
@@ -97,6 +83,14 @@ Public Class Manual_Weight
 
         Btn_StartPallet.Enabled = True
         Btn_StopPallet.Enabled = False
+
+        Lbl_PalletN.Text = ""
+        Lbl_BatchN.Text = ""
+
+        Lbl_BadCount.Text = My.Settings.TotalBad
+        Lbl_GoodCount.Text = My.Settings.TotalGood
+        Lbl_CurrentBad.Text = "0"
+        Lbl_CurrentGood.Text = "0"
 
         LBFinal_Data_File.Text = My.Settings.File_Directory
         Lbl_RetareLimit.Text = My.Settings.TareLimit.ToString("N4")
@@ -113,7 +107,7 @@ Public Class Manual_Weight
         Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
         Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
         Lbl_WeightLoss.Text = My.Settings.WeightLoss.ToString("N4")
-
+        Lbl_Instruction.Text = "Remove Canister From Scale"
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
 
@@ -121,11 +115,290 @@ Public Class Manual_Weight
 
 
 
+    Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
+        portclosing()
+
+
+    End Sub
+
+    Private Sub SetupClick() Handles Setup.Enter
+
+
+        loginhandling()
+
+
+    End Sub
+
+
+
+    Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
+
+        ' determine which canister you are weighing.
+        ' Load that data in.
+
+
+
+        'Dim cycle As Integer
+        'Dim longtime As Long
+
+        'longtime = tmrcycle.ElapsedMilliseconds
+        Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
+        If sartorius.Stable Then
+            GB_Scale.BackColor = Color.LimeGreen
+        Else
+            GB_Scale.BackColor = Color.Transparent
+
+
+        End If
+        'Label14.Text = longtime.ToString
+
+
+
+        Select Case teststate
+
+            Case Weighprocess.idle
+                If entering Then
+                    entering = False
+
+                    'set label colors
+                    Lbl_IDLE.BackColor = Color.Gold
+                    Lbl_Weighing.BackColor = Color.Transparent
+                    Lbl_Good.BackColor = Color.Transparent
+                    Lbl_Bad.BackColor = Color.Transparent
+                    Lbl_Remove.BackColor = Color.Gold
+
+
+                End If
+                '                If cycle > 1000 Then
+                'teststate = Weighprocess.taring
+
+                'entering = True
+                'End If
+                teststate = Weighprocess.taring
+                ' wait for start pallet buttonclick  when clickek
+
+
+            Case Weighprocess.taring
+                If entering Then
+                    entering = False
+
+                    ccylinder = New Cylinder
+
+                    If MDataset.firstweightexists = False Then
+                        ' Setting up first weight
+                        'Nothing to really set up here.
+                    Else
+                        ' Setting up cylinder for second weight
+
+                        If MDataset.palletcount >= MDataset.canisternum Then
+                            ccylinder.CylIndex = MDataset.canisternum
+                            ccylinder.Firstweight = MDataset.initialweight
+
+                        Else
+                            Closepallet()
+
+                            MsgBox("Pallet Complete")
+                        End If
+
+                    End If
+                    ''set label colors
+                    Lbl_Instruction.Text = "Remove Canister From Scale"
+                    Lbl_IDLE.BackColor = Color.Gold
+                    Lbl_IDLE.Text = "Taring"
+                    Lbl_Weighing.BackColor = Color.Transparent
+                    Lbl_Good.BackColor = Color.Transparent
+                    Lbl_Bad.BackColor = Color.Transparent
+                    Lbl_Remove.BackColor = Color.Gold
+                End If
+
+
+                '' check for scale health and stability
+                If sartorius.ishealthy Then
+                    If sartorius.Stable Then
+                        Select Case sartorius.CurrentReading
+
+                            Case Is < My.Settings.TareLimit
+                                teststate = Weighprocess.weighing
+                                entering = True
+                                'Case    > My.Settings.TareLimit and < my.Settings.TareError
+
+                            Case Is > My.Settings.TareError
+
+                            Case Else
+                                updatetare()
+
+
+                        End Select
+
+                    Else
+                        '    '   teststate = weighprocess.erroring
+                    End If
+                End If
+
+
+            Case Weighprocess.weighing
+                If entering Then
+                    entering = False
+                    'set label colors
+                    Lbl_IDLE.BackColor = Color.Transparent
+                    Lbl_IDLE.Text = "Taring"
+                    Lbl_Weighing.BackColor = Color.Gold
+                    Lbl_Good.BackColor = Color.Transparent
+                    Lbl_Bad.BackColor = Color.Transparent
+                    Lbl_Remove.BackColor = Color.Transparent
+                    Lbl_Instruction.Text = "Place Canister On Scale"
+
+                End If
+
+                If sartorius.ishealthy Then
+                    If sartorius.Stable Then
+                        Select Case sartorius.CurrentReading
+
+                            Case Is > (2.0)
+                                If MDataset.firstweightexists = False Then
+                                    ' first weight reading
+                                    ccylinder.Firstweight = sartorius.CurrentReading
+                                Else
+                                    ' Second weight reading
+                                    ccylinder.Secondweight = sartorius.CurrentReading
+
+                                End If
+
+                                teststate = Weighprocess.prompting
+
+                                entering = True
+                                'Case    > My.Settings.TareLimit and < my.Settings.TareError
+
+                            Case Is > 2.8
+
+                        End Select
+
+                    Else
+                        '    '   teststate = weighprocess.erroring
+                    End If
+                End If
+
+
+
+            Case Weighprocess.prompting
+
+
+
+                If entering Then
+                    entering = False
+                    Lbl_Instruction.Text = "Remove Canister From Scale"
+                    '   tmrsort.Start()
+                    ' determine disposition
+                    If MDataset.firstweightexists = False Then
+                        ' If this is a first weight accept all
+
+                        ccylinder.Disposition = True
+                        'write record to the file
+                        writefirstweight()
+
+                    Else
+                        ccylinder.DetermineDisposition()
+                        write_second_weight()
+
+                    End If
+                    ' update the counters for disposition 
+                    updatecounts()
+
+                    'set label colors
+                    Lbl_IDLE.BackColor = Color.Gold
+
+                    Lbl_Weighing.BackColor = Color.Transparent
+
+                    'set good and bad colors here 
+                    If ccylinder.Disposition = True Then
+                        ' Sucess
+                        Lbl_Good.BackColor = Color.Green
+                        Lbl_Bad.BackColor = Color.Transparent
+                    Else
+                        'fail
+                        Lbl_Good.BackColor = Color.Transparent
+                        Lbl_Bad.BackColor = Color.Red
+                    End If
+
+
+                    Lbl_Remove.BackColor = Color.Gold
+
+
+
+
+                    ' update canister number
+                    MDataset.canisternum = MDataset.canisternum + 1
+
+
+                End If
+
+                '     If MDataset.firstweightexists = False Then
+
+
+
+                'test for switch position based on good or bad result.
+                'if tmrsort.elapsedmilliseconds > 500 then ' if the switch has not set then fire off error
+                '    '   teststate = weighprocess.erroring
+                '    entering = true
+                'end if
+
+
+                If sartorius.CurrentReading < nocanweight Then ' Do not exit until the canister is removed.
+                    teststate = Weighprocess.taring
+                    entering = True
+                    ccylinder.dispose()
+                End If
+
+
+
+            Case Weighprocess.erroring ' if we end up here stop processing
+                If entering Then
+                    entering = False
+                End If
+
+
+        End Select
+
+
+
+
+    End Sub
+
+    Private Sub updatetare()
+        mycom.Write("T" & ControlChars.CrLf)
+    End Sub
+
+    Private Sub updatecounts()
+        ' updating both the pallet and static counters
+
+        If ccylinder.Disposition = True Then
+
+            MDataset.numgood = MDataset.numgood + 1
+            'If MDataset.firstweightexists = True Then
+            '    My.Settings.TotalGood = My.Settings.TotalGood + 1
+            '    My.Settings.Save()
+            'End If
+
+        Else
+            MDataset.numbad = MDataset.numbad + 1
+            'If MDataset.firstweightexists = True Then
+            '    My.Settings.TotalGood = My.Settings.TotalGood + 1
+            '    My.Settings.Save()
+            'End If
+        End If
+        Lbl_BadCount.Text = My.Settings.TotalBad
+        Lbl_GoodCount.Text = My.Settings.TotalGood
+        Lbl_CurrentGood.Text = MDataset.numgood.ToString
+        Lbl_CurrentBad.Text = MDataset.numbad.ToString
+
+    End Sub
+
 
     Private Sub Btn_StartPallet_Click(sender As Object, e As EventArgs) Handles Btn_StartPallet.Click
         Dim followup As MsgBoxResult
 
-
+        Lbl_PalletN.Text = ""
+        Lbl_BatchN.Text = ""
         MDataset = New PalletData
 
         MDataset.RenewFileList()
@@ -175,8 +448,11 @@ Public Class Manual_Weight
 
             'Set the batch value
             Lbl_BatchN.Text = MDataset.batch
+
             ' and then write the file header.
             writefileheader2()
+            'and set the cylinder index to 0
+
 
         End If
 
@@ -186,20 +462,41 @@ Public Class Manual_Weight
         Tmr_ScreenUpdate.Start()
         tmrcycle.Start()
         'sartorius.startreceiving = True
+
+        newcommport()
+
+        Lbl_CurrentGood.Text = MDataset.numgood.ToString
+        Lbl_CurrentBad.Text = MDataset.numbad.ToString
+        entering = True
+
+
     End Sub
 
     Private Sub Btn_StopPallet_Click(sender As Object, e As EventArgs) Handles Btn_StopPallet.Click
         ' Empty MDataset of ID information.
 
+        Closepallet()
+
+    End Sub
+
+    Private Sub Closepallet()
         Tmr_ScreenUpdate.Stop()
 
         ' Toggle buttons
         Btn_StartPallet.Enabled = True
         Btn_StopPallet.Enabled = False
         teststate = Weighprocess.idle
-        swdataset.Close() ' Need to think if we close here or create a routine to handle closing
+        If MDataset.firstweightexists = True Then
+            write_Summary()
+        End If
 
+
+        swdataset.Close() ' Need to think if we close here or create a routine to handle closing
     End Sub
+
+
+
+
     Private Sub WritefileHeader1() ' write the header to the firstweight data set.
         ' Very simple file to hold first pass data.
         Dim Myfile As String
@@ -216,8 +513,8 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub writefirstweight(ByVal cylweight As String)
-        swdataset.WriteLine(cylinder.Firstweight.ToString)
+    Private Sub writefirstweight()
+        swdataset.WriteLine(ccylinder.Firstweight.ToString)
 
     End Sub
 
@@ -247,17 +544,18 @@ Public Class Manual_Weight
 
     Private Sub write_second_weight()
 
-        swdataset.Write(cylinder.CylIndex.ToString & ", ")
-        swdataset.Write(cylinder.Firstweight.ToString & ", ")
-        swdataset.Write(cylinder.Secondweight.ToString & ", ")
-        swdataset.WriteLine(cylinder.Disposition)
+        swdataset.Write(ccylinder.CylIndex.ToString & ", ")
+        swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
+        swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
+        swdataset.WriteLine(ccylinder.Disposition)
 
     End Sub
 
     Private Sub write_Summary()
         ' Write summary data line and Close Stream
-        '  swdataset.WriteLine(MDataset.)
-        swdataset.Close()
+        swdataset.WriteLine("Number of Good Cylinders, " & MDataset.numgood)
+        swdataset.WriteLine("Number of Bad Cylinders, " & MDataset.numbad)
+
     End Sub
 
     Private Sub Btn_WeighFolders(sender As Object, e As EventArgs) Handles Btn_WeighFolder.Click
@@ -270,186 +568,6 @@ Public Class Manual_Weight
 
 
 
-    Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
-
-        ' determine which canister you are weighing.
-        ' Load that data in.
-
-
-
-        'Dim cycle As Integer
-        'Dim longtime As Long
-
-        'longtime = tmrcycle.ElapsedMilliseconds
-        Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
-        If sartorius.Stable Then
-            GB_Scale.BackColor = Color.LimeGreen
-        Else
-            GB_Scale.BackColor = Color.Transparent
-
-
-        End If
-        'Label14.Text = longtime.ToString
-
-
-
-        Select Case teststate
-
-            Case Weighprocess.idle
-                If entering Then
-                    entering = False
-
-                    'set label colors
-                    Lbl_IDLE.BackColor = Color.Gold
-                    Lbl_Weighing.BackColor = Color.Transparent
-                    Lbl_Good.BackColor = Color.Transparent
-                    Lbl_Bad.BackColor = Color.Transparent
-                    Lbl_Remove.BackColor = Color.Transparent
-                End If
-                '                If cycle > 1000 Then
-                'teststate = Weighprocess.taring
-
-                'entering = True
-                'End If
-                teststate = Weighprocess.taring
-                ' wait for start pallet buttonclick  when clickek
-
-
-            Case Weighprocess.taring
-                If entering Then
-                    entering = False
-                    cylinder = New Cylinder
-
-                    If MDataset.firstweightexists Then
-
-                    Else
-
-                    End If
-                    'set label colors
-                    Lbl_IDLE.BackColor = Color.Gold
-                    Lbl_IDLE.Text = "Taring"
-                    Lbl_Weighing.BackColor = Color.Transparent
-                    Lbl_Good.BackColor = Color.Transparent
-                    Lbl_Bad.BackColor = Color.Transparent
-                    Lbl_Remove.BackColor = Color.Transparent
-                End If
-
-
-
-                '' check for scale health and stability
-                If sartorius.ishealthy Then
-                    If sartorius.Stable Then
-                        Select Case sartorius.CurrentReading
-
-                            Case Is < My.Settings.TareLimit
-                                teststate = Weighprocess.weighing
-                                entering = True
-                                'Case    > My.Settings.TareLimit and < my.Settings.TareError
-
-                            Case Is > My.Settings.TareError
-
-                        End Select
-
-                    Else
-                        '    '   teststate = weighprocess.erroring
-                    End If
-                End If
-
-
-            Case Weighprocess.weighing
-                If entering Then
-                    entering = False
-                    'set label colors
-                    Lbl_IDLE.BackColor = Color.Transparent
-                    Lbl_IDLE.Text = "idle"
-                    Lbl_Weighing.BackColor = Color.Gold
-                    Lbl_Good.BackColor = Color.Transparent
-                    Lbl_Bad.BackColor = Color.Transparent
-                    Lbl_Remove.BackColor = Color.Transparent
-
-
-                End If
-
-                If sartorius.ishealthy Then
-                    If sartorius.Stable Then
-                        Select Case sartorius.CurrentReading
-
-                            Case Is > 2.0
-                                teststate = Weighprocess.prompting
-
-                                entering = True
-                                'Case    > My.Settings.TareLimit and < my.Settings.TareError
-
-                            Case Is > 2.8
-
-                        End Select
-
-                    Else
-                        '    '   teststate = weighprocess.erroring
-                    End If
-                End If
-
-
-
-            Case Weighprocess.prompting
-
-
-
-                If entering Then
-                    entering = False
-                    '   tmrsort.Start()
-                    'set label colors
-                    Lbl_IDLE.BackColor = Color.Transparent
-                    Lbl_IDLE.Text = "idle"
-                    Lbl_Weighing.BackColor = Color.Transparent
-
-                    'set good and bad colors here 
-                    Lbl_Good.BackColor = Color.Transparent
-                    Lbl_Bad.BackColor = Color.Transparent
-
-                    Lbl_Remove.BackColor = Color.Gold
-
-                End If
-
-                '     If MDataset.firstweightexists = False Then
-                ' fist weights
-
-
-                'Else
-                ' second weight
-
-
-                'End If
-
-
-                '  If cycle > 4000 Then teststate = Weighprocess.taring
-
-
-                'test for switch position based on good or bad result.
-                'if tmrsort.elapsedmilliseconds > 500 then ' if the switch has not set then fire off error
-                '    '   teststate = weighprocess.erroring
-                '    entering = true
-                'end if
-                If sartorius.CurrentReading < nocanweight Then
-                    teststate = Weighprocess.taring
-                    entering = True
-
-                End If
-
-
-
-            Case Weighprocess.erroring ' if we end up here stop processing
-                If entering Then
-                    entering = False
-                End If
-
-
-        End Select
-
-
-
-
-    End Sub
     Sub loginhandling()
 
         Dim count As Integer
@@ -492,9 +610,7 @@ Public Class Manual_Weight
 
 
 
-    Private Sub Setup_Click(sender As Object, e As EventArgs) Handles Setup.Click
 
-    End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         ChangePassword.Enabled = True
@@ -643,6 +759,19 @@ Public Class Manual_Weight
 
     End Sub
 
+    Private Sub Btn_SerialPort_Click(sender As Object, e As EventArgs) Handles Btn_SerialPort.Click
+
+        If LB_SerialPorts.SelectedIndex = -1 Then
+
+            MsgBox("No serial port is selected")
+        Else
+            My.Settings.SerialPort = LB_SerialPorts.SelectedItem.ToString
+
+            ' I could put a routine in here to send a text string and look for a response.
+
+        End If
+
+    End Sub
 
     Private Sub Btn_CalFolder_Click(sender As Object, e As EventArgs) Handles Btn_CalFolder.Click
         caldata.selectcalfolder()
@@ -789,32 +918,41 @@ Public Class Manual_Weight
         entering = True
 
     End Sub
+
+
     Private Sub newcommport()
 
         Dim myportnames() As String
         myportnames = SerialPort.GetPortNames
-
-        mycom = New SerialPort
-
-        AddHandler mycom.DataReceived, AddressOf mycom_Datareceived ' handler for data received event
+        If IsNothing(mycom) Then
+            mycom = New SerialPort
 
 
-        With mycom
-            .PortName = My.Settings.SerialPort ' gets port name from static data set
-            .BaudRate = 9600
-            .Parity = Parity.Odd
-            .StopBits = StopBits.One
-            .Handshake = Handshake.RequestToSend ' Need to think here
-            .DataBits = 7
-            .ReceivedBytesThreshold = 15 ' one byte short of a complete messsage string of 16 asci characters   
+            AddHandler mycom.DataReceived, AddressOf mycom_Datareceived ' handler for data received event
 
-        End With
 
+            With mycom
+                .PortName = My.Settings.SerialPort ' gets port name from static data set
+                .BaudRate = 9600
+                .Parity = Parity.Odd
+                .StopBits = StopBits.One
+                .Handshake = Handshake.RequestToSend ' Need to think here
+                .DataBits = 7
+                .ReceivedBytesThreshold = 15 ' one byte short of a complete messsage string of 16 asci characters   
+
+            End With
+        End If
         If (Not mycom.IsOpen) Then
 
             Try
                 mycom.Open()
 
+                mycom.DtrEnable = True
+
+
+                '     tmrlasttime.Start()
+                mycom.DiscardInBuffer()
+                mycom.Write("P" & ControlChars.CrLf)
             Catch ex As Exception
                 MessageBox.Show(ex.Message)
             End Try
@@ -853,12 +991,6 @@ Public Class Manual_Weight
         'End If
 
 
-        mycom.DtrEnable = True
-
-
-        '     tmrlasttime.Start()
-        mycom.DiscardInBuffer()
-        mycom.Write("P" & ControlChars.CrLf)
 
     End Sub
 
@@ -878,6 +1010,7 @@ Public Class Manual_Weight
         Thread.Sleep(1)
 
     End Sub
+
 
 
 
