@@ -91,10 +91,10 @@ Public Class Scalemanagement
 
 
 
-    Sub closeport()
-        mycom.Close()
+    'Sub closeport()
+    '    mycom.Close()
 
-    End Sub
+    'End Sub
     'Property startreceiving As Boolean
     '    Get
 

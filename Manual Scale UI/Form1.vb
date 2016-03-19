@@ -216,13 +216,15 @@ Public Class Manual_Weight
                 If sartorius.ishealthy Then
                     If sartorius.Stable Then
                         Select Case sartorius.CurrentReading
-
+                            Case Is = 0.0
+                                updatetare()
                             Case Is < My.Settings.TareLimit
                                 teststate = Weighprocess.weighing
                                 entering = True
                                 'Case    > My.Settings.TareLimit and < my.Settings.TareError
 
                             Case Is > My.Settings.TareError
+
 
                             Case Else
                                 updatetare()
@@ -488,6 +490,7 @@ Public Class Manual_Weight
         teststate = Weighprocess.idle
         If MDataset.firstweightexists = True Then
             write_Summary()
+            write_history()
         End If
 
 
@@ -557,6 +560,12 @@ Public Class Manual_Weight
         swdataset.WriteLine("Number of Bad Cylinders, " & MDataset.numbad)
 
     End Sub
+
+    Private Sub write_history()
+
+    End Sub
+
+
 
     Private Sub Btn_WeighFolders(sender As Object, e As EventArgs) Handles Btn_WeighFolder.Click
         caldata.SelectDataFolder()
@@ -888,6 +897,8 @@ Public Class Manual_Weight
 
 
     Private Sub portclosing()
+        If IsNothing(mycom) Then Exit Sub
+
         If mycom.IsOpen = True Then
             mycom.ReceivedBytesThreshold = 500
             Thread.Sleep(10)
