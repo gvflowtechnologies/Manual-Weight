@@ -317,7 +317,9 @@ Public Class Manual_Weight
                     Else
                         ccylinder.DetermineDisposition()
                         write_second_weight()
-
+                        If ccylinder.Disposition = False Then
+                            cylindersorter.Sort(2)
+                        End If
                     End If
                     ' update the counters for disposition 
                     updatecounts()
@@ -479,7 +481,8 @@ Public Class Manual_Weight
         teststate = Weighprocess.taring ' Start weighing Process
         Tmr_ScreenUpdate.Start()
         tmrcycle.Start()
-        'sartorius.startreceiving = True
+
+
 
         newcommport()
 
