@@ -152,7 +152,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("20")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3")>  _
         Public Property ColNum() As Integer
             Get
                 Return CType(Me("ColNum"),Integer)
@@ -164,7 +164,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("20")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3")>  _
         Public Property RowNum() As Integer
             Get
                 Return CType(Me("RowNum"),Integer)

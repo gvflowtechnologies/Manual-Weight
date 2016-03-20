@@ -108,6 +108,8 @@ Public Class Manual_Weight
         Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
         Lbl_WeightLoss.Text = My.Settings.WeightLoss.ToString("N4")
         Lbl_Instruction.Text = "Remove Canister From Scale"
+        LBL_CCOL.Text = "0"
+        LBL_CRow.Text = "0"
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
 
@@ -170,11 +172,7 @@ Public Class Manual_Weight
 
 
                 End If
-                '                If cycle > 1000 Then
-                'teststate = Weighprocess.taring
-
-                'entering = True
-                'End If
+    
                 teststate = Weighprocess.taring
                 ' wait for start pallet buttonclick  when clickek
 
@@ -185,23 +183,21 @@ Public Class Manual_Weight
 
                     ccylinder = New Cylinder
 
-                    If MDataset.firstweightexists = False Then
-                        ' Setting up first weight
-                        'Nothing to really set up here.
-                    Else
-                        ' Setting up cylinder for second weight
 
-                        If MDataset.palletcount >= MDataset.canisternum Then
+                    ' Setting up cylinder for second weight
+
+                    If MDataset.palletcount >= MDataset.canisternum Then
+                        If MDataset.firstweightexists = True Then
                             ccylinder.CylIndex = MDataset.canisternum
                             ccylinder.Firstweight = MDataset.initialweight
-
-                        Else
-                            Closepallet()
-
-                            MsgBox("Pallet Complete")
                         End If
 
+                    Else
+                        Closepallet()
+
+                        MsgBox("Pallet Complete")
                     End If
+
                     ''set label colors
                     Lbl_Instruction.Text = "Remove Canister From Scale"
                     Lbl_IDLE.BackColor = Color.Gold
@@ -227,7 +223,7 @@ Public Class Manual_Weight
                 End If
 
 
-
+                ''Taring Section
                 '' check for scale health and stability
                 If sartorius.ishealthy Then
                     If sartorius.Stable Then
@@ -265,6 +261,8 @@ Public Class Manual_Weight
                     Lbl_Bad.BackColor = Color.Transparent
                     Lbl_Remove.BackColor = Color.Transparent
                     Lbl_Instruction.Text = "Place Canister On Scale"
+
+
 
                 End If
 
@@ -305,8 +303,9 @@ Public Class Manual_Weight
                 If entering Then
                     entering = False
                     Lbl_Instruction.Text = "Remove Canister From Scale"
-                    '   tmrsort.Start()
-                    ' determine disposition
+
+                    updaterowsandcolumns()
+
                     If MDataset.firstweightexists = False Then
                         ' If this is a first weight accept all
 
@@ -352,15 +351,7 @@ Public Class Manual_Weight
 
                 End If
 
-                '     If MDataset.firstweightexists = False Then
 
-
-
-                'test for switch position based on good or bad result.
-                'if tmrsort.elapsedmilliseconds > 500 then ' if the switch has not set then fire off error
-                '    '   teststate = weighprocess.erroring
-                '    entering = true
-                'end if
 
 
                 If sartorius.CurrentReading < nocanweight Then ' Do not exit until the canister is removed.
@@ -387,6 +378,18 @@ Public Class Manual_Weight
     Private Sub updatetare()
         '  mycom.Write("T" & ControlChars.CrLf)
     End Sub
+    Private Sub updaterowsandcolumns()
+
+        MDataset.updaterowandcoumn()
+
+
+
+        LBL_CCOL.Text = MDataset.curcol.ToString
+        LBL_CRow.Text = MDataset.currow.ToString
+
+
+    End Sub
+
 
     Private Sub updatecounts()
         ' updating both the pallet and static counters
@@ -983,16 +986,7 @@ Public Class Manual_Weight
 
 
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        'sartorius = New Scalemanagement
-        Button2.Enabled = False
-        Tmr_ScreenUpdate.Start()
-        newcommport()
-        tmrcycle.Start()
-        teststate = Weighprocess.taring
-        entering = True
 
-    End Sub
 
 
     Private Sub newcommport()

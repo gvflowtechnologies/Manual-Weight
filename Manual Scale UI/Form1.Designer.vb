@@ -25,7 +25,6 @@ Partial Class Manual_Weight
         Me.components = New System.ComponentModel.Container()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Lbl_Instruction = New System.Windows.Forms.Label()
         Me.Lbl_Remove = New System.Windows.Forms.Label()
@@ -123,7 +122,6 @@ Partial Class Manual_Weight
         '
         'RunPage
         '
-        Me.RunPage.Controls.Add(Me.Button2)
         Me.RunPage.Controls.Add(Me.GroupBox1)
         Me.RunPage.Controls.Add(Me.sLbl_PN)
         Me.RunPage.Controls.Add(Me.sLbl_BN)
@@ -141,15 +139,6 @@ Partial Class Manual_Weight
         Me.RunPage.TabIndex = 0
         Me.RunPage.Text = "Weighing"
         Me.RunPage.UseVisualStyleBackColor = True
-        '
-        'Button2
-        '
-        Me.Button2.Location = New System.Drawing.Point(714, 314)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(75, 23)
-        Me.Button2.TabIndex = 11
-        Me.Button2.Text = "Button2"
-        Me.Button2.UseVisualStyleBackColor = True
         '
         'GroupBox1
         '
@@ -1012,7 +1001,6 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_MaxWeight As System.Windows.Forms.Label
     Friend WithEvents Lbl_WeightLoss As System.Windows.Forms.Label
     Friend WithEvents Lbl_TareError As System.Windows.Forms.Label
-    Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents Btn_SerialPort As System.Windows.Forms.Button
     Friend WithEvents Lbl_Instruction As System.Windows.Forms.Label
 

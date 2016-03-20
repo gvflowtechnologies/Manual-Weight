@@ -19,6 +19,10 @@ Public Class PalletData
     Private CountBad As Integer    ' Number of bad parts in pallet
     Private CountGood As Integer ' Number of good parts in pallet
 
+    Private iNumRows As Integer
+    Private iNumCols As Integer
+    Private iCurRow As Integer
+    Private iCurCol As Integer
 
     Private number_of_Canisters As Integer ' number of canisters in pallet
     Private canisternumber As Integer ' Currrent Canister weighed
@@ -41,8 +45,12 @@ Public Class PalletData
         DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
         CountBad = 0
         CountGood = 0
-        'If 
+        iCurRow = 1
+        iCurCol = 1
+        iNumRows = My.Settings.RowNum
+        iNumCols = My.Settings.ColNum
 
+        number_of_Canisters = iNumCols * iNumRows - 1
         fweight = My.Settings.File_Directory & "\In Process"
         completed = My.Settings.File_Directory & "\Completed"
 
@@ -113,7 +121,19 @@ Public Class PalletData
 
     End Sub
 
+    Public Sub updaterowandcoumn()
 
+        iCurCol += 1
+        If iCurCol > iNumCols Then
+            iCurRow += 1
+            iCurCol = 1
+            If currow > iNumRows Then
+                iCurRow = iNumRows
+                iCurCol = iNumCols
+            End If
+        End If
+
+    End Sub
 
 
     Public Sub readfirstweight()
@@ -141,8 +161,9 @@ Public Class PalletData
             '            dseconddweightdate = DateTime.Now
             tmpstream.Dispose()
             File.Delete(FNreadfirst)
-        End If
 
+
+        End If
 
     End Sub
 
@@ -195,7 +216,7 @@ Public Class PalletData
     End Property
 
 
-    Public Property pallet As String
+    Public Property pallet As String ' Pallet Identification
 
         Get
             Return Me.palletid
@@ -207,7 +228,7 @@ Public Class PalletData
         End Set
     End Property
 
-    Public Property batch As String
+    Public Property batch As String ' Batch Identification
         Get
             Return Me.batchid
         End Get
@@ -240,19 +261,19 @@ Public Class PalletData
         End Get
     End Property
 
-    Public ReadOnly Property Lscalecaldate As String
+    Public ReadOnly Property Lscalecaldate As String ' Last Scale Calibration Date
         Get
             Return DateScaleCalLast
         End Get
     End Property
 
-    Public ReadOnly Property NScaleCalDate As String
+    Public ReadOnly Property NScaleCalDate As String ' Next Scale Calibration Date
         Get
             Return DateScaleCalNext
         End Get
     End Property
 
-    ReadOnly Property palletcount As Integer
+    ReadOnly Property palletcount As Integer 'Number of canisters in a pallet
         Get
             Return number_of_Canisters
         End Get
@@ -260,7 +281,7 @@ Public Class PalletData
     End Property
 
 
-    Property canisternum As Integer 'increment
+    Property canisternum As Integer 'Current index number of canister being weighed
         Set(value As Integer)
 
             canisternumber = value
@@ -271,7 +292,7 @@ Public Class PalletData
         End Get
     End Property
 
-    Property numgood As Integer
+    Property numgood As Integer ' Number of good devices in a pallet
         Get
             Return CountGood
         End Get
@@ -280,7 +301,7 @@ Public Class PalletData
         End Set
     End Property
 
-    Property numbad As Integer
+    Property numbad As Integer ' Number of bad devices in a pallet
         Get
             Return CountBad
         End Get
@@ -289,6 +310,23 @@ Public Class PalletData
         End Set
     End Property
 
+    Property currow As Integer
+        Get
+            Return iCurRow
+        End Get
+        Set(value As Integer)
+            iCurRow = value
+        End Set
+    End Property
+
+    Property curcol As Integer
+        Get
+            Return iCurCol
+        End Get
+        Set(value As Integer)
+            iCurCol = value
+        End Set
+    End Property
 
 
     ReadOnly Property initialweight As Single

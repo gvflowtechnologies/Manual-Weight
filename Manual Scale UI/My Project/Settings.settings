@@ -27,10 +27,10 @@
       <Value Profile="(Default)">12</Value>
     </Setting>
     <Setting Name="ColNum" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">20</Value>
+      <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="RowNum" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">20</Value>
+      <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="ColSpace" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0.5</Value>
