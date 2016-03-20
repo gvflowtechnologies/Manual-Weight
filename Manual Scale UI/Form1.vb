@@ -28,7 +28,7 @@ Public Class Manual_Weight
     Dim ccylinder As Cylinder
 
     Dim swdataset As StreamWriter
-
+    Dim swlogdata As StreamWriter
     Public cancelclicked As Boolean
     Delegate Sub scaledata(ByVal sdata As String)
     Dim updateweight As scaledata
@@ -561,7 +561,32 @@ Public Class Manual_Weight
 
     End Sub
 
+    Private Sub Write_History_Header()
+        ' Write Log header only if file doe not already exist.
+
+        Dim Logfile As String
+        Logfile = My.Settings.Caldirectory & "\AVWeightLogFile"
+
+        'Write
+
+        If Not File.Exists(Logfile) Then
+
+            swlogdata = New StreamWriter(Logfile, False)
+            swlogdata.WriteLine("Altaviz Log File")
+            swlogdata.WriteLine("2nd weight time, 1st weight time, Lot#, Pallet ID, Calibration Date, Calibration Due, Pass, Fail")
+
+        Else
+            swlogdata = New StreamWriter(Logfile, True)
+
+        End If
+
+
+
+    End Sub
+
     Private Sub write_history()
+
+        swlogdata.Write()
 
     End Sub
 
