@@ -105,7 +105,6 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calibration_File.vb" />
     <Compile Include="ChangePassword.Designer.vb">
       <DependentUpon>ChangePassword.vb</DependentUpon>
     </Compile>
@@ -115,9 +114,7 @@
     <Compile Include="caldata.vb" />
     <Compile Include="CSorter.vb" />
     <Compile Include="Cylinder.vb" />
-    <Compile Include="DataProcessing.vb" />
     <Compile Include="Datareceive.vb" />
-    <Compile Include="FileWriting.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
