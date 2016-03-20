@@ -565,9 +565,19 @@ Public Class Manual_Weight
         ' Write Log header only if file doe not already exist.
 
         Dim Logfile As String
+        If My.Settings.Caldirectory = "" Then
+            My.Settings.Caldirectory = "c:\CalDirectory"
+            My.Settings.Save()
+        End If
+
         Logfile = My.Settings.Caldirectory & "\AVWeightLogFile"
 
+
         'Write
+
+        If Not Directory.Exists(My.Settings.Caldirectory) Then
+            Directory.CreateDirectory(My.Settings.Caldirectory)
+        End If
 
         If Not File.Exists(Logfile) Then
 
@@ -586,7 +596,16 @@ Public Class Manual_Weight
 
     Private Sub write_history()
 
-        swlogdata.Write()
+        If IsNothing(swlogdata) Then Write_History_Header()
+
+        swlogdata.Write(MDataset.timesecondwt & ", ")
+        swlogdata.Write(MDataset.timefirstwt & ", ")
+        swlogdata.Write(MDataset.batch & ", ")
+        swlogdata.Write(MDataset.pallet & ", ")
+        swlogdata.Write(MDataset.Lscalecaldate & ", ")
+        swlogdata.Write(MDataset.NScaleCalDate & ", ")
+        swlogdata.Write(MDataset.numgood & ", ")
+        swlogdata.WriteLine(MDataset.numbad)
 
     End Sub
 
