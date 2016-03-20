@@ -212,12 +212,13 @@ Public Class Manual_Weight
                 End If
 
 
+
                 '' check for scale health and stability
                 If sartorius.ishealthy Then
                     If sartorius.Stable Then
                         Select Case sartorius.CurrentReading
-                            Case Is = 0.0
-                                updatetare()
+                            '      Case Is = 0.0
+                            '         updatetare()
                             Case Is < My.Settings.TareLimit
                                 teststate = Weighprocess.weighing
                                 entering = True
@@ -367,7 +368,7 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub updatetare()
-        mycom.Write("T" & ControlChars.CrLf)
+        '  mycom.Write("T" & ControlChars.CrLf)
     End Sub
 
     Private Sub updatecounts()
