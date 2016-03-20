@@ -302,48 +302,11 @@ Public Class Manual_Weight
 
                 If entering Then
                     entering = False
-                    Lbl_Instruction.Text = "Remove Canister From Scale"
+
 
                     updaterowsandcolumns()
 
-                    If MDataset.firstweightexists = False Then
-                        ' If this is a first weight accept all
-
-                        ccylinder.Disposition = True
-                        'write record to the file
-                        writefirstweight()
-
-                    Else
-                        ccylinder.DetermineDisposition()
-                        write_second_weight()
-                        If ccylinder.Disposition = False Then
-                            cylindersorter.Sort(2)
-                        End If
-                    End If
-                    ' update the counters for disposition 
-                    updatecounts()
-
-                    'set label colors
-                    Lbl_IDLE.BackColor = Color.Gold
-
-                    Lbl_Weighing.BackColor = Color.Transparent
-
-                    'set good and bad colors here 
-                    If ccylinder.Disposition = True Then
-                        ' Sucess
-                        Lbl_Good.BackColor = Color.Green
-                        Lbl_Bad.BackColor = Color.Transparent
-                    Else
-                        'fail
-                        Lbl_Good.BackColor = Color.Transparent
-                        Lbl_Bad.BackColor = Color.Red
-                    End If
-
-
-                    Lbl_Remove.BackColor = Color.Gold
-
-
-
+                    Disposition()
 
                     ' update canister number
                     MDataset.canisternum = MDataset.canisternum + 1
@@ -390,6 +353,48 @@ Public Class Manual_Weight
 
     End Sub
 
+    Private Sub Disposition()
+        If MDataset.firstweightexists = False Then
+            ' If this is a first weight accept all
+
+            ccylinder.Disposition = True
+            'write record to the file
+            writefirstweight()
+            Lbl_Instruction.Text = "Return Cylinder to Pallet"
+        Else
+            ccylinder.DetermineDisposition()
+            write_second_weight()
+            Lbl_Instruction.Text = "Put Cylinder in Good Bin"
+            If ccylinder.Disposition = False Then
+                cylindersorter.Sort(2)
+                Lbl_Instruction.Text = "Put Cylinder in Bad Bin"
+            End If
+        End If
+        ' update the counters for disposition 
+        updatecounts()
+
+        'set label colors
+        Lbl_IDLE.BackColor = Color.Gold
+
+        Lbl_Weighing.BackColor = Color.Transparent
+
+        'set good and bad colors here 
+
+        If ccylinder.Disposition = True Then
+            ' Sucess
+            Lbl_Good.BackColor = Color.Green
+            Lbl_Bad.BackColor = Color.Transparent
+        Else
+            'fail
+            Lbl_Good.BackColor = Color.Transparent
+            Lbl_Bad.BackColor = Color.Red
+        End If
+
+
+        Lbl_Remove.BackColor = Color.Gold
+
+
+    End Sub
 
     Private Sub updatecounts()
         ' updating both the pallet and static counters

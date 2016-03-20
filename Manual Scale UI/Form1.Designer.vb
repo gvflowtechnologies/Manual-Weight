@@ -151,7 +151,7 @@ Partial Class Manual_Weight
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(33, 65)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(485, 118)
+        Me.GroupBox1.Size = New System.Drawing.Size(485, 130)
         Me.GroupBox1.TabIndex = 9
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Test Status"
@@ -180,9 +180,9 @@ Partial Class Manual_Weight
         Me.Lbl_Bad.AutoSize = True
         Me.Lbl_Bad.Location = New System.Drawing.Point(302, 89)
         Me.Lbl_Bad.Name = "Lbl_Bad"
-        Me.Lbl_Bad.Size = New System.Drawing.Size(55, 25)
+        Me.Lbl_Bad.Size = New System.Drawing.Size(50, 25)
         Me.Lbl_Bad.TabIndex = 3
-        Me.Lbl_Bad.Text = "BAD"
+        Me.Lbl_Bad.Text = "Bad"
         '
         'Lbl_Good
         '
@@ -236,7 +236,7 @@ Partial Class Manual_Weight
         '
         Me.GB_Scale.Controls.Add(Me.Lbl_CurrentScale)
         Me.GB_Scale.Controls.Add(Me.sLbl_SR)
-        Me.GB_Scale.Location = New System.Drawing.Point(33, 201)
+        Me.GB_Scale.Location = New System.Drawing.Point(33, 216)
         Me.GB_Scale.Name = "GB_Scale"
         Me.GB_Scale.Size = New System.Drawing.Size(243, 103)
         Me.GB_Scale.TabIndex = 6
@@ -421,7 +421,7 @@ Partial Class Manual_Weight
         '
         'Btn_StopPallet
         '
-        Me.Btn_StopPallet.Location = New System.Drawing.Point(201, 314)
+        Me.Btn_StopPallet.Location = New System.Drawing.Point(201, 329)
         Me.Btn_StopPallet.Name = "Btn_StopPallet"
         Me.Btn_StopPallet.Size = New System.Drawing.Size(75, 23)
         Me.Btn_StopPallet.TabIndex = 3
@@ -454,7 +454,7 @@ Partial Class Manual_Weight
         '
         'Btn_StartPallet
         '
-        Me.Btn_StartPallet.Location = New System.Drawing.Point(33, 314)
+        Me.Btn_StartPallet.Location = New System.Drawing.Point(33, 329)
         Me.Btn_StartPallet.Name = "Btn_StartPallet"
         Me.Btn_StartPallet.Size = New System.Drawing.Size(106, 23)
         Me.Btn_StartPallet.TabIndex = 0

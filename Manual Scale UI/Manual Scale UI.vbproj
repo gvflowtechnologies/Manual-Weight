@@ -115,6 +115,7 @@
     <Compile Include="CSorter.vb" />
     <Compile Include="Cylinder.vb" />
     <Compile Include="Datareceive.vb" />
+    <Compile Include="Disposition.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
