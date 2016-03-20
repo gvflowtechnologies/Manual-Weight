@@ -115,7 +115,7 @@ Partial Class Manual_Weight
         '
         Me.TabControl1.Controls.Add(Me.RunPage)
         Me.TabControl1.Controls.Add(Me.Setup)
-        Me.TabControl1.Location = New System.Drawing.Point(12, 12)
+        Me.TabControl1.Location = New System.Drawing.Point(10, 10)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(1160, 400)

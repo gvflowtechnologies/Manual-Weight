@@ -118,7 +118,7 @@ Public Class Manual_Weight
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
         portclosing()
         If Not IsNothing(swdataset) Then swdataset.Close()
-
+        If Not IsNothing(swlogdata) Then swlogdata.Close()
 
     End Sub
 
@@ -527,8 +527,8 @@ Public Class Manual_Weight
         swdataset = New StreamWriter(Myfile, False)
         swdataset.WriteLine(MDataset.batch)
         swdataset.WriteLine(MDataset.pallet)
-        swdataset.WriteLine(MDataset.timefirstwt)
-
+        swdataset.WriteLine(MDataset.timefirstwt.ToString)
+        '       swdataset.WriteLine(MDataset.datefirstwt.ToString)
 
     End Sub
 
@@ -546,9 +546,9 @@ Public Class Manual_Weight
 
         swdataset = New StreamWriter(Myfile, False)
         swdataset.Write("1st Weight Time,")
-        swdataset.WriteLine(MDataset.timefirstwt)
+        swdataset.WriteLine(MDataset.timefirstwt.ToString)
         swdataset.Write("2nd Weight Time,")
-        swdataset.WriteLine(MDataset.timesecondwt)
+        swdataset.WriteLine(MDataset.timesecondwt.ToString)
         swdataset.Write("Pallet ID,")
         swdataset.WriteLine(MDataset.pallet)
         swdataset.Write("Lot#,")
@@ -586,7 +586,7 @@ Public Class Manual_Weight
             My.Settings.Save()
         End If
 
-        Logfile = My.Settings.Caldirectory & "\AVWeightLogFile"
+        Logfile = My.Settings.Caldirectory & "\AVWeightLogFile.txt"
 
 
         'Write
@@ -614,8 +614,9 @@ Public Class Manual_Weight
 
         If IsNothing(swlogdata) Then Write_History_Header()
 
-        swlogdata.Write(MDataset.timesecondwt & ", ")
-        swlogdata.Write(MDataset.timefirstwt & ", ")
+        swlogdata.Write(MDataset.timesecondwt.ToString & ", ")
+
+        swlogdata.Write(MDataset.timefirstwt.ToString & ", ")
         swlogdata.Write(MDataset.batch & ", ")
         swlogdata.Write(MDataset.pallet & ", ")
         swlogdata.Write(MDataset.Lscalecaldate & ", ")

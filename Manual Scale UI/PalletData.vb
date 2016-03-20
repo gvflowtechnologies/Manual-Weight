@@ -11,13 +11,14 @@ Public Class PalletData
     Private batchid As String ' current active pallet
     Private currentfilename As String ' Current Active File.
     Private BFirstweightExists As Boolean
-    Private sttimefirst As String ' time stamp of first weight
-    Private Sttimesecond As String ' time stamp of second weight
+    Private sttimefirst As Date ' time stamp of first weight
+    Private Sttimesecond As Date ' time stamp of second weight
     Private DateScaleCalLast As Date ' Date of last scale calibration.
     Private DateScaleCalNext As Date ' Date of next scale calibratin.
     Private FirstWeightReading() As String
     Private CountBad As Integer    ' Number of bad parts in pallet
     Private CountGood As Integer ' Number of good parts in pallet
+
 
     Private number_of_Canisters As Integer ' number of canisters in pallet
     Private canisternumber As Integer ' Currrent Canister weighed
@@ -92,7 +93,8 @@ Public Class PalletData
         ' Looking through all files in the first weight directory.
         For Each filename In currentfirstweights
             If BFirstweightExists = True Then
-                Sttimesecond = DateTime.Now.TimeOfDay.ToString
+                Sttimesecond = DateTime.Now
+                '                   dseconddweightdate = DateTime.Now
                 Exit Sub
             Else
 
@@ -106,7 +108,8 @@ Public Class PalletData
             End If
         Next
 
-        sttimefirst = DateTime.Now.TimeOfDay.ToString
+        sttimefirst = DateTime.Now
+        '        dfistweightdate = DateTime.Now
 
     End Sub
 
@@ -121,7 +124,8 @@ Public Class PalletData
 
             batchid = tmpstream.ReadLine()
             tmpstream.ReadLine()
-            sttimefirst = tmpstream.ReadLine()
+            sttimefirst = Convert.ToDateTime(tmpstream.ReadLine())
+            '       dfistweightdate = Convert.ToDateTime(tmpstream.ReadLine())
 
             number_of_Canisters = -1
             Do While tmpstream.Peek <> -1
@@ -133,7 +137,8 @@ Public Class PalletData
             Loop
 
 
-            Sttimesecond = DateTime.Now.TimeOfDay.ToString
+            Sttimesecond = DateTime.Now
+            '            dseconddweightdate = DateTime.Now
             tmpstream.Dispose()
             File.Delete(FNreadfirst)
         End If
@@ -212,15 +217,15 @@ Public Class PalletData
         End Set
     End Property
 
-    Public Property timefirstwt As String
+    Public Property timefirstwt As Date
         Get
             Return sttimefirst
         End Get
-        Set(value As String)
+        Set(value As Date)
 
         End Set
     End Property
-    Public ReadOnly Property timesecondwt As String
+    Public ReadOnly Property timesecondwt As Date
         Get
             Return Sttimesecond
         End Get
@@ -283,6 +288,7 @@ Public Class PalletData
             CountBad = value
         End Set
     End Property
+
 
 
     ReadOnly Property initialweight As Single
