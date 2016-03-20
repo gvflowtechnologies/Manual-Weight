@@ -117,6 +117,7 @@ Public Class Manual_Weight
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
         portclosing()
+        If Not IsNothing(swdataset) Then swdataset.Close()
 
 
     End Sub
@@ -209,6 +210,18 @@ Public Class Manual_Weight
                     Lbl_Good.BackColor = Color.Transparent
                     Lbl_Bad.BackColor = Color.Transparent
                     Lbl_Remove.BackColor = Color.Gold
+                End If
+
+                ' Check to see if something is on scale
+                ' If we think there is something on scale,  prompt to remove and click ok
+                'clear buffer
+                ' restart update tick
+                If sartorius.CurrentReading > My.Settings.MinWeight - My.Settings.TareLimit Then
+                    Me.BackColor = SystemColors.Info
+                    Dim myresponse As MsgBoxResult
+                    myresponse = MsgBox("Please remove canister", vbOKOnly, "Canister Detected on Scale")
+                ElseIf Me.BackColor = SystemColors.Info Then
+                    Me.BackColor = SystemColors.Control
                 End If
 
 

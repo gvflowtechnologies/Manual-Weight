@@ -23,6 +23,8 @@
         Dim weightdifference As Double
         'Deterimine if the device is good or bad.
         weightdifference = dMySecondweight - dMyfirstweight
+
+        ' what things do we want to check for?  Question for Pete
         If weightdifference < -My.Settings.WeightLoss Then
             ddisposition = False
 

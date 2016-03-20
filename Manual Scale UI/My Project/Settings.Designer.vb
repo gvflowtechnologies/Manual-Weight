@@ -200,7 +200,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.2")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.1")>  _
         Public Property WeightLoss() As Single
             Get
                 Return CType(Me("WeightLoss"),Single)
