@@ -217,10 +217,12 @@ Public Class Manual_Weight
                 'clear buffer
                 ' restart update tick
                 If sartorius.CurrentReading > My.Settings.MinWeight - My.Settings.TareLimit Then
-                    Me.BackColor = SystemColors.Info
+                    Me.BackColor = Color.Red
                     Dim myresponse As MsgBoxResult
+                    Tmr_ScreenUpdate.Stop()
                     myresponse = MsgBox("Please remove canister", vbOKOnly, "Canister Detected on Scale")
-                ElseIf Me.BackColor = SystemColors.Info Then
+                    Tmr_ScreenUpdate.Start()
+                ElseIf Me.BackColor = Color.Red Then
                     Me.BackColor = SystemColors.Control
                 End If
 
