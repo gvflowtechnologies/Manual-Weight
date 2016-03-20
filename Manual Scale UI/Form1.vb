@@ -491,6 +491,8 @@ Public Class Manual_Weight
 
         Lbl_CurrentGood.Text = MDataset.numgood.ToString
         Lbl_CurrentBad.Text = MDataset.numbad.ToString
+        LBL_CCOL.Text = MDataset.curcol.ToString
+        LBL_CRow.Text = MDataset.currow.ToString
         entering = True
 
 
