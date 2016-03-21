@@ -154,8 +154,13 @@ Public Class Manual_Weight
 
         End If
         'Label14.Text = longtime.ToString
+        If CB_ViewRaw.Checked = True Then
+            LblRawStream.Visible = True
+        Else
+            LblRawStream.Visible = False
 
-
+        End If
+        LblRawStream.Text = sartorius.RAWSTRING
 
         Select Case teststate
 
@@ -212,7 +217,7 @@ Public Class Manual_Weight
                 ' If we think there is something on scale,  prompt to remove and click ok
                 'clear buffer
                 ' restart update tick
-                If sartorius.CurrentReading > My.Settings.MinWeight - My.Settings.TareLimit Then
+                If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
                     Me.BackColor = Color.Red
                     Dim myresponse As MsgBoxResult
                     Tmr_ScreenUpdate.Stop()
@@ -236,6 +241,9 @@ Public Class Manual_Weight
                                 'Case    > My.Settings.TareLimit and < my.Settings.TareError
 
                             Case Is > My.Settings.TareError
+                                Dim myresponse As MsgBoxResult
+                                Tmr_ScreenUpdate.Stop()
+                                myresponse = MsgBox("Please Restart Program", vbOKOnly, "Scale Tare Error")
 
 
                             Case Else
@@ -270,7 +278,7 @@ Public Class Manual_Weight
                     If sartorius.Stable Then
                         Select Case sartorius.CurrentReading
 
-                            Case Is > (2.0)
+                            Case Is > My.Settings.MinWeight - 2 * My.Settings.TareLimit
                                 If MDataset.firstweightexists = False Then
                                     ' first weight reading
                                     ccylinder.Firstweight = sartorius.CurrentReading
@@ -285,7 +293,7 @@ Public Class Manual_Weight
                                 entering = True
                                 'Case    > My.Settings.TareLimit and < my.Settings.TareError
 
-                            Case Is > 2.8
+
 
                         End Select
 
@@ -295,9 +303,7 @@ Public Class Manual_Weight
                 End If
 
 
-
             Case Weighprocess.prompting
-
 
 
                 If entering Then
@@ -311,18 +317,14 @@ Public Class Manual_Weight
                     ' update canister number
                     MDataset.canisternum = MDataset.canisternum + 1
 
-
                 End If
 
 
-
-
-                If sartorius.CurrentReading < nocanweight Then ' Do not exit until the canister is removed.
+                If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
                     teststate = Weighprocess.taring
                     entering = True
                     ccylinder.dispose()
                 End If
-
 
 
             Case Weighprocess.erroring ' if we end up here stop processing
@@ -339,8 +341,9 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub updatetare()
-        '  mycom.Write("T" & ControlChars.CrLf)
+        mycom.Write("T" & ControlChars.CrLf)
     End Sub
+
     Private Sub updaterowsandcolumns()
 
         MDataset.updaterowandcoumn()
@@ -1090,4 +1093,5 @@ Public Class Manual_Weight
 
 
 
+   
 End Class

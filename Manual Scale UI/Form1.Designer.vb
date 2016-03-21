@@ -98,6 +98,8 @@ Partial Class Manual_Weight
         Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.CB_ViewRaw = New System.Windows.Forms.CheckBox()
+        Me.LblRawStream = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -234,6 +236,7 @@ Partial Class Manual_Weight
         '
         'GB_Scale
         '
+        Me.GB_Scale.Controls.Add(Me.LblRawStream)
         Me.GB_Scale.Controls.Add(Me.Lbl_CurrentScale)
         Me.GB_Scale.Controls.Add(Me.sLbl_SR)
         Me.GB_Scale.Location = New System.Drawing.Point(33, 216)
@@ -259,7 +262,7 @@ Partial Class Manual_Weight
         '
         Me.sLbl_SR.AutoSize = True
         Me.sLbl_SR.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sLbl_SR.Location = New System.Drawing.Point(6, 43)
+        Me.sLbl_SR.Location = New System.Drawing.Point(7, 41)
         Me.sLbl_SR.Name = "sLbl_SR"
         Me.sLbl_SR.Size = New System.Drawing.Size(139, 25)
         Me.sLbl_SR.TabIndex = 0
@@ -463,6 +466,7 @@ Partial Class Manual_Weight
         '
         'Setup
         '
+        Me.Setup.Controls.Add(Me.CB_ViewRaw)
         Me.Setup.Controls.Add(Me.GroupBox4)
         Me.Setup.Controls.Add(Me.GroupBox3)
         Me.Setup.Controls.Add(Me.Button1)
@@ -897,6 +901,27 @@ Partial Class Manual_Weight
         '
         Me.Tmr_ScreenUpdate.Interval = 50
         '
+        'CB_ViewRaw
+        '
+        Me.CB_ViewRaw.AutoSize = True
+        Me.CB_ViewRaw.Location = New System.Drawing.Point(29, 90)
+        Me.CB_ViewRaw.Name = "CB_ViewRaw"
+        Me.CB_ViewRaw.Size = New System.Drawing.Size(110, 17)
+        Me.CB_ViewRaw.TabIndex = 16
+        Me.CB_ViewRaw.Text = "View Raw Stream"
+        Me.CB_ViewRaw.UseVisualStyleBackColor = True
+        '
+        'LblRawStream
+        '
+        Me.LblRawStream.AutoSize = True
+        Me.LblRawStream.Location = New System.Drawing.Point(18, 78)
+        Me.LblRawStream.MinimumSize = New System.Drawing.Size(200, 13)
+        Me.LblRawStream.Name = "LblRawStream"
+        Me.LblRawStream.Size = New System.Drawing.Size(200, 13)
+        Me.LblRawStream.TabIndex = 10
+        Me.LblRawStream.Text = "LblRaw"
+        Me.LblRawStream.Visible = False
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1003,5 +1028,7 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_TareError As System.Windows.Forms.Label
     Friend WithEvents Btn_SerialPort As System.Windows.Forms.Button
     Friend WithEvents Lbl_Instruction As System.Windows.Forms.Label
+    Friend WithEvents CB_ViewRaw As System.Windows.Forms.CheckBox
+    Friend WithEvents LblRawStream As System.Windows.Forms.Label
 
 End Class

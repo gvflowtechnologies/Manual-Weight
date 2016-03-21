@@ -15,7 +15,7 @@ Public Class Scalemanagement
     Private Delegate Sub updateproperty(ByVal currweight As Double)
     Private updateweight As updateproperty
     Dim newdata As Datareceive
-
+    Private SRAWDATA As String
 
 
 
@@ -43,7 +43,7 @@ Public Class Scalemanagement
         Dim position As Integer
         Const stabconst As String = " g "
 
-
+        SRAWDATA = reading
 
 
         ' Reset timer  - Provides time since last reading
@@ -132,7 +132,11 @@ Public Class Scalemanagement
             Return Bstable
         End Get
     End Property
-
+    ReadOnly Property RAWSTRING As String
+        Get
+            Return SRAWDATA
+        End Get
+    End Property
 
 
 
