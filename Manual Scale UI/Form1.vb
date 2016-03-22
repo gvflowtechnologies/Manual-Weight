@@ -161,6 +161,12 @@ Public Class Manual_Weight
 
         End If
         LblRawStream.Text = sartorius.RAWSTRING
+        If sartorius.ishealthy = False Then
+            Tmr_ScreenUpdate.Stop()
+            MsgBox(sartorius.errormessage, vbOKOnly, "System Error")
+            MsgBox("Please Shut Down System and Serivce Scale", vbOKOnly, "System Error")
+        End If
+
 
         Select Case teststate
 
@@ -230,32 +236,32 @@ Public Class Manual_Weight
 
                 ''Taring Section
                 '' check for scale health and stability
-                If sartorius.ishealthy Then
-                    If sartorius.Stable Then
-                        Select Case sartorius.CurrentReading
-                            '      Case Is = 0.0
-                            '         updatetare()
-                            Case Is < My.Settings.TareLimit
-                                teststate = Weighprocess.weighing
-                                entering = True
-                                'Case    > My.Settings.TareLimit and < my.Settings.TareError
 
-                            Case Is > My.Settings.TareError
-                                Dim myresponse As MsgBoxResult
-                                Tmr_ScreenUpdate.Stop()
-                                myresponse = MsgBox("Please Restart Program", vbOKOnly, "Scale Tare Error")
+                If sartorius.Stable Then
+                    Select Case sartorius.CurrentReading
+                        '      Case Is = 0.0
+                        '         updatetare()
+                        Case Is < My.Settings.TareLimit
+                            teststate = Weighprocess.weighing
+                            entering = True
+                            'Case    > My.Settings.TareLimit and < my.Settings.TareError
 
-
-                            Case Else
-                                updatetare()
+                        Case Is > My.Settings.TareError
+                            Dim myresponse As MsgBoxResult
+                            Tmr_ScreenUpdate.Stop()
+                            myresponse = MsgBox("Please Restart Program", vbOKOnly, "Scale Tare Error")
 
 
-                        End Select
+                        Case Else
+                            updatetare()
 
-                    Else
-                        '    '   teststate = weighprocess.erroring
-                    End If
+
+                    End Select
+
+                Else
+                    '    '   teststate = weighprocess.erroring
                 End If
+
 
 
             Case Weighprocess.weighing
@@ -274,33 +280,33 @@ Public Class Manual_Weight
 
                 End If
 
-                If sartorius.ishealthy Then
-                    If sartorius.Stable Then
-                        Select Case sartorius.CurrentReading
 
-                            Case Is > My.Settings.MinWeight - 2 * My.Settings.TareLimit
-                                If MDataset.firstweightexists = False Then
-                                    ' first weight reading
-                                    ccylinder.Firstweight = sartorius.CurrentReading
-                                Else
-                                    ' Second weight reading
-                                    ccylinder.Secondweight = sartorius.CurrentReading
+                If sartorius.Stable Then
+                    Select Case sartorius.CurrentReading
 
-                                End If
+                        Case Is > My.Settings.MinWeight - 2 * My.Settings.TareLimit
+                            If MDataset.firstweightexists = False Then
+                                ' first weight reading
+                                ccylinder.Firstweight = sartorius.CurrentReading
+                            Else
+                                ' Second weight reading
+                                ccylinder.Secondweight = sartorius.CurrentReading
 
-                                teststate = Weighprocess.prompting
+                            End If
 
-                                entering = True
-                                'Case    > My.Settings.TareLimit and < my.Settings.TareError
+                            teststate = Weighprocess.prompting
+
+                            entering = True
+                            'Case    > My.Settings.TareLimit and < my.Settings.TareError
 
 
 
-                        End Select
+                    End Select
 
-                    Else
-                        '    '   teststate = weighprocess.erroring
-                    End If
+                Else
+                    '    '   teststate = weighprocess.erroring
                 End If
+
 
 
             Case Weighprocess.prompting
