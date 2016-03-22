@@ -41,10 +41,10 @@ Public Class Scalemanagement
 
 
         Dim position As Integer
-        Const stabconst As String = " g "
+
         Dim isdata As Integer
         SRAWDATA = reading
-        Bishealthy = True
+
         ' Reset timer  - Provides time since last reading
         'tmrlasttime.Reset()
 
@@ -73,7 +73,7 @@ Public Class Scalemanagement
         End If
 
     End Sub
-  
+
     Private Function Datacheck(ByVal rawstring As String) As Integer
         Dim testchar As String
         Dim outvalue As Integer
@@ -102,7 +102,7 @@ Public Class Scalemanagement
         Dim listin As String
         Dim cutstring As Integer
         Dim errlength As Integer
-
+        Bishealthy = True
 
         listin = datain
         If listin.Contains(errid) = True Then
