@@ -183,7 +183,7 @@ Public Class Manual_Weight
 
 
                 End If
-    
+
                 teststate = Weighprocess.taring
                 ' wait for start pallet buttonclick  when clickek
 
@@ -1099,5 +1099,5 @@ Public Class Manual_Weight
 
 
 
-   
+
 End Class
