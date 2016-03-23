@@ -3,7 +3,7 @@ Imports System.IO
 Imports System.IO.Ports
 Imports System.Threading
 Imports System.Windows.Forms
-
+Imports System.String
 
 Public Class Manual_Weight
     Enum Weighprocess
@@ -72,14 +72,10 @@ Public Class Manual_Weight
         LB_SerialPorts.SelectedIndex = -1
 
 
-        ' sdataset = New Static_Data
-
-
-        '  renewstaticdata()
 
         cylindersorter = New CSorter
 
-        '   Sartorius = New scalemanagment
+
 
         Btn_StartPallet.Enabled = True
         Btn_StopPallet.Enabled = False
@@ -349,6 +345,12 @@ Public Class Manual_Weight
     Private Sub updatetare()
         mycom.Write("T" & ControlChars.CrLf)
     End Sub
+    Private Sub startcal()
+
+
+        mycom.Write(Chr(27) & "W" & ControlChars.CrLf)
+
+    End Sub
 
     Private Sub updaterowsandcolumns()
 
@@ -531,8 +533,8 @@ Public Class Manual_Weight
             write_history()
         End If
 
-
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
+
     End Sub
 
 
@@ -780,28 +782,30 @@ Public Class Manual_Weight
 
 
         Const titles As String = "Calibration Sequence"
-
-
-
+        newcommport() 'open up commport to start communicting with the scal
+        teststate = Weighprocess.idle
         Calibration.Text = titles
         Calibration.Lbl_CalPrompts.Text = "Remove all weight from scale"
         ' Wait for scale to become unloaded
         ' Need to work on the test when the scale arrives
         '****************************************
-        'Do Until Sartorius.ScaleEmpty ' Add value for scale weight less than 1.0 grams
+        Do Until sartorius.ScaleEmpty ' Add value for scale weight less than tare error
 
-        '    If cancelclicked Then
-        '        Exit Do   ' change to exit sub when lie
-        '    End If
+            If cancelclicked Then
+                Exit Sub   ' change to exit sub when lie
+            End If
 
-        '    Application.DoEvents()
-        '    Threading.Thread.Sleep(1)
+            Application.DoEvents()
+            Threading.Thread.Sleep(1)
 
-        'Loop
+        Loop
         ''****************************************************
         '****************************************
-        Calibration.Lbl_CalPrompts.Text = "zero Scale"
-        Threading.Thread.Sleep(1000)
+        updatetare()
+
+
+        Calibration.Lbl_CalPrompts.Text = "Zeroing Scale"
+
 
         Operatorid = InputBox("Enter Operator Identification", caldata)
         Calibration.Lbl_OPID.Text = Operatorid
@@ -809,13 +813,27 @@ Public Class Manual_Weight
         CalID = InputBox("Enter Calibration Standard ID", caldata)
         Calibration.Lbl_CalStd.Text = CalID
 
-        calweight = InputBox("Enter Weight of Calibration Standard", caldata)
+        calweight = InputBox("Enter Weight of Calibration Standard (Grams)", caldata)
 
         Calibration.Lbl_CalVal.Text = calweight
+        Me.Update()
+        sartorius.calibrating = True
+        mycom.Write("W" & ControlChars.CrLf)
+        Thread.Sleep(1000)
 
-        Calibration.Lbl_CalPrompts.Text = "Place Calibration Weight on Scale"
+        Do Until sartorius.calibrating ' Add value for scale weight less than tare error
 
-        MsgBox("Place calibration weight " & CalID & " on Scale and then press OK", MsgBoxStyle.OkOnly)
+            If cancelclicked Then
+                Calibration.Close()
+                mycom.Close()
+                Exit Sub   ' change to exit sub when lie
+            End If
+
+            Application.DoEvents()
+            Threading.Thread.Sleep(1)
+
+        Loop
+
         ' Wait for scale to become unloaded
         ' Need to work on the test when the scale arrives
         '****************************************
@@ -827,11 +845,28 @@ Public Class Manual_Weight
         '*****************************************
         '*****************************************
 
-        Do Until sartorius.Stable ' Add value for scale weight less than 1.0 grams
+
+        Calibration.Lbl_CalPrompts.Text = "Place Calibration Weight on Scale"
+
+        MsgBox("Place calibration weight " & CalID & " on Scale and then press OK", MsgBoxStyle.OkOnly)
+        ' Wait for scale to become unloaded
+        ' Need to work on the test when the scale arrives
+        '****************************************
+        ' Send stability unstable and
+        'Send stabilty delay long
+        '*****************************************
+        '*****************************************
+        '*****************************************W
+        '*****************************************
+        '*****************************************
+
+        Do Until Not sartorius.calibrating ' Add value for scale weight less than 1.0 grams
             '  Dim GOODVALUE As Boolean
 
             If cancelclicked Then
-                Exit Do   ' change to exit sub when lie
+                Calibration.Close()
+                mycom.Close()
+                Exit Sub   ' change to exit sub when lie
             End If
 
             Application.DoEvents()
@@ -839,6 +874,8 @@ Public Class Manual_Weight
         Loop
         '****************************************************
         '****************************************
+
+
         Calibration.Lbl_CalPrompts.Text = "Updating Scale Calibration"
 
         Threading.Thread.Sleep(1000)
@@ -1023,7 +1060,7 @@ Public Class Manual_Weight
                 .StopBits = StopBits.One
                 .Handshake = Handshake.RequestToSend ' Need to think here
                 .DataBits = 7
-                .ReceivedBytesThreshold = 15 ' one byte short of a complete messsage string of 16 asci characters   
+                .ReceivedBytesThreshold = 16 ' one byte short of a complete messsage string of 16 asci characters   
 
             End With
         End If
@@ -1035,9 +1072,9 @@ Public Class Manual_Weight
                 mycom.DtrEnable = True
 
 
-                '     tmrlasttime.Start()
+
                 mycom.DiscardInBuffer()
-                mycom.Write("P" & ControlChars.CrLf)
+
             Catch ex As Exception
                 MessageBox.Show(ex.Message)
             End Try
@@ -1090,8 +1127,7 @@ Public Class Manual_Weight
         updateweight = New scaledata(AddressOf newdata.newweightdata)
         Lbl_CurrentScale.BeginInvoke(updateweight, sweight)
         Application.DoEvents()
-        '      Me.
-        ' update propery values 
+
         Thread.Sleep(1)
 
     End Sub

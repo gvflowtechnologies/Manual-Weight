@@ -22,6 +22,7 @@ Partial Class Calibration
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.Btn_Escape = New System.Windows.Forms.Button()
         Me.Lbl_CalPrompts = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -30,6 +31,9 @@ Partial Class Calibration
         Me.Lbl_OPID = New System.Windows.Forms.Label()
         Me.Lbl_CalStd = New System.Windows.Forms.Label()
         Me.Lbl_CalVal = New System.Windows.Forms.Label()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'Btn_Escape
@@ -116,11 +120,34 @@ Partial Class Calibration
         Me.Lbl_CalVal.Size = New System.Drawing.Size(150, 19)
         Me.Lbl_CalVal.TabIndex = 7
         '
+        'Timer1
+        '
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(317, 165)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(39, 13)
+        Me.Label1.TabIndex = 8
+        Me.Label1.Text = "Label1"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(362, 178)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(39, 13)
+        Me.Label5.TabIndex = 9
+        Me.Label5.Text = "Label5"
+        '
         'Calibration
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(428, 205)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Lbl_CalVal)
         Me.Controls.Add(Me.Lbl_CalStd)
         Me.Controls.Add(Me.Lbl_OPID)
@@ -144,4 +171,7 @@ Partial Class Calibration
     Friend WithEvents Lbl_OPID As System.Windows.Forms.Label
     Friend WithEvents Lbl_CalStd As System.Windows.Forms.Label
     Friend WithEvents Lbl_CalVal As System.Windows.Forms.Label
+    Friend WithEvents Timer1 As System.Windows.Forms.Timer
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Label5 As System.Windows.Forms.Label
 End Class

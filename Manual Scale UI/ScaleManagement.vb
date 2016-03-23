@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Imports System.IO
 Imports System.IO.Ports
 Imports System.Threading
 
@@ -14,16 +15,26 @@ Public Class Scalemanagement
     Const errid As String = "ERR"
     Private Delegate Sub updateproperty(ByVal currweight As Double)
     Private updateweight As updateproperty
-    Dim newdata As Datareceive
+
     Private SRAWDATA As String
     Dim serrormessage As String
-
+    Dim bincal As Boolean 'Indicating in the calibration procedure
+    Dim calstring As String ' Comparision String for caltesting
+    Const CalEnter As String = "Usr"
+    Const CalExit As String = "end"
+    Dim writestring As streamwriter
 
     Sub New()
         ' Creates a new serial port 
         ' Gets port name from static data
         Bishealthy = True
+        calstring = ""
+        bincal = False
+        Dim myfiliname As String
+        myfiliname = My.Settings.File_Directory & "\In Process\rawdata.txt"
 
+
+        writestring = New StreamWriter(myfiliname, True)
     End Sub
 
 
@@ -33,25 +44,33 @@ Public Class Scalemanagement
     Sub ParseData(ByVal reading As String)
 
 
-
-
         ' Parses the data string from the scale when it comes in on serial port.  
         ' Getting Stability and weight reading.
         ' Not parsing for error codes 
 
+        'Dim myfiliname As String
+        'myfiliname = My.Settings.File_Directory & "\In Process\rawdata.txt"
 
+
+        'writestring = New StreamWriter(myfiliname, True)
+        'writestring.WriteLine(reading)
+        'writestring.Close()
         Dim position As Integer
 
         Dim isdata As Integer
         SRAWDATA = reading
-
+        calcheck(reading)
         ' Reset timer  - Provides time since last reading
         'tmrlasttime.Reset()
 
         ' Check to see if the stability character is present
         ' 
         Bstable = reading.Contains(stabconst)
-        isdata = Datacheck(SRAWDATA)
+        isdata = Datacheck(reading)
+        'If bincal = True And Bstable = True Then bincal = False
+        If reading.Contains("!") = True Then
+            bincal = True
+        End If
         '' Check for other error codes.
 
         '' if reading is real 
@@ -69,9 +88,12 @@ Public Class Scalemanagement
 
             End Try
         Else
+            '  calcheck(SRAWDATA) ' check for cal string
             errorcheck(SRAWDATA) ' check string for critical error code.
         End If
-
+        'If bincal = True Then
+        '    calcheck(SRAWDATA)
+        'End If
     End Sub
 
     Private Function Datacheck(ByVal rawstring As String) As Integer
@@ -92,10 +114,6 @@ Public Class Scalemanagement
 
     End Function
 
-    'Sub updatemyweight(ByVal dataval As Double)
-    '    dweightreading = dataval
-
-    'End Sub
 
     Sub errorcheck(ByVal datain As String) ' Checking to create a boolean for critical error
 
@@ -133,31 +151,47 @@ Public Class Scalemanagement
 
     End Sub
 
+    Sub calcheck(ByVal teststring As String)
+        ' Trim String to mininum
+        ' are we in cal?  If no check to see if we should be, If yes, check to see if we should not be.
 
-    'Sub closeport()
-    '    mycom.Close()
+        ' Need to stay in cal until finish sting
+        'teststring = teststring.Trim
 
-    'End Sub
-    'Property startreceiving As Boolean
+        If bincal = False Then
+            If teststring.Contains(CalEnter) = True Then
+                bincal = True
+            End If
+        ElseIf bincal = True Then
+            If teststring.Contains(CalExit) = True Then
+                bincal = False
+            End If
+        End If
+
+    End Sub
+
+
+    Property calibrating As Boolean
+        Get
+            Return bincal
+            'Return True
+        End Get
+        Set(value As Boolean)
+            bincal = value
+        End Set
+    End Property
+
+    'ReadOnly Property Msec_Since_Last_Data As Long
+    '    ' Time since last reading
     '    Get
+    '        If tmrlasttime.IsRunning Then
+    '            Return tmrlasttime.ElapsedMilliseconds
+    '        Else
+    '            Return 0
+    '        End If
 
     '    End Get
-    '    Set(value As Boolean)
-    '        mycom.DtrEnable = value
-    '    End Set
     'End Property
-
-    ReadOnly Property Msec_Since_Last_Data As Long
-        ' Time since last reading
-        Get
-            If tmrlasttime.IsRunning Then
-                Return tmrlasttime.ElapsedMilliseconds
-            Else
-                Return 0
-            End If
-
-        End Get
-    End Property
 
     ReadOnly Property CurrentReading As Double
         ' Represents last stable reading
@@ -214,14 +248,14 @@ Public Class Scalemanagement
         End Set
     End Property
 
-    'Public ReadOnly Property ScaleEmpty As Boolean
-    '    Get
-    '        'If Me.isstable And Me.lastreading < ScaleEmpty Then
-    '        '    Return True
-    '        'Else
-    '        '    Return False
-    '        'End If
-    '    End Get
-    'End Property
+    Public ReadOnly Property ScaleEmpty As Boolean
+        Get
+            If Bstable = True And Math.Abs(dweightreading) < My.Settings.TareError Then
+                Return True
+            Else
+                Return False
+            End If
+        End Get
+    End Property
 
 End Class
