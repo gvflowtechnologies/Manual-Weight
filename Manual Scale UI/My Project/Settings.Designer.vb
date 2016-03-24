@@ -104,7 +104,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.004")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.4")>  _
         Public Property TareLimit() As Double
             Get
                 Return CType(Me("TareLimit"),Double)
@@ -116,7 +116,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.05")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
         Public Property TareError() As Double
             Get
                 Return CType(Me("TareError"),Double)
