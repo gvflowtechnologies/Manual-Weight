@@ -15,14 +15,13 @@ Public Class Scalemanagement
     Const errid As String = "ERR"
     Private Delegate Sub updateproperty(ByVal currweight As Double)
     Private updateweight As updateproperty
-
+    Dim bcalrequest As Boolean 'calibration requested
     Private SRAWDATA As String
     Dim serrormessage As String
     Dim bincal As Boolean 'Indicating in the calibration procedure
     Dim calstring As String ' Comparision String for caltesting
     Const CalEnter As String = "Usr"
     Const CalExit As String = "end"
-    Dim writestring As streamwriter
 
     Sub New()
         ' Creates a new serial port 
@@ -30,11 +29,12 @@ Public Class Scalemanagement
         Bishealthy = True
         calstring = ""
         bincal = False
+        Bstable = False
         Dim myfiliname As String
         myfiliname = My.Settings.File_Directory & "\In Process\rawdata.txt"
+        bcalrequest = False
 
 
-        writestring = New StreamWriter(myfiliname, True)
     End Sub
 
 
@@ -58,26 +58,34 @@ Public Class Scalemanagement
         Dim position As Integer
 
         Dim isdata As Integer
+
+
+
         SRAWDATA = reading
-        calcheck(reading)
+
+
+        '  calcheck(reading)
         ' Reset timer  - Provides time since last reading
         'tmrlasttime.Reset()
-
         ' Check to see if the stability character is present
         ' 
-        Bstable = reading.Contains(stabconst)
         isdata = Datacheck(reading)
         'If bincal = True And Bstable = True Then bincal = False
-        If reading.Contains("!") = True Then
-            bincal = True
-        End If
+        'If reading.Contains("!") = True Then
+        '    bincal = True
+        'End If
         '' Check for other error codes.
 
         '' if reading is real 
 
         '' Parse number out of string
         '' and set weight
-        If isdata <> 2 Then
+        If isdata = 2 Then
+            calcheck(SRAWDATA) ' check for cal string
+            errorcheck(SRAWDATA) ' check string for critical error code.
+
+        Else
+            Bstable = reading.Contains(stabconst)
             reading = reading.Substring(1)
             reading = reading.Trim()
             position = reading.IndexOf(" ")
@@ -87,9 +95,7 @@ Public Class Scalemanagement
             Catch ex As Exception
 
             End Try
-        Else
-            '  calcheck(SRAWDATA) ' check for cal string
-            errorcheck(SRAWDATA) ' check string for critical error code.
+
         End If
         'If bincal = True Then
         '    calcheck(SRAWDATA)
@@ -170,11 +176,25 @@ Public Class Scalemanagement
 
     End Sub
 
+    Property CalRequest As Boolean
+        Get
+            SyncLock Me
+                Return bcalrequest
+            End SyncLock
+        End Get
+        Set(value As Boolean)
+            SyncLock Me
+                bcalrequest = value
+            End SyncLock
+        End Set
+
+    End Property
 
     Property calibrating As Boolean
         Get
-            Return bincal
-            'Return True
+            SyncLock Me
+                Return bincal
+            End SyncLock 'Return True
         End Get
         Set(value As Boolean)
             bincal = value

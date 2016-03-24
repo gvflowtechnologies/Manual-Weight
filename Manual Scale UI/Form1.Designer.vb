@@ -35,6 +35,7 @@ Partial Class Manual_Weight
         Me.sLbl_PN = New System.Windows.Forms.Label()
         Me.sLbl_BN = New System.Windows.Forms.Label()
         Me.GB_Scale = New System.Windows.Forms.GroupBox()
+        Me.LblRawStream = New System.Windows.Forms.Label()
         Me.Lbl_CurrentScale = New System.Windows.Forms.Label()
         Me.sLbl_SR = New System.Windows.Forms.Label()
         Me.GBBinData = New System.Windows.Forms.GroupBox()
@@ -56,6 +57,7 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN = New System.Windows.Forms.Label()
         Me.Btn_StartPallet = New System.Windows.Forms.Button()
         Me.Setup = New System.Windows.Forms.TabPage()
+        Me.CB_ViewRaw = New System.Windows.Forms.CheckBox()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.Lbl_RowSpace = New System.Windows.Forms.Label()
         Me.Lbl_NumRow = New System.Windows.Forms.Label()
@@ -98,8 +100,6 @@ Partial Class Manual_Weight
         Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.CB_ViewRaw = New System.Windows.Forms.CheckBox()
-        Me.LblRawStream = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -245,6 +245,17 @@ Partial Class Manual_Weight
         Me.GB_Scale.TabIndex = 6
         Me.GB_Scale.TabStop = False
         Me.GB_Scale.Text = "Scale Reading"
+        '
+        'LblRawStream
+        '
+        Me.LblRawStream.AutoSize = True
+        Me.LblRawStream.Location = New System.Drawing.Point(18, 78)
+        Me.LblRawStream.MinimumSize = New System.Drawing.Size(200, 13)
+        Me.LblRawStream.Name = "LblRawStream"
+        Me.LblRawStream.Size = New System.Drawing.Size(200, 13)
+        Me.LblRawStream.TabIndex = 10
+        Me.LblRawStream.Text = "LblRaw"
+        Me.LblRawStream.Visible = False
         '
         'Lbl_CurrentScale
         '
@@ -481,6 +492,16 @@ Partial Class Manual_Weight
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
         '
+        'CB_ViewRaw
+        '
+        Me.CB_ViewRaw.AutoSize = True
+        Me.CB_ViewRaw.Location = New System.Drawing.Point(29, 90)
+        Me.CB_ViewRaw.Name = "CB_ViewRaw"
+        Me.CB_ViewRaw.Size = New System.Drawing.Size(110, 17)
+        Me.CB_ViewRaw.TabIndex = 16
+        Me.CB_ViewRaw.Text = "View Raw Stream"
+        Me.CB_ViewRaw.UseVisualStyleBackColor = True
+        '
         'GroupBox4
         '
         Me.GroupBox4.Controls.Add(Me.Lbl_RowSpace)
@@ -694,11 +715,11 @@ Partial Class Manual_Weight
         '
         'Btn_ScaleCal
         '
-        Me.Btn_ScaleCal.Location = New System.Drawing.Point(13, 160)
+        Me.Btn_ScaleCal.Location = New System.Drawing.Point(6, 156)
         Me.Btn_ScaleCal.Name = "Btn_ScaleCal"
-        Me.Btn_ScaleCal.Size = New System.Drawing.Size(63, 52)
+        Me.Btn_ScaleCal.Size = New System.Drawing.Size(70, 68)
         Me.Btn_ScaleCal.TabIndex = 9
-        Me.Btn_ScaleCal.Text = "Calibrate Scale"
+        Me.Btn_ScaleCal.Text = "Update Scale Cal Record"
         Me.Btn_ScaleCal.UseVisualStyleBackColor = True
         '
         'Button1
@@ -900,27 +921,6 @@ Partial Class Manual_Weight
         'Tmr_ScreenUpdate
         '
         Me.Tmr_ScreenUpdate.Interval = 50
-        '
-        'CB_ViewRaw
-        '
-        Me.CB_ViewRaw.AutoSize = True
-        Me.CB_ViewRaw.Location = New System.Drawing.Point(29, 90)
-        Me.CB_ViewRaw.Name = "CB_ViewRaw"
-        Me.CB_ViewRaw.Size = New System.Drawing.Size(110, 17)
-        Me.CB_ViewRaw.TabIndex = 16
-        Me.CB_ViewRaw.Text = "View Raw Stream"
-        Me.CB_ViewRaw.UseVisualStyleBackColor = True
-        '
-        'LblRawStream
-        '
-        Me.LblRawStream.AutoSize = True
-        Me.LblRawStream.Location = New System.Drawing.Point(18, 78)
-        Me.LblRawStream.MinimumSize = New System.Drawing.Size(200, 13)
-        Me.LblRawStream.Name = "LblRawStream"
-        Me.LblRawStream.Size = New System.Drawing.Size(200, 13)
-        Me.LblRawStream.TabIndex = 10
-        Me.LblRawStream.Text = "LblRaw"
-        Me.LblRawStream.Visible = False
         '
         'Manual_Weight
         '
