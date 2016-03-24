@@ -165,6 +165,14 @@ Public Class Manual_Weight
 
 
         End If
+        If cylindersorter.fired = False Then
+            Dim myresponse As MsgBoxResult
+            Tmr_ScreenUpdate.Stop()
+            myresponse = MsgBox("Sorter Failed", vbOKOnly, "Sorter is not Working")
+            Tmr_ScreenUpdate.Start()
+        End If
+
+
         'Label14.Text = longtime.ToString
         If CB_ViewRaw.Checked = True Then
             LblRawStream.Visible = True
@@ -288,7 +296,7 @@ Public Class Manual_Weight
                     Lbl_Remove.BackColor = Color.Transparent
                     Lbl_Instruction.Text = "Place Canister On Scale"
 
-
+                    cylindersorter.Sort(1)
 
                 End If
 
@@ -332,6 +340,10 @@ Public Class Manual_Weight
 
                     ' update canister number
                     MDataset.canisternum = MDataset.canisternum + 1
+                    If ccylinder.Disposition = False Then
+                        cylindersorter.Sort(2)
+                    End If
+
 
                 End If
 
