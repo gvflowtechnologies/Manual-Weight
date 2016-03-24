@@ -6,7 +6,6 @@ Imports mccdaq
 
 Public Class CSorter
 
-
     Dim sorter As MccDaq.MccBoard = New MccDaq.MccBoard()   'Creates a New Daq Board
     Dim sortererror As MccDaq.ErrorInfo ' create new error handler for handling daq errors.
     Const Psortout As MccDaq.DigitalPortType = MccDaq.DigitalPortType.FirstPortB
@@ -15,7 +14,11 @@ Public Class CSorter
     Const dsortout As MccDaq.DigitalPortDirection = DigitalPortDirection.DigitalOut
     Dim daqhealthy As Boolean ' true means no problem.  False means problem
     Dim daqmessage As String
-    Dim ilocation As Short
+    Dim ilocation As Short ' Location of slide 255 = no switches closed
+    ' 253 = Switch Closest to Solenoid is closed ("BAD")
+    ' 254 = Switch Furthest from solenoid is closed ("Good")
+    Dim sorttimeout As Stopwatch
+    Dim lastsort As Short ' tells what the last sort value was.
 
 
 
@@ -25,6 +28,7 @@ Public Class CSorter
 
         Dim BoardNum As Integer
         Dim Numboards As Integer = 99
+
 
         Dim Boardfound As Boolean = False
         For BoardNum = 0 To Numboards - 1
@@ -58,8 +62,9 @@ Public Class CSorter
             daqhealthy = False
             daqmessage = sortererror.Message
         End If
-
+        sorttimeout = New Stopwatch
         Sort(255)
+
 
     End Sub
 
@@ -75,23 +80,34 @@ Public Class CSorter
             daqhealthy = False
             daqmessage = sortererror.Message
         End If
-
+        ' set the position of the last sort command
+        lastsort = position
+        ' start a timer to check if last sort executed
+        If sorttimeout.IsRunning Then
+            sorttimeout.Restart()
+        Else
+            sorttimeout.Start()
+        End If
     End Sub
 
+    Private Sub mylocation()
+        sortererror = sorter.DIn(psortin, ilocation)
+        If sortererror.Value <> MccDaq.ErrorInfo.ErrorCode.NoErrors Then
+            daqhealthy = False
+            daqmessage = sortererror.Message
+        End If
+
+    End Sub
 
     ReadOnly Property Location As Short
         ' Property is true when the sort with 
         ' 255 = no switches closed
-        ' 254 = Switch Closest to Solenoid is closed ("GOOD")
-        ' 253 = Switch Furthest from solenoid is closed ("BAD")
+        ' 253 = Switch Closest to Solenoid is closed ("BAD")
+        ' 254 = Switch Furthest from solenoid is closed ("Good")
 
         Get
 
-            sortererror = sorter.DIn(psortin, ilocation)
-            If sortererror.Value <> MccDaq.ErrorInfo.ErrorCode.NoErrors Then
-                daqhealthy = False
-                daqmessage = sortererror.Message
-            End If
+            mylocation()
 
             Return ilocation
 
@@ -106,6 +122,39 @@ Public Class CSorter
     ReadOnly Property errormsg As String
         Get
             Return daqmessage
+        End Get
+    End Property
+
+    ReadOnly Property fired As Boolean
+        Get
+            mylocation()
+            If lastsort = 255 Then
+                Return True
+                Exit Property
+            End If
+
+            If sorttimeout.ElapsedMilliseconds < 1000 Then
+                Return True
+                Exit Property
+            Else
+                If lastsort = 1 Then
+                    If ilocation = 253 Then
+                        Return True
+                    Else
+                        Return False
+                    End If
+                    Exit Property
+
+                ElseIf lastsort = 2 Then
+                    If ilocation = 254 Then
+                        Return True
+                    Else
+                        Return False
+                    End If
+                    Exit Property
+                End If
+            End If
+
         End Get
     End Property
 
