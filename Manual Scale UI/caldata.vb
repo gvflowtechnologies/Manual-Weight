@@ -5,29 +5,52 @@ Module caldata
     ' Calibration data file and writing 
 
     Public cancelclicked As Boolean
+    Dim swlogcaldata As StreamWriter
 
 
-
-    Public Sub WritefileHeader()
+    Public Sub WritecalfileHeader()
         'Create File Name
 
+        Dim Logfile As String
+        If My.Settings.Caldirectory = "" Then
+            My.Settings.Caldirectory = "c:\CalDirectory"
+            My.Settings.Save()
+        End If
+
+        Logfile = My.Settings.Caldirectory & "\AVCalRecord.txt"
 
 
+        'Write
 
-        'Create Data to write
+        If Not Directory.Exists(My.Settings.Caldirectory) Then
+            Directory.CreateDirectory(My.Settings.Caldirectory)
+        End If
 
+        If Not File.Exists(Logfile) Then
 
+            swlogcaldata = New StreamWriter(Logfile, False)
+            swlogcaldata.WriteLine("Altaviz Calibration Record File")
+            swlogcaldata.WriteLine("Last Cal Date, Cal Weight ID Used, Scale Reading as Received, Scale Reading as Returned, Calibration Due Date, Operator ID")
 
+        Else
+            swlogcaldata = New StreamWriter(Logfile, True)
 
-        'Write data
-
+        End If
 
     End Sub
 
-    Public Sub Writecalrecord()
+    Public Sub Writecalrecord(ByVal calid As String, ByVal asreceived As String, ByVal asreturned As String, ByVal opid As String)
 
+        'date time, cal weight ID#, before, after, new due date, operator ID
+        If IsNothing(swlogcaldata) Then WritecalfileHeader()
 
-
+        swlogcaldata.Write(DateTime.Now.ToString & ", ")
+        swlogcaldata.Write(calid.ToString & ", ")
+        swlogcaldata.Write(asreceived & ", ")
+        swlogcaldata.Write(asreturned & ", ")
+        swlogcaldata.Write(My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString("d") & ", ") ' Next CalDate
+        swlogcaldata.WriteLine(opid)
+        swlogcaldata.Close()
 
     End Sub
 
