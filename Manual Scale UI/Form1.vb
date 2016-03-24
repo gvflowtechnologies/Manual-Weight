@@ -108,6 +108,13 @@ Public Class Manual_Weight
         LBL_CRow.Text = "0"
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
+        If checkdate() = False Then
+            Btn_StartPallet.Enabled = False
+            MsgBox("Calibration is Past Due, Please Update")
+
+        End If
+
+
 
     End Sub
 
@@ -128,7 +135,16 @@ Public Class Manual_Weight
 
     End Sub
 
-
+    Private Function checkdate() As Boolean
+        Dim pastdue As Boolean
+        If Date.Compare(Date.Now, My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency)) < 0 Then
+            
+            pastdue = True
+        Else
+            pastdue = False
+        End If
+        Return pastdue
+    End Function
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
 
@@ -234,18 +250,18 @@ Public Class Manual_Weight
                 '' check for scale health and stability
 
                 If sartorius.Stable Then
-                    Select Case sartorius.CurrentReading
+                    Select Case Math.Abs(sartorius.CurrentReading)
                         '      Case Is = 0.0
                         '         updatetare()
-                        Case Is < My.Settings.TareLimit
+                        Case Is < My.Settings.TareLimit / 1000
                             teststate = Weighprocess.weighing
                             entering = True
                             'Case    > My.Settings.TareLimit and < my.Settings.TareError
 
-                        Case Is > My.Settings.TareError
+                        Case Is > My.Settings.TareError / 1000
                             Dim myresponse As MsgBoxResult
-                            Tmr_ScreenUpdate.Stop()
-                            myresponse = MsgBox("Please Restart Program", vbOKOnly, "Scale Tare Error")
+                            'Tmr_ScreenUpdate.Stop()
+                            myresponse = MsgBox("Please Check Scale", vbOKOnly, "Scale Tare Error")
 
 
                         Case Else
@@ -442,6 +458,12 @@ Public Class Manual_Weight
         Lbl_PalletN.Text = ""
         Lbl_BatchN.Text = ""
         MDataset = New PalletData
+
+        If checkdate() = False Then
+            Btn_StartPallet.Enabled = False
+            MsgBox("Calibration is Past Due, Please Update")
+            Exit Sub
+        End If
 
         MDataset.RenewFileList()
 
@@ -915,8 +937,7 @@ Public Class Manual_Weight
 
         caldata.Writecalrecord(CalID, calweight, calfinal, Operatorid)
 
-
-
+        If checkdate() = True Then Btn_StartPallet.Enabled = True
 
         Calibration.Close()
 
@@ -1153,10 +1174,10 @@ Public Class Manual_Weight
 
             With mycom
                 .PortName = My.Settings.SerialPort ' gets port name from static data set
-                .BaudRate = 19200
+                .BaudRate = 9600
                 .Parity = Parity.Odd
                 .StopBits = StopBits.One
-                .Handshake = Handshake.RequestToSend  ' Need to think here
+                .Handshake = Handshake.None  ' Need to think here
                 .DataBits = 7
                 .ReceivedBytesThreshold = 14 ' one byte short of a complete messsage string of 16 asci characters   
                 .WriteTimeout = 500
