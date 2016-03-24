@@ -15,10 +15,10 @@
       <Value Profile="(Default)">2000-12-31</Value>
     </Setting>
     <Setting Name="TareLimit" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">0.004</Value>
+      <Value Profile="(Default)">0.1</Value>
     </Setting>
     <Setting Name="TareError" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">0.05</Value>
+      <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="Caldirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)">""</Value>
