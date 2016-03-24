@@ -119,7 +119,7 @@ Partial Class Manual_Weight
         Me.TabControl1.Location = New System.Drawing.Point(10, 10)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1160, 400)
+        Me.TabControl1.Size = New System.Drawing.Size(1220, 400)
         Me.TabControl1.TabIndex = 0
         '
         'RunPage
@@ -137,7 +137,7 @@ Partial Class Manual_Weight
         Me.RunPage.Location = New System.Drawing.Point(4, 22)
         Me.RunPage.Name = "RunPage"
         Me.RunPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.RunPage.Size = New System.Drawing.Size(1152, 374)
+        Me.RunPage.Size = New System.Drawing.Size(1212, 374)
         Me.RunPage.TabIndex = 0
         Me.RunPage.Text = "Weighing"
         Me.RunPage.UseVisualStyleBackColor = True
@@ -487,7 +487,7 @@ Partial Class Manual_Weight
         Me.Setup.Location = New System.Drawing.Point(4, 22)
         Me.Setup.Name = "Setup"
         Me.Setup.Padding = New System.Windows.Forms.Padding(3)
-        Me.Setup.Size = New System.Drawing.Size(1152, 374)
+        Me.Setup.Size = New System.Drawing.Size(1212, 374)
         Me.Setup.TabIndex = 1
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True

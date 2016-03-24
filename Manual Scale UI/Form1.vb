@@ -312,8 +312,6 @@ Public Class Manual_Weight
                     entering = False
 
 
-                    updaterowsandcolumns()
-
                     Disposition()
 
                     ' update canister number
@@ -325,6 +323,7 @@ Public Class Manual_Weight
                 If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
                     teststate = Weighprocess.taring
                     entering = True
+                    updaterowsandcolumns()
                     ccylinder.dispose()
                 End If
 
@@ -417,17 +416,17 @@ Public Class Manual_Weight
         If ccylinder.Disposition = True Then
 
             MDataset.numgood = MDataset.numgood + 1
-            'If MDataset.firstweightexists = True Then
-            '    My.Settings.TotalGood = My.Settings.TotalGood + 1
-            '    My.Settings.Save()
-            'End If
+            If MDataset.firstweightexists = True Then
+                My.Settings.TotalGood = My.Settings.TotalGood + 1
+                My.Settings.Save()
+            End If
 
         Else
             MDataset.numbad = MDataset.numbad + 1
-            'If MDataset.firstweightexists = True Then
-            '    My.Settings.TotalGood = My.Settings.TotalGood + 1
-            '    My.Settings.Save()
-            'End If
+            If MDataset.firstweightexists = True Then
+                My.Settings.TotalGood = My.Settings.TotalGood + 1
+                My.Settings.Save()
+            End If
         End If
         Lbl_BadCount.Text = My.Settings.TotalBad
         Lbl_GoodCount.Text = My.Settings.TotalGood
