@@ -110,6 +110,8 @@ Public Class Manual_Weight
         Tmr_ScreenUpdate.Stop()
         If checkdate() = False Then
             Btn_StartPallet.Enabled = False
+            MsgBox("Calibration is Past Due, Please Update")
+
         End If
 
 
@@ -135,9 +137,8 @@ Public Class Manual_Weight
 
     Private Function checkdate() As Boolean
         Dim pastdue As Boolean
-        If Date.Compare(Date.Now, My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency)) > 0 Then
-            MsgBox("Calibration is Past Due, Please Update")
-
+        If Date.Compare(Date.Now, My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency)) < 0 Then
+            
             pastdue = True
         Else
             pastdue = False
@@ -194,7 +195,7 @@ Public Class Manual_Weight
 
 
                 End If
-    
+
                 teststate = Weighprocess.taring
                 ' wait for start pallet buttonclick  when clickek
 
@@ -249,7 +250,7 @@ Public Class Manual_Weight
                 '' check for scale health and stability
 
                 If sartorius.Stable Then
-                    Select Case sartorius.CurrentReading
+                    Select Case Math.Abs(sartorius.CurrentReading)
                         '      Case Is = 0.0
                         '         updatetare()
                         Case Is < My.Settings.TareLimit / 1000
@@ -259,8 +260,8 @@ Public Class Manual_Weight
 
                         Case Is > My.Settings.TareError / 1000
                             Dim myresponse As MsgBoxResult
-                            Tmr_ScreenUpdate.Stop()
-                            myresponse = MsgBox("Please Restart Program", vbOKOnly, "Scale Tare Error")
+                            'Tmr_ScreenUpdate.Stop()
+                            myresponse = MsgBox("Please Check Scale", vbOKOnly, "Scale Tare Error")
 
 
                         Case Else
@@ -460,6 +461,7 @@ Public Class Manual_Weight
 
         If checkdate() = False Then
             Btn_StartPallet.Enabled = False
+            MsgBox("Calibration is Past Due, Please Update")
             Exit Sub
         End If
 
@@ -1172,10 +1174,10 @@ Public Class Manual_Weight
 
             With mycom
                 .PortName = My.Settings.SerialPort ' gets port name from static data set
-                .BaudRate = 19200
+                .BaudRate = 9600
                 .Parity = Parity.Odd
                 .StopBits = StopBits.One
-                .Handshake = Handshake.RequestToSend  ' Need to think here
+                .Handshake = Handshake.None  ' Need to think here
                 .DataBits = 7
                 .ReceivedBytesThreshold = 14 ' one byte short of a complete messsage string of 16 asci characters   
                 .WriteTimeout = 500

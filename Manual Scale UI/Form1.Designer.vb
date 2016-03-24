@@ -487,7 +487,7 @@ Partial Class Manual_Weight
         Me.Setup.Location = New System.Drawing.Point(4, 22)
         Me.Setup.Name = "Setup"
         Me.Setup.Padding = New System.Windows.Forms.Padding(3)
-        Me.Setup.Size = New System.Drawing.Size(1212, 374)
+        Me.Setup.Size = New System.Drawing.Size(1412, 374)
         Me.Setup.TabIndex = 1
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
@@ -495,6 +495,8 @@ Partial Class Manual_Weight
         'CB_ViewRaw
         '
         Me.CB_ViewRaw.AutoSize = True
+        Me.CB_ViewRaw.Checked = True
+        Me.CB_ViewRaw.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CB_ViewRaw.Location = New System.Drawing.Point(29, 90)
         Me.CB_ViewRaw.Name = "CB_ViewRaw"
         Me.CB_ViewRaw.Size = New System.Drawing.Size(110, 17)
