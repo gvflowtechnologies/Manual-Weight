@@ -138,7 +138,7 @@ Public Class Manual_Weight
     Private Function checkdate() As Boolean
         Dim pastdue As Boolean
         If Date.Compare(Date.Now, My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency)) < 0 Then
-            
+
             pastdue = True
         Else
             pastdue = False
