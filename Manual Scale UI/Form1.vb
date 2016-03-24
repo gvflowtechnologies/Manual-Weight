@@ -108,6 +108,11 @@ Public Class Manual_Weight
         LBL_CRow.Text = "0"
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
+        If checkdate() = False Then
+            Btn_StartPallet.Enabled = False
+        End If
+
+
 
     End Sub
 
@@ -128,7 +133,17 @@ Public Class Manual_Weight
 
     End Sub
 
+    Private Function checkdate() As Boolean
+        Dim pastdue As Boolean
+        If Date.Compare(Date.Now, My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency)) > 0 Then
+            MsgBox("Calibration is Past Due, Please Update")
 
+            pastdue = True
+        Else
+            pastdue = False
+        End If
+        Return pastdue
+    End Function
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
 
@@ -237,12 +252,12 @@ Public Class Manual_Weight
                     Select Case sartorius.CurrentReading
                         '      Case Is = 0.0
                         '         updatetare()
-                        Case Is < My.Settings.TareLimit
+                        Case Is < My.Settings.TareLimit / 1000
                             teststate = Weighprocess.weighing
                             entering = True
                             'Case    > My.Settings.TareLimit and < my.Settings.TareError
 
-                        Case Is > My.Settings.TareError
+                        Case Is > My.Settings.TareError / 1000
                             Dim myresponse As MsgBoxResult
                             Tmr_ScreenUpdate.Stop()
                             myresponse = MsgBox("Please Restart Program", vbOKOnly, "Scale Tare Error")
@@ -442,6 +457,11 @@ Public Class Manual_Weight
         Lbl_PalletN.Text = ""
         Lbl_BatchN.Text = ""
         MDataset = New PalletData
+
+        If checkdate() = False Then
+            Btn_StartPallet.Enabled = False
+            Exit Sub
+        End If
 
         MDataset.RenewFileList()
 
@@ -915,8 +935,7 @@ Public Class Manual_Weight
 
         caldata.Writecalrecord(CalID, calweight, calfinal, Operatorid)
 
-
-
+        If checkdate() = True Then Btn_StartPallet.Enabled = True
 
         Calibration.Close()
 
