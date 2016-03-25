@@ -285,6 +285,7 @@ Partial Class Manual_Weight
         Me.GBBinData.Controls.Add(Me.Lbl_GoodCount)
         Me.GBBinData.Controls.Add(Me.Btn_ResetBad)
         Me.GBBinData.Controls.Add(Me.Btn_ResetGood)
+        Me.GBBinData.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GBBinData.Location = New System.Drawing.Point(603, 24)
         Me.GBBinData.Name = "GBBinData"
         Me.GBBinData.Size = New System.Drawing.Size(257, 132)
