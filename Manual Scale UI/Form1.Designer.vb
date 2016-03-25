@@ -176,6 +176,7 @@ Partial Class Manual_Weight
         Me.Lbl_Remove.Size = New System.Drawing.Size(91, 25)
         Me.Lbl_Remove.TabIndex = 4
         Me.Lbl_Remove.Text = "Remove"
+        Me.Lbl_Remove.Visible = False
         '
         'Lbl_Bad
         '
@@ -185,6 +186,7 @@ Partial Class Manual_Weight
         Me.Lbl_Bad.Size = New System.Drawing.Size(50, 25)
         Me.Lbl_Bad.TabIndex = 3
         Me.Lbl_Bad.Text = "Bad"
+        Me.Lbl_Bad.Visible = False
         '
         'Lbl_Good
         '
@@ -194,6 +196,7 @@ Partial Class Manual_Weight
         Me.Lbl_Good.Size = New System.Drawing.Size(64, 25)
         Me.Lbl_Good.TabIndex = 2
         Me.Lbl_Good.Text = "Good"
+        Me.Lbl_Good.Visible = False
         '
         'Lbl_Weighing
         '
@@ -203,6 +206,7 @@ Partial Class Manual_Weight
         Me.Lbl_Weighing.Size = New System.Drawing.Size(102, 25)
         Me.Lbl_Weighing.TabIndex = 1
         Me.Lbl_Weighing.Text = "Weighing"
+        Me.Lbl_Weighing.Visible = False
         '
         'Lbl_IDLE
         '
@@ -213,6 +217,7 @@ Partial Class Manual_Weight
         Me.Lbl_IDLE.Size = New System.Drawing.Size(46, 25)
         Me.Lbl_IDLE.TabIndex = 0
         Me.Lbl_IDLE.Text = "Idle"
+        Me.Lbl_IDLE.Visible = False
         '
         'sLbl_PN
         '

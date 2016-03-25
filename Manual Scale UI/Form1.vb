@@ -222,7 +222,7 @@ Public Class Manual_Weight
                     End If
 
                     ''set label colors
-                    Lbl_Instruction.Text = "Remove Canister From Scale"
+                    Lbl_Instruction.Text = "Remove Canister"
                     Lbl_IDLE.BackColor = Color.Gold
                     Lbl_IDLE.Text = "Taring"
                     Lbl_Weighing.BackColor = Color.Transparent
@@ -239,7 +239,7 @@ Public Class Manual_Weight
                     Me.BackColor = Color.Red
                     Dim myresponse As MsgBoxResult
                     Tmr_ScreenUpdate.Stop()
-                    myresponse = MsgBox("Please remove canister", vbOKOnly, "Canister Detected on Scale")
+                    myresponse = MsgBox("Remove Canister", vbOKOnly, "Canister Detected on Scale")
                     Tmr_ScreenUpdate.Start()
                 ElseIf Me.BackColor = Color.Red Then
                     Me.BackColor = SystemColors.Control
@@ -261,7 +261,7 @@ Public Class Manual_Weight
                         Case Is > My.Settings.TareError / 1000
                             Dim myresponse As MsgBoxResult
                             'Tmr_ScreenUpdate.Stop()
-                            myresponse = MsgBox("Please Check Scale", vbOKOnly, "Scale Tare Error")
+                            myresponse = MsgBox("Check Scale", vbOKOnly, "Scale Tare Error")
 
 
                         Case Else
@@ -286,8 +286,8 @@ Public Class Manual_Weight
                     Lbl_Good.BackColor = Color.Transparent
                     Lbl_Bad.BackColor = Color.Transparent
                     Lbl_Remove.BackColor = Color.Transparent
-                    Lbl_Instruction.Text = "Place Canister On Scale"
-
+                    Lbl_Instruction.Text = "Place On Scale"
+                    updaterowsandcolumns()
 
 
                 End If
@@ -339,7 +339,7 @@ Public Class Manual_Weight
                 If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
                     teststate = Weighprocess.taring
                     entering = True
-                    updaterowsandcolumns()
+
                     ccylinder.dispose()
                 End If
 
@@ -390,14 +390,14 @@ Public Class Manual_Weight
             ccylinder.Disposition = True
             'write record to the file
             writefirstweight()
-            Lbl_Instruction.Text = "Return Cylinder to Pallet"
+            Lbl_Instruction.Text = "Pallet"
         Else
             ccylinder.DetermineDisposition()
             write_second_weight()
-            Lbl_Instruction.Text = "Put Cylinder in Good Bin"
+            Lbl_Instruction.Text = "Good Bin"
             If ccylinder.Disposition = False Then
                 cylindersorter.Sort(2)
-                Lbl_Instruction.Text = "Put Cylinder in Bad Bin"
+                Lbl_Instruction.Text = "Bad Bin"
             End If
         End If
         ' update the counters for disposition 
