@@ -168,7 +168,7 @@ Public Class Manual_Weight
         If cylindersorter.fired = False Then
             Dim myresponse As MsgBoxResult
             Tmr_ScreenUpdate.Stop()
-            myresponse = MsgBox("Sorter Failed", vbOKOnly, "Sorter is not Working")
+            myresponse = MsgBox("Sorter Fail", vbOKOnly, "Sorter is not Working")
             Tmr_ScreenUpdate.Start()
         End If
 
