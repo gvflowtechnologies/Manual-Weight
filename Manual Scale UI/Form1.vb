@@ -138,7 +138,7 @@ Public Class Manual_Weight
     Private Function checkdate() As Boolean
         Dim pastdue As Boolean
         If Date.Compare(Date.Now, My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency)) < 0 Then
-
+            
             pastdue = True
         Else
             pastdue = False
@@ -165,6 +165,14 @@ Public Class Manual_Weight
 
 
         End If
+        If cylindersorter.fired = False Then
+            Dim myresponse As MsgBoxResult
+            Tmr_ScreenUpdate.Stop()
+            myresponse = MsgBox("Sorter Fail", vbOKOnly, "Sorter is not Working")
+            Tmr_ScreenUpdate.Start()
+        End If
+
+
         'Label14.Text = longtime.ToString
         If CB_ViewRaw.Checked = True Then
             LblRawStream.Visible = True
@@ -222,7 +230,7 @@ Public Class Manual_Weight
                     End If
 
                     ''set label colors
-                    Lbl_Instruction.Text = "Remove"
+                    Lbl_Instruction.Text = "Remove Canister From Scale"
                     Lbl_IDLE.BackColor = Color.Gold
                     Lbl_IDLE.Text = "Taring"
                     Lbl_Weighing.BackColor = Color.Transparent
@@ -239,7 +247,7 @@ Public Class Manual_Weight
                     Me.BackColor = Color.Red
                     Dim myresponse As MsgBoxResult
                     Tmr_ScreenUpdate.Stop()
-                    myresponse = MsgBox("Please Remove Canister", vbOKOnly, "Canister Detected on Scale")
+                    myresponse = MsgBox("Please remove canister", vbOKOnly, "Canister Detected on Scale")
                     Tmr_ScreenUpdate.Start()
                 ElseIf Me.BackColor = Color.Red Then
                     Me.BackColor = SystemColors.Control
@@ -286,9 +294,9 @@ Public Class Manual_Weight
                     Lbl_Good.BackColor = Color.Transparent
                     Lbl_Bad.BackColor = Color.Transparent
                     Lbl_Remove.BackColor = Color.Transparent
-                    Lbl_Instruction.Text = "Place"
+                    Lbl_Instruction.Text = "Place Canister On Scale"
 
-
+                    cylindersorter.Sort(1)
 
                 End If
 
@@ -332,6 +340,10 @@ Public Class Manual_Weight
 
                     ' update canister number
                     MDataset.canisternum = MDataset.canisternum + 1
+                    If ccylinder.Disposition = False Then
+                        cylindersorter.Sort(2)
+                    End If
+
 
                 End If
 
@@ -390,14 +402,14 @@ Public Class Manual_Weight
             ccylinder.Disposition = True
             'write record to the file
             writefirstweight()
-            Lbl_Instruction.Text = "Pallet"
+            Lbl_Instruction.Text = "Return Cylinder to Pallet"
         Else
             ccylinder.DetermineDisposition()
             write_second_weight()
-            Lbl_Instruction.Text = "Pass"
+            Lbl_Instruction.Text = "Put Cylinder in Good Bin"
             If ccylinder.Disposition = False Then
                 cylindersorter.Sort(2)
-                Lbl_Instruction.Text = "Fail"
+                Lbl_Instruction.Text = "Put Cylinder in Bad Bin"
             End If
         End If
         ' update the counters for disposition 
@@ -843,7 +855,6 @@ Public Class Manual_Weight
             followup = MsgBox("You entered " & Operatorid & ", is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Entry")
             If followup = MsgBoxResult.Cancel Then
                 Operatorid = ""
-                Calibration.Close()
                 Exit Sub
             End If
         Loop Until followup = MsgBoxResult.Yes
@@ -855,7 +866,6 @@ Public Class Manual_Weight
             followup = MsgBox("You entered " & CalID & ", is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Entry")
             If followup = MsgBoxResult.Cancel Then
                 CalID = ""
-                Calibration.Close()
                 Exit Sub
             End If
         Loop Until followup = MsgBoxResult.Yes
@@ -873,7 +883,6 @@ Public Class Manual_Weight
                     followup = MsgBox("You entered " & calweight & ", is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Entry")
                     If followup = MsgBoxResult.Cancel Then
                         calweight = ""
-                        Calibration.Close()
                         Exit Sub
                     End If
                 Else
@@ -897,7 +906,6 @@ Public Class Manual_Weight
                     followup = MsgBox("You entered " & calfinal & ", is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Entry")
                     If followup = MsgBoxResult.Cancel Then
                         calfinal = ""
-                        Calibration.Close()
                         Exit Sub
                     End If
                 Else
@@ -1020,9 +1028,9 @@ Public Class Manual_Weight
             MsgBox("No serial port is selected")
         Else
             My.Settings.SerialPort = LB_SerialPorts.SelectedItem.ToString
-
-            ' I could put a routine in here to send a text string and look for a response.
             My.Settings.Save()
+            ' I could put a routine in here to send a text string and look for a response.
+
         End If
 
     End Sub
