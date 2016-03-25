@@ -1164,7 +1164,7 @@ Public Class Manual_Weight
     Private Sub newcommport()
 
         Dim myportnames() As String
-        myportnames = SerialPort.GetPortNames
+        ' myportnames = SerialPort.GetPortNames
         If IsNothing(mycom) Then
             mycom = New SerialPort
 

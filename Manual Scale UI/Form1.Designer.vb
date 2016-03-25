@@ -293,7 +293,7 @@ Partial Class Manual_Weight
         Me.GBBinData.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GBBinData.Location = New System.Drawing.Point(603, 24)
         Me.GBBinData.Name = "GBBinData"
-        Me.GBBinData.Size = New System.Drawing.Size(257, 132)
+        Me.GBBinData.Size = New System.Drawing.Size(280, 132)
         Me.GBBinData.TabIndex = 5
         Me.GBBinData.TabStop = False
         Me.GBBinData.Text = "Completed Count"
@@ -349,7 +349,7 @@ Partial Class Manual_Weight
         Me.GBCurrentPallet.Controls.Add(Me.sLbl_B)
         Me.GBCurrentPallet.Controls.Add(Me.sLbl_G)
         Me.GBCurrentPallet.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GBCurrentPallet.Location = New System.Drawing.Point(889, 24)
+        Me.GBCurrentPallet.Location = New System.Drawing.Point(926, 24)
         Me.GBCurrentPallet.Name = "GBCurrentPallet"
         Me.GBCurrentPallet.Size = New System.Drawing.Size(257, 295)
         Me.GBCurrentPallet.TabIndex = 4
