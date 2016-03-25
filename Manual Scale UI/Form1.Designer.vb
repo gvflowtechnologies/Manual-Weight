@@ -37,7 +37,6 @@ Partial Class Manual_Weight
         Me.GB_Scale = New System.Windows.Forms.GroupBox()
         Me.LblRawStream = New System.Windows.Forms.Label()
         Me.Lbl_CurrentScale = New System.Windows.Forms.Label()
-        Me.sLbl_SR = New System.Windows.Forms.Label()
         Me.GBBinData = New System.Windows.Forms.GroupBox()
         Me.Lbl_BadCount = New System.Windows.Forms.Label()
         Me.Lbl_GoodCount = New System.Windows.Forms.Label()
@@ -238,7 +237,6 @@ Partial Class Manual_Weight
         '
         Me.GB_Scale.Controls.Add(Me.LblRawStream)
         Me.GB_Scale.Controls.Add(Me.Lbl_CurrentScale)
-        Me.GB_Scale.Controls.Add(Me.sLbl_SR)
         Me.GB_Scale.Location = New System.Drawing.Point(33, 216)
         Me.GB_Scale.Name = "GB_Scale"
         Me.GB_Scale.Size = New System.Drawing.Size(243, 103)
@@ -269,25 +267,16 @@ Partial Class Manual_Weight
         Me.Lbl_CurrentScale.TabIndex = 1
         Me.Lbl_CurrentScale.Text = "Grams"
         '
-        'sLbl_SR
-        '
-        Me.sLbl_SR.AutoSize = True
-        Me.sLbl_SR.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sLbl_SR.Location = New System.Drawing.Point(7, 41)
-        Me.sLbl_SR.Name = "sLbl_SR"
-        Me.sLbl_SR.Size = New System.Drawing.Size(139, 25)
-        Me.sLbl_SR.TabIndex = 0
-        Me.sLbl_SR.Text = "Scale Reading"
-        '
         'GBBinData
         '
         Me.GBBinData.Controls.Add(Me.Lbl_BadCount)
         Me.GBBinData.Controls.Add(Me.Lbl_GoodCount)
         Me.GBBinData.Controls.Add(Me.Btn_ResetBad)
         Me.GBBinData.Controls.Add(Me.Btn_ResetGood)
+        Me.GBBinData.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GBBinData.Location = New System.Drawing.Point(603, 24)
         Me.GBBinData.Name = "GBBinData"
-        Me.GBBinData.Size = New System.Drawing.Size(257, 132)
+        Me.GBBinData.Size = New System.Drawing.Size(280, 132)
         Me.GBBinData.TabIndex = 5
         Me.GBBinData.TabStop = False
         Me.GBBinData.Text = "Completed Count"
@@ -977,7 +966,6 @@ Partial Class Manual_Weight
     Friend WithEvents sLbl_BN As System.Windows.Forms.Label
     Friend WithEvents GB_Scale As System.Windows.Forms.GroupBox
     Friend WithEvents Lbl_CurrentScale As System.Windows.Forms.Label
-    Friend WithEvents sLbl_SR As System.Windows.Forms.Label
     Friend WithEvents Tmr_ScreenUpdate As System.Windows.Forms.Timer
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents Lbl_Bad As System.Windows.Forms.Label
