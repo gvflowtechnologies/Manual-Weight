@@ -765,6 +765,7 @@ Public Class Manual_Weight
                 notnumbers = False
                 retarelimit = CSng(sretare)
                 My.Settings.TareLimit = retarelimit
+                My.Settings.Save()
                 Lbl_RetareLimit.Text = retarelimit.ToString("N1")
             Else
                 MsgBox("Numbers Only Please")
@@ -781,6 +782,7 @@ Public Class Manual_Weight
                 notnumbers = False
                 tareerror = CSng(stareerror)
                 My.Settings.TareError = tareerror
+                My.Settings.Save()
                 Lbl_TareError.Text = tareerror.ToString("N1")
             Else
                 MsgBox("Numbers Only Please")
@@ -1026,7 +1028,7 @@ Public Class Manual_Weight
             MsgBox("No serial port is selected")
         Else
             My.Settings.SerialPort = LB_SerialPorts.SelectedItem.ToString
-
+            My.Settings.Save()
             ' I could put a routine in here to send a text string and look for a response.
 
         End If
