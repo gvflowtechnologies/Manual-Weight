@@ -184,9 +184,9 @@ Partial Class Calibration
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Lbl_CalPrompts)
         Me.Controls.Add(Me.Btn_Escape)
-        Me.Location = New System.Drawing.Point(400, 0)
+        Me.Location = New System.Drawing.Point(550, 100)
         Me.Name = "Calibration"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Scale Calibration Procedure"
         Me.ResumeLayout(False)
         Me.PerformLayout()
