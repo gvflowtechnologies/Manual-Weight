@@ -376,13 +376,12 @@ Public Class Manual_Weight
     End Sub
     Public Sub startcal()
 
-        'Do Until mycom.BytesToRead < 10
-        'Application.DoEvents()
-        SyncLock Me
-            'Loop
-            mycom.Write("W" & ControlChars.CrLf)
-            sartorius.CalRequest = False
-        End SyncLock
+
+
+        'Loop
+        mycom.Write("W" & ControlChars.CrLf)
+        sartorius.CalRequest = False
+
     End Sub
 
     Private Sub updaterowsandcolumns()
