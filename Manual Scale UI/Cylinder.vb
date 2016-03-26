@@ -24,16 +24,25 @@
         'Deterimine if the device is good or bad.
         weightdifference = dMySecondweight - dMyfirstweight
 
-        ' what things do we want to check for?  Question for Pete
-        If weightdifference < -My.Settings.WeightLoss Then
-            ddisposition = False
+        Select dMySecondweight
+            Case Is > My.Settings.MaxWeight
+                ddisposition = False
 
-        Else
-            ddisposition = True
+            Case Is < My.Settings.MinWeight
+                ddisposition = False
 
+            Case Else
 
-        End If
+                ' what things do we want to check for?  Question for Pete
+                If Math.Abs(weightdifference) > My.Settings.WeightLoss Then
+                    ddisposition = False
 
+                Else
+                    ddisposition = True
+
+                End If
+
+        End Select
 
     End Sub
 

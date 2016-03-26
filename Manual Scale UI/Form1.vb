@@ -45,7 +45,7 @@ Public Class Manual_Weight
         tmrcycle = New Stopwatch
         ' loginhandling()
         sartorius = New Scalemanagement
-
+        tmrsort = New Stopwatch
 
         'If Not Directory.Exists(My.Settings.File_Directory) Then
         '    caldata.SelectDataFolder()
@@ -103,11 +103,12 @@ Public Class Manual_Weight
         Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
         Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
         Lbl_WeightLoss.Text = My.Settings.WeightLoss.ToString("N4")
-        Lbl_Instruction.Text = "Remove Canister From Scale"
+        Lbl_Instruction.Text = "Standby"
         LBL_CCOL.Text = "0"
         LBL_CRow.Text = "0"
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
+
         If checkdate() = False Then
             Btn_StartPallet.Enabled = False
             MsgBox("Calibration is Past Due, Please Update")
@@ -173,6 +174,14 @@ Public Class Manual_Weight
             Tmr_ScreenUpdate.Stop()
             myresponse = MsgBox("Sorter Fail", vbOKOnly, "Sorter is not Working")
             Tmr_ScreenUpdate.Start()
+        End If
+        If cylindersorter.Location = 254 Then
+            If tmrsort.ElapsedMilliseconds > 10000 Then
+
+                cylindersorter.Sort(1)
+                tmrsort.Reset()
+            End If
+
         End If
 
 
@@ -310,9 +319,6 @@ Public Class Manual_Weight
 
                 End If
 
-                If sartorius.CurrentReading > My.Settings.MinWeight / 2 Then
-
-                End If
 
 
                 If sartorius.Stable Then
@@ -425,7 +431,8 @@ Public Class Manual_Weight
             Lbl_Instruction.BackColor = Color.LightGreen
             If ccylinder.Disposition = False Then
                 cylindersorter.Sort(2)
-                Lbl_Instruction.Text = "Bad"
+                tmrsort.Start()
+                Lbl_Instruction.Text = "Fail"
                 Lbl_Instruction.BackColor = Color.Red
             End If
         End If
@@ -469,7 +476,7 @@ Public Class Manual_Weight
         Else
             MDataset.numbad = MDataset.numbad + 1
             If MDataset.firstweightexists = True Then
-                My.Settings.TotalGood = My.Settings.TotalGood + 1
+                My.Settings.TotalBad = My.Settings.TotalBad + 1
                 My.Settings.Save()
             End If
         End If
@@ -493,6 +500,8 @@ Public Class Manual_Weight
             MsgBox("Calibration is Past Due, Please Update")
             Exit Sub
         End If
+
+
 
         MDataset.RenewFileList()
 
@@ -1291,4 +1300,6 @@ Public Class Manual_Weight
     Private Sub Btn_ManualTare_Click(sender As Object, e As EventArgs) Handles Btn_ManualTare.Click
         updatetare()
     End Sub
+
+ 
 End Class
