@@ -248,6 +248,7 @@ Public Class Manual_Weight
                     Dim myresponse As MsgBoxResult
                     Tmr_ScreenUpdate.Stop()
                     myresponse = MsgBox("Please remove canister", vbOKOnly, "Canister Detected on Scale")
+                    Me.BackColor = SystemColors.Control
                     Tmr_ScreenUpdate.Start()
                 ElseIf Me.BackColor = Color.Red Then
                     Me.BackColor = SystemColors.Control
@@ -296,7 +297,7 @@ Public Class Manual_Weight
                     Lbl_Remove.BackColor = Color.Transparent
                     Lbl_Instruction.Text = "Place Canister On Scale"
 
-                    cylindersorter.Sort(1)
+
 
                 End If
 
@@ -335,7 +336,7 @@ Public Class Manual_Weight
                 If entering Then
                     entering = False
 
-
+                    cylindersorter.Sort(1)
                     Disposition()
 
                     ' update canister number
