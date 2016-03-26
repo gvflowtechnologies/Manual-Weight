@@ -136,7 +136,7 @@ Partial Class Manual_Weight
         Me.RunPage.Location = New System.Drawing.Point(4, 22)
         Me.RunPage.Name = "RunPage"
         Me.RunPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.RunPage.Size = New System.Drawing.Size(1412, 374)
+        Me.RunPage.Size = New System.Drawing.Size(1492, 374)
         Me.RunPage.TabIndex = 0
         Me.RunPage.Text = "Weighing"
         Me.RunPage.UseVisualStyleBackColor = True
@@ -923,7 +923,6 @@ Partial Class Manual_Weight
         Me.CausesValidation = False
         Me.ClientSize = New System.Drawing.Size(1534, 421)
         Me.Controls.Add(Me.TabControl1)
-        Me.Location = New System.Drawing.Point(25, 10)
         Me.Name = "Manual_Weight"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Altaviz Manual Weighing System"
