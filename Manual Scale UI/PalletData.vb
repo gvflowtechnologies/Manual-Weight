@@ -127,7 +127,7 @@ Public Class PalletData
         If iCurCol > iNumCols Then
             iCurRow += 1
             iCurCol = 1
-            If currow > iNumRows Then
+            If iCurRow > iNumRows Then
                 iCurRow = iNumRows
                 iCurCol = iNumCols
             End If

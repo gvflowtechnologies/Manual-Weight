@@ -31,7 +31,7 @@ Public Class Scalemanagement
         bincal = False
         Bstable = False
         Dim myfiliname As String
-        myfiliname = My.Settings.File_Directory & "\In Process\rawdata.txt"
+
         bcalrequest = False
 
 

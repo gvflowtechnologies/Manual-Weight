@@ -158,13 +158,11 @@ Public Class Manual_Weight
 
         'longtime = tmrcycle.ElapsedMilliseconds
         Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
-        If sartorius.Stable Then
-            GB_Scale.BackColor = Color.LimeGreen
-        Else
-            GB_Scale.BackColor = Color.Transparent
-
-
-        End If
+        'If sartorius.Stable Then
+        '    GB_Scale.BackColor = Color.LimeGreen
+        'Else
+        '    GB_Scale.BackColor = Color.Transparent
+        'End If
         If cylindersorter.fired = False Then
             Dim myresponse As MsgBoxResult
             Tmr_ScreenUpdate.Stop()
@@ -230,7 +228,8 @@ Public Class Manual_Weight
                     End If
 
                     ''set label colors
-                    Lbl_Instruction.Text = "Remove Canister From Scale"
+                    Lbl_Instruction.Text = "Remove"
+                    Lbl_Instruction.BackColor = Color.Blue
                     Lbl_IDLE.BackColor = Color.Gold
                     Lbl_IDLE.Text = "Taring"
                     Lbl_Weighing.BackColor = Color.Transparent
@@ -245,12 +244,12 @@ Public Class Manual_Weight
                 ' restart update tick
                 If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
                     Me.BackColor = Color.Red
-                    Dim myresponse As MsgBoxResult
-                    Tmr_ScreenUpdate.Stop()
-                    myresponse = MsgBox("Please remove canister", vbOKOnly, "Canister Detected on Scale")
-                    Me.BackColor = SystemColors.Control
-                    Tmr_ScreenUpdate.Start()
-                ElseIf Me.BackColor = Color.Red Then
+
+                    '   Tmr_ScreenUpdate.Stop()
+                    '    MsgBox("Please remove canister", vbOKOnly, "Canister Detected on Scale")
+                    '  Me.BackColor = SystemColors.Control
+                    ' Tmr_ScreenUpdate.Start()
+                Else
                     Me.BackColor = SystemColors.Control
                 End If
 
@@ -270,8 +269,9 @@ Public Class Manual_Weight
                         Case Is > My.Settings.TareError / 1000
                             Dim myresponse As MsgBoxResult
                             'Tmr_ScreenUpdate.Stop()
+                            Tmr_ScreenUpdate.Stop()
                             myresponse = MsgBox("Please Check Scale", vbOKOnly, "Scale Tare Error")
-
+                            Tmr_ScreenUpdate.Start()
 
                         Case Else
                             updatetare()
@@ -295,7 +295,8 @@ Public Class Manual_Weight
                     Lbl_Good.BackColor = Color.Transparent
                     Lbl_Bad.BackColor = Color.Transparent
                     Lbl_Remove.BackColor = Color.Transparent
-                    Lbl_Instruction.Text = "Place Canister On Scale"
+                    Lbl_Instruction.Text = "Place"
+                    Lbl_Instruction.BackColor = Color.LightGreen
 
 
 
@@ -352,7 +353,7 @@ Public Class Manual_Weight
                 If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
                     teststate = Weighprocess.taring
                     entering = True
-                    updaterowsandcolumns()
+
                     ccylinder.dispose()
                 End If
 
@@ -403,38 +404,41 @@ Public Class Manual_Weight
             ccylinder.Disposition = True
             'write record to the file
             writefirstweight()
-            Lbl_Instruction.Text = "Return Cylinder to Pallet"
+            Lbl_Instruction.Text = "Pallet"
+            Lbl_Instruction.BackColor = Color.Green
         Else
             ccylinder.DetermineDisposition()
             write_second_weight()
-            Lbl_Instruction.Text = "Put Cylinder in Good Bin"
+            Lbl_Instruction.Text = "Pass"
+            Lbl_Instruction.BackColor = Color.Green
             If ccylinder.Disposition = False Then
                 cylindersorter.Sort(2)
-                Lbl_Instruction.Text = "Put Cylinder in Bad Bin"
+                Lbl_Instruction.Text = "Bad"
+                Lbl_Instruction.BackColor = Color.Red
             End If
         End If
-        ' update the counters for disposition 
-        updatecounts()
+                ' update the counters for disposition 
+                updatecounts()
+                updaterowsandcolumns()
+                'set label colors
+                Lbl_IDLE.BackColor = Color.Gold
 
-        'set label colors
-        Lbl_IDLE.BackColor = Color.Gold
+                Lbl_Weighing.BackColor = Color.Transparent
 
-        Lbl_Weighing.BackColor = Color.Transparent
+                'set good and bad colors here 
 
-        'set good and bad colors here 
-
-        If ccylinder.Disposition = True Then
-            ' Sucess
-            Lbl_Good.BackColor = Color.Green
-            Lbl_Bad.BackColor = Color.Transparent
-        Else
-            'fail
-            Lbl_Good.BackColor = Color.Transparent
-            Lbl_Bad.BackColor = Color.Red
-        End If
+                If ccylinder.Disposition = True Then
+                    ' Sucess
+                    Lbl_Good.BackColor = Color.Green
+                    Lbl_Bad.BackColor = Color.Transparent
+                Else
+                    'fail
+                    Lbl_Good.BackColor = Color.Transparent
+                    Lbl_Bad.BackColor = Color.Red
+                End If
 
 
-        Lbl_Remove.BackColor = Color.Gold
+                Lbl_Remove.BackColor = Color.Gold
 
 
     End Sub
