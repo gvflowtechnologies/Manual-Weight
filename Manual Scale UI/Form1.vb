@@ -233,7 +233,7 @@ Public Class Manual_Weight
                     End If
 
                     ''set label colors
-                    Lbl_Instruction.Text = "Zeoring"
+                    Lbl_Instruction.Text = "Zeroing"
                     Lbl_Instruction.BackColor = Color.Blue
                     Lbl_IDLE.BackColor = Color.Gold
                     Lbl_IDLE.Text = "Taring"
@@ -304,7 +304,7 @@ Public Class Manual_Weight
                     Lbl_Bad.BackColor = Color.Transparent
                     Lbl_Remove.BackColor = Color.Transparent
                     Lbl_Instruction.Text = "Place"
-                    Lbl_Instruction.BackColor = Color.LightGreen
+                    Lbl_Instruction.BackColor = Color.Violet
 
 
 
@@ -417,12 +417,12 @@ Public Class Manual_Weight
             'write record to the file
             writefirstweight()
             Lbl_Instruction.Text = "Pallet"
-            Lbl_Instruction.BackColor = Color.GreenYellow
+            Lbl_Instruction.BackColor = Color.LightGreen
         Else
             ccylinder.DetermineDisposition()
             write_second_weight()
             Lbl_Instruction.Text = "Pass"
-            Lbl_Instruction.BackColor = Color.GreenYellow
+            Lbl_Instruction.BackColor = Color.LightGreen
             If ccylinder.Disposition = False Then
                 cylindersorter.Sort(2)
                 Lbl_Instruction.Text = "Bad"
