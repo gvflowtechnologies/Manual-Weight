@@ -150,9 +150,6 @@ Public Class Manual_Weight
 
         ' determine which canister you are weighing.
         ' Load that data in.
-
-
-
         'Dim cycle As Integer
         'Dim longtime As Long
 
