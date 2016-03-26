@@ -56,7 +56,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("AV_QAE")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("AV-QAE")>  _
         Public Property Password() As String
             Get
                 Return CType(Me("Password"),String)
@@ -68,7 +68,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("""""")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\AltavizData")>  _
         Public Property File_Directory() As String
             Get
                 Return CType(Me("File_Directory"),String)
@@ -92,7 +92,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("2000-12-31")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2015-12-31")>  _
         Public Property LastCalDate() As Date
             Get
                 Return CType(Me("LastCalDate"),Date)
@@ -104,7 +104,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.4")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.3")>  _
         Public Property TareLimit() As Double
             Get
                 Return CType(Me("TareLimit"),Double)
@@ -116,7 +116,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("10")>  _
         Public Property TareError() As Double
             Get
                 Return CType(Me("TareError"),Double)
@@ -128,7 +128,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("""""")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\CalData")>  _
         Public Property Caldirectory() As String
             Get
                 Return CType(Me("Caldirectory"),String)
@@ -152,7 +152,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("3")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("21")>  _
         Public Property ColNum() As Integer
             Get
                 Return CType(Me("ColNum"),Integer)
@@ -164,7 +164,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("3")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("19")>  _
         Public Property RowNum() As Integer
             Get
                 Return CType(Me("RowNum"),Integer)
@@ -200,7 +200,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.1")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.001")>  _
         Public Property WeightLoss() As Single
             Get
                 Return CType(Me("WeightLoss"),Single)
@@ -212,7 +212,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("2.9")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2.8")>  _
         Public Property MaxWeight() As Single
             Get
                 Return CType(Me("MaxWeight"),Single)
@@ -224,7 +224,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("2.1")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2.6")>  _
         Public Property MinWeight() As Single
             Get
                 Return CType(Me("MinWeight"),Single)

@@ -3,34 +3,34 @@
   <Profiles />
   <Settings>
     <Setting Name="Password" Type="System.String" Scope="User">
-      <Value Profile="(Default)">AV_QAE</Value>
+      <Value Profile="(Default)">AV-QAE</Value>
     </Setting>
     <Setting Name="File_Directory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">""</Value>
+      <Value Profile="(Default)">C:\AltavizData</Value>
     </Setting>
     <Setting Name="SerialPort" Type="System.String" Scope="User">
       <Value Profile="(Default)">COM1</Value>
     </Setting>
     <Setting Name="LastCalDate" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)">2000-12-31</Value>
+      <Value Profile="(Default)">2015-12-31</Value>
     </Setting>
     <Setting Name="TareLimit" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">0.4</Value>
+      <Value Profile="(Default)">0.3</Value>
     </Setting>
     <Setting Name="TareError" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="Caldirectory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">""</Value>
+      <Value Profile="(Default)">C:\CalData</Value>
     </Setting>
     <Setting Name="CalFrequency" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">12</Value>
     </Setting>
     <Setting Name="ColNum" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">3</Value>
+      <Value Profile="(Default)">21</Value>
     </Setting>
     <Setting Name="RowNum" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">3</Value>
+      <Value Profile="(Default)">19</Value>
     </Setting>
     <Setting Name="ColSpace" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0.5</Value>
@@ -39,13 +39,13 @@
       <Value Profile="(Default)">0.5</Value>
     </Setting>
     <Setting Name="WeightLoss" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0.1</Value>
+      <Value Profile="(Default)">0.001</Value>
     </Setting>
     <Setting Name="MaxWeight" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">2.9</Value>
+      <Value Profile="(Default)">2.8</Value>
     </Setting>
     <Setting Name="MinWeight" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">2.1</Value>
+      <Value Profile="(Default)">2.6</Value>
     </Setting>
     <Setting Name="TotalGood" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>

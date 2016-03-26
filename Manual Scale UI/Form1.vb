@@ -270,7 +270,10 @@ Public Class Manual_Weight
                             Dim myresponse As MsgBoxResult
                             'Tmr_ScreenUpdate.Stop()
                             Tmr_ScreenUpdate.Stop()
-                            myresponse = MsgBox("Please Check Scale", vbOKOnly, "Scale Tare Error")
+                            myresponse = MsgBox("Tare Error, Retare Now?", vbYesNo, "Scale Tare Error")
+                            If myresponse = MsgBoxResult.Yes Then
+                                updatetare()
+                            End If
                             Tmr_ScreenUpdate.Start()
 
                         Case Else
