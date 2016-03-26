@@ -113,7 +113,12 @@ Public Class Manual_Weight
             MsgBox("Calibration is Past Due, Please Update")
 
         End If
+        Dim v As String
 
+        v = My.Application.Deployment.CurrentVersion.ToString
+
+
+        LBL_Version.Text = "Version:" & v
 
 
     End Sub
@@ -305,6 +310,10 @@ Public Class Manual_Weight
 
                 End If
 
+                If sartorius.CurrentReading > My.Settings.MinWeight / 2 Then
+
+                End If
+
 
                 If sartorius.Stable Then
                     Select Case sartorius.CurrentReading
@@ -327,7 +336,7 @@ Public Class Manual_Weight
 
 
                     End Select
-
+                    updaterowsandcolumns()
                 Else
                     '    '   teststate = weighprocess.erroring
                 End If
@@ -422,7 +431,7 @@ Public Class Manual_Weight
         End If
                 ' update the counters for disposition 
                 updatecounts()
-                updaterowsandcolumns()
+
                 'set label colors
                 Lbl_IDLE.BackColor = Color.Gold
 

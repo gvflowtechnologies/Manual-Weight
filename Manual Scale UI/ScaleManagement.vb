@@ -30,7 +30,8 @@ Public Class Scalemanagement
         calstring = ""
         bincal = False
         Bstable = False
-        Dim myfiliname As String
+
+
 
         bcalrequest = False
 

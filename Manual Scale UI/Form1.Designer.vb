@@ -99,6 +99,7 @@ Partial Class Manual_Weight
         Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.LBL_Version = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -471,6 +472,7 @@ Partial Class Manual_Weight
         '
         'Setup
         '
+        Me.Setup.Controls.Add(Me.LBL_Version)
         Me.Setup.Controls.Add(Me.CB_ViewRaw)
         Me.Setup.Controls.Add(Me.GroupBox4)
         Me.Setup.Controls.Add(Me.GroupBox3)
@@ -718,7 +720,7 @@ Partial Class Manual_Weight
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(14, 202)
+        Me.Button1.Location = New System.Drawing.Point(14, 172)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(168, 59)
         Me.Button1.TabIndex = 12
@@ -916,6 +918,15 @@ Partial Class Manual_Weight
         '
         Me.Tmr_ScreenUpdate.Interval = 50
         '
+        'LBL_Version
+        '
+        Me.LBL_Version.AutoSize = True
+        Me.LBL_Version.Location = New System.Drawing.Point(11, 343)
+        Me.LBL_Version.Name = "LBL_Version"
+        Me.LBL_Version.Size = New System.Drawing.Size(45, 13)
+        Me.LBL_Version.TabIndex = 17
+        Me.LBL_Version.Text = "Label14"
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1024,5 +1035,6 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_Instruction As System.Windows.Forms.Label
     Friend WithEvents CB_ViewRaw As System.Windows.Forms.CheckBox
     Friend WithEvents LblRawStream As System.Windows.Forms.Label
+    Friend WithEvents LBL_Version As System.Windows.Forms.Label
 
 End Class
