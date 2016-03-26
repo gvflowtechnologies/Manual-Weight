@@ -336,7 +336,7 @@ Public Class Manual_Weight
 
 
                     End Select
-                    updaterowsandcolumns()
+
                 Else
                     '    '   teststate = weighprocess.erroring
                 End If
@@ -431,7 +431,7 @@ Public Class Manual_Weight
         End If
                 ' update the counters for disposition 
                 updatecounts()
-
+        updaterowsandcolumns()
                 'set label colors
                 Lbl_IDLE.BackColor = Color.Gold
 

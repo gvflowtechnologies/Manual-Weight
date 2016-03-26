@@ -46,7 +46,7 @@ Public Class PalletData
         CountBad = 0
         CountGood = 0
         iCurRow = 1
-        iCurCol = 1
+        iCurCol = 0
         iNumRows = My.Settings.RowNum
         iNumCols = My.Settings.ColNum
 
