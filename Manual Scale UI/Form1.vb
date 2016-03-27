@@ -45,7 +45,7 @@ Public Class Manual_Weight
         tmrcycle = New Stopwatch
         ' loginhandling()
         sartorius = New Scalemanagement
-
+        tmrsort = New Stopwatch
 
         'If Not Directory.Exists(My.Settings.File_Directory) Then
         '    caldata.SelectDataFolder()
@@ -103,17 +103,23 @@ Public Class Manual_Weight
         Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
         Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
         Lbl_WeightLoss.Text = My.Settings.WeightLoss.ToString("N4")
-        Lbl_Instruction.Text = "Remove Canister From Scale"
+        Lbl_Instruction.Text = "Standby"
         LBL_CCOL.Text = "0"
         LBL_CRow.Text = "0"
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
+
         If checkdate() = False Then
             Btn_StartPallet.Enabled = False
             MsgBox("Calibration is Past Due, Please Update")
 
         End If
+        Dim v As String
 
+        v = My.Application.Deployment.CurrentVersion.ToString
+
+
+        LBL_Version.Text = "Version:" & v
 
 
     End Sub
@@ -166,6 +172,14 @@ Public Class Manual_Weight
             myresponse = MsgBox("Sorter Fail", vbOKOnly, "Sorter is not Working")
             Tmr_ScreenUpdate.Start()
         End If
+        If cylindersorter.Location = 254 Then
+            If tmrsort.ElapsedMilliseconds > 15000 Then
+
+                cylindersorter.Sort(255)
+                tmrsort.Reset()
+            End If
+
+        End If
 
 
         'Label14.Text = longtime.ToString
@@ -173,7 +187,6 @@ Public Class Manual_Weight
             LblRawStream.Visible = True
         Else
             LblRawStream.Visible = False
-
         End If
         LblRawStream.Text = sartorius.RAWSTRING
         If sartorius.ishealthy = False Then
@@ -224,8 +237,8 @@ Public Class Manual_Weight
                         MsgBox("Pallet Complete")
                     End If
 
-                    ''set label colors
-                    Lbl_Instruction.Text = "Remove"
+                    'set label colors
+                    Lbl_Instruction.Text = "Zeroing"
                     Lbl_Instruction.BackColor = Color.Blue
                     Lbl_IDLE.BackColor = Color.Gold
                     Lbl_IDLE.Text = "Taring"
@@ -267,7 +280,10 @@ Public Class Manual_Weight
                             Dim myresponse As MsgBoxResult
                             'Tmr_ScreenUpdate.Stop()
                             Tmr_ScreenUpdate.Stop()
-                            myresponse = MsgBox("Please Check Scale", vbOKOnly, "Scale Tare Error")
+                            myresponse = MsgBox("Tare Error, Retare Now?", vbYesNo, "Scale Tare Error")
+                            If myresponse = MsgBoxResult.Yes Then
+                                updatetare()
+                            End If
                             Tmr_ScreenUpdate.Start()
 
                         Case Else
@@ -293,11 +309,12 @@ Public Class Manual_Weight
                     Lbl_Bad.BackColor = Color.Transparent
                     Lbl_Remove.BackColor = Color.Transparent
                     Lbl_Instruction.Text = "Place"
-                    Lbl_Instruction.BackColor = Color.LightGreen
+                    Lbl_Instruction.BackColor = Color.Violet
 
 
 
                 End If
+
 
 
                 If sartorius.Stable Then
@@ -334,14 +351,15 @@ Public Class Manual_Weight
                 If entering Then
                     entering = False
 
-                    cylindersorter.Sort(1)
+
                     Disposition()
+
 
                     ' update canister number
                     MDataset.canisternum = MDataset.canisternum + 1
-                    If ccylinder.Disposition = False Then
-                        cylindersorter.Sort(2)
-                    End If
+                    'If ccylinder.Disposition = False Then
+                    '    cylindersorter.Sort(2)
+                    'End If
 
 
                 End If
@@ -394,47 +412,53 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub Disposition()
+        cylindersorter.Sort(1)
+
         If MDataset.firstweightexists = False Then
             ' If this is a first weight accept all
 
             ccylinder.Disposition = True
+
             'write record to the file
             writefirstweight()
             Lbl_Instruction.Text = "Pallet"
-            Lbl_Instruction.BackColor = Color.Green
+            Lbl_Instruction.BackColor = Color.LightGreen
+            LBL_Rationalle.Text = ""
         Else
             ccylinder.DetermineDisposition()
             write_second_weight()
             Lbl_Instruction.Text = "Pass"
-            Lbl_Instruction.BackColor = Color.Green
+            Lbl_Instruction.BackColor = Color.LightGreen
             If ccylinder.Disposition = False Then
                 cylindersorter.Sort(2)
-                Lbl_Instruction.Text = "Bad"
+                tmrsort.Restart()
+                Lbl_Instruction.Text = "Fail"
                 Lbl_Instruction.BackColor = Color.Red
+                LBL_Rationalle.Text = ccylinder.DispReason
             End If
         End If
                 ' update the counters for disposition 
-                updatecounts()
-                updaterowsandcolumns()
+        updatecounts()
+        updaterowsandcolumns()
                 'set label colors
-                Lbl_IDLE.BackColor = Color.Gold
+        Lbl_IDLE.BackColor = Color.Gold
 
-                Lbl_Weighing.BackColor = Color.Transparent
+        Lbl_Weighing.BackColor = Color.Transparent
 
                 'set good and bad colors here 
 
-                If ccylinder.Disposition = True Then
-                    ' Sucess
-                    Lbl_Good.BackColor = Color.Green
-                    Lbl_Bad.BackColor = Color.Transparent
-                Else
-                    'fail
-                    Lbl_Good.BackColor = Color.Transparent
-                    Lbl_Bad.BackColor = Color.Red
-                End If
+        If ccylinder.Disposition = True Then
+            ' Sucess
+            Lbl_Good.BackColor = Color.Green
+            Lbl_Bad.BackColor = Color.Transparent
+        Else
+            'fail
+            Lbl_Good.BackColor = Color.Transparent
+            Lbl_Bad.BackColor = Color.Red
+        End If
 
 
-                Lbl_Remove.BackColor = Color.Gold
+        Lbl_Remove.BackColor = Color.Gold
 
 
     End Sub
@@ -453,7 +477,7 @@ Public Class Manual_Weight
         Else
             MDataset.numbad = MDataset.numbad + 1
             If MDataset.firstweightexists = True Then
-                My.Settings.TotalGood = My.Settings.TotalGood + 1
+                My.Settings.TotalBad = My.Settings.TotalBad + 1
                 My.Settings.Save()
             End If
         End If
@@ -477,6 +501,8 @@ Public Class Manual_Weight
             MsgBox("Calibration is Past Due, Please Update")
             Exit Sub
         End If
+
+
 
         MDataset.RenewFileList()
 
@@ -561,7 +587,7 @@ Public Class Manual_Weight
 
     Private Sub Closepallet()
         Tmr_ScreenUpdate.Stop()
-
+        cylindersorter.Sort(1)
         ' Toggle buttons
         Btn_StartPallet.Enabled = True
         Btn_StopPallet.Enabled = False
@@ -619,7 +645,7 @@ Public Class Manual_Weight
         swdataset.WriteLine(MDataset.Lscalecaldate)
         swdataset.Write("Scale Calibration Due Date,")
         swdataset.WriteLine(MDataset.NScaleCalDate)
-        swdataset.WriteLine("Index,1st Wt,2nd Wt,Disposition")
+        swdataset.WriteLine("Index,1st Wt,2nd Wt,Disposition, Fail Code")
 
     End Sub
 
@@ -628,7 +654,8 @@ Public Class Manual_Weight
         swdataset.Write(ccylinder.CylIndex.ToString & ", ")
         swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
         swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
-        swdataset.WriteLine(ccylinder.Disposition)
+        swdataset.Write(ccylinder.Disposition & ", ")
+        swdataset.WriteLine(ccylinder.DispReason)
 
     End Sub
 
@@ -648,7 +675,7 @@ Public Class Manual_Weight
             My.Settings.Save()
         End If
 
-        Logfile = My.Settings.Caldirectory & "\AVWeightLogFile.txt"
+        Logfile = My.Settings.Caldirectory & "\AVWeightLogFile.csv"
 
 
         'Write
@@ -1272,4 +1299,9 @@ Public Class Manual_Weight
 
 
 
+    Private Sub Btn_ManualTare_Click(sender As Object, e As EventArgs) Handles Btn_ManualTare.Click
+        updatetare()
+    End Sub
+
+ 
 End Class

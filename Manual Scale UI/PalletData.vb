@@ -46,7 +46,7 @@ Public Class PalletData
         CountBad = 0
         CountGood = 0
         iCurRow = 1
-        iCurCol = 1
+        iCurCol = 0
         iNumRows = My.Settings.RowNum
         iNumCols = My.Settings.ColNum
 
@@ -188,12 +188,12 @@ Public Class PalletData
 
                 STfullname = sbname.ToString
                 ' check for file in completed.
-                Do Until File.Exists(Completed & "\" & STfullname & iaddpallet.ToString & ".txt") = False
+                Do Until File.Exists(completed & "\" & STfullname & iaddpallet.ToString & ".csv") = False
 
                     iaddpallet += 1
 
                 Loop
-                STfullname = STfullname & iaddpallet.ToString() & ".txt"
+                STfullname = STfullname & iaddpallet.ToString() & ".csv"
                 currentfilename = STfullname
                 '                Return STfullname
             End If

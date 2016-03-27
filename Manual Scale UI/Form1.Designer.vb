@@ -25,6 +25,7 @@ Partial Class Manual_Weight
         Me.components = New System.ComponentModel.Container()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
+        Me.Btn_ManualTare = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Lbl_Instruction = New System.Windows.Forms.Label()
         Me.Lbl_Remove = New System.Windows.Forms.Label()
@@ -38,6 +39,8 @@ Partial Class Manual_Weight
         Me.LblRawStream = New System.Windows.Forms.Label()
         Me.Lbl_CurrentScale = New System.Windows.Forms.Label()
         Me.GBBinData = New System.Windows.Forms.GroupBox()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
         Me.Lbl_BadCount = New System.Windows.Forms.Label()
         Me.Lbl_GoodCount = New System.Windows.Forms.Label()
         Me.Btn_ResetBad = New System.Windows.Forms.Button()
@@ -56,6 +59,7 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN = New System.Windows.Forms.Label()
         Me.Btn_StartPallet = New System.Windows.Forms.Button()
         Me.Setup = New System.Windows.Forms.TabPage()
+        Me.LBL_Version = New System.Windows.Forms.Label()
         Me.CB_ViewRaw = New System.Windows.Forms.CheckBox()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.Lbl_RowSpace = New System.Windows.Forms.Label()
@@ -99,6 +103,7 @@ Partial Class Manual_Weight
         Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.LBL_Rationalle = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -118,11 +123,13 @@ Partial Class Manual_Weight
         Me.TabControl1.Location = New System.Drawing.Point(10, 10)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1450, 400)
+        Me.TabControl1.Size = New System.Drawing.Size(1500, 400)
         Me.TabControl1.TabIndex = 0
         '
         'RunPage
         '
+        Me.RunPage.Controls.Add(Me.LBL_Rationalle)
+        Me.RunPage.Controls.Add(Me.Btn_ManualTare)
         Me.RunPage.Controls.Add(Me.GroupBox1)
         Me.RunPage.Controls.Add(Me.sLbl_PN)
         Me.RunPage.Controls.Add(Me.sLbl_BN)
@@ -136,10 +143,19 @@ Partial Class Manual_Weight
         Me.RunPage.Location = New System.Drawing.Point(4, 22)
         Me.RunPage.Name = "RunPage"
         Me.RunPage.Padding = New System.Windows.Forms.Padding(3)
-        Me.RunPage.Size = New System.Drawing.Size(1442, 374)
+        Me.RunPage.Size = New System.Drawing.Size(1492, 374)
         Me.RunPage.TabIndex = 0
         Me.RunPage.Text = "Weighing"
         Me.RunPage.UseVisualStyleBackColor = True
+        '
+        'Btn_ManualTare
+        '
+        Me.Btn_ManualTare.Location = New System.Drawing.Point(282, 249)
+        Me.Btn_ManualTare.Name = "Btn_ManualTare"
+        Me.Btn_ManualTare.Size = New System.Drawing.Size(130, 74)
+        Me.Btn_ManualTare.TabIndex = 10
+        Me.Btn_ManualTare.Text = "Manual  Tare"
+        Me.Btn_ManualTare.UseVisualStyleBackColor = True
         '
         'GroupBox1
         '
@@ -150,9 +166,9 @@ Partial Class Manual_Weight
         Me.GroupBox1.Controls.Add(Me.Lbl_Weighing)
         Me.GroupBox1.Controls.Add(Me.Lbl_IDLE)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(33, 65)
+        Me.GroupBox1.Location = New System.Drawing.Point(33, 110)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(485, 130)
+        Me.GroupBox1.Size = New System.Drawing.Size(301, 85)
         Me.GroupBox1.TabIndex = 9
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Test Status"
@@ -161,11 +177,13 @@ Partial Class Manual_Weight
         '
         Me.Lbl_Instruction.AutoSize = True
         Me.Lbl_Instruction.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_Instruction.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lbl_Instruction.Location = New System.Drawing.Point(20, 40)
-        Me.Lbl_Instruction.MinimumSize = New System.Drawing.Size(250, 2)
+        Me.Lbl_Instruction.MinimumSize = New System.Drawing.Size(250, 27)
         Me.Lbl_Instruction.Name = "Lbl_Instruction"
         Me.Lbl_Instruction.Size = New System.Drawing.Size(250, 27)
         Me.Lbl_Instruction.TabIndex = 5
+        Me.Lbl_Instruction.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Lbl_Remove
         '
@@ -222,7 +240,7 @@ Partial Class Manual_Weight
         '
         Me.sLbl_PN.AutoSize = True
         Me.sLbl_PN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sLbl_PN.Location = New System.Drawing.Point(237, 24)
+        Me.sLbl_PN.Location = New System.Drawing.Point(30, 24)
         Me.sLbl_PN.Name = "sLbl_PN"
         Me.sLbl_PN.Size = New System.Drawing.Size(66, 25)
         Me.sLbl_PN.TabIndex = 8
@@ -232,7 +250,7 @@ Partial Class Manual_Weight
         '
         Me.sLbl_BN.AutoSize = True
         Me.sLbl_BN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sLbl_BN.Location = New System.Drawing.Point(28, 24)
+        Me.sLbl_BN.Location = New System.Drawing.Point(28, 67)
         Me.sLbl_BN.Name = "sLbl_BN"
         Me.sLbl_BN.Size = New System.Drawing.Size(68, 25)
         Me.sLbl_BN.TabIndex = 7
@@ -242,9 +260,9 @@ Partial Class Manual_Weight
         '
         Me.GB_Scale.Controls.Add(Me.LblRawStream)
         Me.GB_Scale.Controls.Add(Me.Lbl_CurrentScale)
-        Me.GB_Scale.Location = New System.Drawing.Point(33, 216)
+        Me.GB_Scale.Location = New System.Drawing.Point(33, 243)
         Me.GB_Scale.Name = "GB_Scale"
-        Me.GB_Scale.Size = New System.Drawing.Size(243, 103)
+        Me.GB_Scale.Size = New System.Drawing.Size(243, 80)
         Me.GB_Scale.TabIndex = 6
         Me.GB_Scale.TabStop = False
         Me.GB_Scale.Text = "Scale Reading"
@@ -252,7 +270,7 @@ Partial Class Manual_Weight
         'LblRawStream
         '
         Me.LblRawStream.AutoSize = True
-        Me.LblRawStream.Location = New System.Drawing.Point(18, 78)
+        Me.LblRawStream.Location = New System.Drawing.Point(17, 16)
         Me.LblRawStream.MinimumSize = New System.Drawing.Size(200, 13)
         Me.LblRawStream.Name = "LblRawStream"
         Me.LblRawStream.Size = New System.Drawing.Size(200, 13)
@@ -274,6 +292,8 @@ Partial Class Manual_Weight
         '
         'GBBinData
         '
+        Me.GBBinData.Controls.Add(Me.Label15)
+        Me.GBBinData.Controls.Add(Me.Label14)
         Me.GBBinData.Controls.Add(Me.Lbl_BadCount)
         Me.GBBinData.Controls.Add(Me.Lbl_GoodCount)
         Me.GBBinData.Controls.Add(Me.Btn_ResetBad)
@@ -281,17 +301,35 @@ Partial Class Manual_Weight
         Me.GBBinData.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GBBinData.Location = New System.Drawing.Point(603, 24)
         Me.GBBinData.Name = "GBBinData"
-        Me.GBBinData.Size = New System.Drawing.Size(280, 132)
+        Me.GBBinData.Size = New System.Drawing.Size(280, 171)
         Me.GBBinData.TabIndex = 5
         Me.GBBinData.TabStop = False
         Me.GBBinData.Text = "Completed Count"
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(156, 43)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(109, 25)
+        Me.Label15.TabIndex = 5
+        Me.Label15.Text = "Total Good"
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(21, 43)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(96, 25)
+        Me.Label14.TabIndex = 4
+        Me.Label14.Text = "Total Bad"
         '
         'Lbl_BadCount
         '
         Me.Lbl_BadCount.AutoSize = True
         Me.Lbl_BadCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_BadCount.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_BadCount.Location = New System.Drawing.Point(149, 39)
+        Me.Lbl_BadCount.Location = New System.Drawing.Point(11, 78)
         Me.Lbl_BadCount.Name = "Lbl_BadCount"
         Me.Lbl_BadCount.Size = New System.Drawing.Size(116, 27)
         Me.Lbl_BadCount.TabIndex = 3
@@ -302,7 +340,7 @@ Partial Class Manual_Weight
         Me.Lbl_GoodCount.AutoSize = True
         Me.Lbl_GoodCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_GoodCount.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_GoodCount.Location = New System.Drawing.Point(6, 39)
+        Me.Lbl_GoodCount.Location = New System.Drawing.Point(148, 78)
         Me.Lbl_GoodCount.Name = "Lbl_GoodCount"
         Me.Lbl_GoodCount.Size = New System.Drawing.Size(124, 27)
         Me.Lbl_GoodCount.TabIndex = 2
@@ -310,7 +348,7 @@ Partial Class Manual_Weight
         '
         'Btn_ResetBad
         '
-        Me.Btn_ResetBad.Location = New System.Drawing.Point(154, 86)
+        Me.Btn_ResetBad.Location = New System.Drawing.Point(26, 119)
         Me.Btn_ResetBad.Name = "Btn_ResetBad"
         Me.Btn_ResetBad.Size = New System.Drawing.Size(86, 40)
         Me.Btn_ResetBad.TabIndex = 1
@@ -319,7 +357,7 @@ Partial Class Manual_Weight
         '
         'Btn_ResetGood
         '
-        Me.Btn_ResetGood.Location = New System.Drawing.Point(6, 86)
+        Me.Btn_ResetGood.Location = New System.Drawing.Point(162, 119)
         Me.Btn_ResetGood.Name = "Btn_ResetGood"
         Me.Btn_ResetGood.Size = New System.Drawing.Size(96, 40)
         Me.Btn_ResetGood.TabIndex = 0
@@ -441,7 +479,7 @@ Partial Class Manual_Weight
         Me.Lbl_PalletN.AutoSize = True
         Me.Lbl_PalletN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_PalletN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_PalletN.Location = New System.Drawing.Point(309, 22)
+        Me.Lbl_PalletN.Location = New System.Drawing.Point(102, 22)
         Me.Lbl_PalletN.MinimumSize = New System.Drawing.Size(64, 13)
         Me.Lbl_PalletN.Name = "Lbl_PalletN"
         Me.Lbl_PalletN.Size = New System.Drawing.Size(122, 27)
@@ -453,10 +491,10 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN.AutoSize = True
         Me.Lbl_BatchN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_BatchN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_BatchN.Location = New System.Drawing.Point(102, 22)
-        Me.Lbl_BatchN.MinimumSize = New System.Drawing.Size(64, 13)
+        Me.Lbl_BatchN.Location = New System.Drawing.Point(102, 65)
+        Me.Lbl_BatchN.MinimumSize = New System.Drawing.Size(400, 13)
         Me.Lbl_BatchN.Name = "Lbl_BatchN"
-        Me.Lbl_BatchN.Size = New System.Drawing.Size(119, 27)
+        Me.Lbl_BatchN.Size = New System.Drawing.Size(400, 27)
         Me.Lbl_BatchN.TabIndex = 1
         Me.Lbl_BatchN.Text = "EmptyBatch"
         '
@@ -471,6 +509,7 @@ Partial Class Manual_Weight
         '
         'Setup
         '
+        Me.Setup.Controls.Add(Me.LBL_Version)
         Me.Setup.Controls.Add(Me.CB_ViewRaw)
         Me.Setup.Controls.Add(Me.GroupBox4)
         Me.Setup.Controls.Add(Me.GroupBox3)
@@ -485,6 +524,15 @@ Partial Class Manual_Weight
         Me.Setup.TabIndex = 1
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
+        '
+        'LBL_Version
+        '
+        Me.LBL_Version.AutoSize = True
+        Me.LBL_Version.Location = New System.Drawing.Point(11, 343)
+        Me.LBL_Version.Name = "LBL_Version"
+        Me.LBL_Version.Size = New System.Drawing.Size(45, 13)
+        Me.LBL_Version.TabIndex = 17
+        Me.LBL_Version.Text = "Label14"
         '
         'CB_ViewRaw
         '
@@ -718,7 +766,7 @@ Partial Class Manual_Weight
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(14, 202)
+        Me.Button1.Location = New System.Drawing.Point(14, 172)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(168, 59)
         Me.Button1.TabIndex = 12
@@ -860,9 +908,9 @@ Partial Class Manual_Weight
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(124, 126)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(116, 13)
+        Me.Label11.Size = New System.Drawing.Size(132, 13)
         Me.Label11.TabIndex = 9
-        Me.Label11.Text = "Weight Loss Limit (gm):"
+        Me.Label11.Text = "Weight Loss Change (gm):"
         '
         'sLbl_retare
         '
@@ -916,14 +964,24 @@ Partial Class Manual_Weight
         '
         Me.Tmr_ScreenUpdate.Interval = 50
         '
+        'LBL_Rationalle
+        '
+        Me.LBL_Rationalle.AutoSize = True
+        Me.LBL_Rationalle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LBL_Rationalle.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBL_Rationalle.Location = New System.Drawing.Point(50, 210)
+        Me.LBL_Rationalle.MinimumSize = New System.Drawing.Size(200, 27)
+        Me.LBL_Rationalle.Name = "LBL_Rationalle"
+        Me.LBL_Rationalle.Size = New System.Drawing.Size(200, 27)
+        Me.LBL_Rationalle.TabIndex = 11
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CausesValidation = False
-        Me.ClientSize = New System.Drawing.Size(1484, 411)
+        Me.ClientSize = New System.Drawing.Size(1534, 421)
         Me.Controls.Add(Me.TabControl1)
-        Me.Location = New System.Drawing.Point(25, 10)
         Me.Name = "Manual_Weight"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Altaviz Manual Weighing System"
@@ -1025,5 +1083,10 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_Instruction As System.Windows.Forms.Label
     Friend WithEvents CB_ViewRaw As System.Windows.Forms.CheckBox
     Friend WithEvents LblRawStream As System.Windows.Forms.Label
+    Friend WithEvents LBL_Version As System.Windows.Forms.Label
+    Friend WithEvents Btn_ManualTare As System.Windows.Forms.Button
+    Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents Label15 As System.Windows.Forms.Label
+    Friend WithEvents LBL_Rationalle As System.Windows.Forms.Label
 
 End Class

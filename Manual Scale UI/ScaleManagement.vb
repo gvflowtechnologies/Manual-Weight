@@ -30,7 +30,8 @@ Public Class Scalemanagement
         calstring = ""
         bincal = False
         Bstable = False
-        Dim myfiliname As String
+
+
 
         bcalrequest = False
 
@@ -49,7 +50,7 @@ Public Class Scalemanagement
         ' Not parsing for error codes 
 
         'Dim myfiliname As String
-        'myfiliname = My.Settings.File_Directory & "\In Process\rawdata.txt"
+        'myfiliname = My.Settings.File_Directory & "\In Process\rawdata.csv"
 
 
         'writestring = New StreamWriter(myfiliname, True)
