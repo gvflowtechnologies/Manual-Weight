@@ -5,7 +5,7 @@
     Private dMySecondweight As Double
     Private ddisposition As Boolean 'True = pass, False = Fail
     Private myindex As Integer
-
+    Private sDispReason As String
 
     Sub New()
 
@@ -27,15 +27,21 @@
         Select dMySecondweight
             Case Is > My.Settings.MaxWeight
                 ddisposition = False
-
+                sDispReason = "Too High"
             Case Is < My.Settings.MinWeight
                 ddisposition = False
-
+                sDispReason = "Too Low"
             Case Else
 
                 ' what things do we want to check for?  Question for Pete
                 If Math.Abs(weightdifference) > My.Settings.WeightLoss Then
                     ddisposition = False
+                    If dMySecondweight > dMyfirstweight Then
+                        sDispReason = "Gained Weight"
+                    Else
+                        sDispReason = "Lost Weight"
+                    End If
+
 
                 Else
                     ddisposition = True
@@ -84,7 +90,11 @@
         End Set
     End Property
 
-
+    ReadOnly Property DispReason As String
+        Get
+            Return sDispReason
+        End Get
+    End Property
 
 
 

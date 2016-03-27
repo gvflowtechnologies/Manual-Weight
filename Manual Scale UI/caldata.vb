@@ -17,7 +17,7 @@ Module caldata
             My.Settings.Save()
         End If
 
-        Logfile = My.Settings.Caldirectory & "\AVCalRecord.txt"
+        Logfile = My.Settings.Caldirectory & "\AVCalRecord.csv"
 
 
         'Write
@@ -43,6 +43,8 @@ Module caldata
 
         'date time, cal weight ID#, before, after, new due date, operator ID
         If IsNothing(swlogcaldata) Then WritecalfileHeader()
+
+
 
         swlogcaldata.Write(DateTime.Now.ToString & ", ")
         swlogcaldata.Write(calid.ToString & ", ")

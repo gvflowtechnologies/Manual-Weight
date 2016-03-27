@@ -188,12 +188,12 @@ Public Class PalletData
 
                 STfullname = sbname.ToString
                 ' check for file in completed.
-                Do Until File.Exists(Completed & "\" & STfullname & iaddpallet.ToString & ".txt") = False
+                Do Until File.Exists(completed & "\" & STfullname & iaddpallet.ToString & ".csv") = False
 
                     iaddpallet += 1
 
                 Loop
-                STfullname = STfullname & iaddpallet.ToString() & ".txt"
+                STfullname = STfullname & iaddpallet.ToString() & ".csv"
                 currentfilename = STfullname
                 '                Return STfullname
             End If

@@ -39,6 +39,7 @@ Partial Class Manual_Weight
         Me.LblRawStream = New System.Windows.Forms.Label()
         Me.Lbl_CurrentScale = New System.Windows.Forms.Label()
         Me.GBBinData = New System.Windows.Forms.GroupBox()
+        Me.Label15 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Lbl_BadCount = New System.Windows.Forms.Label()
         Me.Lbl_GoodCount = New System.Windows.Forms.Label()
@@ -102,7 +103,7 @@ Partial Class Manual_Weight
         Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.Label15 = New System.Windows.Forms.Label()
+        Me.LBL_Rationalle = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -127,6 +128,7 @@ Partial Class Manual_Weight
         '
         'RunPage
         '
+        Me.RunPage.Controls.Add(Me.LBL_Rationalle)
         Me.RunPage.Controls.Add(Me.Btn_ManualTare)
         Me.RunPage.Controls.Add(Me.GroupBox1)
         Me.RunPage.Controls.Add(Me.sLbl_PN)
@@ -148,9 +150,9 @@ Partial Class Manual_Weight
         '
         'Btn_ManualTare
         '
-        Me.Btn_ManualTare.Location = New System.Drawing.Point(314, 247)
+        Me.Btn_ManualTare.Location = New System.Drawing.Point(282, 249)
         Me.Btn_ManualTare.Name = "Btn_ManualTare"
-        Me.Btn_ManualTare.Size = New System.Drawing.Size(130, 48)
+        Me.Btn_ManualTare.Size = New System.Drawing.Size(130, 74)
         Me.Btn_ManualTare.TabIndex = 10
         Me.Btn_ManualTare.Text = "Manual  Tare"
         Me.Btn_ManualTare.UseVisualStyleBackColor = True
@@ -258,9 +260,9 @@ Partial Class Manual_Weight
         '
         Me.GB_Scale.Controls.Add(Me.LblRawStream)
         Me.GB_Scale.Controls.Add(Me.Lbl_CurrentScale)
-        Me.GB_Scale.Location = New System.Drawing.Point(33, 216)
+        Me.GB_Scale.Location = New System.Drawing.Point(33, 243)
         Me.GB_Scale.Name = "GB_Scale"
-        Me.GB_Scale.Size = New System.Drawing.Size(243, 103)
+        Me.GB_Scale.Size = New System.Drawing.Size(243, 80)
         Me.GB_Scale.TabIndex = 6
         Me.GB_Scale.TabStop = False
         Me.GB_Scale.Text = "Scale Reading"
@@ -268,7 +270,7 @@ Partial Class Manual_Weight
         'LblRawStream
         '
         Me.LblRawStream.AutoSize = True
-        Me.LblRawStream.Location = New System.Drawing.Point(18, 78)
+        Me.LblRawStream.Location = New System.Drawing.Point(17, 16)
         Me.LblRawStream.MinimumSize = New System.Drawing.Size(200, 13)
         Me.LblRawStream.Name = "LblRawStream"
         Me.LblRawStream.Size = New System.Drawing.Size(200, 13)
@@ -303,6 +305,15 @@ Partial Class Manual_Weight
         Me.GBBinData.TabIndex = 5
         Me.GBBinData.TabStop = False
         Me.GBBinData.Text = "Completed Count"
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(156, 43)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(109, 25)
+        Me.Label15.TabIndex = 5
+        Me.Label15.Text = "Total Good"
         '
         'Label14
         '
@@ -897,9 +908,9 @@ Partial Class Manual_Weight
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(124, 126)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(116, 13)
+        Me.Label11.Size = New System.Drawing.Size(132, 13)
         Me.Label11.TabIndex = 9
-        Me.Label11.Text = "Weight Loss Limit (gm):"
+        Me.Label11.Text = "Weight Loss Change (gm):"
         '
         'sLbl_retare
         '
@@ -953,14 +964,16 @@ Partial Class Manual_Weight
         '
         Me.Tmr_ScreenUpdate.Interval = 50
         '
-        'Label15
+        'LBL_Rationalle
         '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(156, 43)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(109, 25)
-        Me.Label15.TabIndex = 5
-        Me.Label15.Text = "Total Good"
+        Me.LBL_Rationalle.AutoSize = True
+        Me.LBL_Rationalle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LBL_Rationalle.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBL_Rationalle.Location = New System.Drawing.Point(50, 210)
+        Me.LBL_Rationalle.MinimumSize = New System.Drawing.Size(200, 27)
+        Me.LBL_Rationalle.Name = "LBL_Rationalle"
+        Me.LBL_Rationalle.Size = New System.Drawing.Size(200, 27)
+        Me.LBL_Rationalle.TabIndex = 11
         '
         'Manual_Weight
         '
@@ -1074,5 +1087,6 @@ Partial Class Manual_Weight
     Friend WithEvents Btn_ManualTare As System.Windows.Forms.Button
     Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents Label15 As System.Windows.Forms.Label
+    Friend WithEvents LBL_Rationalle As System.Windows.Forms.Label
 
 End Class
