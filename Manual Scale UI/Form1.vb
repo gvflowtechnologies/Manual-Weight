@@ -130,7 +130,7 @@ Public Class Manual_Weight
         portclosing()
         If Not IsNothing(swdataset) Then swdataset.Close()
         If Not IsNothing(swlogdata) Then swlogdata.Close()
-
+        If Not IsNothing(Calibration) Then Calibration.Close()
     End Sub
 
     Private Sub SetupClick() Handles Setup.Enter
@@ -156,16 +156,9 @@ Public Class Manual_Weight
 
         ' determine which canister you are weighing.
         ' Load that data in.
-        'Dim cycle As Integer
-        'Dim longtime As Long
 
-        'longtime = tmrcycle.ElapsedMilliseconds
         Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
-        'If sartorius.Stable Then
-        '    GB_Scale.BackColor = Color.LimeGreen
-        'Else
-        '    GB_Scale.BackColor = Color.Transparent
-        'End If
+
         If cylindersorter.fired = False Then
             Dim myresponse As MsgBoxResult
             Tmr_ScreenUpdate.Stop()
@@ -173,8 +166,8 @@ Public Class Manual_Weight
             Tmr_ScreenUpdate.Start()
         End If
         If cylindersorter.Location = 254 Then
-            If tmrsort.ElapsedMilliseconds > 15000 Then
 
+            If tmrsort.ElapsedMilliseconds > 15000 Then
                 cylindersorter.Sort(255)
                 tmrsort.Reset()
             End If
@@ -182,13 +175,15 @@ Public Class Manual_Weight
         End If
 
 
-        'Label14.Text = longtime.ToString
+
         If CB_ViewRaw.Checked = True Then
             LblRawStream.Visible = True
         Else
             LblRawStream.Visible = False
         End If
+
         LblRawStream.Text = sartorius.RAWSTRING
+
         If sartorius.ishealthy = False Then
             Tmr_ScreenUpdate.Stop()
             MsgBox(sartorius.errormessage, vbOKOnly, "System Error")
@@ -232,6 +227,35 @@ Public Class Manual_Weight
                         End If
 
                     Else
+                        ' closing a pallet.
+                        
+                        ' update instructions
+
+                        Dim updatedinstruction As String
+                        updatedinstruction = Lbl_Instruction.Text
+                        updatedinstruction = updatedinstruction & "Closing Pallet"
+
+                        ' Provide 15 seconds to get last sort.
+
+                        Dim closewatch As Stopwatch
+
+                        If IsNothing(closewatch) Then
+                            closewatch = New Stopwatch
+                            closewatch.Start()
+                        Else
+                            closewatch.Restart()
+                        End If
+
+
+
+                        Do Until closewatch.ElapsedMilliseconds > 15000
+
+                            Application.DoEvents()
+                            Thread.Sleep(1)
+                        Loop
+                        closewatch.Stop()
+
+
                         Closepallet()
 
                         MsgBox("Pallet Complete")
@@ -248,17 +272,10 @@ Public Class Manual_Weight
                     Lbl_Remove.BackColor = Color.Gold
                 End If
 
-                ' Check to see if something is on scale
-                ' If we think there is something on scale,  prompt to remove and click ok
-                'clear buffer
-                ' restart update tick
+                ' Check to see if something is on scale when it should not be and if it is, turn the background color red.
+                
                 If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
                     Me.BackColor = Color.Red
-
-                    '   Tmr_ScreenUpdate.Stop()
-                    '    MsgBox("Please remove canister", vbOKOnly, "Canister Detected on Scale")
-                    '  Me.BackColor = SystemColors.Control
-                    ' Tmr_ScreenUpdate.Start()
                 Else
                     Me.BackColor = SystemColors.Control
                 End If
@@ -269,16 +286,14 @@ Public Class Manual_Weight
 
                 If sartorius.Stable Then
                     Select Case Math.Abs(sartorius.CurrentReading)
-                        '      Case Is = 0.0
-                        '         updatetare()
+                 
                         Case Is < My.Settings.TareLimit / 1000
                             teststate = Weighprocess.weighing
                             entering = True
-                            'Case    > My.Settings.TareLimit and < my.Settings.TareError
+
 
                         Case Is > My.Settings.TareError / 1000
                             Dim myresponse As MsgBoxResult
-                            'Tmr_ScreenUpdate.Stop()
                             Tmr_ScreenUpdate.Stop()
                             myresponse = MsgBox("Tare Error, Retare Now?", vbYesNo, "Scale Tare Error")
                             If myresponse = MsgBoxResult.Yes Then
@@ -292,8 +307,6 @@ Public Class Manual_Weight
 
                     End Select
 
-                Else
-                    '    '   teststate = weighprocess.erroring
                 End If
 
 
@@ -767,8 +780,6 @@ Public Class Manual_Weight
 
 
 
-
-
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         ChangePassword.Enabled = True
         ChangePassword.Show()
@@ -779,7 +790,9 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub Btn_Tare_Click(sender As Object, e As EventArgs) Handles Btn_Tare.Click
-        'InputBox()
+        ' On Settings Screen
+        ' Sets up limits at wich the TARE values on the screen should be updated.
+
         Dim tareerror As Single = 0
         Dim stareerror As String = ""
         Dim sretare As String = ""
@@ -981,7 +994,8 @@ Public Class Manual_Weight
 
         If checkdate() = True Then Btn_StartPallet.Enabled = True
 
-        Calibration.Close()
+        Calibration.Hide()
+        Calibration.Enabled = False
 
         ' sartorius.CalRequest = True
 
@@ -1304,4 +1318,22 @@ Public Class Manual_Weight
     End Sub
 
  
+    Private Sub Btn_ResetBad_Click(sender As Object, e As EventArgs) Handles Btn_ResetBad.Click
+        ' Resetting cumulative counter
+
+        My.Settings.TotalBad = 0
+        My.Settings.Save()
+        Lbl_BadCount.Text = My.Settings.TotalBad
+
+    End Sub
+
+    Private Sub Btn_ResetGood_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood.Click
+        ' Resettin cumulative good counter
+        My.Settings.TotalGood = 0
+        My.Settings.Save()
+        Lbl_GoodCount.Text = My.Settings.TotalGood
+
+    End Sub
+
+
 End Class

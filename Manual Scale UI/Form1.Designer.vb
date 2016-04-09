@@ -25,6 +25,7 @@ Partial Class Manual_Weight
         Me.components = New System.ComponentModel.Container()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
+        Me.LBL_Rationalle = New System.Windows.Forms.Label()
         Me.Btn_ManualTare = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Lbl_Instruction = New System.Windows.Forms.Label()
@@ -103,7 +104,6 @@ Partial Class Manual_Weight
         Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.LBL_Rationalle = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -147,6 +147,17 @@ Partial Class Manual_Weight
         Me.RunPage.TabIndex = 0
         Me.RunPage.Text = "Weighing"
         Me.RunPage.UseVisualStyleBackColor = True
+        '
+        'LBL_Rationalle
+        '
+        Me.LBL_Rationalle.AutoSize = True
+        Me.LBL_Rationalle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LBL_Rationalle.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBL_Rationalle.Location = New System.Drawing.Point(50, 210)
+        Me.LBL_Rationalle.MinimumSize = New System.Drawing.Size(200, 27)
+        Me.LBL_Rationalle.Name = "LBL_Rationalle"
+        Me.LBL_Rationalle.Size = New System.Drawing.Size(200, 27)
+        Me.LBL_Rationalle.TabIndex = 11
         '
         'Btn_ManualTare
         '
@@ -963,17 +974,6 @@ Partial Class Manual_Weight
         'Tmr_ScreenUpdate
         '
         Me.Tmr_ScreenUpdate.Interval = 50
-        '
-        'LBL_Rationalle
-        '
-        Me.LBL_Rationalle.AutoSize = True
-        Me.LBL_Rationalle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBL_Rationalle.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBL_Rationalle.Location = New System.Drawing.Point(50, 210)
-        Me.LBL_Rationalle.MinimumSize = New System.Drawing.Size(200, 27)
-        Me.LBL_Rationalle.Name = "LBL_Rationalle"
-        Me.LBL_Rationalle.Size = New System.Drawing.Size(200, 27)
-        Me.LBL_Rationalle.TabIndex = 11
         '
         'Manual_Weight
         '

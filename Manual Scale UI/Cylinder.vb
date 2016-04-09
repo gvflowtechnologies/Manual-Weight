@@ -45,7 +45,7 @@
 
                 Else
                     ddisposition = True
-
+                    sDispReason = ""
                 End If
 
         End Select
