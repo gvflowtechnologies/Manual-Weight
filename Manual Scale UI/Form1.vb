@@ -21,6 +21,7 @@ Public Class Manual_Weight
     Public WithEvents mycom As SerialPort 'Serial port for communicating with the scale
     Private newdata As Datareceive
     ' Variables
+    Dim manualstop As Boolean ' Flag indicating that a manual stop has been requested
 
     Dim MDataset As PalletData
     Public sartorius As Scalemanagement
@@ -220,46 +221,8 @@ Public Class Manual_Weight
 
                     ' Setting up cylinder for second weight
 
-                    If MDataset.palletcount >= MDataset.canisternum Then
-                        If MDataset.firstweightexists = True Then
-                            ccylinder.CylIndex = MDataset.canisternum
-                            ccylinder.Firstweight = MDataset.initialweight
-                        End If
-
-                    Else
-                        ' closing a pallet.
-                        
-                        ' update instructions
-
-                        Dim updatedinstruction As String
-                        updatedinstruction = Lbl_Instruction.Text
-                        updatedinstruction = updatedinstruction & "Closing Pallet"
-
-                        ' Provide 15 seconds to get last sort.
-
-                        Dim closewatch As Stopwatch
-
-                        If IsNothing(closewatch) Then
-                            closewatch = New Stopwatch
-                            closewatch.Start()
-                        Else
-                            closewatch.Restart()
-                        End If
-
-
-
-                        Do Until closewatch.ElapsedMilliseconds > 15000
-
-                            Application.DoEvents()
-                            Thread.Sleep(1)
-                        Loop
-                        closewatch.Stop()
-
-
-                        Closepallet()
-
-                        MsgBox("Pallet Complete")
-                    End If
+                    checkpalletcomplete()
+                   
 
                     'set label colors
                     Lbl_Instruction.Text = "Zeroing"
@@ -508,7 +471,7 @@ Public Class Manual_Weight
         Lbl_PalletN.Text = ""
         Lbl_BatchN.Text = ""
         MDataset = New PalletData
-
+        manualstop = False
         If checkdate() = False Then
             Btn_StartPallet.Enabled = False
             MsgBox("Calibration is Past Due, Please Update")
@@ -593,8 +556,67 @@ Public Class Manual_Weight
 
     Private Sub Btn_StopPallet_Click(sender As Object, e As EventArgs) Handles Btn_StopPallet.Click
         ' Empty MDataset of ID information.
+        manualstop = True
+        checkpalletcomplete()
+   
+    End Sub
 
-        Closepallet()
+    Private Sub checkpalletcomplete()
+
+        If MDataset.palletcount >= MDataset.canisternum Then
+            If MDataset.firstweightexists = True Then
+                If manualstop Then
+                    Tmr_ScreenUpdate.Stop()
+
+                    Dim userresponse As MsgBoxResult
+                    userresponse = MsgBox("Data could be lost, Press OK to continue", MsgBoxStyle.OkCancel, "Manual Stop Requested, Pallet Not Complete")
+
+                    Tmr_ScreenUpdate.Start()
+
+                    If userresponse = MsgBoxResult.Cancel Then Exit Sub
+
+                End If
+
+
+                ccylinder.CylIndex = MDataset.canisternum
+                ccylinder.Firstweight = MDataset.initialweight
+            End If
+
+
+
+        Else
+            ' closing a pallet.
+
+            ' update instructions
+
+            Dim updatedinstruction As String
+            updatedinstruction = Lbl_Instruction.Text
+            updatedinstruction = updatedinstruction & "Closing Pallet"
+
+            ' Provide 15 seconds to get last sort.
+
+            Dim closewatch As Stopwatch
+
+            If IsNothing(closewatch) Then
+                closewatch = New Stopwatch
+                closewatch.Start()
+            Else
+                closewatch.Restart()
+            End If
+
+            Do Until closewatch.ElapsedMilliseconds > 15000
+
+                Application.DoEvents()
+                Thread.Sleep(10)
+            Loop
+            closewatch.Stop()
+
+
+            Closepallet()
+
+            MsgBox("Pallet Complete")
+        End If
+
 
     End Sub
 
@@ -1317,7 +1339,7 @@ Public Class Manual_Weight
         updatetare()
     End Sub
 
- 
+
     Private Sub Btn_ResetBad_Click(sender As Object, e As EventArgs) Handles Btn_ResetBad.Click
         ' Resetting cumulative counter
 
