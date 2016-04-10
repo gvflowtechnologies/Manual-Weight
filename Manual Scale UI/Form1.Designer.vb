@@ -919,9 +919,9 @@ Partial Class Manual_Weight
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(124, 126)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(132, 13)
+        Me.Label11.Size = New System.Drawing.Size(115, 13)
         Me.Label11.TabIndex = 9
-        Me.Label11.Text = "Weight Loss Change (gm):"
+        Me.Label11.Text = "WT Change Limit (gm):"
         '
         'sLbl_retare
         '

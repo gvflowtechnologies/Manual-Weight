@@ -117,7 +117,7 @@ Public Class Manual_Weight
         End If
         Dim v As String
 
-        v = My.Application.Deployment.CurrentVersion.ToString
+        '  v = My.Application.Deployment.CurrentVersion.ToString
 
 
         LBL_Version.Text = "Version:" & v
