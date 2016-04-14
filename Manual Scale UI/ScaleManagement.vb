@@ -5,6 +5,13 @@ Imports System.Threading
 
 
 Public Class Scalemanagement
+    Enum calprocess
+
+        Complete
+        Entering
+        Active
+    End Enum
+
     Dim WithEvents mycom As SerialPort
     Dim incoming As String
     Dim tmrlasttime As Stopwatch
@@ -18,7 +25,7 @@ Public Class Scalemanagement
     Dim bcalrequest As Boolean 'calibration requested
     Private SRAWDATA As String
     Dim serrormessage As String
-    Dim bincal As Boolean 'Indicating in the calibration procedure
+    Dim bincal As calprocess 'Indicating in the calibration procedure
     Dim calstring As String ' Comparision String for caltesting
     Const CalEnter As String = "Usr"
     Const CalExit As String = "end"
@@ -28,7 +35,7 @@ Public Class Scalemanagement
         ' Gets port name from static data
         Bishealthy = True
         calstring = ""
-        bincal = False
+        bincal = calprocess.Complete
         Bstable = False
 
 
@@ -49,17 +56,9 @@ Public Class Scalemanagement
         ' Getting Stability and weight reading.
         ' Not parsing for error codes 
 
-        'Dim myfiliname As String
-        'myfiliname = My.Settings.File_Directory & "\In Process\rawdata.csv"
-
-
-        'writestring = New StreamWriter(myfiliname, True)
-        'writestring.WriteLine(reading)
-        'writestring.Close()
         Dim position As Integer
 
         Dim isdata As Integer
-
 
 
         SRAWDATA = reading
@@ -71,13 +70,7 @@ Public Class Scalemanagement
         ' Check to see if the stability character is present
         ' 
         isdata = Datacheck(reading)
-        'If bincal = True And Bstable = True Then bincal = False
-        'If reading.Contains("!") = True Then
-        '    bincal = True
-        'End If
-        '' Check for other error codes.
-
-        '' if reading is real 
+                '' if reading is real 
 
         '' Parse number out of string
         '' and set weight
@@ -98,9 +91,7 @@ Public Class Scalemanagement
             End Try
 
         End If
-        'If bincal = True Then
-        '    calcheck(SRAWDATA)
-        'End If
+
     End Sub
 
     Private Function Datacheck(ByVal rawstring As String) As Integer
@@ -165,15 +156,22 @@ Public Class Scalemanagement
         ' Need to stay in cal until finish sting
         'teststring = teststring.Trim
 
-        If bincal = False Then
-            If teststring.Contains(CalEnter) = True Then
-                bincal = True
-            End If
-        ElseIf bincal = True Then
-            If teststring.Contains(CalExit) = True Then
-                bincal = False
-            End If
-        End If
+        Select Case bincal
+
+            Case calprocess.Complete
+                If teststring.Contains(CalEnter) = True Then
+                    bincal = calprocess.Entering
+                End If
+
+            Case calprocess.Entering
+                If teststring.Contains(CalEnter) = False Then
+                    bincal = calprocess.Active
+                End If
+            Case calprocess.Active
+                If teststring.Contains(CalExit) = True Then
+                    bincal = calprocess.Complete
+                End If
+        End Select
 
     End Sub
 
@@ -191,13 +189,13 @@ Public Class Scalemanagement
 
     End Property
 
-    Property calibrating As Boolean
+    Property calibrating As calprocess
         Get
             SyncLock Me
                 Return bincal
             End SyncLock 'Return True
         End Get
-        Set(value As Boolean)
+        Set(value As calprocess)
             bincal = value
         End Set
     End Property
@@ -236,18 +234,6 @@ Public Class Scalemanagement
         End Get
     End Property
 
-
-
-    'Public Property Tare As Boolean
-    '    Get
-    '        '   Return Me.intare
-
-    '    End Get
-    '    Set(ByVal value As Boolean)
-
-
-    '    End Set
-    'End Property
 
     Public Property ishealthy As Boolean
         Get

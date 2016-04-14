@@ -117,7 +117,7 @@ Public Class Manual_Weight
         End If
         Dim v As String
 
-        v = My.Application.Deployment.CurrentVersion.ToString
+        '     v = My.Application.Deployment.CurrentVersion.ToString
 
 
         LBL_Version.Text = "Version:" & v
@@ -371,7 +371,7 @@ Public Class Manual_Weight
 
         'Loop
         mycom.Write("W" & ControlChars.CrLf)
-        sartorius.CalRequest = False
+        '   sartorius.CalRequest = False
 
     End Sub
 
@@ -872,7 +872,7 @@ Public Class Manual_Weight
         cancelclicked = False
         Calibration.Enabled = True
         Calibration.Show()
-        '  Me.Hide()
+        Me.Hide()
         Dim CalID As String
         Dim calweight As String = ""
         '   Dim AsReecievedWt As String
@@ -885,7 +885,7 @@ Public Class Manual_Weight
 
 
         Const titles As String = "Calibration Sequence"
-        '  newcommport() 'open up commport to start communicting with the scal
+        newcommport() 'open up commport to start communicting with the scal
         teststate = Weighprocess.idle
         Tmr_ScreenUpdate.Enabled = False
 
@@ -894,10 +894,15 @@ Public Class Manual_Weight
         ' Wait for scale to become unloaded
         ' Need to work on the test when the scale arrives
         '****************************************
+
+        ' 1. Tare Scale
         Do Until sartorius.ScaleEmpty ' Add value for scale weight less than tare error
 
             If cancelclicked Then
-                Exit Sub   ' change to exit sub when lie
+                ' change to exit sub when lie
+                Calibration.Hide()
+                Me.Show()
+                Exit Sub
             End If
 
             Application.DoEvents()
@@ -906,10 +911,11 @@ Public Class Manual_Weight
         Loop
 
         updatetare()
-
         ''****************************************************
         '****************************************
 
+
+        ' 2 Get Data Input
         Dim notnumbers As Boolean
 
         Calibration.Lbl_CalPrompts.Text = "Updating Calibration Data"
@@ -921,35 +927,39 @@ Public Class Manual_Weight
             followup = MsgBox("You entered " & Operatorid & ", is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Entry")
             If followup = MsgBoxResult.Cancel Then
                 Operatorid = ""
+                Calibration.Hide()
+                Me.Show()
                 Exit Sub
             End If
         Loop Until followup = MsgBoxResult.Yes
 
+        ' Update Progress Bar
+        Calibration.PB_Calprogress.PerformStep()
+
         Do
             CalID = InputBox("Enter Calibration Standard ID", ccaldata)
-            If CalID = "" Then Exit Sub
+            If CalID = "" Then
+                Calibration.Hide()
+                Me.Show()
+                Exit Sub
+            End If
             Calibration.Lbl_CalStd.Text = CalID
             followup = MsgBox("You entered " & CalID & ", is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Entry")
             If followup = MsgBoxResult.Cancel Then
                 CalID = ""
+                Calibration.Hide()
+                Me.Show()
                 Exit Sub
             End If
         Loop Until followup = MsgBoxResult.Yes
-
-
+        Calibration.PB_Calprogress.PerformStep()
+        ' 3 Get As Received Weight
         Calibration.Lbl_CalPrompts.Text = "Place Calibration Weight on Scale"
 
         MsgBox("Place calibration weight " & CalID & " on Scale and then press OK", MsgBoxStyle.OkOnly)
-        ' Wait for scale to become unloaded
-        ' Need to work on the test when the scale arrives
-        '****************************************
-        ' Send stability unstable and
-        'Send stabilty delay long
         '*****************************************
-        '*****************************************
-        '*****************************************W
-        '*****************************************
-        '*****************************************
+
+
 
         Do ' Add value for scale weight less than 1.0 grams
 
@@ -964,26 +974,68 @@ Public Class Manual_Weight
             Application.DoEvents()
             Threading.Thread.Sleep(1)
         Loop Until sartorius.Stable And Not sartorius.ScaleEmpty
+        Calibration.PB_Calprogress.PerformStep()
+        calweight = sartorius.CurrentReading
+        Calibration.Lbl_CalValASRECEIVED.Text = calweight
+
+        sartorius.calibrating = Scalemanagement.calprocess.Complete
+        MsgBox("Remove calibration weight " & CalID & " on Scale and then press OK", MsgBoxStyle.OkOnly)
+        Calibration.Lbl_CalPrompts.Text = "Remove all weight from scale"
+
+        Do ' Add value for scale weight less than 1.0 grams
+
+
+            If cancelclicked Then
+                Calibration.Close()
+                Me.Show()
+                If mycom.IsOpen = True Then portclosing()
+                Exit Sub   ' change to exit sub when lie
+            End If
+
+            Application.DoEvents()
+            Threading.Thread.Sleep(1)
+        Loop Until sartorius.ScaleEmpty
+
+        Calibration.PB_Calprogress.PerformStep()
+
+        startcal()
 
 
 
-        '****************************************************
-        '****************************************
+        Do ' Add value for scale weight less than 1.0 grams
 
 
-        'Calibration.Lbl_CalPrompts.Text = "Updating Scale Calibration"
+            If cancelclicked Then
+                Calibration.Close()
+                Me.Show()
+                If mycom.IsOpen = True Then portclosing()
+                Exit Sub   ' change to exit sub when lie
+            End If
 
-        'Threading.Thread.Sleep(2000)
+            Application.DoEvents()
+            Thread.Sleep(1)
+        Loop Until sartorius.calibrating = Scalemanagement.calprocess.Active
+        Calibration.PB_Calprogress.PerformStep()
+        Calibration.Lbl_CalPrompts.Text = "Place Calibration Weight on Scale"
+        MsgBox("Place calibration weight " & CalID & " on Scale and then press OK", MsgBoxStyle.OkOnly)
+        Do
+            If cancelclicked Then
+                Calibration.Close()
+                Me.Show()
+                If mycom.IsOpen = True Then portclosing()
+                Exit Sub   ' change to exit sub when lie
+            End If
 
-        'Calibration.Lbl_CalPrompts.Text = "Writing Scale Calibration"
+            Application.DoEvents()
+            Thread.Sleep(1)
 
-        'Threading.Thread.Sleep(2000)
-        'MsgBox("Calibration Complete Remove Weight from Scale", MsgBoxStyle.OkOnly)
-        'Calibration.Close()
+        Loop Until sartorius.calibrating = Scalemanagement.calprocess.Complete
+        Calibration.PB_Calprogress.PerformStep()
+        calfinal = sartorius.CurrentReading
+        Calibration.lbl_CalValasReturned.Text = calfinal
+        Calibration.Lbl_CalPrompts.Text = "Calibrating Complete - Remove Weight"
 
-        '  If mycom.IsOpen = True Then portclosing()
-    
-        ' Update Calibration Frequency
+
 
         followup = MsgBox("The current calbration frequency is: " & My.Settings.CalFrequency & " Months.  Do you want to change calibration frequency", MsgBoxStyle.YesNo, "Change Calibration Frequency?")
         If followup = MsgBoxResult.Yes Then
@@ -1012,26 +1064,6 @@ Public Class Manual_Weight
 
         End If
 
-    
-
-        ' sartorius.CalRequest = True
-
-
-        'Do Until sartorius.calibrating = True ' Add value for scale weight less than tare error
-
-        '    If cancelclicked Then
-        '        Calibration.Close()
-        '        Me.Show()
-        '        mycom.Close()
-        '        Exit Sub   ' change to exit sub when lie
-        '    End If
-
-        '    Application.DoEvents()
-        '    Threading.Thread.Sleep(100)
-
-        'Loop
-
-
         My.Settings.LastCalDate = DateTime.Now
         My.Settings.Save()
         Lbl_LastCal.Text = My.Settings.LastCalDate.ToString("d")
@@ -1043,7 +1075,7 @@ Public Class Manual_Weight
 
         Calibration.Hide()
         Calibration.Enabled = False
-
+        Me.Show()
 
     End Sub
 
@@ -1056,7 +1088,6 @@ Public Class Manual_Weight
             My.Settings.SerialPort = LB_SerialPorts.SelectedItem.ToString
             My.Settings.Save()
             ' I could put a routine in here to send a text string and look for a response.
-
         End If
 
     End Sub
