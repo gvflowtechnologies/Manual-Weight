@@ -651,13 +651,13 @@ Public Class Manual_Weight
         swdataset.WriteLine(MDataset.batch)
         swdataset.WriteLine(MDataset.pallet)
         swdataset.WriteLine(MDataset.timefirstwt.ToString)
-        '       swdataset.WriteLine(MDataset.datefirstwt.ToString)
 
+        swdataset.Flush()
     End Sub
 
     Private Sub writefirstweight()
         swdataset.WriteLine(ccylinder.Firstweight.ToString)
-
+        swdataset.Flush()
     End Sub
 
     Private Sub writefileheader2() ' Write the header data for the Final data set
@@ -681,7 +681,7 @@ Public Class Manual_Weight
         swdataset.Write("Scale Calibration Due Date,")
         swdataset.WriteLine(MDataset.NScaleCalDate)
         swdataset.WriteLine("Index,1st Wt,2nd Wt,Disposition, Fail Code")
-
+        swdataset.Flush()
     End Sub
 
     Private Sub write_second_weight()
@@ -691,14 +691,14 @@ Public Class Manual_Weight
         swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
         swdataset.Write(ccylinder.Disposition & ", ")
         swdataset.WriteLine(ccylinder.DispReason)
-
+        swdataset.Flush()
     End Sub
 
     Private Sub write_Summary()
         ' Write summary data line and Close Stream
         swdataset.WriteLine("Number of Good Cylinders, " & MDataset.numgood)
         swdataset.WriteLine("Number of Bad Cylinders, " & MDataset.numbad)
-
+        swdataset.Flush()
     End Sub
 
     Private Sub Write_History_Header()
