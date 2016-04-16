@@ -19,7 +19,7 @@ Public Class Scalemanagement
     Dim dweightreading As Double
     Dim Bishealthy As Boolean 'Internal Healthy Tag
     Const stabconst As String = " g "
-    Const errid As String = "ERR"
+    Const errid As String = "Err"
     Private Delegate Sub updateproperty(ByVal currweight As Double)
     Private updateweight As updateproperty
     Dim bcalrequest As Boolean 'calibration requested
@@ -129,22 +129,28 @@ Public Class Scalemanagement
             Select Case listin
                 Case Is = "50"
                     Bishealthy = False
+                    serrormessage = "Scale Needs Service"
                 Case Is = "53"
                     Bishealthy = False
+                    serrormessage = "Scale Needs Service"
                 Case Is = "241"
                     Bishealthy = False
+                    serrormessage = "Scale Needs Service"
                 Case Is = "243"
                     Bishealthy = False
+                    serrormessage = "Scale Needs Service"
                 Case Is = "245"
                     Bishealthy = False
+                    serrormessage = "Scale Needs Service"
                 Case Is = "249"
                     Bishealthy = False
+                    serrormessage = "Scale Needs Service"
+                Case Is = "02"
+                    Bishealthy = False
+                    serrormessage = "Calibration Parameter Not Met"
                 Case Else
                     Bishealthy = True
             End Select
-        End If
-        If Bishealthy = False Then
-            serrormessage = "Scale Needs Service"
         End If
 
     End Sub

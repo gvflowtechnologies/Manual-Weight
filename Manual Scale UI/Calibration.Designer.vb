@@ -50,12 +50,15 @@ Partial Class Calibration
         '
         'Lbl_CalPrompts
         '
+        Me.Lbl_CalPrompts.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Lbl_CalPrompts.AutoSize = True
-        Me.Lbl_CalPrompts.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_CalPrompts.Location = New System.Drawing.Point(20, 9)
+        Me.Lbl_CalPrompts.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_CalPrompts.Location = New System.Drawing.Point(5, 10)
         Me.Lbl_CalPrompts.MinimumSize = New System.Drawing.Size(400, 24)
         Me.Lbl_CalPrompts.Name = "Lbl_CalPrompts"
-        Me.Lbl_CalPrompts.Size = New System.Drawing.Size(400, 24)
+        Me.Lbl_CalPrompts.Size = New System.Drawing.Size(400, 29)
         Me.Lbl_CalPrompts.TabIndex = 1
         Me.Lbl_CalPrompts.Text = "Remove Weight From Scale"
         Me.Lbl_CalPrompts.TextAlign = System.Drawing.ContentAlignment.TopCenter
