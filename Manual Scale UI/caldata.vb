@@ -42,9 +42,7 @@ Module caldata
     Public Sub Writecalrecord(ByVal calid As String, ByVal asreceived As String, ByVal asreturned As String, ByVal opid As String)
 
         'date time, cal weight ID#, before, after, new due date, operator ID
-        If IsNothing(swlogcaldata) Then WritecalfileHeader()
-
-
+        WritecalfileHeader()
 
         swlogcaldata.Write(DateTime.Now.ToString & ", ")
         swlogcaldata.Write(calid.ToString & ", ")
@@ -54,6 +52,7 @@ Module caldata
         swlogcaldata.WriteLine(opid)
         swlogcaldata.Close()
 
+        
     End Sub
 
     Sub selectcalfolder()

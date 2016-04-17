@@ -10,7 +10,11 @@ Public Class Calibration
     End Sub
 
     Private Sub Calibration_EnabledChanged(sender As Object, e As EventArgs) Handles Me.EnabledChanged
-
+        Lbl_CalPrompts.Text = ""
+        Lbl_CalStd.Text = ""
+        Lbl_CalValASRECEIVED.Text = ""
+        lbl_CalValasReturned.Text = ""
+        Lbl_OPID.Text = ""
     End Sub
 
     Private Sub Calibration_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing

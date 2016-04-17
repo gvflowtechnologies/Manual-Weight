@@ -36,11 +36,12 @@ Partial Class Calibration
         Me.Label5 = New System.Windows.Forms.Label()
         Me.lbl_CalValasReturned = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.PB_Calprogress = New System.Windows.Forms.ProgressBar()
         Me.SuspendLayout()
         '
         'Btn_Escape
         '
-        Me.Btn_Escape.Location = New System.Drawing.Point(150, 240)
+        Me.Btn_Escape.Location = New System.Drawing.Point(143, 206)
         Me.Btn_Escape.Name = "Btn_Escape"
         Me.Btn_Escape.Size = New System.Drawing.Size(139, 23)
         Me.Btn_Escape.TabIndex = 0
@@ -49,12 +50,15 @@ Partial Class Calibration
         '
         'Lbl_CalPrompts
         '
+        Me.Lbl_CalPrompts.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Lbl_CalPrompts.AutoSize = True
-        Me.Lbl_CalPrompts.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_CalPrompts.Location = New System.Drawing.Point(20, 9)
+        Me.Lbl_CalPrompts.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_CalPrompts.Location = New System.Drawing.Point(5, 10)
         Me.Lbl_CalPrompts.MinimumSize = New System.Drawing.Size(400, 24)
         Me.Lbl_CalPrompts.Name = "Lbl_CalPrompts"
-        Me.Lbl_CalPrompts.Size = New System.Drawing.Size(400, 24)
+        Me.Lbl_CalPrompts.Size = New System.Drawing.Size(400, 29)
         Me.Lbl_CalPrompts.TabIndex = 1
         Me.Lbl_CalPrompts.Text = "Remove Weight From Scale"
         Me.Lbl_CalPrompts.TextAlign = System.Drawing.ContentAlignment.TopCenter
@@ -129,22 +133,20 @@ Partial Class Calibration
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(329, 245)
+        Me.Label1.Location = New System.Drawing.Point(346, 206)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(39, 13)
         Me.Label1.TabIndex = 8
         Me.Label1.Text = "Label1"
-        Me.Label1.Visible = False
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(374, 245)
+        Me.Label5.Location = New System.Drawing.Point(346, 231)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(39, 13)
         Me.Label5.TabIndex = 9
         Me.Label5.Text = "Label5"
-        Me.Label5.Visible = False
         '
         'lbl_CalValasReturned
         '
@@ -167,11 +169,21 @@ Partial Class Calibration
         Me.Label7.TabIndex = 11
         Me.Label7.Text = "Scale Reading - as returned (Grams):"
         '
+        'PB_Calprogress
+        '
+        Me.PB_Calprogress.Location = New System.Drawing.Point(15, 253)
+        Me.PB_Calprogress.Name = "PB_Calprogress"
+        Me.PB_Calprogress.Size = New System.Drawing.Size(398, 23)
+        Me.PB_Calprogress.Step = 15
+        Me.PB_Calprogress.TabIndex = 12
+        '
         'Calibration
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(428, 275)
+        Me.ClientSize = New System.Drawing.Size(428, 288)
+        Me.ControlBox = False
+        Me.Controls.Add(Me.PB_Calprogress)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.lbl_CalValasReturned)
         Me.Controls.Add(Me.Label5)
@@ -205,4 +217,5 @@ Partial Class Calibration
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents lbl_CalValasReturned As System.Windows.Forms.Label
     Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents PB_Calprogress As System.Windows.Forms.ProgressBar
 End Class
