@@ -52,7 +52,7 @@ Module caldata
         swlogcaldata.WriteLine(opid)
         swlogcaldata.Close()
 
-        
+
     End Sub
 
     Sub selectcalfolder()

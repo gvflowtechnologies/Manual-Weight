@@ -70,7 +70,7 @@ Public Class Scalemanagement
         ' Check to see if the stability character is present
         ' 
         isdata = Datacheck(reading)
-                '' if reading is real 
+        '' if reading is real 
 
         '' Parse number out of string
         '' and set weight

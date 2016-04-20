@@ -25,7 +25,7 @@ Public Class Manual_Weight
 
     Dim MDataset As PalletData
     Public sartorius As Scalemanagement
-    Dim cylindersorter As CSorter
+
     Dim ccylinder As Cylinder
 
     Dim swdataset As StreamWriter
@@ -54,8 +54,7 @@ Public Class Manual_Weight
         Next
         LB_SerialPorts.SelectedIndex = -1
 
-        cylindersorter = New CSorter
-
+      
 
         Btn_StartPallet.Enabled = True
         Btn_StopPallet.Enabled = False
@@ -141,20 +140,7 @@ Public Class Manual_Weight
 
         Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
 
-        If cylindersorter.fired = False Then
-            Dim myresponse As MsgBoxResult
-            Tmr_ScreenUpdate.Stop()
-            myresponse = MsgBox("Sorter Fail", vbOKOnly, "Sorter is not Working")
-            Tmr_ScreenUpdate.Start()
-        End If
-        If cylindersorter.Location = 254 Then
-
-            If tmrsort.ElapsedMilliseconds > 15000 Then
-                cylindersorter.Sort(255)
-                tmrsort.Reset()
-            End If
-
-        End If
+       
 
 
 
@@ -355,7 +341,7 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub Disposition()
-        cylindersorter.Sort(1)
+
 
         If MDataset.firstweightexists = False Then
             ' If this is a first weight accept all
@@ -366,18 +352,17 @@ Public Class Manual_Weight
             writefirstweight()
             Lbl_Instruction.Text = "Pallet"
             Lbl_Instruction.BackColor = Color.LightGreen
-            LBL_Rationalle.Text = ""
+
         Else
             ccylinder.DetermineDisposition()
             write_second_weight()
             Lbl_Instruction.Text = "Pass"
             Lbl_Instruction.BackColor = Color.LightGreen
             If ccylinder.Disposition = False Then
-                cylindersorter.Sort(2)
                 tmrsort.Restart()
                 Lbl_Instruction.Text = "Fail"
                 Lbl_Instruction.BackColor = Color.Red
-                LBL_Rationalle.Text = ccylinder.DispReason
+
             End If
         End If
                 ' update the counters for disposition 
@@ -593,7 +578,7 @@ Public Class Manual_Weight
 
     Private Sub Closepallet()
         Tmr_ScreenUpdate.Stop()
-        cylindersorter.Sort(1)
+
         ' Toggle buttons
         Btn_StartPallet.Enabled = True
         Btn_StopPallet.Enabled = False
