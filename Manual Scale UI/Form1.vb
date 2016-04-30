@@ -510,11 +510,11 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Btn_StopPallet_Click(sender As Object, e As EventArgs) Handles Btn_StopPallet.Click
+    Private Sub Btn_StopPallet_Click(sender As Object, e As EventArgs)
         ' Empty MDataset of ID information.
         manualstop = True
         checkpalletcomplete()
-   
+
     End Sub
 
     Private Sub checkpalletcomplete()
@@ -1052,16 +1052,14 @@ Public Class Manual_Weight
     End Sub
 
 
-
     Private Sub Btn_SerialPort_Click(sender As Object, e As EventArgs) Handles Btn_SerialPort.Click
 
         If LB_SerialPorts.SelectedIndex = -1 Then
-
             MsgBox("No serial port is selected")
         Else
             My.Settings.SerialPort = LB_SerialPorts.SelectedItem.ToString
             My.Settings.Save()
-            ' I could put a routine in here to send a text string and look for a response.
+
         End If
 
     End Sub
@@ -1134,7 +1132,6 @@ Public Class Manual_Weight
 
     Private Sub Btn_UpdateWeight_Click(sender As Object, e As EventArgs) Handles Btn_UpdateWeight.Click
 
-
         Dim smaxweight As Single = My.Settings.MaxWeight
         Dim sminweight As Single = My.Settings.MinWeight
         Dim sweightloss As Single = My.Settings.WeightLoss
@@ -1175,8 +1172,6 @@ Public Class Manual_Weight
 
         End While
 
-
-
     End Sub
 
 
@@ -1201,9 +1196,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
-
     Private Sub newcommport()
 
         Dim myportnames() As String
@@ -1211,9 +1203,7 @@ Public Class Manual_Weight
         If IsNothing(mycom) Then
             mycom = New SerialPort
 
-
             AddHandler mycom.DataReceived, AddressOf mycom_Datareceived ' handler for data received event
-
 
             With mycom
                 .PortName = My.Settings.SerialPort ' gets port name from static data set
@@ -1225,58 +1215,19 @@ Public Class Manual_Weight
                 .ReceivedBytesThreshold = 14 ' one byte short of a complete messsage string of 16 asci characters   
                 .WriteTimeout = 500
                 .WriteBufferSize = 500
-
             End With
         End If
         If (Not mycom.IsOpen) Then
-
             Try
+
                 mycom.Open()
-
-
-
-
-
                 mycom.DiscardInBuffer()
 
             Catch ex As Exception
                 MessageBox.Show(ex.Message)
             End Try
 
-
         End If
-
-
-
-        '        The object's PortName property should match a name in the array returned by the GetPortNames method described above. An application that wants to use a specific port can search for a match in the array:
-
-        'Dim index As Integer = -1
-        'Dim nameArray() As String
-        'Dim myComPortName As String
-
-        '' Specify the port to look for.
-
-        'myComPortName = "COM1"
-
-        ' Get an array of names of installed ports.
-
-        '   nameArray = SerialPort.GetPortNames
-
-        'Do
-        '    ' Look in the array for the desired port name.
-
-        '    index += 1
-
-        'Loop Until ((nameArray(index) = myComPortName) Or _
-        '              (index = nameArray.GetUpperBound(0)))
-
-        '' If the desired port isn't found, select the first port in the array.
-
-        'If (index = nameArray.GetUpperBound(0)) Then
-        '    myComPortName = nameArray(0)
-        'End If
-
-
 
     End Sub
 
@@ -1323,4 +1274,9 @@ Public Class Manual_Weight
     End Sub
 
 
+    Private Sub Label28_Click(sender As Object, e As EventArgs) Handles Label28.Click
+
+    End Sub
+
+  
 End Class

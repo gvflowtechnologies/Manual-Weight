@@ -23,6 +23,7 @@ Partial Class Manual_Weight
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Manual_Weight))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
@@ -71,7 +72,6 @@ Partial Class Manual_Weight
         Me.sLbl_G = New System.Windows.Forms.Label()
         Me.Lbl_BatchN = New System.Windows.Forms.Label()
         Me.Lbl_PalletN = New System.Windows.Forms.Label()
-        Me.Btn_StopPallet = New System.Windows.Forms.Button()
         Me.Setup = New System.Windows.Forms.TabPage()
         Me.LBL_Version = New System.Windows.Forms.Label()
         Me.CB_ViewRaw = New System.Windows.Forms.CheckBox()
@@ -117,6 +117,17 @@ Partial Class Manual_Weight
         Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.TPPalletLayout = New System.Windows.Forms.TabPage()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.Label28 = New System.Windows.Forms.Label()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.Label31 = New System.Windows.Forms.Label()
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.Label33 = New System.Windows.Forms.Label()
+        Me.GroupBox6 = New System.Windows.Forms.GroupBox()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -128,12 +139,17 @@ Partial Class Manual_Weight
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.TPPalletLayout.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox6.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.RunPage)
         Me.TabControl1.Controls.Add(Me.Setup)
+        Me.TabControl1.Controls.Add(Me.TPPalletLayout)
         Me.TabControl1.Location = New System.Drawing.Point(10, 10)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -148,7 +164,7 @@ Partial Class Manual_Weight
         Me.RunPage.Controls.Add(Me.GB_Scale)
         Me.RunPage.Controls.Add(Me.GBBinData)
         Me.RunPage.Controls.Add(Me.GBCurrentPallet)
-        Me.RunPage.Controls.Add(Me.Btn_StopPallet)
+        Me.RunPage.Controls.Add(Me.PictureBox2)
         Me.RunPage.Location = New System.Drawing.Point(4, 22)
         Me.RunPage.Name = "RunPage"
         Me.RunPage.Padding = New System.Windows.Forms.Padding(3)
@@ -243,7 +259,7 @@ Partial Class Manual_Weight
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(149, 183)
+        Me.Button2.Location = New System.Drawing.Point(119, 186)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(222, 35)
         Me.Button2.TabIndex = 0
@@ -672,15 +688,6 @@ Partial Class Manual_Weight
         Me.Lbl_PalletN.TabIndex = 2
         Me.Lbl_PalletN.Text = "Empty Pallet"
         '
-        'Btn_StopPallet
-        '
-        Me.Btn_StopPallet.Location = New System.Drawing.Point(516, 239)
-        Me.Btn_StopPallet.Name = "Btn_StopPallet"
-        Me.Btn_StopPallet.Size = New System.Drawing.Size(75, 23)
-        Me.Btn_StopPallet.TabIndex = 3
-        Me.Btn_StopPallet.Text = "Stop Pallet"
-        Me.Btn_StopPallet.UseVisualStyleBackColor = True
-        '
         'Setup
         '
         Me.Setup.Controls.Add(Me.LBL_Version)
@@ -694,7 +701,7 @@ Partial Class Manual_Weight
         Me.Setup.Location = New System.Drawing.Point(4, 22)
         Me.Setup.Name = "Setup"
         Me.Setup.Padding = New System.Windows.Forms.Padding(3)
-        Me.Setup.Size = New System.Drawing.Size(1492, 374)
+        Me.Setup.Size = New System.Drawing.Size(1516, 374)
         Me.Setup.TabIndex = 1
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
@@ -1138,6 +1145,122 @@ Partial Class Manual_Weight
         '
         Me.Tmr_ScreenUpdate.Interval = 50
         '
+        'TPPalletLayout
+        '
+        Me.TPPalletLayout.Controls.Add(Me.GroupBox6)
+        Me.TPPalletLayout.Controls.Add(Me.Label33)
+        Me.TPPalletLayout.Controls.Add(Me.Label32)
+        Me.TPPalletLayout.Controls.Add(Me.Label31)
+        Me.TPPalletLayout.Controls.Add(Me.Label30)
+        Me.TPPalletLayout.Controls.Add(Me.Label29)
+        Me.TPPalletLayout.Controls.Add(Me.PictureBox1)
+        Me.TPPalletLayout.Location = New System.Drawing.Point(4, 22)
+        Me.TPPalletLayout.Name = "TPPalletLayout"
+        Me.TPPalletLayout.Padding = New System.Windows.Forms.Padding(3)
+        Me.TPPalletLayout.Size = New System.Drawing.Size(1516, 374)
+        Me.TPPalletLayout.TabIndex = 2
+        Me.TPPalletLayout.Text = "Pallet Setup"
+        Me.TPPalletLayout.UseVisualStyleBackColor = True
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
+        Me.PictureBox1.Location = New System.Drawing.Point(422, 0)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(499, 388)
+        Me.PictureBox1.TabIndex = 0
+        Me.PictureBox1.TabStop = False
+        '
+        'PictureBox2
+        '
+        Me.PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), System.Drawing.Image)
+        Me.PictureBox2.Location = New System.Drawing.Point(500, 2)
+        Me.PictureBox2.Name = "PictureBox2"
+        Me.PictureBox2.Size = New System.Drawing.Size(486, 374)
+        Me.PictureBox2.TabIndex = 12
+        Me.PictureBox2.TabStop = False
+        '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(88, 318)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(188, 30)
+        Me.Button3.TabIndex = 1
+        Me.Button3.Text = "Accept Pallet Data"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'Label28
+        '
+        Me.Label28.AutoSize = True
+        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label28.Location = New System.Drawing.Point(116, 124)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(97, 20)
+        Me.Label28.TabIndex = 2
+        Me.Label28.Text = "Back Corner"
+        '
+        'Label29
+        '
+        Me.Label29.AutoSize = True
+        Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label29.Location = New System.Drawing.Point(506, 58)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(48, 20)
+        Me.Label29.TabIndex = 3
+        Me.Label29.Text = "LEFT"
+        '
+        'Label30
+        '
+        Me.Label30.AutoSize = True
+        Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label30.Location = New System.Drawing.Point(782, 58)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(60, 20)
+        Me.Label30.TabIndex = 4
+        Me.Label30.Text = "RIGHT"
+        '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label31.Location = New System.Drawing.Point(518, 103)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(55, 20)
+        Me.Label31.TabIndex = 5
+        Me.Label31.Text = "REAR"
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label32.Location = New System.Drawing.Point(430, 161)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(81, 20)
+        Me.Label32.TabIndex = 6
+        Me.Label32.Text = "OUTSIDE"
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label33.Location = New System.Drawing.Point(607, 220)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(64, 20)
+        Me.Label33.TabIndex = 7
+        Me.Label33.Text = "INSIDE"
+        '
+        'GroupBox6
+        '
+        Me.GroupBox6.Controls.Add(Me.Label28)
+        Me.GroupBox6.Controls.Add(Me.Button3)
+        Me.GroupBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox6.Location = New System.Drawing.Point(6, 6)
+        Me.GroupBox6.Name = "GroupBox6"
+        Me.GroupBox6.Size = New System.Drawing.Size(418, 365)
+        Me.GroupBox6.TabIndex = 8
+        Me.GroupBox6.TabStop = False
+        Me.GroupBox6.Text = "LEFT PALLET"
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1168,6 +1291,12 @@ Partial Class Manual_Weight
         Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        Me.TPPalletLayout.ResumeLayout(False)
+        Me.TPPalletLayout.PerformLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox6.ResumeLayout(False)
+        Me.GroupBox6.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1177,7 +1306,6 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_BatchN As System.Windows.Forms.Label
     Friend WithEvents Btn_StartPallet As System.Windows.Forms.Button
     Friend WithEvents Lbl_PalletN As System.Windows.Forms.Label
-    Friend WithEvents Btn_StopPallet As System.Windows.Forms.Button
     Friend WithEvents GBBinData As System.Windows.Forms.GroupBox
     Friend WithEvents Lbl_BadCount As System.Windows.Forms.Label
     Friend WithEvents Lbl_GoodCount As System.Windows.Forms.Label
@@ -1265,5 +1393,16 @@ Partial Class Manual_Weight
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents Label26 As System.Windows.Forms.Label
     Friend WithEvents Label27 As System.Windows.Forms.Label
+    Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
+    Friend WithEvents TPPalletLayout As System.Windows.Forms.TabPage
+    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents Label28 As System.Windows.Forms.Label
+    Friend WithEvents Button3 As System.Windows.Forms.Button
+    Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label33 As System.Windows.Forms.Label
+    Friend WithEvents Label32 As System.Windows.Forms.Label
+    Friend WithEvents Label31 As System.Windows.Forms.Label
+    Friend WithEvents Label30 As System.Windows.Forms.Label
+    Friend WithEvents Label29 As System.Windows.Forms.Label
 
 End Class

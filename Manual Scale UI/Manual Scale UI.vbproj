@@ -84,6 +84,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MccDaq, Version=2.6.0.0, Culture=neutral, PublicKeyToken=a37eefcf5c6ca10a, processorArchitecture=MSIL" />
+    <Reference Include="RCAPINet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0487594b04a8fcc0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\EpsonRC70\exe\RCAPINet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -117,6 +121,7 @@
     <Compile Include="caldata.vb" />
     <Compile Include="Cylinder.vb" />
     <Compile Include="Datareceive.vb" />
+    <Compile Include="Epson_SPEL.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -203,12 +208,12 @@
   <ItemGroup>
     <PublishFile Include="MccDaq">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
