@@ -1255,9 +1255,6 @@ Public Class Manual_Weight
     End Sub
 
 
-
-
-
     Private Sub Btn_ManualTare_Click(sender As Object, e As EventArgs) Handles Btn_ManualTare.Click
         updatetare()
     End Sub
@@ -1281,16 +1278,11 @@ Public Class Manual_Weight
     End Sub
 
 
-
-
-  
-
     Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
 
-        ' Check if door is open
+        ' Check if door is open, if the door is open then pause the robot if not already paused.
+        ' If door is closesd, then have the robot conitnue if not already running.
 
-
-       
         If Scara.In(2) = 8 Or Scara.In(2) = 9 Then 'Robot should be running
             ' Check if robot is paused or not
 
@@ -1302,20 +1294,16 @@ Public Class Manual_Weight
 
         Else ' Robot should not be running
             ' Check to see if robot is paused or not.
+
             If Scara.PauseOn = False Then
                 ' If the robot is not paused, then pause it.
                 ' Otherwise make no change
                 Scara.Pause()
 
-
             End If
-
-
 
         End If
 
-
-
-
     End Sub
+
 End Class
