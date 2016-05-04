@@ -44,7 +44,6 @@ Public Class Manual_Weight
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         newdata = New Datareceive
         tmrcycle = New Stopwatch
-        ' loginhandling()
         sartorius = New Scalemanagement
         tmrsort = New Stopwatch
 
@@ -57,7 +56,7 @@ Public Class Manual_Weight
       
 
         Btn_StartPallet.Enabled = True
-        Btn_StopPallet.Enabled = False
+        '     Btn_StopPallet.Enabled = False
 
         Lbl_PalletN.Text = ""
         Lbl_BatchN.Text = ""
@@ -100,6 +99,16 @@ Public Class Manual_Weight
 
         LBL_Version.Text = "Version:" & v
 
+        ' Setup timer to check for door open or close
+        ' Reviewing 50 times per second
+        TMR_door = New Windows.Forms.Timer
+        With TMR_door
+            .Interval = 20 ' Fire 50 times per second
+            .Enabled = True ' Enabled
+            .Start() ' Started
+
+        End With
+
 
     End Sub
 
@@ -110,6 +119,8 @@ Public Class Manual_Weight
         If Not IsNothing(swdataset) Then swdataset.Close()
         If Not IsNothing(swlogdata) Then swlogdata.Close()
         If Not IsNothing(Calibration) Then Calibration.Close()
+        TMR_door.Enabled = False
+        TMR_door.Dispose()
     End Sub
 
     Private Sub SetupClick() Handles Setup.Enter
@@ -319,8 +330,6 @@ Public Class Manual_Weight
         mycom.Write("T" & ControlChars.CrLf)
     End Sub
     Public Sub startcal()
-
-
 
         'Loop
         mycom.Write("W" & ControlChars.CrLf)
@@ -1233,17 +1242,15 @@ Public Class Manual_Weight
 
     Private Sub mycom_Datareceived(ByVal sendor As Object, ByVal e As SerialDataReceivedEventArgs) Handles mycom.DataReceived
         ' Handles data when it comes in on serial port.
+        ' This event fires whenever the amount of data on the serial port is greater than the setlimit
+        ' Create a string for the data stream from the scale
+
         Dim sweight As String
-        'Dim position As Integer
-
         sweight = mycom.ReadLine
-
-
+        ' Create a thread to handle processing of string.
         updateweight = New scaledata(AddressOf newdata.newweightdata)
         Me.BeginInvoke(updateweight, sweight)
         Application.DoEvents()
-
-        '     Thread.Sleep(1)
 
     End Sub
 
@@ -1274,9 +1281,41 @@ Public Class Manual_Weight
     End Sub
 
 
-    Private Sub Label28_Click(sender As Object, e As EventArgs) Handles Label28.Click
 
-    End Sub
 
   
+
+    Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
+
+        ' Check if door is open
+
+
+       
+        If Scara.In(2) = 8 Or Scara.In(2) = 9 Then 'Robot should be running
+            ' Check if robot is paused or not
+
+            If Scara.PauseOn = True Then
+                ' If paused is on turn on robot
+                ' If make no change
+                Scara.Continue()
+            End If
+
+        Else ' Robot should not be running
+            ' Check to see if robot is paused or not.
+            If Scara.PauseOn = False Then
+                ' If the robot is not paused, then pause it.
+                ' Otherwise make no change
+                Scara.Pause()
+
+
+            End If
+
+
+
+        End If
+
+
+
+
+    End Sub
 End Class

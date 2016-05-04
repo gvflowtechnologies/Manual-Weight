@@ -1,14 +1,18 @@
 ﻿Option Explicit On
 Imports RCAPINet
+Imports System.Timers
+
 Module Epson_SPEL
 
     Public WithEvents Scara As RCAPINet.Spel
+    Dim Tmr_Door As Timer
+
+
     Public pointpallet01 As SpelPoint
     Public pointpallet02 As SpelPoint
     Public pointpallet03 As SpelPoint
     Public pointpallet04 As SpelPoint
 
-    m corner1 = New Single
 
 
 
@@ -40,8 +44,11 @@ Module Epson_SPEL
         'Scara.SetPoint(4, pointpallet04)
         '   Scara.Pallet(0, 1, 2, 3, 4, 20, 20)
 
+        ' S
 
     End Sub
+
+
 
 
 
