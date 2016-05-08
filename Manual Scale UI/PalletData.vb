@@ -6,7 +6,10 @@ Imports System.Text
 
 
 Public Class PalletData
-
+    Enum PLocation
+        PalletLeft
+        PalletRight
+    End Enum
     Private palletid As String ' current active pallet
     Private batchid As String ' current active pallet
     Private currentfilename As String ' Current Active File.
@@ -24,6 +27,8 @@ Public Class PalletData
     Private iCurRow As Integer
     Private iCurCol As Integer
 
+    Private location As PLocation ' Am I on the left or right
+
     Private number_of_Canisters As Integer ' number of canisters in pallet
     Private canisternumber As Integer ' Currrent Canister weighed
 
@@ -36,8 +41,11 @@ Public Class PalletData
     Private Index_filename As Integer ' Index in array of filenames that contains the current file
     Private fweight As String ' String with fweight data path
     Private completed As String ' String with completed Data Path
+    Private Backcorner(3) As Single
+    Private InsideCorner(3) As Single
+    Private OutsideCorner(3) As Single
 
-    Public Sub New()
+    Public Sub New(ByVal side As PLocation)
         number_of_Canisters = 0
         canisternumber = 0
         ' fweight = 
@@ -53,8 +61,44 @@ Public Class PalletData
         number_of_Canisters = iNumCols * iNumRows - 1
         fweight = My.Settings.File_Directory & "\In Process"
         completed = My.Settings.File_Directory & "\Completed"
+        location = side
+
+        UpdatePalletCorners(location)
 
     End Sub
+
+    Private Sub UpdatePalletCorners(ByVal botside As PLocation)
+        If botside = PLocation.PalletLeft Then
+            Backcorner(0) = My.Settings.RCXL
+            Backcorner(1) = My.Settings.RCYL
+            Backcorner(2) = My.Settings.RCZL
+
+            InsideCorner(0) = My.Settings.ICXL
+            InsideCorner(1) = My.Settings.ICYL
+            InsideCorner(2) = My.Settings.ICZL
+
+            OutsideCorner(0) = My.Settings.OCXL
+            OutsideCorner(1) = My.Settings.OCYL
+            OutsideCorner(2) = My.Settings.OCZL
+
+        Else
+            Backcorner(0) = My.Settings.RCXR
+            Backcorner(1) = My.Settings.RCYR
+            Backcorner(2) = My.Settings.RCZR
+
+            InsideCorner(0) = My.Settings.ICXR
+            InsideCorner(1) = My.Settings.ICYR
+            InsideCorner(2) = My.Settings.ICZR
+
+            OutsideCorner(0) = My.Settings.OCXR
+            OutsideCorner(1) = My.Settings.OCYR
+            OutsideCorner(2) = My.Settings.OCZR
+
+
+        End If
+    End Sub
+
+
 
     Public Sub RenewFileList()
         currentfilename = Nothing
@@ -166,6 +210,9 @@ Public Class PalletData
         End If
 
     End Sub
+    Property rearcorner As Single
+
+    End Property
 
     Public Property filename As String
 
@@ -215,6 +262,11 @@ Public Class PalletData
 
     End Property
 
+    Public ReadOnly Property Palletlocation As PLocation
+        Get
+            Return location
+        End Get
+    End Property
 
     Public Property pallet As String ' Pallet Identification
 
@@ -254,7 +306,7 @@ Public Class PalletData
     Public ReadOnly Property currentfilepath As String
         Get
             If BFirstweightExists Then
-                Return Completed
+                Return completed
             Else
                 Return fweight
             End If
