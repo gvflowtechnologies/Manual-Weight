@@ -22,18 +22,15 @@ Public Class Manual_Weight
     Public WithEvents mycom As SerialPort 'Serial port for communicating with the scale
     Private newdata As Datareceive
 
-    Dim manualstop As Boolean ' Flag indicating that a manual stop has been requested
-
     Dim LeftPallet As PalletData 'Pallet data for pallets on the left hand side of the robot
     Dim RightPallet As PalletData 'Pallet data for pallets on the right hand side of the robot
     Public sartorius As Scalemanagement ' Scale handling class
-
     Dim ccylinder As Cylinder ' Cylinder object handling class
 
     Dim swdataset As StreamWriter
     Dim swlogdata As StreamWriter
     Public cancelclicked As Boolean 'Variable to handle data transfer between the calibration form and the main form
-
+    Dim calfail As Boolean
 
     Dim updateweight As scaledata
     Dim teststate As Weighprocess
@@ -91,10 +88,11 @@ Public Class Manual_Weight
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
 
-        If checkdate() = False Then
-            Btn_WeighRight.Enabled = False
-            MsgBox("Calibration is Past Due, Please Update")
-        End If
+        calfail = False
+        checkcal()
+
+
+
         Dim v As String
 
         '     v = My.Application.Deployment.CurrentVersion.ToString
@@ -442,19 +440,10 @@ Public Class Manual_Weight
         Lbl_PalletN_Right.Text = ""
         Lbl_BatchN_Right.Text = ""
         RightPallet = New PalletData(PalletData.PLocation.PalletRight)
+        RightPallet.inprocess = PalletData.status.waiting
 
-        manualstop = False
-        If checkdate() = False Then
-            Btn_WeighRight.Enabled = False
-            MsgBox("Calibration is Past Due, ReCal Required")
-            Exit Sub
-        End If
-
-        If My.Settings.scalecalfail Then
-            Btn_WeighRight.Enabled = False
-            MsgBox("Last Calibration Failed, ReCal Required")
-            Exit Sub
-        End If
+        checkcal()
+        If calfail Then Exit Sub
 
         RightPallet.RenewFileList()
 
@@ -526,6 +515,27 @@ Public Class Manual_Weight
         LBL_CCOL_R.Text = RightPallet.curcol.ToString
         LBL_CRow_R.Text = RightPallet.currow.ToString
         entering = True
+
+
+    End Sub
+
+    Sub checkcal()
+        ' Checks calibration dates and disables buttons if past due or in error.
+
+        If checkdate() = False Then
+            Btn_WeighRight.Enabled = False
+            Btn_WeighLeft.Enabled = False
+            MsgBox("Calibration is Past Due, ReCal Required")
+            calfail = True
+
+        End If
+
+        If My.Settings.scalecalfail Then
+            Btn_WeighRight.Enabled = False
+            Btn_WeighLeft.Enabled = False
+            MsgBox("Last Calibration Failed, ReCal Required")
+            calfail = True
+        End If
 
 
     End Sub
@@ -1315,19 +1325,11 @@ Public Class Manual_Weight
         Lbl_PalletN_Left.Text = ""
         Lbl_BatchN_Left.Text = ""
         LeftPallet = New PalletData(PalletData.PLocation.PalletLeft)
+        LeftPallet.inprocess = PalletData.status.waiting
 
-        manualstop = False
-        If checkdate() = False Then
-            Btn_WeighRight.Enabled = False
-            MsgBox("Calibration is Past Due, ReCal Required")
-            Exit Sub
-        End If
+        checkcal()
+        If calfail Then Exit Sub
 
-        If My.Settings.scalecalfail Then
-            Btn_WeighRight.Enabled = False
-            MsgBox("Last Calibration Failed, ReCal Required")
-            Exit Sub
-        End If
 
         LeftPallet.RenewFileList()
 
@@ -1352,6 +1354,21 @@ Public Class Manual_Weight
 
         ' send pallet number and 
         ' if pallet exists pull batch number   
+
+
+
+        '********************************************
+        '
+        '
+        '
+        '
+        '
+        '
+        '
+        '
+        '********************************************
+
+
 
         If LeftPallet.firstweightexists = False Then
             Do

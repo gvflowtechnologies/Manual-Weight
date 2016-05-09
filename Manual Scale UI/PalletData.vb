@@ -10,6 +10,11 @@ Public Class PalletData
         PalletLeft
         PalletRight
     End Enum
+    Enum status
+        waiting
+        processing
+    End Enum
+
     Private palletid As String ' current active pallet
     Private batchid As String ' current active pallet
     Private currentfilename As String ' Current Active File.
@@ -26,7 +31,7 @@ Public Class PalletData
     Private iNumCols As Integer
     Private iCurRow As Integer
     Private iCurCol As Integer
-
+    Private currentstatus As status ' Current status of pallet
     Private location As PLocation ' Am I on the left or right
 
     Private number_of_Canisters As Integer ' number of canisters in pallet
@@ -377,6 +382,15 @@ Public Class PalletData
         End Get
         Set(value As Integer)
             iCurCol = value
+        End Set
+    End Property
+
+    Property inprocess As status
+        Get
+            Return currentstatus
+        End Get
+        Set(value As status)
+            currentstatus = value
         End Set
     End Property
 
