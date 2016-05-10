@@ -1,7 +1,7 @@
 ﻿Option Explicit On
 
 Public Class Calibration
-    Dim updatetimer As Timer
+
     Private Sub Btn_Escape_Click(sender As Object, e As EventArgs) Handles Btn_Escape.Click
 
 

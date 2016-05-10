@@ -6,14 +6,12 @@ Imports System.Threading
 
 Public Class Scalemanagement
     Enum calprocess
-
         Complete
         Entering
         Active
     End Enum
 
-    Dim WithEvents mycom As SerialPort
-    Dim incoming As String
+
     Dim tmrlasttime As Stopwatch
     Dim Bstable As Boolean
     Dim dweightreading As Double
@@ -37,47 +35,23 @@ Public Class Scalemanagement
         calstring = ""
         bincal = calprocess.Complete
         Bstable = False
-
-
-
         bcalrequest = False
-
-
     End Sub
 
-
-    Sub taring()
-
-    End Sub
     Sub ParseData(ByVal reading As String)
-
-
         ' Parses the data string from the scale when it comes in on serial port.  
         ' Getting Stability and weight reading.
         ' Not parsing for error codes 
-
         Dim position As Integer
-
         Dim isdata As Integer
-
 
         SRAWDATA = reading
 
-
-        '  calcheck(reading)
-        ' Reset timer  - Provides time since last reading
-        'tmrlasttime.Reset()
-        ' Check to see if the stability character is present
-        ' 
         isdata = Datacheck(reading)
-                '' if reading is real 
 
-        '' Parse number out of string
-        '' and set weight
         If isdata = 2 Then
             calcheck(SRAWDATA) ' check for cal string
             errorcheck(SRAWDATA) ' check string for critical error code.
-
         Else
             Bstable = reading.Contains(stabconst)
             reading = reading.Substring(1)

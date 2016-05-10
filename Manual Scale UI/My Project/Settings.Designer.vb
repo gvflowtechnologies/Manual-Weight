@@ -176,30 +176,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.5")>  _
-        Public Property ColSpace() As Single
-            Get
-                Return CType(Me("ColSpace"),Single)
-            End Get
-            Set
-                Me("ColSpace") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.5")>  _
-        Public Property RowSpace() As Single
-            Get
-                Return CType(Me("RowSpace"),Single)
-            End Get
-            Set
-                Me("RowSpace") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0.001")>  _
         Public Property WeightLoss() As Single
             Get
@@ -267,6 +243,222 @@ Namespace My
             End Get
             Set
                 Me("scalecalfail") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property RCXL() As Single
+            Get
+                Return CType(Me("RCXL"),Single)
+            End Get
+            Set
+                Me("RCXL") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property RCYL() As Single
+            Get
+                Return CType(Me("RCYL"),Single)
+            End Get
+            Set
+                Me("RCYL") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property RCZL() As Single
+            Get
+                Return CType(Me("RCZL"),Single)
+            End Get
+            Set
+                Me("RCZL") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property ICXL() As Single
+            Get
+                Return CType(Me("ICXL"),Single)
+            End Get
+            Set
+                Me("ICXL") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property ICYL() As Single
+            Get
+                Return CType(Me("ICYL"),Single)
+            End Get
+            Set
+                Me("ICYL") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property ICZL() As Single
+            Get
+                Return CType(Me("ICZL"),Single)
+            End Get
+            Set
+                Me("ICZL") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property OCXL() As Single
+            Get
+                Return CType(Me("OCXL"),Single)
+            End Get
+            Set
+                Me("OCXL") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property OCYL() As Single
+            Get
+                Return CType(Me("OCYL"),Single)
+            End Get
+            Set
+                Me("OCYL") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property OCZL() As Single
+            Get
+                Return CType(Me("OCZL"),Single)
+            End Get
+            Set
+                Me("OCZL") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property RCXR() As Single
+            Get
+                Return CType(Me("RCXR"),Single)
+            End Get
+            Set
+                Me("RCXR") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property RCYR() As Single
+            Get
+                Return CType(Me("RCYR"),Single)
+            End Get
+            Set
+                Me("RCYR") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property RCZR() As Single
+            Get
+                Return CType(Me("RCZR"),Single)
+            End Get
+            Set
+                Me("RCZR") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property ICXR() As Single
+            Get
+                Return CType(Me("ICXR"),Single)
+            End Get
+            Set
+                Me("ICXR") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property ICYR() As Single
+            Get
+                Return CType(Me("ICYR"),Single)
+            End Get
+            Set
+                Me("ICYR") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property ICZR() As Single
+            Get
+                Return CType(Me("ICZR"),Single)
+            End Get
+            Set
+                Me("ICZR") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property OCXR() As Single
+            Get
+                Return CType(Me("OCXR"),Single)
+            End Get
+            Set
+                Me("OCXR") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property OCYR() As Single
+            Get
+                Return CType(Me("OCYR"),Single)
+            End Get
+            Set
+                Me("OCYR") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property OCZR() As Single
+            Get
+                Return CType(Me("OCZR"),Single)
+            End Get
+            Set
+                Me("OCZR") = value
             End Set
         End Property
     End Class

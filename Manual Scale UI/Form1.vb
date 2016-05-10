@@ -15,23 +15,23 @@ Public Class Manual_Weight
     End Enum
 
     ' Constants
-    Const sloginvalue As String = "AV_QAE"
+
     Const nocanweight As Double = 2.0
 
+    'Variables
     Public WithEvents mycom As SerialPort 'Serial port for communicating with the scale
     Private newdata As Datareceive
-    ' Variables
-    Dim manualstop As Boolean ' Flag indicating that a manual stop has been requested
 
-    Dim MDataset As PalletData
-    Public sartorius As Scalemanagement
-    Dim cylindersorter As CSorter
-    Dim ccylinder As Cylinder
+    Dim LeftPallet As PalletData 'Pallet data for pallets on the left hand side of the robot
+    Dim RightPallet As PalletData 'Pallet data for pallets on the right hand side of the robot
+    Public sartorius As Scalemanagement ' Scale handling class
+    Dim ccylinder As Cylinder ' Cylinder object handling class
 
     Dim swdataset As StreamWriter
     Dim swlogdata As StreamWriter
-    Public cancelclicked As Boolean
-    Delegate Sub scaledata(ByVal sdata As String)
+    Public cancelclicked As Boolean 'Variable to handle data transfer between the calibration form and the main form
+    Dim calfail As Boolean
+
     Dim updateweight As scaledata
     Dim teststate As Weighprocess
     Dim entering As Boolean ' Entering a new state
@@ -39,12 +39,12 @@ Public Class Manual_Weight
     Dim tmrcycle As Stopwatch
     Dim tmrsort As Stopwatch
 
+    Delegate Sub scaledata(ByVal sdata As String) 'Delegate for 
 
     ' Form open close stuff
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         newdata = New Datareceive
         tmrcycle = New Stopwatch
-        ' loginhandling()
         sartorius = New Scalemanagement
         tmrsort = New Stopwatch
 
@@ -54,46 +54,45 @@ Public Class Manual_Weight
         Next
         LB_SerialPorts.SelectedIndex = -1
 
-        cylindersorter = New CSorter
+      
+
+        Btn_WeighRight.Enabled = True
+        '     Btn_StopPallet.Enabled = False
+
+        Lbl_PalletN_Right.Text = ""
+        Lbl_BatchN_Right.Text = ""
 
 
-        Btn_StartPallet.Enabled = True
-        Btn_StopPallet.Enabled = False
+        Lbl_CurrentBad_R.Text = "0"
+        Lbl_CurrentGood_R.Text = "0"
 
-        Lbl_PalletN.Text = ""
-        Lbl_BatchN.Text = ""
 
-        Lbl_BadCount.Text = My.Settings.TotalBad
-        Lbl_GoodCount.Text = My.Settings.TotalGood
-        Lbl_CurrentBad.Text = "0"
-        Lbl_CurrentGood.Text = "0"
-
-        LBFinal_Data_File.Text = My.Settings.File_Directory
-        Lbl_RetareLimit.Text = My.Settings.TareLimit.ToString("N4")
-        Lbl_TareError.Text = My.Settings.TareError.ToString("N4")
-        Lbl_CalFolder.Text = My.Settings.Caldirectory
-        Lbl_LastCal.Text = My.Settings.LastCalDate.ToString("d")
-        Lbl_NextCal.Text = My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString("d")
-        Lbl_CalInt.Text = My.Settings.CalFrequency.ToString
-        Lbl_NumCol.Text = My.Settings.ColNum.ToString("N0")
         LB_SerialPorts.ScrollAlwaysVisible = True
-        Lbl_NumRow.Text = My.Settings.RowNum.ToString("N0")
-        Lbl_ColSpace.Text = My.Settings.ColSpace.ToString("N4")
-        Lbl_RowSpace.Text = My.Settings.RowSpace.ToString("N4")
-        Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
-        Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
-        Lbl_WeightLoss.Text = My.Settings.WeightLoss.ToString("N4")
+
+
         Lbl_Instruction.Text = "Standby"
-        LBL_CCOL.Text = "0"
-        LBL_CRow.Text = "0"
+        LBL_CCOL_R.Text = "0"
+        LBL_CRow_R.Text = "0"
+
+        ' Update all pallet corners to settings value
+
+        UpdateSettings.updatetarelimits()
+
+        UpdateSettings.palletcorners()
+
+        UpdateSettings.updateweights()
+
+        UpdateSettings.updatetotals()
+
 
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
 
-        If checkdate() = False Then
-            Btn_StartPallet.Enabled = False
-            MsgBox("Calibration is Past Due, Please Update")
-        End If
+        calfail = False
+        checkcal()
+
+
+
         Dim v As String
 
         '     v = My.Application.Deployment.CurrentVersion.ToString
@@ -101,9 +100,18 @@ Public Class Manual_Weight
 
         LBL_Version.Text = "Version:" & v
 
+        ' Setup timer to check for door open or close
+        ' Reviewing 50 times per second
+        TMR_door = New Windows.Forms.Timer
+        With TMR_door
+            .Interval = 20 ' Fire 50 times per second
+            .Enabled = True ' Enabled
+            .Start() ' Started
+
+        End With
+
 
     End Sub
-
 
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
@@ -111,20 +119,30 @@ Public Class Manual_Weight
         If Not IsNothing(swdataset) Then swdataset.Close()
         If Not IsNothing(swlogdata) Then swlogdata.Close()
         If Not IsNothing(Calibration) Then Calibration.Close()
+        If Not IsNothing(ChangePassword) Then ChangePassword.Close()
+        TMR_door.Enabled = False
+        TMR_door.Dispose()
     End Sub
 
     Private Sub SetupClick() Handles Setup.Enter
-
+        ' Allows access only to Authorized personnel
 
         loginhandling()
 
 
     End Sub
 
+    Private Sub palletclick() Handles TPPalletLayout.Enter
+        ' Allows access only to Authorized personnel    
+        loginhandling()
+
+    End Sub
+
+
     Private Function checkdate() As Boolean
         Dim pastdue As Boolean
         If Date.Compare(Date.Now, My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency)) < 0 Then
-            
+
             pastdue = True
         Else
             pastdue = False
@@ -141,20 +159,7 @@ Public Class Manual_Weight
 
         Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
 
-        If cylindersorter.fired = False Then
-            Dim myresponse As MsgBoxResult
-            Tmr_ScreenUpdate.Stop()
-            myresponse = MsgBox("Sorter Fail", vbOKOnly, "Sorter is not Working")
-            Tmr_ScreenUpdate.Start()
-        End If
-        If cylindersorter.Location = 254 Then
 
-            If tmrsort.ElapsedMilliseconds > 15000 Then
-                cylindersorter.Sort(255)
-                tmrsort.Reset()
-            End If
-
-        End If
 
 
 
@@ -199,7 +204,7 @@ Public Class Manual_Weight
                     ' Setting up cylinder for second weight
 
                     checkpalletcomplete()
-                   
+
 
                     'set label colors
                     Lbl_Instruction.Text = "Zeroing"
@@ -209,7 +214,7 @@ Public Class Manual_Weight
                 End If
 
                 ' Check to see if something is on scale when it should not be and if it is, turn the background color red.
-                
+
                 If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
                     Me.BackColor = Color.Red
                 Else
@@ -222,7 +227,7 @@ Public Class Manual_Weight
 
                 If sartorius.Stable Then
                     Select Case Math.Abs(sartorius.CurrentReading)
-                 
+
                         Case Is < My.Settings.TareLimit / 1000
                             teststate = Weighprocess.weighing
                             entering = True
@@ -264,7 +269,7 @@ Public Class Manual_Weight
                     Select Case sartorius.CurrentReading
 
                         Case Is > My.Settings.MinWeight - 2 * My.Settings.TareLimit
-                            If MDataset.firstweightexists = False Then
+                            If LeftPallet.firstweightexists = False Then
                                 ' first weight reading
                                 ccylinder.Firstweight = sartorius.CurrentReading
                             Else
@@ -299,7 +304,7 @@ Public Class Manual_Weight
 
 
                     ' update canister number
-                    MDataset.canisternum = MDataset.canisternum + 1
+                    LeftPallet.canisternum = LeftPallet.canisternum + 1
                     'If ccylinder.Disposition = False Then
                     '    cylindersorter.Sort(2)
                     'End If
@@ -334,8 +339,6 @@ Public Class Manual_Weight
     End Sub
     Public Sub startcal()
 
-
-
         'Loop
         mycom.Write("W" & ControlChars.CrLf)
         '   sartorius.CalRequest = False
@@ -344,20 +347,20 @@ Public Class Manual_Weight
 
     Private Sub updaterowsandcolumns()
 
-        MDataset.updaterowandcoumn()
+        RightPallet.updaterowandcoumn()
 
 
 
-        LBL_CCOL.Text = MDataset.curcol.ToString
-        LBL_CRow.Text = MDataset.currow.ToString
+        LBL_CCOL_R.Text = RightPallet.curcol.ToString
+        LBL_CRow_R.Text = RightPallet.currow.ToString
 
 
     End Sub
 
     Private Sub Disposition()
-        cylindersorter.Sort(1)
+        ' Determines disposition of the canister
 
-        If MDataset.firstweightexists = False Then
+        If LeftPallet.firstweightexists = False Then
             ' If this is a first weight accept all
 
             ccylinder.Disposition = True
@@ -366,29 +369,28 @@ Public Class Manual_Weight
             writefirstweight()
             Lbl_Instruction.Text = "Pallet"
             Lbl_Instruction.BackColor = Color.LightGreen
-            LBL_Rationalle.Text = ""
+
         Else
             ccylinder.DetermineDisposition()
             write_second_weight()
             Lbl_Instruction.Text = "Pass"
             Lbl_Instruction.BackColor = Color.LightGreen
             If ccylinder.Disposition = False Then
-                cylindersorter.Sort(2)
                 tmrsort.Restart()
                 Lbl_Instruction.Text = "Fail"
                 Lbl_Instruction.BackColor = Color.Red
-                LBL_Rationalle.Text = ccylinder.DispReason
+
             End If
         End If
-                ' update the counters for disposition 
+        ' update the counters for disposition 
         updatecounts()
         updaterowsandcolumns()
-                'set label colors
+        'set label colors
         Lbl_IDLE.BackColor = Color.Gold
 
         Lbl_Weighing.BackColor = Color.Transparent
 
-                'set good and bad colors here 
+        'set good and bad colors here 
 
         If ccylinder.Disposition = True Then
             ' Sucess
@@ -411,82 +413,74 @@ Public Class Manual_Weight
 
         If ccylinder.Disposition = True Then
 
-            MDataset.numgood = MDataset.numgood + 1
-            If MDataset.firstweightexists = True Then
+            LeftPallet.numgood = LeftPallet.numgood + 1
+            If LeftPallet.firstweightexists = True Then
                 My.Settings.TotalGood = My.Settings.TotalGood + 1
                 My.Settings.Save()
             End If
 
         Else
-            MDataset.numbad = MDataset.numbad + 1
-            If MDataset.firstweightexists = True Then
+            LeftPallet.numbad = LeftPallet.numbad + 1
+            If LeftPallet.firstweightexists = True Then
                 My.Settings.TotalBad = My.Settings.TotalBad + 1
                 My.Settings.Save()
             End If
         End If
         Lbl_BadCount.Text = My.Settings.TotalBad
         Lbl_GoodCount.Text = My.Settings.TotalGood
-        Lbl_CurrentGood.Text = MDataset.numgood.ToString
-        Lbl_CurrentBad.Text = MDataset.numbad.ToString
+        Lbl_CurrentGood_R.Text = LeftPallet.numgood.ToString
+        Lbl_CurrentBad_R.Text = LeftPallet.numbad.ToString
 
     End Sub
 
 
-    Private Sub Btn_StartPallet_Click(sender As Object, e As EventArgs) Handles Btn_StartPallet.Click
+    Private Sub Btn_WeighRight_Click(sender As Object, e As EventArgs) Handles Btn_WeighRight.Click
         Dim followup As MsgBoxResult
 
-        Lbl_PalletN.Text = ""
-        Lbl_BatchN.Text = ""
-        MDataset = New PalletData
-        manualstop = False
-        If checkdate() = False Then
-            Btn_StartPallet.Enabled = False
-            MsgBox("Calibration is Past Due, ReCal Required")
-            Exit Sub
-        End If
+        Lbl_PalletN_Right.Text = ""
+        Lbl_BatchN_Right.Text = ""
+        RightPallet = New PalletData(PalletData.PLocation.PalletRight)
+        RightPallet.inprocess = PalletData.status.waiting
 
-        If My.Settings.scalecalfail Then
-            Btn_StartPallet.Enabled = False
-            MsgBox("Last Calibration Failed, ReCal Required")
-            Exit Sub
-        End If
+        checkcal()
+        If calfail Then Exit Sub
 
-        MDataset.RenewFileList()
+        RightPallet.RenewFileList()
 
         Do
-            MDataset.pallet = InputBox("Enter Pallet ID", "Pallet Identificaton", , , )
-            If MDataset.pallet = "" Then Exit Sub
-            followup = MsgBox("You entered " & MDataset.pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet ID")
+            RightPallet.pallet = InputBox("Enter Pallet ID", "Pallet Identificaton", , , )
+            If RightPallet.pallet = "" Then Exit Sub
+            followup = MsgBox("You entered " & RightPallet.pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet ID")
 
             If followup = MsgBoxResult.Cancel Then
-                MDataset.pallet = ""
+                RightPallet.pallet = ""
                 Exit Sub
             End If
         Loop Until followup = MsgBoxResult.Yes
 
-        Lbl_PalletN.Text = MDataset.pallet
+        Lbl_PalletN_Right.Text = RightPallet.pallet
 
 
         ' send pallet number and 
         ' if pallet exists pull batch number   
 
-        MDataset.firstweight("_" & MDataset.pallet & "_")
+        RightPallet.firstweight("_" & RightPallet.pallet & "_")
 
         ' send pallet number and 
         ' if pallet exists pull batch number   
 
-        If MDataset.firstweightexists = False Then
+        If RightPallet.firstweightexists = False Then
             Do
-                MDataset.batch = InputBox("Enter Batch ID", "Batch Identification")
-                If MDataset.batch = "" Then Exit Sub
-                followup = MsgBox("You entered " & MDataset.batch & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Batch ID")
+                RightPallet.batch = InputBox("Enter Batch ID", "Batch Identification")
+                If RightPallet.batch = "" Then Exit Sub
+                followup = MsgBox("You entered " & RightPallet.batch & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Batch ID")
                 If followup = MsgBoxResult.Cancel Then
-                    MDataset.batch = ""
-                    Lbl_BatchN.Text = MDataset.batch
+                    RightPallet.batch = ""
+                    Lbl_BatchN_Right.Text = RightPallet.batch
                     Exit Sub
                 End If
             Loop Until followup = MsgBoxResult.Yes
-            Lbl_BatchN.Text = MDataset.batch
+            Lbl_BatchN_Right.Text = RightPallet.batch
 
 
             WritefileHeader1()
@@ -494,10 +488,10 @@ Public Class Manual_Weight
         Else
             'Read in existing file to get batch number
 
-            MDataset.readfirstweight()
+            RightPallet.readfirstweight()
 
             'Set the batch value
-            Lbl_BatchN.Text = MDataset.batch
+            Lbl_BatchN_Right.Text = RightPallet.batch
 
             ' and then write the file header.
             writefileheader2()
@@ -506,8 +500,8 @@ Public Class Manual_Weight
 
         End If
 
-        Btn_StartPallet.Enabled = False
-        Btn_StopPallet.Enabled = True
+        Btn_WeighRight.Enabled = False
+        ' Btn_StopPallet.Enabled = True
         teststate = Weighprocess.taring ' Start weighing Process
         Tmr_ScreenUpdate.Start()
         tmrcycle.Start()
@@ -516,89 +510,110 @@ Public Class Manual_Weight
 
         newcommport()
 
-        Lbl_CurrentGood.Text = MDataset.numgood.ToString
-        Lbl_CurrentBad.Text = MDataset.numbad.ToString
-        LBL_CCOL.Text = MDataset.curcol.ToString
-        LBL_CRow.Text = MDataset.currow.ToString
+        Lbl_CurrentGood_R.Text = RightPallet.numgood.ToString
+        Lbl_CurrentBad_R.Text = RightPallet.numbad.ToString
+        LBL_CCOL_R.Text = RightPallet.curcol.ToString
+        LBL_CRow_R.Text = RightPallet.currow.ToString
         entering = True
 
 
     End Sub
 
-    Private Sub Btn_StopPallet_Click(sender As Object, e As EventArgs) Handles Btn_StopPallet.Click
-        ' Empty MDataset of ID information.
-        manualstop = True
-        checkpalletcomplete()
-   
-    End Sub
+    Sub checkcal()
+        ' Checks calibration dates and disables buttons if past due or in error.
 
-    Private Sub checkpalletcomplete()
+        If checkdate() = False Then
+            Btn_WeighRight.Enabled = False
+            Btn_WeighLeft.Enabled = False
+            MsgBox("Calibration is Past Due, ReCal Required")
+            calfail = True
 
-        If MDataset.palletcount >= MDataset.canisternum Then
-            If MDataset.firstweightexists = True Then
-                If manualstop Then
-                    Tmr_ScreenUpdate.Stop()
+        End If
 
-                    Dim userresponse As MsgBoxResult
-                    userresponse = MsgBox("Data could be lost, Press OK to continue", MsgBoxStyle.OkCancel, "Manual Stop Requested, Pallet Not Complete")
-
-                    Tmr_ScreenUpdate.Start()
-
-                    If userresponse = MsgBoxResult.Cancel Then Exit Sub
-
-                End If
-
-
-                ccylinder.CylIndex = MDataset.canisternum
-                ccylinder.Firstweight = MDataset.initialweight
-            End If
-
-
-
-        Else
-            ' closing a pallet.
-
-            ' update instructions
-
-            Dim updatedinstruction As String
-            updatedinstruction = Lbl_Instruction.Text
-            updatedinstruction = updatedinstruction & "Closing Pallet"
-
-            ' Provide 15 seconds to get last sort.
-
-            Dim closewatch As Stopwatch
-
-            If IsNothing(closewatch) Then
-                closewatch = New Stopwatch
-                closewatch.Start()
-            Else
-                closewatch.Restart()
-            End If
-
-            Do Until closewatch.ElapsedMilliseconds > 15000
-
-                Application.DoEvents()
-                Thread.Sleep(10)
-            Loop
-            closewatch.Stop()
-
-
-            Closepallet()
-
-            MsgBox("Pallet Complete")
+        If My.Settings.scalecalfail Then
+            Btn_WeighRight.Enabled = False
+            Btn_WeighLeft.Enabled = False
+            MsgBox("Last Calibration Failed, ReCal Required")
+            calfail = True
         End If
 
 
     End Sub
 
+    'Private Sub Btn_StopPallet_Click(sender As Object, e As EventArgs)
+    '    ' Empty LeftPallet of ID information.
+    '    manualstop = True
+    '    checkpalletcomplete()
+
+    'End Sub
+
+    'Private Sub checkpalletcomplete()
+
+    '    If LeftPallet.palletcount >= LeftPallet.canisternum Then
+    '        If LeftPallet.firstweightexists = True Then
+    '            If manualstop Then
+    '                Tmr_ScreenUpdate.Stop()
+
+    '                Dim userresponse As MsgBoxResult
+    '                userresponse = MsgBox("Data could be lost, Press OK to continue", MsgBoxStyle.OkCancel, "Manual Stop Requested, Pallet Not Complete")
+
+    '                Tmr_ScreenUpdate.Start()
+
+    '                If userresponse = MsgBoxResult.Cancel Then Exit Sub
+
+    '            End If
+
+
+    '            ccylinder.CylIndex = LeftPallet.canisternum
+    '            ccylinder.Firstweight = LeftPallet.initialweight
+    '        End If
+
+
+
+    '    Else
+    '        ' closing a pallet.
+
+    '        ' update instructions
+
+    '        Dim updatedinstruction As String
+    '        updatedinstruction = Lbl_Instruction.Text
+    '        updatedinstruction = updatedinstruction & "Closing Pallet"
+
+    '        ' Provide 15 seconds to get last sort.
+
+    '        Dim closewatch As Stopwatch
+
+    '        If IsNothing(closewatch) Then
+    '            closewatch = New Stopwatch
+    '            closewatch.Start()
+    '        Else
+    '            closewatch.Restart()
+    '        End If
+
+    '        Do Until closewatch.ElapsedMilliseconds > 15000
+
+    '            Application.DoEvents()
+    '            Thread.Sleep(10)
+    '        Loop
+    '        closewatch.Stop()
+
+
+    '        Closepallet()
+
+    '        MsgBox("Pallet Complete")
+    '    End If
+
+
+    'End Sub
+
     Private Sub Closepallet()
         Tmr_ScreenUpdate.Stop()
-        cylindersorter.Sort(1)
+
         ' Toggle buttons
-        Btn_StartPallet.Enabled = True
-        Btn_StopPallet.Enabled = False
+        Btn_WeighRight.Enabled = True
+        '      Btn_StopPallet.Enabled = False
         teststate = Weighprocess.idle
-        If MDataset.firstweightexists = True Then
+        If LeftPallet.firstweightexists = True Then
             write_Summary()
             write_history()
         End If
@@ -613,15 +628,15 @@ Public Class Manual_Weight
     Private Sub WritefileHeader1() ' write the header to the firstweight data set.
         ' Very simple file to hold first pass data.
         Dim Myfile As String
-        Myfile = MDataset.currentfilepath & "\" & MDataset.filename
+        Myfile = LeftPallet.currentfilepath & "\" & LeftPallet.filename
 
         'Write
 
 
         swdataset = New StreamWriter(Myfile, False)
-        swdataset.WriteLine(MDataset.batch)
-        swdataset.WriteLine(MDataset.pallet)
-        swdataset.WriteLine(MDataset.timefirstwt.ToString)
+        swdataset.WriteLine(LeftPallet.batch)
+        swdataset.WriteLine(LeftPallet.pallet)
+        swdataset.WriteLine(LeftPallet.timefirstwt.ToString)
 
         swdataset.Flush()
     End Sub
@@ -634,23 +649,23 @@ Public Class Manual_Weight
     Private Sub writefileheader2() ' Write the header data for the Final data set
 
         Dim Myfile As String
-        Myfile = MDataset.currentfilepath & "\" & MDataset.filename
+        Myfile = LeftPallet.currentfilepath & "\" & LeftPallet.filename
 
         'Write
 
         swdataset = New StreamWriter(Myfile, False)
         swdataset.Write("1st Weight Time,")
-        swdataset.WriteLine(MDataset.timefirstwt.ToString)
+        swdataset.WriteLine(LeftPallet.timefirstwt.ToString)
         swdataset.Write("2nd Weight Time,")
-        swdataset.WriteLine(MDataset.timesecondwt.ToString)
+        swdataset.WriteLine(LeftPallet.timesecondwt.ToString)
         swdataset.Write("Pallet ID,")
-        swdataset.WriteLine(MDataset.pallet)
+        swdataset.WriteLine(LeftPallet.pallet)
         swdataset.Write("Lot#,")
-        swdataset.WriteLine(MDataset.batch)
+        swdataset.WriteLine(LeftPallet.batch)
         swdataset.Write("Scale Calibration Date,")
-        swdataset.WriteLine(MDataset.Lscalecaldate)
+        swdataset.WriteLine(LeftPallet.Lscalecaldate)
         swdataset.Write("Scale Calibration Due Date,")
-        swdataset.WriteLine(MDataset.NScaleCalDate)
+        swdataset.WriteLine(LeftPallet.NScaleCalDate)
         swdataset.WriteLine("Index,1st Wt,2nd Wt,Disposition, Fail Code")
         swdataset.Flush()
     End Sub
@@ -667,8 +682,8 @@ Public Class Manual_Weight
 
     Private Sub write_Summary()
         ' Write summary data line and Close Stream
-        swdataset.WriteLine("Number of Good Cylinders, " & MDataset.numgood)
-        swdataset.WriteLine("Number of Bad Cylinders, " & MDataset.numbad)
+        swdataset.WriteLine("Number of Good Cylinders, " & LeftPallet.numgood)
+        swdataset.WriteLine("Number of Bad Cylinders, " & LeftPallet.numbad)
         swdataset.Flush()
     End Sub
 
@@ -707,15 +722,15 @@ Public Class Manual_Weight
 
         If IsNothing(swlogdata) Then Write_History_Header()
 
-        swlogdata.Write(MDataset.timesecondwt.ToString & ", ")
+        swlogdata.Write(LeftPallet.timesecondwt.ToString & ", ")
 
-        swlogdata.Write(MDataset.timefirstwt.ToString & ", ")
-        swlogdata.Write(MDataset.batch & ", ")
-        swlogdata.Write(MDataset.pallet & ", ")
-        swlogdata.Write(MDataset.Lscalecaldate & ", ")
-        swlogdata.Write(MDataset.NScaleCalDate & ", ")
-        swlogdata.Write(MDataset.numgood & ", ")
-        swlogdata.WriteLine(MDataset.numbad)
+        swlogdata.Write(LeftPallet.timefirstwt.ToString & ", ")
+        swlogdata.Write(LeftPallet.batch & ", ")
+        swlogdata.Write(LeftPallet.pallet & ", ")
+        swlogdata.Write(LeftPallet.Lscalecaldate & ", ")
+        swlogdata.Write(LeftPallet.NScaleCalDate & ", ")
+        swlogdata.Write(LeftPallet.numgood & ", ")
+        swlogdata.WriteLine(LeftPallet.numbad)
 
     End Sub
 
@@ -726,8 +741,6 @@ Public Class Manual_Weight
         LBFinal_Data_File.Text = My.Settings.File_Directory
 
     End Sub
-
-
 
 
 
@@ -773,11 +786,10 @@ Public Class Manual_Weight
 
 
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Btn_Password.Click
+
         ChangePassword.Enabled = True
         ChangePassword.Show()
-
-
 
 
     End Sub
@@ -823,16 +835,11 @@ Public Class Manual_Weight
             End If
         End While
 
-
-
-
-
     End Sub
 
     Private Sub Btn_ScaleCal_Click(sender As Object, e As EventArgs) Handles Btn_ScaleCal.Click
 
         recalibrate()
-
 
 
     End Sub
@@ -1046,7 +1053,7 @@ Public Class Manual_Weight
 
         caldata.Writecalrecord(CalID, calweight, calfinal, Operatorid)
 
-        If checkdate() = True Then Btn_StartPallet.Enabled = True
+        If checkdate() = True Then Btn_WeighRight.Enabled = True
 
         Calibration.Hide()
         Calibration.Enabled = False
@@ -1067,16 +1074,14 @@ Public Class Manual_Weight
     End Sub
 
 
-
     Private Sub Btn_SerialPort_Click(sender As Object, e As EventArgs) Handles Btn_SerialPort.Click
 
         If LB_SerialPorts.SelectedIndex = -1 Then
-
             MsgBox("No serial port is selected")
         Else
             My.Settings.SerialPort = LB_SerialPorts.SelectedItem.ToString
             My.Settings.Save()
-            ' I could put a routine in here to send a text string and look for a response.
+
         End If
 
     End Sub
@@ -1091,8 +1096,7 @@ Public Class Manual_Weight
 
         Dim IColNum As Integer
         Dim IRowNum As Integer
-        Dim SColSpace As Single = My.Settings.ColSpace
-        Dim SRowSpace As Single = My.Settings.RowSpace
+       
         Dim sinputstring As String
         Dim inerror As Boolean = True
 
@@ -1111,12 +1115,7 @@ Public Class Manual_Weight
 
         End While
 
-        inerror = True
-
-        supdatevalues("Enter Distance between Columns in Pallet", SColSpace)
-
-        My.Settings.ColSpace = SColSpace
-        Lbl_ColSpace.Text = SColSpace.ToString("N4")
+       
 
         inerror = True
 
@@ -1134,21 +1133,12 @@ Public Class Manual_Weight
 
         End While
 
-        inerror = True
-
-        supdatevalues("Enter Distance between Rows in Pallet", SRowSpace)
-
-
-        My.Settings.RowSpace = SRowSpace
-        Lbl_RowSpace.Text = SRowSpace.ToString("N4")
-
         My.Settings.Save()
 
     End Sub
 
 
     Private Sub Btn_UpdateWeight_Click(sender As Object, e As EventArgs) Handles Btn_UpdateWeight.Click
-
 
         Dim smaxweight As Single = My.Settings.MaxWeight
         Dim sminweight As Single = My.Settings.MinWeight
@@ -1190,8 +1180,6 @@ Public Class Manual_Weight
 
         End While
 
-
-
     End Sub
 
 
@@ -1216,9 +1204,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
-
     Private Sub newcommport()
 
         Dim myportnames() As String
@@ -1226,9 +1211,7 @@ Public Class Manual_Weight
         If IsNothing(mycom) Then
             mycom = New SerialPort
 
-
             AddHandler mycom.DataReceived, AddressOf mycom_Datareceived ' handler for data received event
-
 
             With mycom
                 .PortName = My.Settings.SerialPort ' gets port name from static data set
@@ -1240,79 +1223,35 @@ Public Class Manual_Weight
                 .ReceivedBytesThreshold = 14 ' one byte short of a complete messsage string of 16 asci characters   
                 .WriteTimeout = 500
                 .WriteBufferSize = 500
-
             End With
         End If
         If (Not mycom.IsOpen) Then
-
             Try
+
                 mycom.Open()
-
-
-
-
-
                 mycom.DiscardInBuffer()
 
             Catch ex As Exception
                 MessageBox.Show(ex.Message)
             End Try
 
-
         End If
-
-
-
-        '        The object's PortName property should match a name in the array returned by the GetPortNames method described above. An application that wants to use a specific port can search for a match in the array:
-
-        'Dim index As Integer = -1
-        'Dim nameArray() As String
-        'Dim myComPortName As String
-
-        '' Specify the port to look for.
-
-        'myComPortName = "COM1"
-
-        ' Get an array of names of installed ports.
-
-        '   nameArray = SerialPort.GetPortNames
-
-        'Do
-        '    ' Look in the array for the desired port name.
-
-        '    index += 1
-
-        'Loop Until ((nameArray(index) = myComPortName) Or _
-        '              (index = nameArray.GetUpperBound(0)))
-
-        '' If the desired port isn't found, select the first port in the array.
-
-        'If (index = nameArray.GetUpperBound(0)) Then
-        '    myComPortName = nameArray(0)
-        'End If
-
-
 
     End Sub
 
     Private Sub mycom_Datareceived(ByVal sendor As Object, ByVal e As SerialDataReceivedEventArgs) Handles mycom.DataReceived
         ' Handles data when it comes in on serial port.
+        ' This event fires whenever the amount of data on the serial port is greater than the setlimit
+        ' Create a string for the data stream from the scale
+
         Dim sweight As String
-        'Dim position As Integer
-
         sweight = mycom.ReadLine
-
-
+        ' Create a thread to handle processing of string.
         updateweight = New scaledata(AddressOf newdata.newweightdata)
         Me.BeginInvoke(updateweight, sweight)
         Application.DoEvents()
 
-        '     Thread.Sleep(1)
-
     End Sub
-
-
-
 
 
     Private Sub Btn_ManualTare_Click(sender As Object, e As EventArgs) Handles Btn_ManualTare.Click
@@ -1338,4 +1277,155 @@ Public Class Manual_Weight
     End Sub
 
 
+    Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
+
+        ' Check if door is open, if the door is open then pause the robot if not already paused.
+        ' If door is closesd, then have the robot conitnue if not already running.
+
+
+        If Scara.In(1) = 8 Or Scara.In(1) = 9 Then 'Robot should be running
+            ' Check if robot is paused or not
+
+            ' If Scara.PauseOn = True Then
+            ' If paused is on turn on robot
+            ' If make no change
+            Scara.Continue()
+            'End If
+
+        Else ' Robot should not be running
+            ' Check to see if robot is paused or not.
+
+            '    If Scara.PauseOn = False Then
+            ' If the robot is not paused, then pause it.
+            ' Otherwise make no change
+            Scara.Pause()
+
+            'End If
+
+        End If
+
+    End Sub
+
+
+
+    Private Sub Btn_Updt_Pllt_L_Click(sender As Object, e As EventArgs) Handles Btn_Updt_Pllt_L.Click
+        ' Updates Pallet Corners for left Pallet
+        UpdateSettings.palletcornersout()
+
+
+
+    End Sub
+
+
+
+    Private Sub Btn_WeighLeft_Click(sender As Object, e As EventArgs) Handles Btn_WeighLeft.Click
+        ' Setting up a new pallet to be run
+        Dim followup As MsgBoxResult
+
+        Lbl_PalletN_Left.Text = ""
+        Lbl_BatchN_Left.Text = ""
+        LeftPallet = New PalletData(PalletData.PLocation.PalletLeft)
+        LeftPallet.inprocess = PalletData.status.waiting
+
+        checkcal()
+        If calfail Then Exit Sub
+
+
+        LeftPallet.RenewFileList()
+
+        Do
+            LeftPallet.pallet = InputBox("Enter Pallet ID", "Pallet Identificaton", , , )
+            If LeftPallet.pallet = "" Then Exit Sub
+            followup = MsgBox("You entered " & LeftPallet.pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet ID")
+
+            If followup = MsgBoxResult.Cancel Then
+                LeftPallet.pallet = ""
+                Exit Sub
+            End If
+        Loop Until followup = MsgBoxResult.Yes
+
+        Lbl_PalletN_Left.Text = LeftPallet.pallet
+
+
+        ' send pallet number and 
+        ' if pallet exists pull batch number   
+
+        LeftPallet.firstweight("_" & LeftPallet.pallet & "_")
+
+        ' send pallet number and 
+        ' if pallet exists pull batch number   
+
+
+
+        '********************************************
+        '
+        '
+        '
+        '
+        '
+        '
+        '
+        '
+        '********************************************
+
+
+
+        If LeftPallet.firstweightexists = False Then
+            Do
+                LeftPallet.batch = InputBox("Enter Batch ID", "Batch Identification")
+                If LeftPallet.batch = "" Then Exit Sub
+                followup = MsgBox("You entered " & LeftPallet.batch & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Batch ID")
+                If followup = MsgBoxResult.Cancel Then
+                    LeftPallet.batch = ""
+                    Lbl_BatchN_Left.Text = LeftPallet.batch
+                    Exit Sub
+                End If
+            Loop Until followup = MsgBoxResult.Yes
+            Lbl_BatchN_Left.Text = LeftPallet.batch
+
+
+            WritefileHeader1()
+
+        Else
+            'Read in existing file to get batch number
+
+            LeftPallet.readfirstweight()
+
+            'Set the batch value
+            Lbl_BatchN_Right.Text = LeftPallet.batch
+
+            ' and then write the file header.
+            writefileheader2()
+            'and set the cylinder index to 0
+
+
+        End If
+
+        Btn_WeighRight.Enabled = False
+        ' Btn_StopPallet.Enabled = True
+        teststate = Weighprocess.taring ' Start weighing Process
+        Tmr_ScreenUpdate.Start()
+        tmrcycle.Start()
+
+
+
+        newcommport()
+
+        Lbl_CurrentGood_R.Text = LeftPallet.numgood.ToString
+        Lbl_CurrentBad_R.Text = LeftPallet.numbad.ToString
+        LBL_CCOL_R.Text = LeftPallet.curcol.ToString
+        LBL_CRow_R.Text = LeftPallet.currow.ToString
+        entering = True
+
+
+    End Sub
+
+    Private Sub Btn_Updt_Pllt_R_Click(sender As Object, e As EventArgs) Handles Btn_Updt_Pllt_R.Click
+        UpdateSettings.palletcornersout()
+
+    End Sub
+
+    Private Sub Btn_PauseRobot_Click(sender As Object, e As EventArgs) Handles Btn_PauseRobot.Click
+
+    End Sub
 End Class
