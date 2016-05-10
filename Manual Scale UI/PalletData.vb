@@ -21,8 +21,6 @@ Public Class PalletData
     Private BFirstweightExists As Boolean
     Private sttimefirst As Date ' time stamp of first weight
     Private Sttimesecond As Date ' time stamp of second weight
-    Private DateScaleCalLast As Date ' Date of last scale calibration.
-    Private DateScaleCalNext As Date ' Date of next scale calibratin.
     Private FirstWeightReading() As String
     Private CountBad As Integer    ' Number of bad parts in pallet
     Private CountGood As Integer ' Number of good parts in pallet
@@ -46,16 +44,14 @@ Public Class PalletData
     Private Index_filename As Integer ' Index in array of filenames that contains the current file
     Private fweight As String ' String with fweight data path
     Private completed As String ' String with completed Data Path
-    Private Backcorner(3) As Single
-    Private InsideCorner(3) As Single
-    Private OutsideCorner(3) As Single
+    Private Backcorner(3) As Single 'Array to hold X,Y, and Z locations of backcorner
+    Private InsideCorner(3) As Single 'Array to hold X,Y, and Z locations of Inside
+    Private OutsideCorner(3) As Single 'Array to hold X,Y, and Z locations of Outside
 
     Public Sub New(ByVal side As PLocation)
         number_of_Canisters = 0
         canisternumber = 0
         ' fweight = 
-        DateScaleCalLast = My.Settings.LastCalDate
-        DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
         CountBad = 0
         CountGood = 0
         iCurRow = 1
@@ -318,17 +314,6 @@ Public Class PalletData
         End Get
     End Property
 
-    Public ReadOnly Property Lscalecaldate As String ' Last Scale Calibration Date
-        Get
-            Return DateScaleCalLast
-        End Get
-    End Property
-
-    Public ReadOnly Property NScaleCalDate As String ' Next Scale Calibration Date
-        Get
-            Return DateScaleCalNext
-        End Get
-    End Property
 
     ReadOnly Property palletcount As Integer 'Number of canisters in a pallet
         Get

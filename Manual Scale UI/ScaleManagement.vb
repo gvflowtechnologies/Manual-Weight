@@ -11,6 +11,8 @@ Public Class Scalemanagement
         Active
     End Enum
 
+    Private DateScaleCalLast As Date ' Date of last scale calibration.
+    Private DateScaleCalNext As Date ' Date of next scale calibratin.
 
     Dim tmrlasttime As Stopwatch
     Dim Bstable As Boolean
@@ -36,6 +38,10 @@ Public Class Scalemanagement
         bincal = calprocess.Complete
         Bstable = False
         bcalrequest = False
+        DateScaleCalLast = My.Settings.LastCalDate
+        DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
+
+
     End Sub
 
     Sub ParseData(ByVal reading As String)
@@ -244,5 +250,19 @@ Public Class Scalemanagement
             End If
         End Get
     End Property
+    Public ReadOnly Property Lscalecaldate As String ' Last Scale Calibration Date
+        Get
+            Return DateScaleCalLast
+        End Get
+    End Property
+
+    Public ReadOnly Property NScaleCalDate As String ' Next Scale Calibration Date
+        Get
+            Return DateScaleCalNext
+        End Get
+    End Property
+
+
+
 
 End Class

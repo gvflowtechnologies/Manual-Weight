@@ -27,8 +27,8 @@ Public Class Manual_Weight
     Public sartorius As Scalemanagement ' Scale handling class
     Dim ccylinder As Cylinder ' Cylinder object handling class
 
-    Dim swdataset As StreamWriter
-    Dim swlogdata As StreamWriter
+    Dim swdataset As StreamWriter ' Streamwriter for writing data files
+    Dim swlogdata As StreamWriter ' streamwriter for writing log files
     Public cancelclicked As Boolean 'Variable to handle data transfer between the calibration form and the main form
     Dim calfail As Boolean
 
@@ -88,7 +88,7 @@ Public Class Manual_Weight
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
 
-        calfail = False
+        calfail = False ' SET CALIBRATTION FAIL FLAG TO FALSE ON STARTUP.
         checkcal()
 
 
@@ -334,6 +334,27 @@ Public Class Manual_Weight
 
     End Sub
 
+    Sub ProcessPallet(ByVal ActivePallet As PalletData)
+        ' Processes a pallet by.
+        ' Make sure commport is open
+        newcommport()
+
+        '1. For each spot create a cylinder object.
+        '2 if second weight is null or bad skip  
+        '3 Determine location to pick
+        '4 Check pallet location for part
+        '5 pick up part
+        ' 6 Move part to scale
+        '7 Wait for scale to indicate ready
+        '8 Place on scale
+        '9 Wait for reading
+        '10 Move to spot (either Pallet/Good/Bad)
+
+
+    End Sub
+
+
+
     Private Sub updatetare()
         mycom.Write("T" & ControlChars.CrLf)
     End Sub
@@ -357,10 +378,11 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Disposition()
+    Private Sub Disposition(ByVal currentpallet As PalletData)
         ' Determines disposition of the canister
 
-        If LeftPallet.firstweightexists = False Then
+
+        If currentpallet.firstweightexists = False Then
             ' If this is a first weight accept all
 
             ccylinder.Disposition = True
@@ -435,18 +457,24 @@ Public Class Manual_Weight
 
 
     Private Sub Btn_WeighRight_Click(sender As Object, e As EventArgs) Handles Btn_WeighRight.Click
-        Dim followup As MsgBoxResult
 
-        Lbl_PalletN_Right.Text = ""
-        Lbl_BatchN_Right.Text = ""
-        RightPallet = New PalletData(PalletData.PLocation.PalletRight)
-        RightPallet.inprocess = PalletData.status.waiting
-
+        '1.  Check calibration.  Go no further if failed.
         checkcal()
         If calfail Then Exit Sub
 
+
+        Dim followup As MsgBoxResult
+        '1. Clear out the pallet number and batch number labels.
+
+        Lbl_PalletN_Right.Text = ""
+        Lbl_BatchN_Right.Text = ""
+        '2. Create a pallet object with location on the right side of the robot. 
+        RightPallet = New PalletData(PalletData.PLocation.PalletRight)
+        RightPallet.inprocess = PalletData.status.waiting
         RightPallet.RenewFileList()
 
+        '3. Eneter pallet tracking information to determine if a first weight exists.
+        '4.  First get pallet number:
         Do
             RightPallet.pallet = InputBox("Enter Pallet ID", "Pallet Identificaton", , , )
             If RightPallet.pallet = "" Then Exit Sub
@@ -461,13 +489,11 @@ Public Class Manual_Weight
         Lbl_PalletN_Right.Text = RightPallet.pallet
 
 
-        ' send pallet number and 
-        ' if pallet exists pull batch number   
+        ' 5. Send pallet number and if pallet exists pull batch number from existing record   
 
         RightPallet.firstweight("_" & RightPallet.pallet & "_")
 
-        ' send pallet number and 
-        ' if pallet exists pull batch number   
+        '6. Otherwise get batch information
 
         If RightPallet.firstweightexists = False Then
             Do
@@ -483,7 +509,7 @@ Public Class Manual_Weight
             Lbl_BatchN_Right.Text = RightPallet.batch
 
 
-            WritefileHeader1()
+            WritefileHeader1(RightPallet)
 
         Else
             'Read in existing file to get batch number
@@ -494,27 +520,22 @@ Public Class Manual_Weight
             Lbl_BatchN_Right.Text = RightPallet.batch
 
             ' and then write the file header.
-            writefileheader2()
-            'and set the cylinder index to 0
-
+            writefileheader2(RightPallet)
 
         End If
 
         Btn_WeighRight.Enabled = False
         ' Btn_StopPallet.Enabled = True
-        teststate = Weighprocess.taring ' Start weighing Process
-        Tmr_ScreenUpdate.Start()
-        tmrcycle.Start()
 
 
-
-        newcommport()
+        ' Call procedure to determine if it should be in que or not.
 
         Lbl_CurrentGood_R.Text = RightPallet.numgood.ToString
         Lbl_CurrentBad_R.Text = RightPallet.numbad.ToString
         LBL_CCOL_R.Text = RightPallet.curcol.ToString
         LBL_CRow_R.Text = RightPallet.currow.ToString
-        entering = True
+
+        PalletOrder()
 
 
     End Sub
@@ -606,6 +627,9 @@ Public Class Manual_Weight
 
     'End Sub
 
+    '*******************************************
+    '*******************************************
+    ' This may be a dead process now.
     Private Sub Closepallet()
         Tmr_ScreenUpdate.Stop()
 
@@ -625,20 +649,20 @@ Public Class Manual_Weight
 
 
 
-    Private Sub WritefileHeader1() ' write the header to the firstweight data set.
+    Private Sub WritefileHeader1(ByRef curpallet As PalletData) ' write the header to the firstweight data set.
         ' Very simple file to hold first pass data.
         Dim Myfile As String
-        Myfile = LeftPallet.currentfilepath & "\" & LeftPallet.filename
+        Myfile = curpallet.currentfilepath & "\" & curpallet.filename
 
         'Write
 
 
         swdataset = New StreamWriter(Myfile, False)
-        swdataset.WriteLine(LeftPallet.batch)
-        swdataset.WriteLine(LeftPallet.pallet)
-        swdataset.WriteLine(LeftPallet.timefirstwt.ToString)
-
+        swdataset.WriteLine(curpallet.batch)
+        swdataset.WriteLine(curpallet.pallet)
+        swdataset.WriteLine(curpallet.timefirstwt.ToString)
         swdataset.Flush()
+
     End Sub
 
     Private Sub writefirstweight()
@@ -646,26 +670,26 @@ Public Class Manual_Weight
         swdataset.Flush()
     End Sub
 
-    Private Sub writefileheader2() ' Write the header data for the Final data set
+    Private Sub writefileheader2(ByRef currpallet As PalletData) ' Write the header data for the Final data set
 
         Dim Myfile As String
-        Myfile = LeftPallet.currentfilepath & "\" & LeftPallet.filename
+        Myfile = currpallet.currentfilepath & "\" & currpallet.filename
 
         'Write
 
         swdataset = New StreamWriter(Myfile, False)
         swdataset.Write("1st Weight Time,")
-        swdataset.WriteLine(LeftPallet.timefirstwt.ToString)
+        swdataset.WriteLine(currpallet.timefirstwt.ToString)
         swdataset.Write("2nd Weight Time,")
-        swdataset.WriteLine(LeftPallet.timesecondwt.ToString)
+        swdataset.WriteLine(currpallet.timesecondwt.ToString)
         swdataset.Write("Pallet ID,")
-        swdataset.WriteLine(LeftPallet.pallet)
+        swdataset.WriteLine(currpallet.pallet)
         swdataset.Write("Lot#,")
-        swdataset.WriteLine(LeftPallet.batch)
+        swdataset.WriteLine(currpallet.batch)
         swdataset.Write("Scale Calibration Date,")
-        swdataset.WriteLine(LeftPallet.Lscalecaldate)
+        swdataset.WriteLine(sartorius.Lscalecaldate)
         swdataset.Write("Scale Calibration Due Date,")
-        swdataset.WriteLine(LeftPallet.NScaleCalDate)
+        swdataset.WriteLine(sartorius.NScaleCalDate)
         swdataset.WriteLine("Index,1st Wt,2nd Wt,Disposition, Fail Code")
         swdataset.Flush()
     End Sub
@@ -1384,7 +1408,7 @@ Public Class Manual_Weight
             Lbl_BatchN_Left.Text = LeftPallet.batch
 
 
-            WritefileHeader1()
+            WritefileHeader1(LeftPallet)
 
         Else
             'Read in existing file to get batch number
@@ -1395,7 +1419,7 @@ Public Class Manual_Weight
             Lbl_BatchN_Right.Text = LeftPallet.batch
 
             ' and then write the file header.
-            writefileheader2()
+            writefileheader2(LeftPallet)
             'and set the cylinder index to 0
 
 
