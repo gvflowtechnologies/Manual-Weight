@@ -5,13 +5,15 @@
     Private dMySecondweight As Double
     Private ddisposition As Boolean 'True = pass, False = Fail
     Private myindex As Integer
-    Private sDispReason As String
-    Private canpick As Boolean
-    Private firstweight As Boolean
+    Private sDispReason As String 'string explaining disposition
+    Private firstfail As Boolean
+    Private BSecondpass As Boolean 'First or second weight 
 
-    Sub New()
-
+    Sub New(ByVal SecondPass As Boolean)
+        BSecondpass = SecondPass
         ddisposition = False
+        dMyfirstweight = 0.0
+        dMySecondweight = 0.0
 
     End Sub
 
@@ -20,37 +22,60 @@
     End Sub
 
 
+
     Sub DetermineDisposition()
 
         Dim weightdifference As Double
         'Deterimine if the device is good or bad.
-        weightdifference = dMySecondweight - dMyfirstweight
 
-        Select dMySecondweight
-            Case Is > My.Settings.MaxWeight
-                ddisposition = False
-                sDispReason = "Too High"
-            Case Is < My.Settings.MinWeight
-                ddisposition = False
-                sDispReason = "Too Low"
-            Case Else
-
-                ' what things do we want to check for?  Question for Pete
-                If Math.Abs(weightdifference) > My.Settings.WeightLoss Then
+        If Not BSecondpass Then 'first pass criteria
+            Select Case dMyfirstweight
+                Case Is > My.Settings.MaxWeight
                     ddisposition = False
-                    If dMySecondweight > dMyfirstweight Then
-                        sDispReason = "Gained Weight"
-                    Else
-                        sDispReason = "Lost Weight"
-                    End If
-
-
-                Else
+                Case Is < My.Settings.MinWeight
+                    ddisposition = False
+                Case Else
                     ddisposition = True
-                    sDispReason = ""
-                End If
+            End Select
 
-        End Select
+        Else ' Second pass criteria
+            weightdifference = dMySecondweight - dMyfirstweight
+            Select Case dMyfirstweight
+                Case Is > My.Settings.MaxWeight
+                    ddisposition = False
+                    sDispReason = "First Weight Too High"
+                Case Is < My.Settings.MinWeight
+                    ddisposition = False
+                    sDispReason = "First Weight Too Low"
+                Case Else
+                    Select Case dMySecondweight
+                        Case Is > My.Settings.MaxWeight
+                            ddisposition = False
+                            sDispReason = "Too High"
+                        Case Is < My.Settings.MinWeight
+                            ddisposition = False
+                            sDispReason = "Too Low"
+                        Case Else
+
+                            ' what things do we want to check for?  Question for Pete
+                            If Math.Abs(weightdifference) > My.Settings.WeightLoss Then
+                                ddisposition = False
+                                If dMySecondweight > dMyfirstweight Then
+                                    sDispReason = "Gained Weight"
+                                Else
+                                    sDispReason = "Lost Weight"
+                                End If
+
+                            Else
+                                ddisposition = True
+                                sDispReason = ""
+                            End If
+
+                    End Select
+
+            End Select
+
+        End If
 
     End Sub
 
@@ -63,13 +88,27 @@
         End Set
     End Property
 
-    Property Exists As Boolean
+    ReadOnly Property FirstWeightExists As Boolean
         Get
-            Return canpick
+            Return BSecondpass
         End Get
-        Set(value As Boolean)
-            canpick = value
-        End Set
+    End Property
+
+    ReadOnly Property FirstWeightFail As Boolean
+        Get
+            Select Case dMyfirstweight
+                Case Is > My.Settings.MaxWeight
+                    firstfail = True
+                Case Is < My.Settings.MinWeight
+                    firstfail = True
+                Case Else
+                    firstfail = False
+            End Select
+
+            Return firstfail
+
+        End Get
+        
     End Property
 
     Property Firstweight As Double
