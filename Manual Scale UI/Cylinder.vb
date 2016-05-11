@@ -6,6 +6,7 @@
     Private ddisposition As Boolean 'True = pass, False = Fail
     Private myindex As Integer
     Private sDispReason As String
+    Private canpick As Boolean
 
     Sub New()
 
@@ -61,7 +62,14 @@
         End Set
     End Property
 
-
+    Property Exists As Boolean
+        Get
+            Return canpick
+        End Get
+        Set(value As Boolean)
+            canpick = value
+        End Set
+    End Property
 
     Property Firstweight As Double
         Get

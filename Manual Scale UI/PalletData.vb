@@ -21,7 +21,7 @@ Public Class PalletData
     Private BFirstweightExists As Boolean
     Private sttimefirst As Date ' time stamp of first weight
     Private Sttimesecond As Date ' time stamp of second weight
-    Private FirstWeightReading() As String
+    Private FirstWeightReading() As String 'Array of all of the first weights
     Private CountBad As Integer    ' Number of bad parts in pallet
     Private CountGood As Integer ' Number of good parts in pallet
 
@@ -99,8 +99,6 @@ Public Class PalletData
         End If
     End Sub
 
-
-
     Public Sub RenewFileList()
         currentfilename = Nothing
         currentfirstweights = Nothing
@@ -130,7 +128,6 @@ Public Class PalletData
 
 
     End Sub
-
 
     Public Sub firstweight(ByVal firstpallet As String)
         ' Looking for two things here.
@@ -180,7 +177,6 @@ Public Class PalletData
 
     End Sub
 
-
     Public Sub readfirstweight()
         Dim FNreadfirst As String
         FNreadfirst = fweight & "\" & currentfilename
@@ -211,9 +207,43 @@ Public Class PalletData
         End If
 
     End Sub
-    Property rearcorner As Single
-
+    ReadOnly Property BaseX As Single
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = Backcorner(0)
+            Else
+                x = OutsideCorner(0)
+            End If
+            
+            Return x
+        End Get
     End Property
+
+    ReadOnly Property BaseY As Single
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = Backcorner(1)
+            Else
+                x = OutsideCorner(1)
+            End If
+            Return x
+        End Get
+    End Property
+
+    ReadOnly Property BaseZ As Single
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = Backcorner(2)
+            Else
+                x = OutsideCorner(2)
+            End If
+            Return x
+        End Get
+    End Property
+
 
     Public Property filename As String
 
@@ -254,7 +284,7 @@ Public Class PalletData
 
         End Set
     End Property
-    Public ReadOnly Property firstweightexists As Boolean ' Flag if first weight exists
+    Public ReadOnly Property firstweightexists As Boolean ' True if first weight exists
         Get
 
             Return BFirstweightExists
@@ -322,6 +352,17 @@ Public Class PalletData
 
     End Property
 
+
+    ReadOnly Property columns As Integer 'Number of canisters in a pallet
+        Get
+            Return iNumCols
+        End Get
+    End Property
+    ReadOnly Property rows As Integer
+        Get
+            Return iNumRows
+        End Get
+    End Property
 
     Property canisternum As Integer 'Current index number of canister being weighed
         Set(value As Integer)
@@ -396,7 +437,49 @@ Public Class PalletData
             completed = value
         End Set
     End Property
-
-
+    ReadOnly Property CincX As Single
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = (Backcorner(0) - InsideCorner(0)) / (iNumCols - 1)
+            Else
+                x= (OutsideCorner(0)-InsideCorner(0)/(iNumCols-1)
+            End If
+            Return x
+        End Get
+    End Property
+    ReadOnly Property CincY As Single
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = (Backcorner(1) - InsideCorner(1)) / (iNumCols - 1)
+            Else
+                x= (OutsideCorner(1)-InsideCorner(1)/(iNumCols-1)
+            End If
+            Return x
+        End Get
+    End Property
+    ReadOnly Property RincX As Single
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = (Backcorner(0) - OutsideCorner(0)) / (iNumRows - 1)
+            Else
+                x = (OutsideCorner(0) - Backcorner(0)) / (iNumRows - 1)
+            End If
+            Return x
+        End Get
+    End Property
+    ReadOnly Property RincY As Single 'Increment in the y direction for the canister
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = (Backcorner(1) - OutsideCorner(1)) / (iNumRows - 1)
+            Else
+                x = (OutsideCorner(1) - InsideCorner(1)) / (iNumRows - 1)
+            End If
+            Return x
+        End Get
+    End Property
 
 End Class

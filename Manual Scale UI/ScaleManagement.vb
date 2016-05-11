@@ -29,6 +29,7 @@ Public Class Scalemanagement
     Dim calstring As String ' Comparision String for caltesting
     Const CalEnter As String = "Usr"
     Const CalExit As String = "end"
+    Dim reading As Boolean 'Flag to indicate ready for reading
 
     Sub New()
         ' Creates a new serial port 
