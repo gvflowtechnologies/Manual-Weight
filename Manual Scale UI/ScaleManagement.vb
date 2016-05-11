@@ -11,6 +11,7 @@ Public Class Scalemanagement
         Active
     End Enum
 
+
     Private DateScaleCalLast As Date ' Date of last scale calibration.
     Private DateScaleCalNext As Date ' Date of next scale calibratin.
 

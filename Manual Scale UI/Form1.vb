@@ -198,44 +198,18 @@ Public Class Manual_Weight
                 If entering Then
                     entering = False
 
-                    'set label colors
-                    Lbl_IDLE.BackColor = Color.Gold
-
-
                 End If
 
-                teststate = Weighprocess.taring
-                ' wait for start pallet buttonclick  when clickek
 
 
             Case Weighprocess.taring
                 If entering Then
                     entering = False
 
-                    ccylinder = New Cylinder
-
-
-                    ' Setting up cylinder for second weight
-
-                    checkpalletcomplete()
-
-
-                    'set label colors
-                    Lbl_Instruction.Text = "Zeroing"
-                    Lbl_Instruction.BackColor = Color.Blue
-                    Lbl_IDLE.BackColor = Color.Gold
-                    Lbl_IDLE.Text = "Taring"
+                    '                    checkpalletcomplete(0)
                 End If
 
-                ' Check to see if something is on scale when it should not be and if it is, turn the background color red.
-
-                If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
-                    Me.BackColor = Color.Red
-                Else
-                    Me.BackColor = SystemColors.Control
-                End If
-
-
+               
                 ''Taring Section
                 '' check for scale health and stability
 
@@ -245,7 +219,6 @@ Public Class Manual_Weight
                         Case Is < My.Settings.TareLimit / 1000
                             teststate = Weighprocess.weighing
                             entering = True
-
 
                         Case Is > My.Settings.TareError / 1000
                             Dim myresponse As MsgBoxResult
@@ -259,25 +232,17 @@ Public Class Manual_Weight
                         Case Else
                             updatetare()
 
-
                     End Select
 
                 End If
 
-
-
             Case Weighprocess.weighing
                 If entering Then
+
                     entering = False
                     'set label colors
 
-                    Lbl_IDLE.Text = "Taring"
-                    Lbl_Instruction.Text = "Place"
-                    Lbl_Instruction.BackColor = Color.Violet
-
                 End If
-
-
 
                 If sartorius.Stable Then
                     Select Case sartorius.CurrentReading
@@ -292,19 +257,15 @@ Public Class Manual_Weight
 
                             End If
 
-                            teststate = Weighprocess.prompting
+                            '  teststate = Weighprocess.prompting
 
                             entering = True
-                            'Case    > My.Settings.TareLimit and < my.Settings.TareError
-
-
 
                     End Select
 
                 Else
                     '    '   teststate = weighprocess.erroring
                 End If
-
 
 
             Case Weighprocess.prompting
@@ -314,9 +275,6 @@ Public Class Manual_Weight
                     entering = False
 
 
-                    Disposition()
-
-
                     ' update canister number
                     LeftPallet.canisternum = LeftPallet.canisternum + 1
                     'If ccylinder.Disposition = False Then
@@ -324,14 +282,6 @@ Public Class Manual_Weight
                     'End If
 
 
-                End If
-
-
-                If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
-                    teststate = Weighprocess.taring
-                    entering = True
-
-                    ccylinder.dispose()
                 End If
 
 
@@ -361,6 +311,9 @@ Public Class Manual_Weight
         '1. Get cordinates of the system
 
         Scara.PowerHigh = True
+
+        Dim Picked As Boolean
+
 
         Dim basex As Single ' Base Corner x  - Depends on left vs right so let pallet tell us
         Dim basey As Single
@@ -413,11 +366,13 @@ Public Class Manual_Weight
                     MsgBox("Please Shut Down System and Serivce Scale", vbOKOnly, "System Error")
                     Exit Sub ' A lot of danger here.
                 End If
+                teststate = Weighprocess.taring
+                entering = True
 
                 '3 Determine location to pick
                 xcord = basex - c * CincX - r * RincX
                 ycord = basey - c * CincY - r * RincY
-
+                Picked = True
                 'If PauseRequest = True Then Controlled_Pause()
 
                 'Create a canister and if this is a second weight populate the first weight.
@@ -457,6 +412,7 @@ Public Class Manual_Weight
                         Thread.Sleep(5)
                         If descend * -1 > StartPickZ Then
                             Exit Do
+                            Picked = False
                         End If
 
                     Loop
@@ -464,13 +420,20 @@ Public Class Manual_Weight
 
                     '     If PauseRequest = True Then Controlled_Pause()
 
-                    '6 Move part to scale    
+                    '6 Move part to scale if part was picked    
+                    If Picked Then
+                        Scara.Jump(PlaceScalePoint)
 
-                    Scara.Jump(PlaceScalePoint)
+                    End If
+
 
                     '7 Wait for scale to indicate ready
                     '*******************************************************
                     '*******************************************************
+                    Do Until teststate = Weighprocess.weighing
+                        Application.DoEvents()
+                        Thread.Sleep(1)
+                    Loop
 
 
                     '8 Place on scale
@@ -481,6 +444,11 @@ Public Class Manual_Weight
 
 
                     '9 Wait for reading 
+                    Do Until teststate = Weighprocess.prompting
+                        Application.DoEvents()
+                        Thread.Sleep(1)
+                    Loop
+
 
                     ' 10 Pick up part from scale
 
@@ -503,6 +471,7 @@ Public Class Manual_Weight
 
                     '10 Move to spot (either Pallet/Good/Bad) - Seperate Routine
 
+                    Disposition(ActivePallet)
                     Scara.SetPoint(1, xcord, ycord, zcord + 10, ucord, 0, RCAPINet.SpelHand.Lefty)
                     Scara.Jump(1)
                     Scara.Out(1, 1)
@@ -511,6 +480,8 @@ Public Class Manual_Weight
 
                     '                    If PauseRequest = True Then Controlled_Pause()
                 End If
+                teststate = Weighprocess.taring
+                entering = True
             Next
 
         Next
@@ -566,7 +537,7 @@ Public Class Manual_Weight
         If currentpallet.firstweightexists = False Then
             ' If this is a first weight accept all
 
-            ccylinder.Disposition = True
+            ccylinder.DetermineDisposition()
 
             'write record to the file
             writefirstweight()

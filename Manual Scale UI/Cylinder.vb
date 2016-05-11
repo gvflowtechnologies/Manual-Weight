@@ -7,6 +7,7 @@
     Private myindex As Integer
     Private sDispReason As String
     Private canpick As Boolean
+    Private firstweight As Boolean
 
     Sub New()
 
