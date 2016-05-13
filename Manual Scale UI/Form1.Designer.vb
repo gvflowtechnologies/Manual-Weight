@@ -168,6 +168,7 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
+        Me.BtnResume = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -198,6 +199,7 @@ Partial Class Manual_Weight
         '
         'RunPage
         '
+        Me.RunPage.Controls.Add(Me.BtnResume)
         Me.RunPage.Controls.Add(Me.Btn_PauseRobot)
         Me.RunPage.Controls.Add(Me.GroupBox5)
         Me.RunPage.Controls.Add(Me.Btn_ManualTare)
@@ -218,7 +220,7 @@ Partial Class Manual_Weight
         Me.Btn_PauseRobot.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn_PauseRobot.Location = New System.Drawing.Point(523, 325)
         Me.Btn_PauseRobot.Name = "Btn_PauseRobot"
-        Me.Btn_PauseRobot.Size = New System.Drawing.Size(460, 48)
+        Me.Btn_PauseRobot.Size = New System.Drawing.Size(233, 48)
         Me.Btn_PauseRobot.TabIndex = 12
         Me.Btn_PauseRobot.Text = "Pause"
         Me.Btn_PauseRobot.UseVisualStyleBackColor = True
@@ -1698,6 +1700,17 @@ Partial Class Manual_Weight
         '
         'TMR_door
         '
+        Me.TMR_door.Interval = 75
+        '
+        'BtnResume
+        '
+        Me.BtnResume.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnResume.Location = New System.Drawing.Point(779, 325)
+        Me.BtnResume.Name = "BtnResume"
+        Me.BtnResume.Size = New System.Drawing.Size(207, 48)
+        Me.BtnResume.TabIndex = 13
+        Me.BtnResume.Text = "Resume"
+        Me.BtnResume.UseVisualStyleBackColor = True
         '
         'Manual_Weight
         '
@@ -1883,5 +1896,6 @@ Partial Class Manual_Weight
     Friend WithEvents TB_RC_Y_L As System.Windows.Forms.TextBox
     Friend WithEvents TB_RC_X_L As System.Windows.Forms.TextBox
     Friend WithEvents Label44 As System.Windows.Forms.Label
+    Friend WithEvents BtnResume As System.Windows.Forms.Button
 
 End Class

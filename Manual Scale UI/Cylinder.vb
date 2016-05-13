@@ -47,6 +47,9 @@
                 Case Is < My.Settings.MinWeight
                     ddisposition = False
                     sDispReason = "First Weight Too Low"
+                    If dMyfirstweight < -9 Then
+                        sDispReason = "Part Not Present"
+                    End If
                 Case Else
                     Select Case dMySecondweight
                         Case Is > My.Settings.MaxWeight
@@ -55,6 +58,9 @@
                         Case Is < My.Settings.MinWeight
                             ddisposition = False
                             sDispReason = "Too Low"
+                            If dMySecondweight < -9 Then
+                                sDispReason = "Part Not Present at 2nd wt"
+                            End If
                         Case Else
 
                             ' what things do we want to check for?  Question for Pete
