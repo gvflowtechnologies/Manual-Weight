@@ -45,12 +45,12 @@ Public Class Manual_Weight
     Const WeighingPoint As Integer = 11 ' Weighing Location.
     Const postweighpick As Integer = 12 ' Height in mm that the robot begings post weight picking routine.
 
-    Const badpoint1 As Integer = 13
-    Const goodpoint1 As Integer = 14
-    Const goodpoint2 As Integer = 15
+    Const badpoint1 As Integer = 13 ' Bad Cylinder dispostition location
+    Const goodpoint1 As Integer = 14 ' Good Cylinder Dispostion location
+    Const goodpoint2 As Integer = 15 ' Second Good Cylinder Disposition Location
 
-    Const pausereturn As Integer = 30
-    Const pausepoint As Integer = 31
+    Const pausereturn As Integer = 30 ' Point for capturing robot location when pause was initiated to allow return to this location prior to completing activities.
+    Const pausepoint As Integer = 31 ' Pause Location
 
     'Variables
     Public WithEvents mycom As SerialPort 'Serial port for communicating with the scale
@@ -220,7 +220,6 @@ Public Class Manual_Weight
             Case Weighprocess.idle
                 If entering Then
                     entering = False
-
                 End If
 
             Case Weighprocess.taring
@@ -261,7 +260,6 @@ Public Class Manual_Weight
                 If entering Then
 
                     entering = False
-                    'set label colors
 
                 End If
 
@@ -269,23 +267,22 @@ Public Class Manual_Weight
                     Select Case sartorius.CurrentReading
 
                         Case Is > My.Settings.MinWeight - 2 * My.Settings.TareLimit
-                            If ccylinder.FirstWeightExists = False Then
-                                ' first weight reading
-                                ccylinder.Firstweight = sartorius.CurrentReading
-                            Else
+                            If ccylinder.FirstWeightExists = True Then
                                 ' Second weight reading
                                 ccylinder.Secondweight = sartorius.CurrentReading
 
+                            Else
+                                ' first weight reading
+                                ccylinder.Firstweight = sartorius.CurrentReading
                             End If
 
-                            '  teststate = Weighprocess.prompting
-
+                            teststate = Weighprocess.prompting
                             entering = True
 
                     End Select
 
                 Else
-                    '    '   teststate = weighprocess.erroring
+                    '       teststate = weighprocess.erroring
                 End If
 
 
@@ -294,15 +291,6 @@ Public Class Manual_Weight
 
                 If entering Then
                     entering = False
-
-
-                    ' update canister number
-                    ' LeftPallet.canisternum = LeftPallet.canisternum + 1
-                    'If ccylinder.Disposition = False Then
-                    '    cylindersorter.Sort(2)
-                    'End If
-
-
                 End If
 
 
@@ -310,7 +298,6 @@ Public Class Manual_Weight
                 If entering Then
                     entering = False
                 End If
-
 
         End Select
 
@@ -459,9 +446,6 @@ Public Class Manual_Weight
 
                         Loop
 
-
-                        '     If PauseRequest = True Then Controlled_Pause()
-
                         '6 Move part to scale if part was picked    
                         If Picked Then
 
@@ -506,7 +490,6 @@ Public Class Manual_Weight
 
                         NOCYLINDER()
 
-                        '                    If PauseRequest = True Then Controlled_Pause()
                     End If
 
                 End If
