@@ -108,7 +108,7 @@
             Return firstfail
 
         End Get
-        
+
     End Property
 
     Property Firstweight As Double

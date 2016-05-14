@@ -72,7 +72,7 @@ Public Class Manual_Weight
         Next
         LB_SerialPorts.SelectedIndex = -1
 
-      
+
 
         Btn_WeighRight.Enabled = True
         '     Btn_StopPallet.Enabled = False
@@ -207,7 +207,7 @@ Public Class Manual_Weight
                     '                    checkpalletcomplete(0)
                 End If
 
-               
+
                 ''Taring Section
                 '' check for scale health and stability
 
@@ -545,7 +545,7 @@ Public Class Manual_Weight
             Lbl_Instruction.Text = "Pass"
 
             If ccylinder.Disposition = False Then
-         
+
             End If
         End If
 
@@ -553,10 +553,10 @@ Public Class Manual_Weight
         updatecounts()
         updaterowsandcolumns()
         'set label colors
-        
+
         'set good and bad colors here 
 
-        
+
 
     End Sub
 
@@ -1258,7 +1258,7 @@ Public Class Manual_Weight
 
         Dim IColNum As Integer
         Dim IRowNum As Integer
-       
+
         Dim sinputstring As String
         Dim inerror As Boolean = True
 
@@ -1277,7 +1277,7 @@ Public Class Manual_Weight
 
         End While
 
-       
+
 
         inerror = True
 
