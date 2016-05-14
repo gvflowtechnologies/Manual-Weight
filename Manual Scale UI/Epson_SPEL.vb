@@ -23,7 +23,7 @@ Module Epson_SPEL
             .Initialize()
             .Project = "C:\EpsonRC70\Projects\vbcontorl\vbcontorl.sprj"
             .TLSet(1, -16.01, -0.303, 0, 0, 0, 0)
-
+            .MotorsOn = True
         End With
 
         ' pointpallet01 = Scara.GetPoint(1)
@@ -38,13 +38,6 @@ Module Epson_SPEL
         Scara.SetPoint(3, 185.976, -56.505, -111.162, -98.779, 0, SpelHand.Lefty)
         Scara.SetPoint(4, 73.867, 180.489, -111.405, -13.634, 0, SpelHand.Lefty)
 
-        'Scara.SetPoint(1, pointpallet01)
-        'Scara.SetPoint(2, pointpallet02)
-        'Scara.SetPoint(3, pointpallet03)
-        'Scara.SetPoint(4, pointpallet04)
-        '   Scara.Pallet(0, 1, 2, 3, 4, 20, 20)
-
-        ' S
 
     End Sub
 

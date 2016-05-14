@@ -26,17 +26,18 @@ Partial Class Manual_Weight
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Manual_Weight))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
+        Me.BtnResume = New System.Windows.Forms.Button()
         Me.Btn_PauseRobot = New System.Windows.Forms.Button()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
-        Me.Label16 = New System.Windows.Forms.Label()
-        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Lbl_CurentColL = New System.Windows.Forms.Label()
+        Me.Lbl_CurrentRowL = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Btn_WeighLeft = New System.Windows.Forms.Button()
         Me.Label22 = New System.Windows.Forms.Label()
-        Me.Label23 = New System.Windows.Forms.Label()
+        Me.Lbl_CurrentGoodL = New System.Windows.Forms.Label()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.Label25 = New System.Windows.Forms.Label()
         Me.Lbl_BatchN_Left = New System.Windows.Forms.Label()
@@ -168,7 +169,6 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
-        Me.BtnResume = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -215,6 +215,16 @@ Partial Class Manual_Weight
         Me.RunPage.Text = "Weighing"
         Me.RunPage.UseVisualStyleBackColor = True
         '
+        'BtnResume
+        '
+        Me.BtnResume.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnResume.Location = New System.Drawing.Point(779, 325)
+        Me.BtnResume.Name = "BtnResume"
+        Me.BtnResume.Size = New System.Drawing.Size(207, 48)
+        Me.BtnResume.TabIndex = 13
+        Me.BtnResume.Text = "Resume"
+        Me.BtnResume.UseVisualStyleBackColor = True
+        '
         'Btn_PauseRobot
         '
         Me.Btn_PauseRobot.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -227,15 +237,15 @@ Partial Class Manual_Weight
         '
         'GroupBox5
         '
-        Me.GroupBox5.Controls.Add(Me.Label16)
-        Me.GroupBox5.Controls.Add(Me.Label17)
+        Me.GroupBox5.Controls.Add(Me.Lbl_CurentColL)
+        Me.GroupBox5.Controls.Add(Me.Lbl_CurrentRowL)
         Me.GroupBox5.Controls.Add(Me.Label18)
         Me.GroupBox5.Controls.Add(Me.Label19)
         Me.GroupBox5.Controls.Add(Me.Label20)
         Me.GroupBox5.Controls.Add(Me.Label21)
         Me.GroupBox5.Controls.Add(Me.Btn_WeighLeft)
         Me.GroupBox5.Controls.Add(Me.Label22)
-        Me.GroupBox5.Controls.Add(Me.Label23)
+        Me.GroupBox5.Controls.Add(Me.Lbl_CurrentGoodL)
         Me.GroupBox5.Controls.Add(Me.Label24)
         Me.GroupBox5.Controls.Add(Me.Label25)
         Me.GroupBox5.Controls.Add(Me.Lbl_BatchN_Left)
@@ -248,27 +258,27 @@ Partial Class Manual_Weight
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Left Pallet Data"
         '
-        'Label16
+        'Lbl_CurentColL
         '
-        Me.Label16.AutoSize = True
-        Me.Label16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(410, 303)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(70, 27)
-        Me.Label16.TabIndex = 7
-        Me.Label16.Text = "C_Col"
+        Me.Lbl_CurentColL.AutoSize = True
+        Me.Lbl_CurentColL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_CurentColL.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_CurentColL.Location = New System.Drawing.Point(410, 303)
+        Me.Lbl_CurentColL.Name = "Lbl_CurentColL"
+        Me.Lbl_CurentColL.Size = New System.Drawing.Size(70, 27)
+        Me.Lbl_CurentColL.TabIndex = 7
+        Me.Lbl_CurentColL.Text = "C_Col"
         '
-        'Label17
+        'Lbl_CurrentRowL
         '
-        Me.Label17.AutoSize = True
-        Me.Label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.Location = New System.Drawing.Point(410, 263)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(78, 27)
-        Me.Label17.TabIndex = 6
-        Me.Label17.Text = "C_Row"
+        Me.Lbl_CurrentRowL.AutoSize = True
+        Me.Lbl_CurrentRowL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_CurrentRowL.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_CurrentRowL.Location = New System.Drawing.Point(410, 263)
+        Me.Lbl_CurrentRowL.Name = "Lbl_CurrentRowL"
+        Me.Lbl_CurrentRowL.Size = New System.Drawing.Size(78, 27)
+        Me.Lbl_CurrentRowL.TabIndex = 6
+        Me.Lbl_CurrentRowL.Text = "C_Row"
         '
         'Label18
         '
@@ -329,16 +339,16 @@ Partial Class Manual_Weight
         Me.Label22.TabIndex = 3
         Me.Label22.Text = "Current B"
         '
-        'Label23
+        'Lbl_CurrentGoodL
         '
-        Me.Label23.AutoSize = True
-        Me.Label23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label23.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(147, 265)
-        Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(99, 27)
-        Me.Label23.TabIndex = 2
-        Me.Label23.Text = "Current G"
+        Me.Lbl_CurrentGoodL.AutoSize = True
+        Me.Lbl_CurrentGoodL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_CurrentGoodL.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_CurrentGoodL.Location = New System.Drawing.Point(147, 265)
+        Me.Lbl_CurrentGoodL.Name = "Lbl_CurrentGoodL"
+        Me.Lbl_CurrentGoodL.Size = New System.Drawing.Size(99, 27)
+        Me.Lbl_CurrentGoodL.TabIndex = 2
+        Me.Lbl_CurrentGoodL.Text = "Current G"
         '
         'Label24
         '
@@ -1702,16 +1712,6 @@ Partial Class Manual_Weight
         '
         Me.TMR_door.Interval = 75
         '
-        'BtnResume
-        '
-        Me.BtnResume.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnResume.Location = New System.Drawing.Point(779, 325)
-        Me.BtnResume.Name = "BtnResume"
-        Me.BtnResume.Size = New System.Drawing.Size(207, 48)
-        Me.BtnResume.TabIndex = 13
-        Me.BtnResume.Text = "Resume"
-        Me.BtnResume.UseVisualStyleBackColor = True
-        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1828,15 +1828,15 @@ Partial Class Manual_Weight
     Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents Label15 As System.Windows.Forms.Label
     Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
-    Friend WithEvents Label16 As System.Windows.Forms.Label
-    Friend WithEvents Label17 As System.Windows.Forms.Label
+    Friend WithEvents Lbl_CurentColL As System.Windows.Forms.Label
+    Friend WithEvents Lbl_CurrentRowL As System.Windows.Forms.Label
     Friend WithEvents Label18 As System.Windows.Forms.Label
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents Label20 As System.Windows.Forms.Label
     Friend WithEvents Label21 As System.Windows.Forms.Label
     Friend WithEvents Btn_WeighLeft As System.Windows.Forms.Button
     Friend WithEvents Label22 As System.Windows.Forms.Label
-    Friend WithEvents Label23 As System.Windows.Forms.Label
+    Friend WithEvents Lbl_CurrentGoodL As System.Windows.Forms.Label
     Friend WithEvents Label24 As System.Windows.Forms.Label
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents Lbl_BatchN_Left As System.Windows.Forms.Label

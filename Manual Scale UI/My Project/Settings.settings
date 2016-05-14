@@ -51,31 +51,31 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="RCXL" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">187.434</Value>
     </Setting>
     <Setting Name="RCYL" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">-41.349</Value>
     </Setting>
     <Setting Name="RCZL" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">-107.746</Value>
     </Setting>
     <Setting Name="ICXL" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">57.302</Value>
     </Setting>
     <Setting Name="ICYL" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">183.312</Value>
     </Setting>
     <Setting Name="ICZL" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">-107.746</Value>
     </Setting>
     <Setting Name="OCXL" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">390</Value>
     </Setting>
     <Setting Name="OCYL" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">75.958</Value>
     </Setting>
     <Setting Name="OCZL" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">-107.484</Value>
     </Setting>
     <Setting Name="RCXR" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0</Value>
