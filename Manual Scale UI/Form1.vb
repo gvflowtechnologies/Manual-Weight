@@ -19,17 +19,19 @@ Public Class Manual_Weight
     Const nocanweight As Double = 2.0
 
     Const CanistercheckZ As Single = 16 ' Height in mm at which the laser sensor looks for canisters.
-    Const StartPickZ As Single = 5 ' Height in mm above canister point that we start picking canisters
+    Const StartPickZ As Single = 4 ' Height in mm above canister point that we start picking canisters
     Const PlaceZ As Single = 5 ' Height in mm above scale point that we spit canister out at.
     Const Returnz As Single = 8 ' Height in mm above canister rack that we spit parts out at.
-    Const WeightZ As Single = 15
-    Const postweighpickZ As Single = 5
-    Const tareheight As Integer = 20
-    Const BlowOff As Integer = 8
-    Const Vacuum As Integer = 9
+    Const WeightZ As Single = 15 ' Height (mm) above scale nest that robot waits while waiting for reading.
+    Const postweighpickZ As Single = 4 ' Height above scale the robot starts to pick up part off of scale.
 
+    Const tareheight As Integer = 20 ' Height above scale nest that the robot waits at while waiting for stability
 
+    Const TipBlowOff As Integer = 8 ' Identifier for tip blow off function
+    Const TipVacuum As Integer = 9 ' Identifier for tip vacuum function
     Const weightimeout As Integer = 10000 ' Timeout in milliseconds for any weighing operation.  
+
+    'X,Y,Z Locations on system
     Const scalex As Single = -1.644
     Const scaley As Single = 266.338
     Const scalez As Single = -101.79
@@ -44,9 +46,9 @@ Public Class Manual_Weight
 
 
     ' Points integers 
-    Const PlaceScalePoint As Integer = 10 ' Point for placing canister
-    Const WeighingPoint As Integer = 11 ' Weighing Location.
-    Const postweighpick As Integer = 12 ' Height in mm that the robot begings post weight picking routine.
+    Const PlaceScalePoint As Integer = 10 ' Point for placing on scale
+    Const WeighingPoint As Integer = 11 ' Weighing point
+    Const postweighpick As Integer = 12 ' Height in mm tha
     Const tarepoint As Integer = 23
     Const badpoint As Integer = 16 ' Bad Cylinder dispostition location
     Const goodpoint1 As Integer = 14 ' Good Cylinder Dispostion location
@@ -355,9 +357,9 @@ Public Class Manual_Weight
         ' We arre working with Tool here in the following envelopes
         Scara.Tool(1)
         Scara.LimZ(-65)
-        Scara.Speed(30) '60 is production
+        Scara.Speed(60) '60 is production
         Scara.Accel(30, 30)
-        Scara.PowerHigh = False
+        Scara.PowerHigh = True
 
         If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
             leftyrighty = RCAPINet.SpelHand.Lefty
@@ -393,7 +395,14 @@ Public Class Manual_Weight
 
             For c = 0 To ActivePallet.columns - 1
 
- 
+                If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
+                    Lbl_CurrentRowL.Text = ActivePallet.currow.ToString
+                    Lbl_CurentColL.Text = ActivePallet.curcol.ToString
+
+                Else
+
+                End If
+
                 '************************************
                 'Stop measuring if the scale is bad.
 
@@ -434,8 +443,8 @@ Public Class Manual_Weight
                         Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, leftyrighty)
                         Scara.Move(1)
                         If pauserequest = True Then Controlled_Pause()
-                        Scara.On(Vacuum) ' TURN ON VACUUM
-                        Scara.Off(BlowOff)
+                        Scara.On(TipVacuum) ' TURN ON TipVacuum
+                        Scara.Off(TipBlowOff)
                         Dim descend As Single
                         descend = 0
 
@@ -474,10 +483,10 @@ Public Class Manual_Weight
                             '8 Place on scale
 
                             Scara.Move(PlaceScalePoint)
-                            Scara.Off(Vacuum)
-                            Scara.On(BlowOff)
+                            Scara.Off(TipVacuum)
+                            Scara.On(TipBlowOff)
                             Scara.Delay(250)
-                            Scara.Off(BlowOff)
+                            Scara.Off(TipBlowOff)
                             Scara.Move(WeighingPoint)
 
                             '9 Wait for reading 
@@ -513,20 +522,20 @@ Public Class Manual_Weight
                     If ccylinder.Disposition Then
                         If ccylinder.FirstWeightExists Then
                             Scara.Jump(goodpoint1)
-                            Scara.Off(Vacuum)
-                            Scara.On(BlowOff)
+                            Scara.Off(TipVacuum)
+                            Scara.On(TipBlowOff)
                             Scara.Delay(250)
-                            Scara.Off(BlowOff)
+                            Scara.Off(TipBlowOff)
                             If pauserequest = True Then Controlled_Pause()
 
                         Else
 
                             Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
                             Scara.Jump(1)
-                            Scara.Off(Vacuum)
-                            Scara.On(BlowOff)
+                            Scara.Off(TipVacuum)
+                            Scara.On(TipBlowOff)
                             Scara.Delay(250)
-                            Scara.Off(BlowOff)
+                            Scara.Off(TipBlowOff)
                             If pauserequest = True Then Controlled_Pause()
 
                         End If
@@ -534,10 +543,10 @@ Public Class Manual_Weight
                     Else
                         If whatreading = 1 Then
                             Scara.Jump(badpoint) ' SHOULD BE BAD POINT
-                            Scara.Off(Vacuum)
-                            Scara.On(BlowOff)
+                            Scara.Off(TipVacuum)
+                            Scara.On(TipBlowOff)
                             Scara.Delay(250)
-                            Scara.Off(BlowOff)
+                            Scara.Off(TipBlowOff)
 
                             If pauserequest = True Then Controlled_Pause()
                         End If
@@ -575,11 +584,12 @@ Public Class Manual_Weight
 
     Sub pickscalepart(ByVal handdirec As RCAPINet.SpelHand)
         Dim descend As Single
-        Scara.On(Vacuum)
+
         descend = 0
-        '   Scara.Off(Vacuum)
+        '   Scara.Off(TipVacuum)
         Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ, 0, 0, handdirec)
         Scara.Jump(postweighpick)
+        Scara.On(TipVacuum)
         Do Until Scara.In(2) = 1
 
             'If PauseRequest = True Then Controlled_Pause()
@@ -627,7 +637,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Disposition(ByVal currentpallet As PalletData)
+    Private Sub Disposition(ByRef currentpallet As PalletData)
         ' Determines disposition of the canister
 
 
@@ -649,7 +659,7 @@ Public Class Manual_Weight
         End If
 
         ' update the counters for disposition 
-        updatecounts()
+        updatecounts(currentpallet)
 
         'set label colors
 
@@ -659,28 +669,36 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub updatecounts()
+    Private Sub updatecounts(ByRef pallet As PalletData)
         ' updating both the pallet and static counters
 
         If ccylinder.Disposition = True Then
 
-            LeftPallet.numgood = LeftPallet.numgood + 1
-            If LeftPallet.firstweightexists = True Then
+            pallet.numgood = pallet.numgood + 1
+            If pallet.firstweightexists = True Then
                 My.Settings.TotalGood = My.Settings.TotalGood + 1
                 My.Settings.Save()
             End If
 
         Else
-            LeftPallet.numbad = LeftPallet.numbad + 1
-            If LeftPallet.firstweightexists = True Then
+            pallet.numbad = pallet.numbad + 1
+            If pallet.firstweightexists = True Then
                 My.Settings.TotalBad = My.Settings.TotalBad + 1
                 My.Settings.Save()
             End If
         End If
+
+        If pallet.Palletlocation = PalletData.PLocation.PalletLeft Then
+            Lbl_CurrentGoodL.Text = pallet.numgood.ToString
+            Lbl_CurrentBadL.Text = pallet.numbad.ToString
+
+        Else
+            Lbl_CurrentGood_R.Text = pallet.numgood.ToString
+            Lbl_CurrentBad_R.Text = pallet.numbad.ToString
+        End If
         Lbl_BadCount.Text = My.Settings.TotalBad
         Lbl_GoodCount.Text = My.Settings.TotalGood
-        Lbl_CurrentGood_R.Text = LeftPallet.numgood.ToString
-        Lbl_CurrentBad_R.Text = LeftPallet.numbad.ToString
+
 
     End Sub
 
@@ -1630,7 +1648,7 @@ Public Class Manual_Weight
 
         End If
 
-        Btn_WeighRight.Enabled = False
+        Btn_WeighLeft.Enabled = False
 
         checkright()
         newcommport()

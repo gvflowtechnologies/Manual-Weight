@@ -36,7 +36,7 @@ Partial Class Manual_Weight
         Me.Label20 = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Btn_WeighLeft = New System.Windows.Forms.Button()
-        Me.Label22 = New System.Windows.Forms.Label()
+        Me.Lbl_CurrentBadL = New System.Windows.Forms.Label()
         Me.Lbl_CurrentGoodL = New System.Windows.Forms.Label()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.Label25 = New System.Windows.Forms.Label()
@@ -244,7 +244,7 @@ Partial Class Manual_Weight
         Me.GroupBox5.Controls.Add(Me.Label20)
         Me.GroupBox5.Controls.Add(Me.Label21)
         Me.GroupBox5.Controls.Add(Me.Btn_WeighLeft)
-        Me.GroupBox5.Controls.Add(Me.Label22)
+        Me.GroupBox5.Controls.Add(Me.Lbl_CurrentBadL)
         Me.GroupBox5.Controls.Add(Me.Lbl_CurrentGoodL)
         Me.GroupBox5.Controls.Add(Me.Label24)
         Me.GroupBox5.Controls.Add(Me.Label25)
@@ -328,16 +328,16 @@ Partial Class Manual_Weight
         Me.Btn_WeighLeft.Text = "Weigh Pallet"
         Me.Btn_WeighLeft.UseVisualStyleBackColor = True
         '
-        'Label22
+        'Lbl_CurrentBadL
         '
-        Me.Label22.AutoSize = True
-        Me.Label22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label22.Location = New System.Drawing.Point(149, 303)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(97, 27)
-        Me.Label22.TabIndex = 3
-        Me.Label22.Text = "Current B"
+        Me.Lbl_CurrentBadL.AutoSize = True
+        Me.Lbl_CurrentBadL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_CurrentBadL.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_CurrentBadL.Location = New System.Drawing.Point(149, 303)
+        Me.Lbl_CurrentBadL.Name = "Lbl_CurrentBadL"
+        Me.Lbl_CurrentBadL.Size = New System.Drawing.Size(97, 27)
+        Me.Lbl_CurrentBadL.TabIndex = 3
+        Me.Lbl_CurrentBadL.Text = "Current B"
         '
         'Lbl_CurrentGoodL
         '
@@ -1835,7 +1835,7 @@ Partial Class Manual_Weight
     Friend WithEvents Label20 As System.Windows.Forms.Label
     Friend WithEvents Label21 As System.Windows.Forms.Label
     Friend WithEvents Btn_WeighLeft As System.Windows.Forms.Button
-    Friend WithEvents Label22 As System.Windows.Forms.Label
+    Friend WithEvents Lbl_CurrentBadL As System.Windows.Forms.Label
     Friend WithEvents Lbl_CurrentGoodL As System.Windows.Forms.Label
     Friend WithEvents Label24 As System.Windows.Forms.Label
     Friend WithEvents Label25 As System.Windows.Forms.Label
