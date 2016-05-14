@@ -25,6 +25,9 @@ Public Class Manual_Weight
     Const WeightZ As Single = 15
     Const postweighpickZ As Single = 10
 
+    Const BlowOff As Integer = 8
+    Const Vacuum As Integer = 9
+
 
     Const weightimeout As Integer = 10000 ' Timeout in milliseconds for any weighing operation.  
     Const scalex As Single = -2.1
@@ -426,7 +429,7 @@ Public Class Manual_Weight
                         Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, leftyrighty)
                         Scara.Jump(1)
                         If pauserequest = True Then Controlled_Pause()
-                        Scara.Out(1, 2) ' TURN ON VACUUM
+                        Scara.On(Vacuum) ' TURN ON VACUUM
 
                         Dim descend As Single
                         descend = 0
@@ -464,9 +467,10 @@ Public Class Manual_Weight
                             Loop
 
                             '8 Place on scale
-                            Scara.Out(1, 1)
+                            Scara.Off(Vacuum)
+                            Scara.On(BlowOff)
                             Scara.Delay(250)
-                            Scara.Out(1, 0)
+                            Scara.Off(BlowOff)
                             Scara.Move(WeighingPoint)
 
                             '9 Wait for reading 
@@ -501,18 +505,18 @@ Public Class Manual_Weight
                 If ccylinder.Disposition Then
                     If ccylinder.FirstWeightExists Then
                         Scara.Jump(goodpoint1)
-                        Scara.Out(1, 1)
+                        Scara.On(BlowOff)
                         Scara.Delay(250)
-                        Scara.Out(1, 0)
+                        Scara.Off(BlowOff)
                         If pauserequest = True Then Controlled_Pause()
 
                     Else
 
                         Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
                         Scara.Jump(1)
-                        Scara.Out(1, 1)
+                        Scara.On(BlowOff)
                         Scara.Delay(250)
-                        Scara.Out(1, 0)
+                        Scara.Off(BlowOff)
                         If pauserequest = True Then Controlled_Pause()
 
                     End If
