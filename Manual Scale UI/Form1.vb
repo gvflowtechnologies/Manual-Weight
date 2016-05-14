@@ -17,21 +17,40 @@ Public Class Manual_Weight
     ' Constants
 
     Const nocanweight As Double = 2.0
-    Const Canistercheck As Single = 16 ' Height in mm at which the laser sensor looks for canisters.
-    Const StartPickZ As Single = 10 ' Height in mm at which the laser sensor looks for canisters.
-    Const startPlaceZ As Single = 5 ' Height in mm at which the laser sensor looks for canisters.
-    Const WeighingPoint As Integer = 15 ' Height in mm at which the laser sensor looks for canisters.
-    Const postweighpick As Integer = 16 ' Height in mm at which the laser sensor looks for canisters.
 
-    Const PlaceScalePoint As Integer = 10
+    Const CanistercheckZ As Single = 16 ' Height in mm at which the laser sensor looks for canisters.
+    Const StartPickZ As Single = 10 ' Height in mm above canister point that we start picking canisters
+    Const PlaceZ As Single = 5 ' Height in mm above scale point that we spit canister out at.
+    Const Returnz As Single = 10 ' Height in mm above canister rack that we spit parts out at.
+    Const WeightZ As Single = 15
+    Const postweighpickZ As Single = 10
+
+
+    Const weightimeout As Integer = 10000 ' Timeout in milliseconds for any weighing operation.  
     Const scalex As Single = -2.1
     Const scaley As Single = 268.4
-    Const scalez As Single = -96
+    Const scalez As Single = -100
+    Const Good1x As Single = 122.295
+    Const Good1Y As Single = 339.438
+    Const DisopositionZ As Single = -110
+    Const Good2x As Single = 122.295
+    Const Good2y As Single = 339.438
 
-    Const badpoint1 As Integer = 13
-    Const pausepoint As Integer = 14
+    Const BadX As Single = -553
+    Const BadY As Single = 339.438
 
-    Dim goodpoint As Integer
+
+    ' Points integers 
+    Const PlaceScalePoint As Integer = 10 ' Point for placing canister
+    Const WeighingPoint As Integer = 11 ' Weighing Location.
+    Const postweighpick As Integer = 12 ' Height in mm that the robot begings post weight picking routine.
+
+    Const badpoint1 As Integer = 13 ' Bad Cylinder dispostition location
+    Const goodpoint1 As Integer = 14 ' Good Cylinder Dispostion location
+    Const goodpoint2 As Integer = 15 ' Second Good Cylinder Disposition Location
+
+    Const pausereturn As Integer = 30 ' Point for capturing robot location when pause was initiated to allow return to this location prior to completing activities.
+    Const pausepoint As Integer = 31 ' Pause Location
 
     'Variables
     Public WithEvents mycom As SerialPort 'Serial port for communicating with the scale
@@ -47,13 +66,17 @@ Public Class Manual_Weight
     Public cancelclicked As Boolean 'Variable to handle data transfer between the calibration form and the main form
     Dim calfail As Boolean
 
+    Dim pauserequest As Boolean ' Pause button sends request to pause
+    Dim resumemotion As Boolean ' Continue button sends request to resume
+
     Dim updateweight As scaledata
     Dim teststate As Weighprocess
     Dim entering As Boolean ' Entering a new state
 
-    Dim tmrcycle As Stopwatch
-    Dim tmrsort As Stopwatch
+    Dim tmrcycle As Stopwatch 'Timer to exit out of do loops if scale is not working.
 
+    Dim tmrsort As Stopwatch
+    Dim Picked As Boolean ' Was canister picked or not True if picked
 
     Delegate Sub scaledata(ByVal sdata As String) 'Delegate for 
 
@@ -109,8 +132,6 @@ Public Class Manual_Weight
         calfail = False ' SET CALIBRATTION FAIL FLAG TO FALSE ON STARTUP.
         checkcal()
 
-
-
         Dim v As String
 
         '     v = My.Application.Deployment.CurrentVersion.ToString
@@ -127,13 +148,15 @@ Public Class Manual_Weight
             .Start() ' Started
 
         End With
-        Scara.SetPoint(PlaceScalePoint, scalex, scaley, scalez + PlaceScalePoint, 0, 0, RCAPINet.SpelHand.Lefty)
-        Scara.SetPoint(WeighingPoint, scalex, scaley, scalez + WeighingPoint, 0, 0, RCAPINet.SpelHand.Lefty)
-        Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpick, 0, 0, RCAPINet.SpelHand.Lefty)
+        BtnResume.Enabled = False
+        Btn_PauseRobot.Enabled = False
+
 
     End Sub
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
+        Scara.Stop()
+        Scara.Dispose()
         portclosing()
         If Not IsNothing(swdataset) Then swdataset.Close()
         If Not IsNothing(swlogdata) Then swlogdata.Close()
@@ -197,7 +220,6 @@ Public Class Manual_Weight
             Case Weighprocess.idle
                 If entering Then
                     entering = False
-
                 End If
 
             Case Weighprocess.taring
@@ -238,7 +260,6 @@ Public Class Manual_Weight
                 If entering Then
 
                     entering = False
-                    'set label colors
 
                 End If
 
@@ -246,23 +267,22 @@ Public Class Manual_Weight
                     Select Case sartorius.CurrentReading
 
                         Case Is > My.Settings.MinWeight - 2 * My.Settings.TareLimit
-                            If ccylinder.FirstWeightExists = False Then
-                                ' first weight reading
-                                ccylinder.Firstweight = sartorius.CurrentReading
-                            Else
+                            If ccylinder.FirstWeightExists = True Then
                                 ' Second weight reading
                                 ccylinder.Secondweight = sartorius.CurrentReading
 
+                            Else
+                                ' first weight reading
+                                ccylinder.Firstweight = sartorius.CurrentReading
                             End If
 
-                            '  teststate = Weighprocess.prompting
-
+                            teststate = Weighprocess.prompting
                             entering = True
 
                     End Select
 
                 Else
-                    '    '   teststate = weighprocess.erroring
+                    '       teststate = weighprocess.erroring
                 End If
 
 
@@ -271,15 +291,6 @@ Public Class Manual_Weight
 
                 If entering Then
                     entering = False
-
-
-                    ' update canister number
-                    ' LeftPallet.canisternum = LeftPallet.canisternum + 1
-                    'If ccylinder.Disposition = False Then
-                    '    cylindersorter.Sort(2)
-                    'End If
-
-
                 End If
 
 
@@ -287,7 +298,6 @@ Public Class Manual_Weight
                 If entering Then
                     entering = False
                 End If
-
 
         End Select
 
@@ -303,11 +313,11 @@ Public Class Manual_Weight
 
         ActivePallet.inprocess = PalletData.status.processing
 
+        BtnResume.Enabled = False
+        Btn_PauseRobot.Enabled = True
         '1. Get cordinates of the system
 
-        Scara.PowerHigh = False
-
-        Dim Picked As Boolean
+        Dim nextpallet As Boolean 'Indicates which pallet was active to look for next pallet
         Dim whatreading As Integer ' reading from laser proximity sensor 9 means something is there.
 
         Dim basex As Single ' Base Corner x  - Depends on left vs right so let pallet tell us
@@ -321,6 +331,8 @@ Public Class Manual_Weight
         Dim CincY As Single
         Dim RincX As Single
         Dim RincY As Single
+
+        Dim leftyrighty As RCAPINet.SpelHand
 
         'set initial values for corner
         basex = ActivePallet.BaseX
@@ -341,9 +353,16 @@ Public Class Manual_Weight
         Scara.Accel(30, 30)
         Scara.PowerHigh = False
 
+        If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
+            leftyrighty = RCAPINet.SpelHand.Lefty
+        Else
+            leftyrighty = RCAPINet.SpelHand.Righty
+        End If
+
+
         Dim ucord As Single
 
-        Scara.SetPoint(1, basex, basey, basez, -175, 0, RCAPINet.SpelHand.Lefty)
+        '   Scara.SetPoint(1, basex, basey, basez, -175, 0, RCAPINet.SpelHand.Lefty)
         Dim r As Integer
         Dim c As Integer
         '     Set U angle
@@ -370,6 +389,7 @@ Public Class Manual_Weight
                 '************************************
                 'Stop measuring if the scale is bad.
 
+
                 teststate = Weighprocess.taring
                 entering = True
 
@@ -391,8 +411,9 @@ Public Class Manual_Weight
 
 
                     '4 Check pallet location for part
-                    Scara.SetPoint(1, xcord, ycord, zcord + Canistercheck, ucord, 0, RCAPINet.SpelHand.Lefty)
+                    Scara.SetPoint(1, xcord, ycord, zcord + CanistercheckZ, ucord, 0, leftyrighty)
                     Scara.Jump(1)
+                    If pauserequest = True Then Controlled_Pause()
                     Scara.WaitSw(8, True, 0.5)
 
 
@@ -402,9 +423,9 @@ Public Class Manual_Weight
                         '   If PauseRequest = True Then Controlled_Pause()
 
                         '5 pick up part
-                        Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, RCAPINet.SpelHand.Lefty)
-
+                        Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, leftyrighty)
                         Scara.Jump(1)
+                        If pauserequest = True Then Controlled_Pause()
                         Scara.Out(1, 2) ' TURN ON VACUUM
 
                         Dim descend As Single
@@ -413,8 +434,9 @@ Public Class Manual_Weight
                         Do Until Scara.In(2) = 1
 
                             descend = descend - 0.2
-                            Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ + descend, ucord, 0, RCAPINet.SpelHand.Lefty)
+                            Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ + descend, ucord, 0, leftyrighty)
                             Scara.Move(1)
+                            If pauserequest = True Then Controlled_Pause()
                             Application.DoEvents()
                             Thread.Sleep(5)
                             If descend * -1 > StartPickZ Then
@@ -424,59 +446,50 @@ Public Class Manual_Weight
 
                         Loop
 
-
-                        '     If PauseRequest = True Then Controlled_Pause()
-
                         '6 Move part to scale if part was picked    
                         If Picked Then
-                            Scara.Jump(PlaceScalePoint)
 
+                            Scara.Jump(PlaceScalePoint)
+                            If pauserequest = True Then Controlled_Pause()
+
+                            '7 Wait for scale to indicate ready
+                            '*******************************************************
+                            '*******************************************************
+                            tmrcycle.Restart()
+                            Do Until teststate = Weighprocess.weighing
+                                If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                Application.DoEvents()
+                                Thread.Sleep(1)
+                                If pauserequest = True Then Controlled_Pause()
+                            Loop
+
+                            '8 Place on scale
+                            Scara.Out(1, 1)
+                            Scara.Delay(250)
+                            Scara.Out(1, 0)
+                            Scara.Move(WeighingPoint)
+
+                            '9 Wait for reading 
+                            tmrcycle.Restart()
+                            Do Until teststate = Weighprocess.prompting
+                                If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                Application.DoEvents()
+                                Thread.Sleep(1)
+                                If pauserequest = True Then Controlled_Pause()
+                            Loop
+
+                            ' 10 Pick up part from scale
+                            pickscalepart(leftyrighty)
+
+                        Else 'If no cylinder was PICKED in the spot set the weight to -10 (flag for no part)
+                            NOCYLINDER()
                         End If
 
-
-                        '7 Wait for scale to indicate ready
-                        '*******************************************************
-                        '*******************************************************
-                        Do Until teststate = Weighprocess.weighing
-                            Application.DoEvents()
-                            Thread.Sleep(1)
-                        Loop
-
-
-                        '8 Place on scale
-                        Scara.Out(1, 1)
-                        Scara.Delay(250)
-                        Scara.Move(WeighingPoint)
-
-
-                        '9 Wait for reading 
-                        Do Until teststate = Weighprocess.prompting
-                            Application.DoEvents()
-                            Thread.Sleep(1)
-                        Loop
-
-
-                        ' 10 Pick up part from scale
-
-                        Scara.Out(1, 2)
-                        descend = 0
-                        Scara.SetPoint(postweighpick, scalex, scaley, scalez + descend, 0, 0, RCAPINet.SpelHand.Lefty)
-                        Do Until Scara.In(2) = 1
-
-                            'If PauseRequest = True Then Controlled_Pause()
-                            descend = descend - 0.2
-                            Scara.SetPoint(postweighpick, scalex, scaley, scalez + descend, 0, 0, RCAPINet.SpelHand.Lefty)
-                            Scara.Move(postweighpick)
-                            Application.DoEvents()
-                            Thread.Sleep(5)
-
-                        Loop
-
                     Else
+                        'If no cylinder was detected in the spot set the weight to -10 (flag for no part)
 
+                        NOCYLINDER()
 
-
-                        '                    If PauseRequest = True Then Controlled_Pause()
                     End If
 
                 End If
@@ -485,24 +498,93 @@ Public Class Manual_Weight
 
                 Disposition(ActivePallet)
 
+                If ccylinder.Disposition Then
+                    If ccylinder.FirstWeightExists Then
+                        Scara.Jump(goodpoint1)
+                        Scara.Out(1, 1)
+                        Scara.Delay(250)
+                        Scara.Out(1, 0)
+                        If pauserequest = True Then Controlled_Pause()
 
+                    Else
 
-                Scara.SetPoint(1, xcord, ycord, zcord + 10, ucord, 0, RCAPINet.SpelHand.Lefty)
-                Scara.Jump(1)
-                Scara.Out(1, 1)
-                Scara.Delay(250)
+                        Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
+                        Scara.Jump(1)
+                        Scara.Out(1, 1)
+                        Scara.Delay(250)
+                        Scara.Out(1, 0)
+                        If pauserequest = True Then Controlled_Pause()
 
-                teststate = Weighprocess.taring
-                entering = True
+                    End If
+
+                Else
+
+                    Scara.Jump(badpoint1)
+                    Scara.Out(1, 1)
+                    Scara.Delay(250)
+                    Scara.Out(1, 0)
+                    If pauserequest = True Then Controlled_Pause()
+
+                End If
+
+                ccylinder.dispose()
+
             Next
 
         Next
-        Scara.Out(1, 0)
+        Closepallet(ActivePallet)
 
-
+        If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then nextpallet = False
+        ActivePallet = Nothing
+        If nextpallet Then
+            CheckLeft()
+        Else
+            checkright()
+        End If
 
     End Sub
 
+    Sub fixedlocations(ByVal angle As RCAPINet.SpelHand)
+
+        Scara.SetPoint(PlaceScalePoint, scalex, scaley, scalez + PlaceZ, 0, 0, angle)
+        Scara.SetPoint(WeighingPoint, scalex, scaley, scalez + WeightZ, 0, 0, angle)
+        Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ, 0, 0, angle)
+        Scara.SetPoint(pausepoint, 100, 100, -70, 0, 0, RCAPINet.SpelHand.Lefty)
+        Scara.SetPoint(badpoint1, BadX, BadY, DisopositionZ, 0, 0, angle)
+        Scara.SetPoint(goodpoint1, Good1x, Good1Y, DisopositionZ, 0, 0, angle)
+        Scara.SetPoint(goodpoint2, Good1x, Good1Y, DisopositionZ, 0, 0, angle)
+
+    End Sub
+
+    Sub pickscalepart(ByVal handdirec As RCAPINet.SpelHand)
+        Dim descend As Single
+        Scara.Out(1, 2)
+        descend = 0
+
+        Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ + descend, 0, 0, handdirec)
+        Do Until Scara.In(2) = 1
+
+            'If PauseRequest = True Then Controlled_Pause()
+            descend = descend - 0.2
+            Scara.SetPoint(postweighpick, scalex, scaley, postweighpickZ + descend, 0, 0, handdirec)
+            Scara.Move(postweighpick)
+            Application.DoEvents()
+            Thread.Sleep(5)
+            If descend * -1 > postweighpickZ Then
+                Exit Do
+                Picked = False
+            End If
+        Loop
+    End Sub
+
+    Sub NOCYLINDER()
+        If ccylinder.FirstWeightExists Then
+            ccylinder.Secondweight = -10.0
+        Else
+            ccylinder.Firstweight = -10.0
+        End If
+
+    End Sub
     Private Sub updatetare()
         mycom.Write("T" & ControlChars.CrLf)
     End Sub
@@ -544,9 +626,7 @@ Public Class Manual_Weight
             write_second_weight()
             Lbl_Instruction.Text = "Pass"
 
-            If ccylinder.Disposition = False Then
 
-            End If
         End If
 
         ' update the counters for disposition 
@@ -584,7 +664,6 @@ Public Class Manual_Weight
         Lbl_CurrentBad_R.Text = LeftPallet.numbad.ToString
 
     End Sub
-
 
     Private Sub Btn_WeighRight_Click(sender As Object, e As EventArgs) Handles Btn_WeighRight.Click
 
@@ -700,7 +779,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
     Sub checkcal()
         ' Checks calibration dates and disables buttons if past due or in error.
 
@@ -778,22 +856,18 @@ Public Class Manual_Weight
     '*******************************************
     '*******************************************
     ' This may be a dead process now.
-    Private Sub Closepallet()
-        Tmr_ScreenUpdate.Stop()
+    Private Sub Closepallet(ByVal curpallet As PalletData)
 
-        ' Toggle buttons
-        Btn_WeighRight.Enabled = True
-        '      Btn_StopPallet.Enabled = False
+
         teststate = Weighprocess.idle
-        If LeftPallet.firstweightexists = True Then
-            write_Summary()
-            write_history()
+        If curpallet.firstweightexists = True Then
+            write_Summary(curpallet)
+            write_history(curpallet)
         End If
 
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
 
     End Sub
-
 
     Private Sub WritefileHeader1(ByRef curpallet As PalletData) ' write the header to the firstweight data set.
         ' Very simple file to hold first pass data.
@@ -1435,7 +1509,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
     Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
         ' Timer object to detect if the door is opened.
         ' Check if door is open, if the door is open then pause the robot if not already paused.
@@ -1445,27 +1518,17 @@ Public Class Manual_Weight
         If Scara.In(1) = 8 Or Scara.In(1) = 9 Then 'Robot should be running
             ' Check if robot is paused or not
 
-            ' If Scara.PauseOn = True Then
-            ' If paused is on turn on robot
-            ' If make no change
             Scara.Continue()
-            'End If
+
 
         Else ' Robot should not be running
-            ' Check to see if robot is paused or not.
 
-            '    If Scara.PauseOn = False Then
-            ' If the robot is not paused, then pause it.
-            ' Otherwise make no change
             Scara.Pause()
 
-            'End If
 
         End If
 
     End Sub
-
-
 
     Private Sub Btn_Updt_Pllt_L_Click(sender As Object, e As EventArgs) Handles Btn_Updt_Pllt_L.Click
         ' Updates Pallet Corners for left Pallet
@@ -1474,8 +1537,6 @@ Public Class Manual_Weight
 
 
     End Sub
-
-
 
     Private Sub Btn_WeighLeft_Click(sender As Object, e As EventArgs) Handles Btn_WeighLeft.Click
         ' Setting up a new pallet to be run
@@ -1573,5 +1634,49 @@ Public Class Manual_Weight
         ' Routine to pause the robot in a controlled manner.
         ' When clicked the robot should on the completion of the command it is running,
         'Record its location, go to a defined wait location, and pause.
+
+        ' Set flag to request pause
+        PauseRequest = True
+        resumemotion = False
+
+        Btn_PauseRobot.Enabled = False
+
+
+
+
     End Sub
+
+    Private Sub BtnResume_Click(sender As Object, e As EventArgs) Handles BtnResume.Click
+        resumemotion = True
+
+
+
+    End Sub
+
+    Private Sub Controlled_Pause()
+
+        ' 1.  Capture Current Location
+        Scara.Here(pausereturn)
+        ' 2. Jump to location.
+
+        Scara.Jump(pausepoint)
+        ' 3. Enable button to start
+        BtnResume.Enabled = True
+
+        ' 4. Wait for continue to be pressed
+        Do
+            Application.DoEvents()
+            Thread.Sleep(1)
+
+        Loop Until ResumeMotion = True
+        ' 5. Set Flags
+        BtnResume.Enabled = False
+        Btn_PauseRobot.Enabled = True
+        PauseRequest = False
+        ' 6. Jump to location 
+        Scara.Jump(pausereturn)
+
+    End Sub
+
+
 End Class
