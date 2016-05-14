@@ -176,7 +176,6 @@ Public Class Manual_Weight
 
         loginhandling()
 
-
     End Sub
 
     Private Sub palletclick() Handles TPPalletLayout.Enter
@@ -193,7 +192,6 @@ Public Class Manual_Weight
         Else
             pastdue = False
         End If
-
 
         Return pastdue
     End Function
@@ -230,8 +228,6 @@ Public Class Manual_Weight
             Case Weighprocess.taring
                 If entering Then
                     entering = False
-
-                    '                    checkpalletcomplete(0)
                 End If
 
 
@@ -317,6 +313,7 @@ Public Class Manual_Weight
         ' Set the inprocess property to processing
 
         ActivePallet.inprocess = PalletData.status.processing
+
         Tmr_ScreenUpdate.Start()
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = True
@@ -483,10 +480,7 @@ Public Class Manual_Weight
                             '8 Place on scale
 
                             Scara.Move(PlaceScalePoint)
-                            Scara.Off(TipVacuum)
-                            Scara.On(TipBlowOff)
-                            Scara.Delay(250)
-                            Scara.Off(TipBlowOff)
+                            ejectpart()
                             Scara.Move(WeighingPoint)
 
                             '9 Wait for reading 
@@ -500,7 +494,7 @@ Public Class Manual_Weight
 
                             ' 10 Pick up part from scale
                             pickscalepart(leftyrighty)
-
+                            If pauserequest = True Then Controlled_Pause()
                         Else 'If no cylinder was PICKED in the spot set the weight to -10 (flag for no part)
                             NOCYLINDER()
 
@@ -519,23 +513,17 @@ Public Class Manual_Weight
                 If Picked Then
                     Disposition(ActivePallet)
 
-                    If ccylinder.Disposition Then
-                        If ccylinder.FirstWeightExists Then
+                    If ccylinder.Disposition Then ' If disposition was true (Good Part)
+                        If ccylinder.FirstWeightExists Then ' If first weight exists sent to good part
                             Scara.Jump(goodpoint1)
-                            Scara.Off(TipVacuum)
-                            Scara.On(TipBlowOff)
-                            Scara.Delay(250)
-                            Scara.Off(TipBlowOff)
+                            ejectpart()
                             If pauserequest = True Then Controlled_Pause()
 
                         Else
 
                             Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
                             Scara.Jump(1)
-                            Scara.Off(TipVacuum)
-                            Scara.On(TipBlowOff)
-                            Scara.Delay(250)
-                            Scara.Off(TipBlowOff)
+                            ejectpart()
                             If pauserequest = True Then Controlled_Pause()
 
                         End If
@@ -543,10 +531,7 @@ Public Class Manual_Weight
                     Else
                         If whatreading = 1 Then
                             Scara.Jump(badpoint) ' SHOULD BE BAD POINT
-                            Scara.Off(TipVacuum)
-                            Scara.On(TipBlowOff)
-                            Scara.Delay(250)
-                            Scara.Off(TipBlowOff)
+                            ejectpart()
 
                             If pauserequest = True Then Controlled_Pause()
                         End If
@@ -569,6 +554,14 @@ Public Class Manual_Weight
 
     End Sub
 
+    Sub ejectpart()
+        Scara.Off(TipVacuum)
+        Scara.On(TipBlowOff)
+        Scara.Delay(250)
+        Scara.Off(TipBlowOff)
+
+    End Sub
+
     Sub fixedlocations(ByVal angle As RCAPINet.SpelHand)
 
         Scara.SetPoint(PlaceScalePoint, scalex, scaley, scalez + PlaceZ, 0, 0, angle)
@@ -583,6 +576,7 @@ Public Class Manual_Weight
     End Sub
 
     Sub pickscalepart(ByVal handdirec As RCAPINet.SpelHand)
+        ' Procedure for picking parts off of scale when weighing is complete    
         Dim descend As Single
 
         descend = 0
@@ -592,7 +586,6 @@ Public Class Manual_Weight
         Scara.On(TipVacuum)
         Do Until Scara.In(2) = 1
 
-            'If PauseRequest = True Then Controlled_Pause()
             descend = descend - 0.2
             Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ + descend, 0, 0, handdirec)
             Scara.Move(postweighpick)
