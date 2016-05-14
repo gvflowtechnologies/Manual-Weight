@@ -12,6 +12,9 @@ Public Class Scalemanagement
     End Enum
 
 
+    Private DateScaleCalLast As Date ' Date of last scale calibration.
+    Private DateScaleCalNext As Date ' Date of next scale calibratin.
+
     Dim tmrlasttime As Stopwatch
     Dim Bstable As Boolean
     Dim dweightreading As Double
@@ -27,6 +30,7 @@ Public Class Scalemanagement
     Dim calstring As String ' Comparision String for caltesting
     Const CalEnter As String = "Usr"
     Const CalExit As String = "end"
+    Dim reading As Boolean 'Flag to indicate ready for reading
 
     Sub New()
         ' Creates a new serial port 
@@ -36,6 +40,10 @@ Public Class Scalemanagement
         bincal = calprocess.Complete
         Bstable = False
         bcalrequest = False
+        DateScaleCalLast = My.Settings.LastCalDate
+        DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
+
+
     End Sub
 
     Sub ParseData(ByVal reading As String)
@@ -244,5 +252,19 @@ Public Class Scalemanagement
             End If
         End Get
     End Property
+    Public ReadOnly Property Lscalecaldate As String ' Last Scale Calibration Date
+        Get
+            Return DateScaleCalLast
+        End Get
+    End Property
+
+    Public ReadOnly Property NScaleCalDate As String ' Next Scale Calibration Date
+        Get
+            Return DateScaleCalNext
+        End Get
+    End Property
+
+
+
 
 End Class

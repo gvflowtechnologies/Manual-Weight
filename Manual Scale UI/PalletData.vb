@@ -21,9 +21,7 @@ Public Class PalletData
     Private BFirstweightExists As Boolean
     Private sttimefirst As Date ' time stamp of first weight
     Private Sttimesecond As Date ' time stamp of second weight
-    Private DateScaleCalLast As Date ' Date of last scale calibration.
-    Private DateScaleCalNext As Date ' Date of next scale calibratin.
-    Private FirstWeightReading() As String
+    Private FirstWeightReading() As String 'Array of all of the first weights
     Private CountBad As Integer    ' Number of bad parts in pallet
     Private CountGood As Integer ' Number of good parts in pallet
 
@@ -46,16 +44,14 @@ Public Class PalletData
     Private Index_filename As Integer ' Index in array of filenames that contains the current file
     Private fweight As String ' String with fweight data path
     Private completed As String ' String with completed Data Path
-    Private Backcorner(3) As Single
-    Private InsideCorner(3) As Single
-    Private OutsideCorner(3) As Single
+    Private Backcorner(3) As Single 'Array to hold X,Y, and Z locations of backcorner
+    Private InsideCorner(3) As Single 'Array to hold X,Y, and Z locations of Inside
+    Private OutsideCorner(3) As Single 'Array to hold X,Y, and Z locations of Outside
 
     Public Sub New(ByVal side As PLocation)
         number_of_Canisters = 0
         canisternumber = 0
         ' fweight = 
-        DateScaleCalLast = My.Settings.LastCalDate
-        DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
         CountBad = 0
         CountGood = 0
         iCurRow = 1
@@ -103,8 +99,6 @@ Public Class PalletData
         End If
     End Sub
 
-
-
     Public Sub RenewFileList()
         currentfilename = Nothing
         currentfirstweights = Nothing
@@ -134,7 +128,6 @@ Public Class PalletData
 
 
     End Sub
-
 
     Public Sub firstweight(ByVal firstpallet As String)
         ' Looking for two things here.
@@ -184,7 +177,6 @@ Public Class PalletData
 
     End Sub
 
-
     Public Sub readfirstweight()
         Dim FNreadfirst As String
         FNreadfirst = fweight & "\" & currentfilename
@@ -215,9 +207,43 @@ Public Class PalletData
         End If
 
     End Sub
-    Property rearcorner As Single
-
+    ReadOnly Property BaseX As Single
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = Backcorner(0)
+            Else
+                x = OutsideCorner(0)
+            End If
+            
+            Return x
+        End Get
     End Property
+
+    ReadOnly Property BaseY As Single
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = Backcorner(1)
+            Else
+                x = OutsideCorner(1)
+            End If
+            Return x
+        End Get
+    End Property
+
+    ReadOnly Property BaseZ As Single
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = Backcorner(2)
+            Else
+                x = OutsideCorner(2)
+            End If
+            Return x
+        End Get
+    End Property
+
 
     Public Property filename As String
 
@@ -258,7 +284,7 @@ Public Class PalletData
 
         End Set
     End Property
-    Public ReadOnly Property firstweightexists As Boolean ' Flag if first weight exists
+    Public ReadOnly Property firstweightexists As Boolean ' True if first weight exists
         Get
 
             Return BFirstweightExists
@@ -318,17 +344,6 @@ Public Class PalletData
         End Get
     End Property
 
-    Public ReadOnly Property Lscalecaldate As String ' Last Scale Calibration Date
-        Get
-            Return DateScaleCalLast
-        End Get
-    End Property
-
-    Public ReadOnly Property NScaleCalDate As String ' Next Scale Calibration Date
-        Get
-            Return DateScaleCalNext
-        End Get
-    End Property
 
     ReadOnly Property palletcount As Integer 'Number of canisters in a pallet
         Get
@@ -337,6 +352,17 @@ Public Class PalletData
 
     End Property
 
+
+    ReadOnly Property columns As Integer 'Number of canisters in a pallet
+        Get
+            Return iNumCols
+        End Get
+    End Property
+    ReadOnly Property rows As Integer
+        Get
+            Return iNumRows
+        End Get
+    End Property
 
     Property canisternum As Integer 'Current index number of canister being weighed
         Set(value As Integer)
@@ -411,7 +437,49 @@ Public Class PalletData
             completed = value
         End Set
     End Property
-
-
+    ReadOnly Property CincX As Single
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = (Backcorner(0) - InsideCorner(0)) / (iNumCols - 1)
+            Else
+                x = (OutsideCorner(0) - InsideCorner(0)) / (iNumCols - 1)
+            End If
+            Return x
+        End Get
+    End Property
+    ReadOnly Property CincY As Single
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = (Backcorner(1) - InsideCorner(1)) / (iNumCols - 1)
+            Else
+                x = (OutsideCorner(1) - InsideCorner(1)) / (iNumCols - 1)
+            End If
+            Return x
+        End Get
+    End Property
+    ReadOnly Property RincX As Single
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = (Backcorner(0) - OutsideCorner(0)) / (iNumRows - 1)
+            Else
+                x = (OutsideCorner(0) - Backcorner(0)) / (iNumRows - 1)
+            End If
+            Return x
+        End Get
+    End Property
+    ReadOnly Property RincY As Single 'Increment in the y direction for the canister
+        Get
+            Dim x As Single
+            If location = PLocation.PalletLeft Then
+                x = (Backcorner(1) - OutsideCorner(1)) / (iNumRows - 1)
+            Else
+                x = (OutsideCorner(1) - InsideCorner(1)) / (iNumRows - 1)
+            End If
+            Return x
+        End Get
+    End Property
 
 End Class
