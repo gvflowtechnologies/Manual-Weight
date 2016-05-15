@@ -543,6 +543,7 @@ Public Class Manual_Weight
                         End If
                     End If
                 End If
+
                 ccylinder.dispose()
 
             Next
