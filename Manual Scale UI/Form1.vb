@@ -112,7 +112,7 @@ Public Class Manual_Weight
         Lbl_PalletStatus_R.Text = "STATUS: IDLE"
 
         Btn_WeighRight.Enabled = True
-        '     Btn_StopPallet.Enabled = False
+        Btn_WeighLeft.Enabled = True
 
         Lbl_PalletN_Right.Text = ""
         Lbl_BatchN_Right.Text = ""
@@ -613,6 +613,7 @@ Public Class Manual_Weight
         End If
 
     End Sub
+
     Private Sub updatetare()
         mycom.Write("T" & ControlChars.CrLf)
     End Sub
@@ -623,8 +624,6 @@ Public Class Manual_Weight
         '   sartorius.CalRequest = False
 
     End Sub
-
-
 
     Private Sub Disposition(ByRef currentpallet As PalletData)
         ' Determines disposition of the canister
@@ -878,15 +877,15 @@ Public Class Manual_Weight
 
     'End Sub
 
-    '*******************************************
-    '*******************************************
-    ' This may be a dead process now.
+
     Private Sub Closepallet(ByVal curpallet As PalletData)
 
         If curpallet.Palletlocation = PalletData.PLocation.PalletLeft Then
             Lbl_PalletStatus_L.Text = "STATUS: COMPLETE"
+            Btn_WeighLeft.Enabled = True
         Else
             Lbl_PalletStatus_R.Text = "STATUS: COMPLETE"
+            Btn_WeighRight.Enabled = True
         End If
 
         teststate = Weighprocess.idle
@@ -1321,7 +1320,11 @@ Public Class Manual_Weight
 
         caldata.Writecalrecord(CalID, calweight, calfinal, Operatorid)
 
-        If checkdate() = True Then Btn_WeighRight.Enabled = True
+        If checkdate() = True Then
+            Btn_WeighRight.Enabled = True
+            Btn_WeighLeft.Enabled = True
+        End If
+
 
         Calibration.Hide()
         Calibration.Enabled = False
@@ -1689,20 +1692,27 @@ Public Class Manual_Weight
         Scara.Jump(pausepoint)
         ' 3. Enable button to start
         BtnResume.Enabled = True
-
+        Scara.MotorsOn = False
         ' 4. Wait for continue to be pressed
         Do
             Application.DoEvents()
             Thread.Sleep(1)
 
         Loop Until resumemotion = True
+        ' Move to pause point slowly.  Restarts if 
+        Scara.LimZ(-20)
+        Scara.Speed(30)
+        Scara.MotorsOn = True
+        Scara.Jump(pausepoint)
+        Scara.LimZ(-65)
+
         ' 5. Set Flags
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = True
         pauserequest = False
         ' 6. Jump to location 
         Scara.Jump(pausereturn)
-
+        Scara.Speed(60)
     End Sub
 
 
