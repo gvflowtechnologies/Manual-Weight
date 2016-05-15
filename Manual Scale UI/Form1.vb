@@ -164,6 +164,11 @@ Public Class Manual_Weight
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = False
 
+        Scara.LimZ(-1)
+        Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
+        Scara.Jump(pausepoint)
+        Scara.LimZ(-65)
+
 
     End Sub
 
@@ -404,8 +409,6 @@ Public Class Manual_Weight
 
             For c = 0 To ActivePallet.columns - 1
 
-
-
                 '************************************
                 'Stop measuring if the scale is bad.
 
@@ -458,7 +461,7 @@ Public Class Manual_Weight
                             Scara.Move(1)
                             If pauserequest = True Then Controlled_Pause()
                             Application.DoEvents()
-                            Thread.Sleep(100)
+                            Thread.Sleep(50)
                             If descend * -1 > StartPickZ Then
                                 Exit Do
                                 Picked = False
@@ -536,10 +539,10 @@ Public Class Manual_Weight
 
                     Else
                         If whatreading = 1 Then
-                            Scara.Jump(badpoint) ' SHOULD BE BAD POINT
-                            ejectpart()
+                            '  Scara.Jump(badpoint) ' SHOULD BE BAD POINT
+                            ' ejectpart()
 
-                            If pauserequest = True Then Controlled_Pause()
+                            'If pauserequest = True Then Controlled_Pause()
                         End If
                     End If
                 End If
@@ -600,7 +603,7 @@ Public Class Manual_Weight
             Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ + descend, 0, 0, handdirec)
             Scara.Move(postweighpick)
             Application.DoEvents()
-            Thread.Sleep(100)
+            Thread.Sleep(50)
             If descend * -1 > postweighpickZ Then
                 Exit Do
                 Picked = False
