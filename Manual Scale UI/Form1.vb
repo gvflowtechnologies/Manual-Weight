@@ -14,6 +14,13 @@ Public Class Manual_Weight
         erroring
     End Enum
 
+    Enum PalletStatus
+        idle
+        waiting
+        processing
+        complete
+    End Enum
+
     ' Constants
 
     Const nocanweight As Double = 2.0
@@ -100,7 +107,9 @@ Public Class Manual_Weight
         Next
         LB_SerialPorts.SelectedIndex = -1
 
-
+        ' Update Pallet Status lables
+        Lbl_PalletStatus_L.Text = "STATUS: IDLE"
+        Lbl_PalletStatus_R.Text = "STATUS: IDLE"
 
         Btn_WeighRight.Enabled = True
         '     Btn_StopPallet.Enabled = False
@@ -117,8 +126,7 @@ Public Class Manual_Weight
 
 
         Lbl_Instruction.Text = "Standby"
-        LBL_CCOL_R.Text = "0"
-        LBL_CRow_R.Text = "0"
+
 
         ' Update all pallet corners to settings value
 
@@ -314,6 +322,8 @@ Public Class Manual_Weight
 
         ActivePallet.inprocess = PalletData.status.processing
 
+
+
         Tmr_ScreenUpdate.Start()
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = True
@@ -348,7 +358,7 @@ Public Class Manual_Weight
         RincX = ActivePallet.RincX
         RincY = ActivePallet.RincY
 
-        ' get fixed locations
+
 
 
         ' We arre working with Tool here in the following envelopes
@@ -360,10 +370,12 @@ Public Class Manual_Weight
 
         If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
             leftyrighty = RCAPINet.SpelHand.Lefty
+            Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS"
         Else
             leftyrighty = RCAPINet.SpelHand.Righty
+            Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS"
         End If
-
+        ' get fixed locations
         fixedlocations(leftyrighty)
 
         Dim ucord As Single
@@ -392,13 +404,7 @@ Public Class Manual_Weight
 
             For c = 0 To ActivePallet.columns - 1
 
-                If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
-                    Lbl_CurrentRowL.Text = ActivePallet.currow.ToString
-                    Lbl_CurentColL.Text = ActivePallet.curcol.ToString
 
-                Else
-
-                End If
 
                 '************************************
                 'Stop measuring if the scale is bad.
@@ -618,17 +624,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub updaterowsandcolumns()
 
-        '  RightPallet.updaterowandcoumn()
-
-
-
-        'LBL_CCOL_R.Text = RightPallet.curcol.ToString
-        'LBL_CRow_R.Text = RightPallet.currow.ToString
-
-
-    End Sub
 
     Private Sub Disposition(ByRef currentpallet As PalletData)
         ' Determines disposition of the canister
@@ -770,8 +766,7 @@ Public Class Manual_Weight
 
         Lbl_CurrentGood_R.Text = RightPallet.numgood.ToString
         Lbl_CurrentBad_R.Text = RightPallet.numbad.ToString
-        LBL_CCOL_R.Text = RightPallet.curcol.ToString
-        LBL_CRow_R.Text = RightPallet.currow.ToString
+        Lbl_PalletStatus_R.Text = "STATUS: WAITING"
 
         CheckLeft()
 
@@ -888,6 +883,11 @@ Public Class Manual_Weight
     ' This may be a dead process now.
     Private Sub Closepallet(ByVal curpallet As PalletData)
 
+        If curpallet.Palletlocation = PalletData.PLocation.PalletLeft Then
+            Lbl_PalletStatus_L.Text = "STATUS: COMPLETE"
+        Else
+            Lbl_PalletStatus_R.Text = "STATUS: COMPLETE"
+        End If
 
         teststate = Weighprocess.idle
         If curpallet.firstweightexists = True Then
@@ -1647,11 +1647,8 @@ Public Class Manual_Weight
         newcommport()
 
         Lbl_CurrentGoodL.Text = LeftPallet.numgood.ToString
-        Lbl_CurrentBad_R.Text = LeftPallet.numbad.ToString
-        Lbl_CurentColL.Text = LeftPallet.curcol.ToString
-        Lbl_CurrentRowL.Text = LeftPallet.currow.ToString
-
-
+        Lbl_CurrentBadL.Text = LeftPallet.numbad.ToString
+        Lbl_PalletStatus_L.Text = "STATUS: WAITING"
     End Sub
 
     Private Sub Btn_Updt_Pllt_R_Click(sender As Object, e As EventArgs) Handles Btn_Updt_Pllt_R.Click
@@ -1666,7 +1663,7 @@ Public Class Manual_Weight
         'Record its location, go to a defined wait location, and pause.
 
         ' Set flag to request pause
-        PauseRequest = True
+        pauserequest = True
         resumemotion = False
 
         Btn_PauseRobot.Enabled = False
@@ -1698,11 +1695,11 @@ Public Class Manual_Weight
             Application.DoEvents()
             Thread.Sleep(1)
 
-        Loop Until ResumeMotion = True
+        Loop Until resumemotion = True
         ' 5. Set Flags
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = True
-        PauseRequest = False
+        pauserequest = False
         ' 6. Jump to location 
         Scara.Jump(pausereturn)
 

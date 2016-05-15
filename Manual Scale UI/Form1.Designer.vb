@@ -29,10 +29,6 @@ Partial Class Manual_Weight
         Me.BtnResume = New System.Windows.Forms.Button()
         Me.Btn_PauseRobot = New System.Windows.Forms.Button()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
-        Me.Lbl_CurentColL = New System.Windows.Forms.Label()
-        Me.Lbl_CurrentRowL = New System.Windows.Forms.Label()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.Label19 = New System.Windows.Forms.Label()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Btn_WeighLeft = New System.Windows.Forms.Button()
@@ -61,10 +57,6 @@ Partial Class Manual_Weight
         Me.Btn_ResetBad = New System.Windows.Forms.Button()
         Me.Btn_ResetGood = New System.Windows.Forms.Button()
         Me.GBCurrentPallet = New System.Windows.Forms.GroupBox()
-        Me.LBL_CCOL_R = New System.Windows.Forms.Label()
-        Me.LBL_CRow_R = New System.Windows.Forms.Label()
-        Me.sLbl_Col = New System.Windows.Forms.Label()
-        Me.sLbl_Row = New System.Windows.Forms.Label()
         Me.sLbl_PN = New System.Windows.Forms.Label()
         Me.sLbl_BN = New System.Windows.Forms.Label()
         Me.Btn_WeighRight = New System.Windows.Forms.Button()
@@ -169,6 +161,8 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
+        Me.Lbl_PalletStatus_L = New System.Windows.Forms.Label()
+        Me.Lbl_PalletStatus_R = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -237,10 +231,7 @@ Partial Class Manual_Weight
         '
         'GroupBox5
         '
-        Me.GroupBox5.Controls.Add(Me.Lbl_CurentColL)
-        Me.GroupBox5.Controls.Add(Me.Lbl_CurrentRowL)
-        Me.GroupBox5.Controls.Add(Me.Label18)
-        Me.GroupBox5.Controls.Add(Me.Label19)
+        Me.GroupBox5.Controls.Add(Me.Lbl_PalletStatus_L)
         Me.GroupBox5.Controls.Add(Me.Label20)
         Me.GroupBox5.Controls.Add(Me.Label21)
         Me.GroupBox5.Controls.Add(Me.Btn_WeighLeft)
@@ -258,52 +249,11 @@ Partial Class Manual_Weight
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Left Pallet Data"
         '
-        'Lbl_CurentColL
-        '
-        Me.Lbl_CurentColL.AutoSize = True
-        Me.Lbl_CurentColL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_CurentColL.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_CurentColL.Location = New System.Drawing.Point(410, 303)
-        Me.Lbl_CurentColL.Name = "Lbl_CurentColL"
-        Me.Lbl_CurentColL.Size = New System.Drawing.Size(70, 27)
-        Me.Lbl_CurentColL.TabIndex = 7
-        Me.Lbl_CurentColL.Text = "C_Col"
-        '
-        'Lbl_CurrentRowL
-        '
-        Me.Lbl_CurrentRowL.AutoSize = True
-        Me.Lbl_CurrentRowL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_CurrentRowL.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_CurrentRowL.Location = New System.Drawing.Point(410, 263)
-        Me.Lbl_CurrentRowL.Name = "Lbl_CurrentRowL"
-        Me.Lbl_CurrentRowL.Size = New System.Drawing.Size(78, 27)
-        Me.Lbl_CurrentRowL.TabIndex = 6
-        Me.Lbl_CurrentRowL.Text = "C_Row"
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(318, 304)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(86, 25)
-        Me.Label18.TabIndex = 5
-        Me.Label18.Text = "Column:"
-        '
-        'Label19
-        '
-        Me.Label19.AutoSize = True
-        Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label19.Location = New System.Drawing.Point(337, 264)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(67, 25)
-        Me.Label19.TabIndex = 4
-        Me.Label19.Text = "ROW:"
-        '
         'Label20
         '
         Me.Label20.AutoSize = True
         Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.Location = New System.Drawing.Point(24, 53)
+        Me.Label20.Location = New System.Drawing.Point(24, 119)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(66, 25)
         Me.Label20.TabIndex = 8
@@ -313,7 +263,7 @@ Partial Class Manual_Weight
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.Location = New System.Drawing.Point(22, 97)
+        Me.Label21.Location = New System.Drawing.Point(22, 163)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(68, 25)
         Me.Label21.TabIndex = 7
@@ -321,9 +271,9 @@ Partial Class Manual_Weight
         '
         'Btn_WeighLeft
         '
-        Me.Btn_WeighLeft.Location = New System.Drawing.Point(120, 207)
+        Me.Btn_WeighLeft.Location = New System.Drawing.Point(7, 235)
         Me.Btn_WeighLeft.Name = "Btn_WeighLeft"
-        Me.Btn_WeighLeft.Size = New System.Drawing.Size(222, 35)
+        Me.Btn_WeighLeft.Size = New System.Drawing.Size(475, 60)
         Me.Btn_WeighLeft.TabIndex = 0
         Me.Btn_WeighLeft.Text = "Weigh Pallet"
         Me.Btn_WeighLeft.UseVisualStyleBackColor = True
@@ -333,7 +283,7 @@ Partial Class Manual_Weight
         Me.Lbl_CurrentBadL.AutoSize = True
         Me.Lbl_CurrentBadL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_CurrentBadL.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_CurrentBadL.Location = New System.Drawing.Point(149, 303)
+        Me.Lbl_CurrentBadL.Location = New System.Drawing.Point(384, 305)
         Me.Lbl_CurrentBadL.Name = "Lbl_CurrentBadL"
         Me.Lbl_CurrentBadL.Size = New System.Drawing.Size(97, 27)
         Me.Lbl_CurrentBadL.TabIndex = 3
@@ -344,7 +294,7 @@ Partial Class Manual_Weight
         Me.Lbl_CurrentGoodL.AutoSize = True
         Me.Lbl_CurrentGoodL.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_CurrentGoodL.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_CurrentGoodL.Location = New System.Drawing.Point(147, 265)
+        Me.Lbl_CurrentGoodL.Location = New System.Drawing.Point(138, 305)
         Me.Lbl_CurrentGoodL.Name = "Lbl_CurrentGoodL"
         Me.Lbl_CurrentGoodL.Size = New System.Drawing.Size(99, 27)
         Me.Lbl_CurrentGoodL.TabIndex = 2
@@ -354,7 +304,7 @@ Partial Class Manual_Weight
         '
         Me.Label24.AutoSize = True
         Me.Label24.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.Location = New System.Drawing.Point(32, 304)
+        Me.Label24.Location = New System.Drawing.Point(276, 308)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(102, 25)
         Me.Label24.TabIndex = 1
@@ -364,7 +314,7 @@ Partial Class Manual_Weight
         '
         Me.Label25.AutoSize = True
         Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label25.Location = New System.Drawing.Point(17, 266)
+        Me.Label25.Location = New System.Drawing.Point(17, 305)
         Me.Label25.Name = "Label25"
         Me.Label25.Size = New System.Drawing.Size(115, 25)
         Me.Label25.TabIndex = 0
@@ -375,7 +325,7 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN_Left.AutoSize = True
         Me.Lbl_BatchN_Left.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_BatchN_Left.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_BatchN_Left.Location = New System.Drawing.Point(22, 129)
+        Me.Lbl_BatchN_Left.Location = New System.Drawing.Point(22, 195)
         Me.Lbl_BatchN_Left.MinimumSize = New System.Drawing.Size(460, 13)
         Me.Lbl_BatchN_Left.Name = "Lbl_BatchN_Left"
         Me.Lbl_BatchN_Left.Size = New System.Drawing.Size(460, 27)
@@ -387,7 +337,7 @@ Partial Class Manual_Weight
         Me.Lbl_PalletN_Left.AutoSize = True
         Me.Lbl_PalletN_Left.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_PalletN_Left.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_PalletN_Left.Location = New System.Drawing.Point(96, 51)
+        Me.Lbl_PalletN_Left.Location = New System.Drawing.Point(96, 117)
         Me.Lbl_PalletN_Left.MinimumSize = New System.Drawing.Size(64, 13)
         Me.Lbl_PalletN_Left.Name = "Lbl_PalletN_Left"
         Me.Lbl_PalletN_Left.Size = New System.Drawing.Size(122, 27)
@@ -593,10 +543,7 @@ Partial Class Manual_Weight
         '
         'GBCurrentPallet
         '
-        Me.GBCurrentPallet.Controls.Add(Me.LBL_CCOL_R)
-        Me.GBCurrentPallet.Controls.Add(Me.LBL_CRow_R)
-        Me.GBCurrentPallet.Controls.Add(Me.sLbl_Col)
-        Me.GBCurrentPallet.Controls.Add(Me.sLbl_Row)
+        Me.GBCurrentPallet.Controls.Add(Me.Lbl_PalletStatus_R)
         Me.GBCurrentPallet.Controls.Add(Me.sLbl_PN)
         Me.GBCurrentPallet.Controls.Add(Me.sLbl_BN)
         Me.GBCurrentPallet.Controls.Add(Me.Btn_WeighRight)
@@ -614,52 +561,11 @@ Partial Class Manual_Weight
         Me.GBCurrentPallet.TabStop = False
         Me.GBCurrentPallet.Text = "Right Pallet Data"
         '
-        'LBL_CCOL_R
-        '
-        Me.LBL_CCOL_R.AutoSize = True
-        Me.LBL_CCOL_R.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBL_CCOL_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBL_CCOL_R.Location = New System.Drawing.Point(410, 303)
-        Me.LBL_CCOL_R.Name = "LBL_CCOL_R"
-        Me.LBL_CCOL_R.Size = New System.Drawing.Size(70, 27)
-        Me.LBL_CCOL_R.TabIndex = 7
-        Me.LBL_CCOL_R.Text = "C_Col"
-        '
-        'LBL_CRow_R
-        '
-        Me.LBL_CRow_R.AutoSize = True
-        Me.LBL_CRow_R.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBL_CRow_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBL_CRow_R.Location = New System.Drawing.Point(410, 263)
-        Me.LBL_CRow_R.Name = "LBL_CRow_R"
-        Me.LBL_CRow_R.Size = New System.Drawing.Size(78, 27)
-        Me.LBL_CRow_R.TabIndex = 6
-        Me.LBL_CRow_R.Text = "C_Row"
-        '
-        'sLbl_Col
-        '
-        Me.sLbl_Col.AutoSize = True
-        Me.sLbl_Col.Location = New System.Drawing.Point(318, 304)
-        Me.sLbl_Col.Name = "sLbl_Col"
-        Me.sLbl_Col.Size = New System.Drawing.Size(86, 25)
-        Me.sLbl_Col.TabIndex = 5
-        Me.sLbl_Col.Text = "Column:"
-        '
-        'sLbl_Row
-        '
-        Me.sLbl_Row.AutoSize = True
-        Me.sLbl_Row.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sLbl_Row.Location = New System.Drawing.Point(337, 264)
-        Me.sLbl_Row.Name = "sLbl_Row"
-        Me.sLbl_Row.Size = New System.Drawing.Size(67, 25)
-        Me.sLbl_Row.TabIndex = 4
-        Me.sLbl_Row.Text = "ROW:"
-        '
         'sLbl_PN
         '
         Me.sLbl_PN.AutoSize = True
         Me.sLbl_PN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sLbl_PN.Location = New System.Drawing.Point(24, 53)
+        Me.sLbl_PN.Location = New System.Drawing.Point(25, 116)
         Me.sLbl_PN.Name = "sLbl_PN"
         Me.sLbl_PN.Size = New System.Drawing.Size(66, 25)
         Me.sLbl_PN.TabIndex = 8
@@ -669,7 +575,7 @@ Partial Class Manual_Weight
         '
         Me.sLbl_BN.AutoSize = True
         Me.sLbl_BN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sLbl_BN.Location = New System.Drawing.Point(22, 97)
+        Me.sLbl_BN.Location = New System.Drawing.Point(23, 160)
         Me.sLbl_BN.Name = "sLbl_BN"
         Me.sLbl_BN.Size = New System.Drawing.Size(68, 25)
         Me.sLbl_BN.TabIndex = 7
@@ -677,9 +583,9 @@ Partial Class Manual_Weight
         '
         'Btn_WeighRight
         '
-        Me.Btn_WeighRight.Location = New System.Drawing.Point(149, 204)
+        Me.Btn_WeighRight.Location = New System.Drawing.Point(13, 240)
         Me.Btn_WeighRight.Name = "Btn_WeighRight"
-        Me.Btn_WeighRight.Size = New System.Drawing.Size(222, 35)
+        Me.Btn_WeighRight.Size = New System.Drawing.Size(475, 60)
         Me.Btn_WeighRight.TabIndex = 0
         Me.Btn_WeighRight.Text = "Weigh Pallet"
         Me.Btn_WeighRight.UseVisualStyleBackColor = True
@@ -689,7 +595,7 @@ Partial Class Manual_Weight
         Me.Lbl_CurrentBad_R.AutoSize = True
         Me.Lbl_CurrentBad_R.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_CurrentBad_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_CurrentBad_R.Location = New System.Drawing.Point(149, 303)
+        Me.Lbl_CurrentBad_R.Location = New System.Drawing.Point(386, 307)
         Me.Lbl_CurrentBad_R.Name = "Lbl_CurrentBad_R"
         Me.Lbl_CurrentBad_R.Size = New System.Drawing.Size(97, 27)
         Me.Lbl_CurrentBad_R.TabIndex = 3
@@ -700,7 +606,7 @@ Partial Class Manual_Weight
         Me.Lbl_CurrentGood_R.AutoSize = True
         Me.Lbl_CurrentGood_R.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_CurrentGood_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_CurrentGood_R.Location = New System.Drawing.Point(147, 265)
+        Me.Lbl_CurrentGood_R.Location = New System.Drawing.Point(137, 307)
         Me.Lbl_CurrentGood_R.Name = "Lbl_CurrentGood_R"
         Me.Lbl_CurrentGood_R.Size = New System.Drawing.Size(99, 27)
         Me.Lbl_CurrentGood_R.TabIndex = 2
@@ -710,7 +616,7 @@ Partial Class Manual_Weight
         '
         Me.sLbl_B.AutoSize = True
         Me.sLbl_B.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sLbl_B.Location = New System.Drawing.Point(32, 304)
+        Me.sLbl_B.Location = New System.Drawing.Point(278, 309)
         Me.sLbl_B.Name = "sLbl_B"
         Me.sLbl_B.Size = New System.Drawing.Size(102, 25)
         Me.sLbl_B.TabIndex = 1
@@ -720,7 +626,7 @@ Partial Class Manual_Weight
         '
         Me.sLbl_G.AutoSize = True
         Me.sLbl_G.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sLbl_G.Location = New System.Drawing.Point(17, 266)
+        Me.sLbl_G.Location = New System.Drawing.Point(16, 309)
         Me.sLbl_G.Name = "sLbl_G"
         Me.sLbl_G.Size = New System.Drawing.Size(115, 25)
         Me.sLbl_G.TabIndex = 0
@@ -731,7 +637,7 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN_Right.AutoSize = True
         Me.Lbl_BatchN_Right.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_BatchN_Right.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_BatchN_Right.Location = New System.Drawing.Point(22, 129)
+        Me.Lbl_BatchN_Right.Location = New System.Drawing.Point(23, 192)
         Me.Lbl_BatchN_Right.MinimumSize = New System.Drawing.Size(460, 13)
         Me.Lbl_BatchN_Right.Name = "Lbl_BatchN_Right"
         Me.Lbl_BatchN_Right.Size = New System.Drawing.Size(460, 27)
@@ -743,7 +649,7 @@ Partial Class Manual_Weight
         Me.Lbl_PalletN_Right.AutoSize = True
         Me.Lbl_PalletN_Right.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_PalletN_Right.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_PalletN_Right.Location = New System.Drawing.Point(96, 51)
+        Me.Lbl_PalletN_Right.Location = New System.Drawing.Point(97, 114)
         Me.Lbl_PalletN_Right.MinimumSize = New System.Drawing.Size(64, 13)
         Me.Lbl_PalletN_Right.Name = "Lbl_PalletN_Right"
         Me.Lbl_PalletN_Right.Size = New System.Drawing.Size(122, 27)
@@ -1712,6 +1618,24 @@ Partial Class Manual_Weight
         '
         Me.TMR_door.Interval = 75
         '
+        'Lbl_PalletStatus_L
+        '
+        Me.Lbl_PalletStatus_L.AutoSize = True
+        Me.Lbl_PalletStatus_L.Location = New System.Drawing.Point(24, 38)
+        Me.Lbl_PalletStatus_L.Name = "Lbl_PalletStatus_L"
+        Me.Lbl_PalletStatus_L.Size = New System.Drawing.Size(74, 25)
+        Me.Lbl_PalletStatus_L.TabIndex = 9
+        Me.Lbl_PalletStatus_L.Text = "Status:"
+        '
+        'Lbl_PalletStatus_R
+        '
+        Me.Lbl_PalletStatus_R.AutoSize = True
+        Me.Lbl_PalletStatus_R.Location = New System.Drawing.Point(23, 38)
+        Me.Lbl_PalletStatus_R.Name = "Lbl_PalletStatus_R"
+        Me.Lbl_PalletStatus_R.Size = New System.Drawing.Size(74, 25)
+        Me.Lbl_PalletStatus_R.TabIndex = 10
+        Me.Lbl_PalletStatus_R.Text = "Status:"
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1782,10 +1706,6 @@ Partial Class Manual_Weight
     Friend WithEvents Btn_WeighFolder As System.Windows.Forms.Button
     Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents Lbl_Remove As System.Windows.Forms.Label
-    Friend WithEvents LBL_CCOL_R As System.Windows.Forms.Label
-    Friend WithEvents LBL_CRow_R As System.Windows.Forms.Label
-    Friend WithEvents sLbl_Col As System.Windows.Forms.Label
-    Friend WithEvents sLbl_Row As System.Windows.Forms.Label
     Friend WithEvents Btn_Tare As System.Windows.Forms.Button
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
@@ -1828,10 +1748,6 @@ Partial Class Manual_Weight
     Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents Label15 As System.Windows.Forms.Label
     Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
-    Friend WithEvents Lbl_CurentColL As System.Windows.Forms.Label
-    Friend WithEvents Lbl_CurrentRowL As System.Windows.Forms.Label
-    Friend WithEvents Label18 As System.Windows.Forms.Label
-    Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents Label20 As System.Windows.Forms.Label
     Friend WithEvents Label21 As System.Windows.Forms.Label
     Friend WithEvents Btn_WeighLeft As System.Windows.Forms.Button
@@ -1897,5 +1813,7 @@ Partial Class Manual_Weight
     Friend WithEvents TB_RC_X_L As System.Windows.Forms.TextBox
     Friend WithEvents Label44 As System.Windows.Forms.Label
     Friend WithEvents BtnResume As System.Windows.Forms.Button
+    Friend WithEvents Lbl_PalletStatus_L As System.Windows.Forms.Label
+    Friend WithEvents Lbl_PalletStatus_R As System.Windows.Forms.Label
 
 End Class
