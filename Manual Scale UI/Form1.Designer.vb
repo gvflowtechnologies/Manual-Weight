@@ -29,6 +29,7 @@ Partial Class Manual_Weight
         Me.BtnResume = New System.Windows.Forms.Button()
         Me.Btn_PauseRobot = New System.Windows.Forms.Button()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.Lbl_PalletStatus_L = New System.Windows.Forms.Label()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Btn_WeighLeft = New System.Windows.Forms.Button()
@@ -57,6 +58,7 @@ Partial Class Manual_Weight
         Me.Btn_ResetBad = New System.Windows.Forms.Button()
         Me.Btn_ResetGood = New System.Windows.Forms.Button()
         Me.GBCurrentPallet = New System.Windows.Forms.GroupBox()
+        Me.Lbl_PalletStatus_R = New System.Windows.Forms.Label()
         Me.sLbl_PN = New System.Windows.Forms.Label()
         Me.sLbl_BN = New System.Windows.Forms.Label()
         Me.Btn_WeighRight = New System.Windows.Forms.Button()
@@ -161,8 +163,6 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
-        Me.Lbl_PalletStatus_L = New System.Windows.Forms.Label()
-        Me.Lbl_PalletStatus_R = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -248,6 +248,15 @@ Partial Class Manual_Weight
         Me.GroupBox5.TabIndex = 11
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Left Pallet Data"
+        '
+        'Lbl_PalletStatus_L
+        '
+        Me.Lbl_PalletStatus_L.AutoSize = True
+        Me.Lbl_PalletStatus_L.Location = New System.Drawing.Point(24, 38)
+        Me.Lbl_PalletStatus_L.Name = "Lbl_PalletStatus_L"
+        Me.Lbl_PalletStatus_L.Size = New System.Drawing.Size(74, 25)
+        Me.Lbl_PalletStatus_L.TabIndex = 9
+        Me.Lbl_PalletStatus_L.Text = "Status:"
         '
         'Label20
         '
@@ -560,6 +569,15 @@ Partial Class Manual_Weight
         Me.GBCurrentPallet.TabIndex = 4
         Me.GBCurrentPallet.TabStop = False
         Me.GBCurrentPallet.Text = "Right Pallet Data"
+        '
+        'Lbl_PalletStatus_R
+        '
+        Me.Lbl_PalletStatus_R.AutoSize = True
+        Me.Lbl_PalletStatus_R.Location = New System.Drawing.Point(23, 38)
+        Me.Lbl_PalletStatus_R.Name = "Lbl_PalletStatus_R"
+        Me.Lbl_PalletStatus_R.Size = New System.Drawing.Size(74, 25)
+        Me.Lbl_PalletStatus_R.TabIndex = 10
+        Me.Lbl_PalletStatus_R.Text = "Status:"
         '
         'sLbl_PN
         '
@@ -1617,24 +1635,6 @@ Partial Class Manual_Weight
         'TMR_door
         '
         Me.TMR_door.Interval = 75
-        '
-        'Lbl_PalletStatus_L
-        '
-        Me.Lbl_PalletStatus_L.AutoSize = True
-        Me.Lbl_PalletStatus_L.Location = New System.Drawing.Point(24, 38)
-        Me.Lbl_PalletStatus_L.Name = "Lbl_PalletStatus_L"
-        Me.Lbl_PalletStatus_L.Size = New System.Drawing.Size(74, 25)
-        Me.Lbl_PalletStatus_L.TabIndex = 9
-        Me.Lbl_PalletStatus_L.Text = "Status:"
-        '
-        'Lbl_PalletStatus_R
-        '
-        Me.Lbl_PalletStatus_R.AutoSize = True
-        Me.Lbl_PalletStatus_R.Location = New System.Drawing.Point(23, 38)
-        Me.Lbl_PalletStatus_R.Name = "Lbl_PalletStatus_R"
-        Me.Lbl_PalletStatus_R.Size = New System.Drawing.Size(74, 25)
-        Me.Lbl_PalletStatus_R.TabIndex = 10
-        Me.Lbl_PalletStatus_R.Text = "Status:"
         '
         'Manual_Weight
         '

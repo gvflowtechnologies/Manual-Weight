@@ -575,11 +575,14 @@ Public Class Manual_Weight
         Scara.SetPoint(WeighingPoint, scalex, scaley, scalez + WeightZ, 0, 0, angle)
         Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ, 0, 0, angle)
         Scara.SetPoint(23, scalex, scaley, scalez + tareheight, 0, 0, angle)
-        Scara.SetPoint(pausepoint, 100, 100, -70, 0, 0, RCAPINet.SpelHand.Lefty)
         Scara.SetPoint(badpoint, BadX, BadY, DisopositionZ, 0, 0, angle)
         Scara.SetPoint(goodpoint1, Good1x, Good1Y, DisopositionZ, 0, 0, angle)
         Scara.SetPoint(goodpoint2, Good1x, Good1Y, DisopositionZ, 0, 0, angle)
-
+        If angle = RCAPINet.SpelHand.Lefty Then
+            Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
+        Else
+            Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Lefty)
+        End If
     End Sub
 
     Sub pickscalepart(ByVal handdirec As RCAPINet.SpelHand)
@@ -1650,8 +1653,8 @@ Public Class Manual_Weight
         checkright()
         newcommport()
 
-        Lbl_CurrentGoodL.Text = LeftPallet.numgood.ToString
-        Lbl_CurrentBadL.Text = LeftPallet.numbad.ToString
+        '     Lbl_CurrentGoodL.Text = LeftPallet.numgood.ToString
+        '     Lbl_CurrentBadL.Text = LeftPallet.numbad.ToString
         Lbl_PalletStatus_L.Text = "STATUS: WAITING"
     End Sub
 
@@ -1701,8 +1704,7 @@ Public Class Manual_Weight
 
         Loop Until resumemotion = True
         ' Move to pause point slowly.  Restarts if 
-        Scara.LimZ(-20)
-        Scara.Speed(30)
+        Scara.LimZ(-1)
         Scara.MotorsOn = True
         Scara.Jump(pausepoint)
         Scara.LimZ(-65)
@@ -1713,7 +1715,7 @@ Public Class Manual_Weight
         pauserequest = False
         ' 6. Jump to location 
         Scara.Jump(pausereturn)
-        Scara.Speed(60)
+
     End Sub
 
 
