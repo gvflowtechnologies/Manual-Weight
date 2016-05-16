@@ -207,8 +207,12 @@ Public Class Manual_Weight
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
 
-        ' determine which canister you are weighing.
-        ' Load that data in.
+        'If LeftPallet IsNot Nothing Then
+        '    If RightPallet.inprocess = PalletData.status.processing Then
+
+        '    End If
+        'End If
+
 
         Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
 
@@ -239,10 +243,8 @@ Public Class Manual_Weight
                     entering = False
                 End If
 
-
                 ''Taring Section
                 '' check for scale health and stability
-
                 If sartorius.Stable Then
                     Select Case Math.Abs(sartorius.CurrentReading)
 
@@ -268,41 +270,26 @@ Public Class Manual_Weight
 
             Case Weighprocess.weighing
                 If entering Then
-
                     entering = False
-
                 End If
 
-                If sartorius.Stable Then
-                    Select Case sartorius.CurrentReading
-
-                        Case Is > My.Settings.MinWeight - 2 * My.Settings.TareLimit
-                            If ccylinder.FirstWeightExists = True Then
-                                ' Second weight reading
-                                ccylinder.Secondweight = sartorius.CurrentReading
-
-                            Else
-                                ' first weight reading
-                                ccylinder.Firstweight = sartorius.CurrentReading
-                            End If
-
-                            teststate = Weighprocess.prompting
-                            entering = True
-
-                    End Select
-
-                Else
-                    '       teststate = weighprocess.erroring
+                If sartorius.Stable And sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
+                    If ccylinder.FirstWeightExists Then
+                        ' Second weight reading
+                        ccylinder.Secondweight = sartorius.CurrentReading
+                    Else
+                        ' first weight reading
+                        ccylinder.Firstweight = sartorius.CurrentReading
+                    End If
+                    teststate = Weighprocess.prompting
+                    entering = True
                 End If
-
 
             Case Weighprocess.prompting
-
 
                 If entering Then
                     entering = False
                 End If
-
 
             Case Weighprocess.erroring ' if we end up here stop processing
                 If entering Then
@@ -471,7 +458,7 @@ Public Class Manual_Weight
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
-
+                            entering = True
                             If pauserequest = True Then Controlled_Pause()
                             '8 Place on scale
 
