@@ -207,9 +207,21 @@ Public Class Manual_Weight
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
 
-        'If LeftPallet IsNot Nothing Then
-        '    If RightPallet.inprocess = PalletData.status.processing Then
+        'If LeftPallet.inprocess = PalletData.status.processing Or RightPallet.inprocess = PalletData.status.processing Then
 
+        'Else
+        '    If LeftPallet.inprocess = PalletData.status.complete Then
+        '        LeftPallet.dispose()
+        '    End If
+        '    If RightPallet.inprocess = PalletData.status.complete Then
+        '        RightPallet.dispose()
+        '    End If
+        '    If LeftPallet.inprocess = PalletData.status.waiting Then
+        '        ProcessPallet(LeftPallet)
+        '    Else
+        '        If RightPallet.inprocess = PalletData.status.waiting Then
+        '            ProcessPallet(RightPallet)
+        '        End If
         '    End If
         'End If
 
@@ -234,14 +246,14 @@ Public Class Manual_Weight
         Select Case teststate
 
             Case Weighprocess.idle
-                If entering Then
-                    entering = False
-                End If
+                'If entering Then
+                '    entering = False
+                'End If
 
             Case Weighprocess.taring
-                If entering Then
-                    entering = False
-                End If
+                'If entering Then
+                '    entering = False
+                'End If
 
                 ''Taring Section
                 '' check for scale health and stability
@@ -269,9 +281,9 @@ Public Class Manual_Weight
                 End If
 
             Case Weighprocess.weighing
-                If entering Then
-                    entering = False
-                End If
+                'If entering Then
+                '    entering = False
+                'End If
 
                 If sartorius.Stable And sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
                     If ccylinder.FirstWeightExists Then
@@ -287,16 +299,17 @@ Public Class Manual_Weight
 
             Case Weighprocess.prompting
 
-                If entering Then
-                    entering = False
-                End If
+                'If entering Then
+                '    entering = False
+                'End If
 
             Case Weighprocess.erroring ' if we end up here stop processing
-                If entering Then
-                    entering = False
-                End If
+                'If entering Then
+                '    entering = False
+                'End If
 
         End Select
+
 
     End Sub
 
@@ -524,7 +537,7 @@ Public Class Manual_Weight
             Next
         Next
         Closepallet(ActivePallet)
-
+        ActivePallet.inprocess = PalletData.status.complete
         If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then nextpallet = False
         ActivePallet = Nothing
         If nextpallet Then
