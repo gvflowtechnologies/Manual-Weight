@@ -67,7 +67,7 @@ Public Class Manual_Weight
     Const pausereturn As Integer = 30 ' Point for capturing robot location when pause was initiated to allow return to this location prior to completing activities.
     Const pausepoint As Integer = 31 ' Pause Location
 
-    Const weightimeout As Integer = 10000 ' Timeout in milliseconds for any weighing operation.  
+    Const weightimeout As Integer = 1000 ' Timeout in milliseconds for any weighing operation.  
 
     'Variables
     Public WithEvents mycom As SerialPort 'Serial port for communicating with the scale
@@ -384,7 +384,7 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
 
-        For r = 0 To 10 'ActivePallet.rows - 1
+        For r = 0 To 6 'ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -465,9 +465,9 @@ Public Class Manual_Weight
                             '7 Wait for scale to indicate ready
                             '*******************************************************
                             '*******************************************************
-                            '  tmrcycle.Restart()
+                            tmrcycle.Restart()
                             Do Until teststate = Weighprocess.weighing
-                                'If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
@@ -480,9 +480,9 @@ Public Class Manual_Weight
                             Scara.Move(WeighingPoint)
 
                             '9 Wait for reading 
-                            '   tmrcycle.Restart()
+                            tmrcycle.Restart()
                             Do Until teststate = Weighprocess.prompting
-                                ' If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
@@ -537,6 +537,7 @@ Public Class Manual_Weight
             Next
         Next
         Closepallet(ActivePallet)
+        Scara.Jump(pausepoint)
         ActivePallet.inprocess = PalletData.status.complete
         If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then nextpallet = False
         ActivePallet = Nothing
@@ -867,7 +868,7 @@ Public Class Manual_Weight
         End If
 
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
-        swlogdata.Close()
+        ' swlogdata.Close()
     End Sub
 
     Private Sub WritefileHeader1(ByRef curpallet As PalletData) ' write the header to the firstweight data set.
@@ -1649,10 +1650,11 @@ Public Class Manual_Weight
         Btn_PauseRobot.Enabled = True
         pauserequest = False
         ' 6. Jump to location 
+        Epson_SPEL.settings()
         Scara.Jump(pausereturn)
 
     End Sub
 
 
- 
+
 End Class
