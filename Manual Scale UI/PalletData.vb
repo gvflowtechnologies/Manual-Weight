@@ -13,6 +13,7 @@ Public Class PalletData
     Enum status
         waiting
         processing
+        complete
     End Enum
 
     Private palletid As String ' current active pallet
@@ -66,6 +67,9 @@ Public Class PalletData
 
         UpdatePalletCorners(location)
 
+    End Sub
+    Public Sub dispose()
+        Me.Finalize()
     End Sub
 
     Private Sub UpdatePalletCorners(ByVal botside As PLocation)
