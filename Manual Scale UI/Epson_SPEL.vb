@@ -14,9 +14,6 @@ Module Epson_SPEL
     Public pointpallet04 As SpelPoint
 
 
-
-
-
     Public Sub InitApp()
         Scara = New RCAPINet.Spel
         With Scara
@@ -26,24 +23,19 @@ Module Epson_SPEL
             .MotorsOn = True
         End With
 
-        ' pointpallet01 = Scara.GetPoint(1)
 
-
-        '    Scara.SetPoint(1, pointpallet01)
-
-
-
-        Scara.SetPoint(1, 374.314, 76.43, -110.937, 0, 0, SpelHand.Lefty)
-        Scara.SetPoint(2, 248.665, 289.621, -111.446, -136.823, 0, SpelHand.Lefty)
-        Scara.SetPoint(3, 185.976, -56.505, -111.162, -98.779, 0, SpelHand.Lefty)
-        Scara.SetPoint(4, 73.867, 180.489, -111.405, -13.634, 0, SpelHand.Lefty)
 
 
     End Sub
 
-
-
-
+    Public Sub settings()
+        'Settings for running the robot.
+        Scara.Tool(1)
+        Scara.LimZ(-65)
+        Scara.Speed(60) '60 is production
+        Scara.Accel(30, 30)
+        Scara.PowerHigh = True
+    End Sub
 
     Public Sub EventReceived(ByVal sender As Object, ByVal e As RCAPINet.SpelEventArgs) Handles Scara.EventReceived
         MsgBox("received event " & e.Event)
