@@ -359,7 +359,7 @@ Public Class Manual_Weight
         Scara.LimZ(-65)
         Scara.Speed(60) '60 is production
         Scara.Accel(30, 30)
-        Scara.PowerHigh = True
+        Scara.PowerHigh = False
 
         If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
             leftyrighty = RCAPINet.SpelHand.Lefty
