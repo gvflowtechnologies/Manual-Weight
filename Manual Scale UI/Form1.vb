@@ -27,11 +27,11 @@ Public Class Manual_Weight
 
     ' Z height Offsets above part location points in (mm).
     Const CanistercheckZ As Single = 16 ' Height in mm at which the laser sensor looks for canisters.
-    Const StartPickZ As Single = 4 ' Height in mm above canister point that we start picking canisters
+    Const StartPickZ As Single = 1 ' Height in mm above canister point that we start picking canisters
     Const PlaceZ As Single = 5 ' Height in mm above scale point that we spit canister out at.
     Const Returnz As Single = 8 ' Height in mm above canister rack that we spit parts out at.
     Const WeightZ As Single = 15 ' Height (mm) above scale nest that robot waits while waiting for reading.
-    Const postweighpickZ As Single = 4 ' Height above scale the robot starts to pick up part off of scale.
+    Const postweighpickZ As Single = 2 ' Height above scale the robot starts to pick up part off of scale.
     Const tareheight As Integer = 20 ' Height above scale nest that the robot waits at while waiting for stability
 
     'Output constants used for picking and placing parts
@@ -40,9 +40,9 @@ Public Class Manual_Weight
     Const blowofftime As Integer = 250 ' msec pause to allow part to eject from holder
 
     'X,Y,Z Locations on system for component locations in mm
-    Const scalex As Single = -1.644
-    Const scaley As Single = 266.338
-    Const scalez As Single = -101.79
+    Const scalex As Single = -2
+    Const scaley As Single = 267
+    Const scalez As Single = -101.8
 
     Const Good1x As Single = 122.295
     Const Good1Y As Single = 339.438
@@ -379,22 +379,22 @@ Public Class Manual_Weight
         If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
             ucord = 0
         Else
-            ucord = -180
+            ucord = 0
         End If
 
         'Cycle through cylinders in pallet
 
-        For r = 0 To 6 'ActivePallet.rows - 1
+        For r = 0 To 4 'ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
                     ucord = -180
                 Else
-                    ucord = 0
+                    ucord = -180
                 End If
             End If
 
-            For c = 0 To 6 'ActivePallet.columns - 1
+            For c = 0 To 4 'ActivePallet.columns - 1
 
                 '************************************
                 'Stop measuring if the scale is bad.
@@ -465,9 +465,9 @@ Public Class Manual_Weight
                             '7 Wait for scale to indicate ready
                             '*******************************************************
                             '*******************************************************
-                            tmrcycle.Restart()
+                            ' tmrcycle.Restart()
                             Do Until teststate = Weighprocess.weighing
-                                If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                '    If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
@@ -480,9 +480,9 @@ Public Class Manual_Weight
                             Scara.Move(WeighingPoint)
 
                             '9 Wait for reading 
-                            tmrcycle.Restart()
+                            ' tmrcycle.Restart()
                             Do Until teststate = Weighprocess.prompting
-                                If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                '    If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
