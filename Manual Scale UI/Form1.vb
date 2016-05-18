@@ -81,7 +81,7 @@ Public Class Manual_Weight
     Dim swdataset As StreamWriter ' Streamwriter for writing data files
     Dim swlogdata As StreamWriter ' streamwriter for writing log files
     Public cancelclicked As Boolean 'Variable to handle data transfer between the calibration form and the main form
-    Dim calfail As Boolean
+    Dim calfail As Boolean ' Calibration failure
 
     Dim pauserequest As Boolean ' Pause button sends request to pause
     Dim resumemotion As Boolean ' Continue button sends request to resume
@@ -384,7 +384,7 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
 
-        For r = 0 To 15 'ActivePallet.rows - 1
+        For r = 0 To ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -394,7 +394,7 @@ Public Class Manual_Weight
                 End If
             End If
 
-            For c = 0 To 2 'ActivePallet.columns - 1
+            For c = 0 To ActivePallet.columns - 1
 
                 '************************************
                 'Stop measuring if the scale is bad.
@@ -788,12 +788,12 @@ Public Class Manual_Weight
             calfail = True
         End If
 
-        If My.Settings.scalecalfail Then
-            Btn_WeighRight.Enabled = False
-            Btn_WeighLeft.Enabled = False
-            MsgBox("Last Calibration Failed, ReCal Required")
-            calfail = True
-        End If
+        'If My.Settings.scalecalfail Then
+        '    Btn_WeighRight.Enabled = False
+        '    Btn_WeighLeft.Enabled = False
+        '    MsgBox("Last Calibration Failed, ReCal Required")
+        '    calfail = True
+        'End If
 
     End Sub
 

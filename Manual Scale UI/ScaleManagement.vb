@@ -245,7 +245,7 @@ Public Class Scalemanagement
 
     Public ReadOnly Property ScaleEmpty As Boolean
         Get
-            If Bstable = True And Math.Abs(dweightreading) < My.Settings.TareError Then
+            If Bstable = True And Math.Abs(dweightreading) < My.Settings.TareError / 1000 Then
                 Return True
             Else
                 Return False
