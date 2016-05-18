@@ -447,7 +447,7 @@ Public Class PalletData
             If location = PLocation.PalletLeft Then
                 x = (Backcorner(0) - InsideCorner(0)) / (iNumCols - 1)
             Else
-                x = (OutsideCorner(0) - InsideCorner(0)) / (iNumCols - 1)
+                x = (Backcorner(0) - InsideCorner(0)) / (iNumCols - 1)
             End If
             Return x
         End Get
@@ -458,7 +458,8 @@ Public Class PalletData
             If location = PLocation.PalletLeft Then
                 x = (Backcorner(1) - InsideCorner(1)) / (iNumCols - 1)
             Else
-                x = (OutsideCorner(1) - InsideCorner(1)) / (iNumCols - 1)
+                x = (Backcorner(1) - InsideCorner(1)) / (iNumCols - 1)
+
             End If
             Return x
         End Get
@@ -469,7 +470,7 @@ Public Class PalletData
             If location = PLocation.PalletLeft Then
                 x = (Backcorner(0) - OutsideCorner(0)) / (iNumRows - 1)
             Else
-                x = (OutsideCorner(0) - Backcorner(0)) / (iNumRows - 1)
+                x = -1 * (Backcorner(0) - OutsideCorner(0)) / (iNumRows - 1)
             End If
             Return x
         End Get
@@ -480,7 +481,7 @@ Public Class PalletData
             If location = PLocation.PalletLeft Then
                 x = (Backcorner(1) - OutsideCorner(1)) / (iNumRows - 1)
             Else
-                x = (OutsideCorner(1) - InsideCorner(1)) / (iNumRows - 1)
+                x = -1 * (Backcorner(1) - OutsideCorner(1)) / (iNumRows - 1)
             End If
             Return x
         End Get

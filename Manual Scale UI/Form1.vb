@@ -384,17 +384,17 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
 
-        For r = 0 To 4 'ActivePallet.rows - 1
+        For r = 0 To 15 'ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
                     ucord = -180
                 Else
-                    ucord = -180
+                    ucord = 90
                 End If
             End If
 
-            For c = 0 To 4 'ActivePallet.columns - 1
+            For c = 0 To 2 'ActivePallet.columns - 1
 
                 '************************************
                 'Stop measuring if the scale is bad.
