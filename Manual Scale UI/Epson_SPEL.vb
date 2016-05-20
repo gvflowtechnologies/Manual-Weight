@@ -33,7 +33,7 @@ Module Epson_SPEL
         Scara.Tool(1)
         Scara.LimZ(-65)
         Scara.Speed(50) '60 is production
-        Scara.Accel(30, 30)
+        Scara.Accel(50, 50)
         Scara.PowerHigh = True
 
     End Sub

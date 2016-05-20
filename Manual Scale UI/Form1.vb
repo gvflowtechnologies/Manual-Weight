@@ -27,7 +27,7 @@ Public Class Manual_Weight
 
     ' Z height Offsets above part location points in (mm).
     Const CanistercheckZ As Single = 16 ' Height in mm at which the laser sensor looks for canisters.
-    Const StartPickZ As Single = 1 ' Height in mm above canister point that we start picking canisters
+    Const StartPickZ As Single = 2 ' Height in mm above canister point that we start picking canisters
     Const PlaceZ As Single = 5 ' Height in mm above scale point that we spit canister out at.
     Const Returnz As Single = 8 ' Height in mm above canister rack that we spit parts out at.
     Const WeightZ As Single = 15 ' Height (mm) above scale nest that robot waits while waiting for reading.
@@ -384,7 +384,7 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
 
-        For r = 0 To ActivePallet.rows - 1
+        For r = 0 To 4 'ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -394,7 +394,7 @@ Public Class Manual_Weight
                 End If
             End If
 
-            For c = 0 To ActivePallet.columns - 1
+            For c = 0 To 4 'ActivePallet.columns - 1
 
                 '************************************
                 'Stop measuring if the scale is bad.
