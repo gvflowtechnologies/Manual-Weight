@@ -156,6 +156,7 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -1250,6 +1251,7 @@ Partial Class Manual_Weight
         '
         'GroupBox6
         '
+        Me.GroupBox6.Controls.Add(Me.Button1)
         Me.GroupBox6.Controls.Add(Me.TB_OC_Z_L)
         Me.GroupBox6.Controls.Add(Me.TB_OC_Y_L)
         Me.GroupBox6.Controls.Add(Me.TB_OC_X_L)
@@ -1474,9 +1476,9 @@ Partial Class Manual_Weight
         '
         'Btn_Updt_Pllt_L
         '
-        Me.Btn_Updt_Pllt_L.Location = New System.Drawing.Point(67, 318)
+        Me.Btn_Updt_Pllt_L.Location = New System.Drawing.Point(10, 318)
         Me.Btn_Updt_Pllt_L.Name = "Btn_Updt_Pllt_L"
-        Me.Btn_Updt_Pllt_L.Size = New System.Drawing.Size(334, 30)
+        Me.Btn_Updt_Pllt_L.Size = New System.Drawing.Size(256, 30)
         Me.Btn_Updt_Pllt_L.TabIndex = 1
         Me.Btn_Updt_Pllt_L.Text = "Update Pallet Data"
         Me.Btn_Updt_Pllt_L.UseVisualStyleBackColor = True
@@ -1547,6 +1549,15 @@ Partial Class Manual_Weight
         'TMR_door
         '
         Me.TMR_door.Interval = 75
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(359, 318)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 23
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'Manual_Weight
         '
@@ -1718,5 +1729,6 @@ Partial Class Manual_Weight
     Friend WithEvents BtnResume As System.Windows.Forms.Button
     Friend WithEvents Lbl_PalletStatus_L As System.Windows.Forms.Label
     Friend WithEvents Lbl_PalletStatus_R As System.Windows.Forms.Label
+    Friend WithEvents Button1 As System.Windows.Forms.Button
 
 End Class

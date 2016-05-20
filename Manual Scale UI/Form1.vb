@@ -325,7 +325,7 @@ Public Class Manual_Weight
         newcommport()
         'if motors are not on then turn them on.
         If Not Scara.MotorsOn Then Scara.MotorsOn = True
-
+        If pauserequest = True Then Controlled_Pause()
 
         ' Set the inprocess property to processing
         ActivePallet.inprocess = PalletData.status.processing
@@ -1199,7 +1199,7 @@ Public Class Manual_Weight
         Calibration.Lbl_OPID.Text = ""
         Calibration.lbl_CalValasReturned.Text = ""
 
-        If mycom.IsOpen = True Then portclosing()
+        If mycom.IsOpen Then portclosing()
         Calibration.Hide()
         Me.Show()
 
@@ -1406,18 +1406,17 @@ Public Class Manual_Weight
         ' If door is closesd, then have the robot conitnue if not already running.
 
 
-        If Scara.In(1) = 8 Or Scara.In(1) = 9 Then 'Robot should be running
-            ' Check if robot is paused or not
-            If Scara.PauseOn = True Then
-                Scara.Continue()
-            End If
+        'If Scara.In(1) = 8 Or Scara.In(1) = 9 Then 'Robot should be running
+        '    ' Check if robot is paused or not
+        '    If Scara.PauseOn = True Then
+        '        Scara.Continue()
+        '    End If
 
-        Else ' Robot should not be running
-            If Scara.PauseOn = False Then
-                Scara.Pause()
-            End If
-
-            End If
+        'Else ' Robot should not be running
+        '    If Scara.PauseOn = False Then
+        '        Scara.Pause()
+        '    End If
+        'End If
 
     End Sub
 
@@ -1695,4 +1694,7 @@ Public Class Manual_Weight
 
 
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+    End Sub
 End Class
