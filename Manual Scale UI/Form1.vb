@@ -216,23 +216,23 @@ Public Class Manual_Weight
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
 
-        If LeftPallet.inprocess = PalletData.status.processing Or RightPallet.inprocess = PalletData.status.processing Then
+        'If LeftPallet.inprocess = PalletData.status.processing Or RightPallet.inprocess = PalletData.status.processing Then
 
-        Else
-            If LeftPallet.inprocess = PalletData.status.complete Then
-                LeftPallet.dispose()
-            End If
-            If RightPallet.inprocess = PalletData.status.complete Then
-                RightPallet.dispose()
-            End If
-            If LeftPallet.inprocess = PalletData.status.waiting Then
-                ProcessPallet(LeftPallet)
-            Else
-                If RightPallet.inprocess = PalletData.status.waiting Then
-                    ProcessPallet(RightPallet)
-                End If
-            End If
-        End If
+        'Else
+        '    If LeftPallet.inprocess = PalletData.status.complete Then
+        '        LeftPallet.dispose()
+        '    End If
+        '    If RightPallet.inprocess = PalletData.status.complete Then
+        '        RightPallet.dispose()
+        '    End If
+        '    If LeftPallet.inprocess = PalletData.status.waiting Then
+        '        ProcessPallet(LeftPallet)
+        '    Else
+        '        If RightPallet.inprocess = PalletData.status.waiting Then
+        '            ProcessPallet(RightPallet)
+        '        End If
+        '    End If
+        'End If
 
 
         Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
@@ -1460,6 +1460,13 @@ Public Class Manual_Weight
         End If
         If LeftPallet IsNot Nothing Then
             If LeftPallet.inprocess = PalletData.status.waiting Then
+
+                If LeftPallet.firstweightexists Then
+                    writefileheader2(LeftPallet)
+                Else
+                    WritefileHeader1(LeftPallet)
+
+                End If
                 ProcessPallet(LeftPallet)
             End If
         End If
@@ -1470,12 +1477,19 @@ Public Class Manual_Weight
         ' Called when either a button is pressed or when a pallet is complete to determine if another pallet is ready.
         If LeftPallet IsNot Nothing Then
             If LeftPallet.inprocess = PalletData.status.waiting Then
+
                 ProcessPallet(LeftPallet)
             End If
             Exit Sub
         End If
         If RightPallet IsNot Nothing Then
             If RightPallet.inprocess = PalletData.status.waiting Then
+                If RightPallet.firstweightexists Then
+                    writefileheader2(RightPallet)
+                Else
+                    WritefileHeader1(RightPallet)
+
+                End If
                 ProcessPallet(RightPallet)
             End If
         End If
@@ -1559,12 +1573,6 @@ Public Class Manual_Weight
             Loop
         End If
 
-        If LeftPallet.firstweightexists Then
-            writefileheader2(LeftPallet)
-        Else
-            WritefileHeader1(LeftPallet)
-
-        End If
 
         checkright()
 
@@ -1649,20 +1657,15 @@ Public Class Manual_Weight
         Lbl_CurrentBad_R.Text = RightPallet.numbad.ToString
         Lbl_PalletStatus_R.Text = "STATUS: WAITING"
 
-        If LeftPallet IsNot Nothing Then
-            Do While RightPallet.inprocess = PalletData.status.processing
-                Application.DoEvents()
-                Thread.Sleep(1)
-            Loop
-        End If
+        'If LeftPallet IsNot Nothing Then
+        '    Do While RightPallet.inprocess = PalletData.status.processing
+        '        Application.DoEvents()
+        '        Thread.Sleep(1)
+        '    Loop
+        'End If
 
 
-        If RightPallet.firstweightexists Then
-            writefileheader2(RightPallet)
-        Else
-            WritefileHeader1(RightPallet)
 
-        End If
 
 
         CheckLeft()
