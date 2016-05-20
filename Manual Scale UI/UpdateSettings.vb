@@ -72,8 +72,9 @@ Module UpdateSettings
 
     Sub updatetotals()
 
-        Manual_Weight.Lbl_BadCount.Text = My.Settings.TotalBad
-        Manual_Weight.Lbl_GoodCount.Text = My.Settings.TotalGood
+        Manual_Weight.Lbl_BadCount.Text = My.Settings.TotalBad.ToString
+        Manual_Weight.Lbl_GoodCount.Text = My.Settings.TotalGood.ToString
+        Manual_Weight.Lbl_Goodbin.Text = My.Settings.GoodBInMax.ToString
     End Sub
 
     Sub updatetarelimits()

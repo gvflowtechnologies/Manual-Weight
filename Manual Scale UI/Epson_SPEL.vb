@@ -7,7 +7,7 @@ Module Epson_SPEL
     Public WithEvents Scara As RCAPINet.Spel
     Dim Tmr_Door As Timer
 
-
+    Const incjump As Integer = 66
     Public pointpallet01 As SpelPoint
     Public pointpallet02 As SpelPoint
     Public pointpallet03 As SpelPoint
@@ -34,6 +34,19 @@ Module Epson_SPEL
             .Accel(30, 20)
             .PowerHigh = True
         End With
+        Dim VALUES() As Single
+
+        VALUES = Scara.GetRobotPos(RCAPINet.SpelRobotPosType.World, 0, 1, 0)
+        If VALUES(2) > -65 Then
+            With Scara
+                .LimZ(VALUES(2) + 1)
+                .SetPoint(incjump, VALUES(0), VALUES(1), -70, VALUES(3))
+                .Jump(incjump)
+                .LimZ(-65)
+            End With
+        End If
+
+
     End Sub
 
     Public Sub EventReceived(ByVal sender As Object, ByVal e As RCAPINet.SpelEventArgs) Handles Scara.EventReceived

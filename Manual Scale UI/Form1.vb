@@ -89,7 +89,7 @@ Public Class Manual_Weight
     Dim updateweight As scaledata
     Dim teststate As Weighprocess
     Dim entering As Boolean ' Entering a new state
-
+    Dim gbinfull As Boolean ' Flag to tell that bin is full
     Dim tmrcycle As Stopwatch 'Timer to exit out of do loops if scale is not working.
 
     Dim tmrsort As Stopwatch
@@ -153,22 +153,26 @@ Public Class Manual_Weight
 
         ' Setup timer to check for door open or close
         ' Reviewing 50 times per second
-        TMR_door = New Windows.Forms.Timer
 
-        With TMR_door
-            .Interval = 100 ' Fire 50 times per second
-            .Enabled = False ' Enabled
-            .Start() ' Started
-        End With
+
+
 
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = False
+
 
         Scara.LimZ(-1)
         Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
         Scara.Jump(pausepoint)
         Scara.LimZ(-65)
         Scara.MotorsOn = False
+
+        TMR_door = New Windows.Forms.Timer
+        With TMR_door
+            .Interval = 200 ' Fire 50 times per second
+            .Enabled = False ' Enabled
+            .Start() ' Started
+        End With
 
     End Sub
 
@@ -212,23 +216,23 @@ Public Class Manual_Weight
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
 
-        'If LeftPallet.inprocess = PalletData.status.processing Or RightPallet.inprocess = PalletData.status.processing Then
+        If LeftPallet.inprocess = PalletData.status.processing Or RightPallet.inprocess = PalletData.status.processing Then
 
-        'Else
-        '    If LeftPallet.inprocess = PalletData.status.complete Then
-        '        LeftPallet.dispose()
-        '    End If
-        '    If RightPallet.inprocess = PalletData.status.complete Then
-        '        RightPallet.dispose()
-        '    End If
-        '    If LeftPallet.inprocess = PalletData.status.waiting Then
-        '        ProcessPallet(LeftPallet)
-        '    Else
-        '        If RightPallet.inprocess = PalletData.status.waiting Then
-        '            ProcessPallet(RightPallet)
-        '        End If
-        '    End If
-        'End If
+        Else
+            If LeftPallet.inprocess = PalletData.status.complete Then
+                LeftPallet.dispose()
+            End If
+            If RightPallet.inprocess = PalletData.status.complete Then
+                RightPallet.dispose()
+            End If
+            If LeftPallet.inprocess = PalletData.status.waiting Then
+                ProcessPallet(LeftPallet)
+            Else
+                If RightPallet.inprocess = PalletData.status.waiting Then
+                    ProcessPallet(RightPallet)
+                End If
+            End If
+        End If
 
 
         Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
@@ -408,6 +412,7 @@ Public Class Manual_Weight
                 'Stop measuring if the scale is bad.
 
 
+
                 teststate = Weighprocess.taring
                 entering = True
 
@@ -540,13 +545,17 @@ Public Class Manual_Weight
                         End If
                     End If
                 End If
-
+                If gbinfull Then
+                    MsgBox("Empty good bin and then press OK", MsgBoxStyle.OkOnly, "Good Bin Full")
+                    resetgood()
+                End If
                 ccylinder.dispose()
             Next
         Next
         Closepallet(ActivePallet)
         Scara.Jump(pausepoint)
         If Scara.MotorsOn Then Scara.MotorsOn = False ' When done turn off motors
+
         ActivePallet.inprocess = PalletData.status.complete
         If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then nextpallet = False
         ActivePallet = Nothing
@@ -653,6 +662,7 @@ Public Class Manual_Weight
             If pallet.firstweightexists = True Then
                 My.Settings.TotalGood = My.Settings.TotalGood + 1
                 My.Settings.Save()
+                If My.Settings.TotalGood >= My.Settings.GoodBInMax Then gbinfull = True
             End If
 
         Else
@@ -1398,11 +1408,16 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Btn_ResetGood_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood.Click
-        ' Resettin cumulative good counter
+    Private Sub resetgood()
         My.Settings.TotalGood = 0
         My.Settings.Save()
+        gbinfull = False
         Lbl_GoodCount.Text = My.Settings.TotalGood
+    End Sub
+
+    Private Sub Btn_ResetGood_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood.Click
+        ' Resettin cumulative good counter
+        resetgood()
 
     End Sub
 
@@ -1642,7 +1657,6 @@ Public Class Manual_Weight
         End If
 
 
-
         If RightPallet.firstweightexists Then
             writefileheader2(RightPallet)
         Else
@@ -1703,9 +1717,43 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
+        ' 1 TURN MOTORS OFF
+
+        Scara.MotorsOn = False
+
+        '2 
+
+    End Sub
+
+    Private Sub Btn_Update_GB_Full_Click(sender As Object, e As EventArgs) Handles Btn_Update_GB_Full.Click
+        Dim Goodbinquantity As Integer
+
+        Dim sinputstring As String
+        Dim inerror As Boolean = True
+
+        inerror = True
+        While inerror = True
+            sinputstring = InputBox("Enter full good bin quantity ", , My.Settings.GoodBInMax.ToString("N0"))
+
+            If Integer.TryParse(sinputstring, Goodbinquantity) Then
+                inerror = False
+
+                My.Settings.GoodBInMax = Goodbinquantity
+                Lbl_Goodbin.Text = Goodbinquantity.ToString("N0")
+            Else
+                MsgBox("Integer Numbers Only Please")
+            End If
+
+        End While
+
+        My.Settings.Save()
+    End Sub
+
+    Private Sub BTN_TEACH_Click(sender As Object, e As EventArgs) Handles BTN_TEACH.Click
+        Dim VALUES() As Single
+        VALUES = Scara.GetRobotPos(RCAPINet.SpelRobotPosType.World, 0, 1, 0)
+        Scara.Off(8)
     End Sub
 End Class

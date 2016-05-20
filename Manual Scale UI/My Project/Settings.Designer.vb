@@ -461,6 +461,18 @@ Namespace My
                 Me("OCZR") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1000")>  _
+        Public Property GoodBInMax() As Integer
+            Get
+                Return CType(Me("GoodBInMax"),Integer)
+            End Get
+            Set
+                Me("GoodBInMax") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

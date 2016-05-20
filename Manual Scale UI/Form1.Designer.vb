@@ -157,6 +157,10 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
+        Me.Btn_Update_GB_Full = New System.Windows.Forms.Button()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Lbl_Goodbin = New System.Windows.Forms.Label()
+        Me.BTN_TEACH = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -626,6 +630,9 @@ Partial Class Manual_Weight
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.Lbl_Goodbin)
+        Me.GroupBox4.Controls.Add(Me.Label8)
+        Me.GroupBox4.Controls.Add(Me.Btn_Update_GB_Full)
         Me.GroupBox4.Controls.Add(Me.Lbl_NumRow)
         Me.GroupBox4.Controls.Add(Me.Lbl_NumCol)
         Me.GroupBox4.Controls.Add(Me.Label9)
@@ -633,7 +640,7 @@ Partial Class Manual_Weight
         Me.GroupBox4.Controls.Add(Me.Label4)
         Me.GroupBox4.Location = New System.Drawing.Point(303, 15)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(183, 252)
+        Me.GroupBox4.Size = New System.Drawing.Size(183, 341)
         Me.GroupBox4.TabIndex = 15
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Pallet Settings"
@@ -669,7 +676,7 @@ Partial Class Manual_Weight
         '
         'Btn_UpdatePallet
         '
-        Me.Btn_UpdatePallet.Location = New System.Drawing.Point(23, 209)
+        Me.Btn_UpdatePallet.Location = New System.Drawing.Point(23, 98)
         Me.Btn_UpdatePallet.Name = "Btn_UpdatePallet"
         Me.Btn_UpdatePallet.Size = New System.Drawing.Size(154, 23)
         Me.Btn_UpdatePallet.TabIndex = 0
@@ -1000,7 +1007,9 @@ Partial Class Manual_Weight
         '
         'TPPalletLayout
         '
+        Me.TPPalletLayout.Controls.Add(Me.BTN_TEACH)
         Me.TPPalletLayout.Controls.Add(Me.GroupBox7)
+        Me.TPPalletLayout.Controls.Add(Me.Button1)
         Me.TPPalletLayout.Controls.Add(Me.GroupBox6)
         Me.TPPalletLayout.Controls.Add(Me.Label33)
         Me.TPPalletLayout.Controls.Add(Me.Label32)
@@ -1251,7 +1260,6 @@ Partial Class Manual_Weight
         '
         'GroupBox6
         '
-        Me.GroupBox6.Controls.Add(Me.Button1)
         Me.GroupBox6.Controls.Add(Me.TB_OC_Z_L)
         Me.GroupBox6.Controls.Add(Me.TB_OC_Y_L)
         Me.GroupBox6.Controls.Add(Me.TB_OC_X_L)
@@ -1277,14 +1285,14 @@ Partial Class Manual_Weight
         Me.GroupBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox6.Location = New System.Drawing.Point(19, 6)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(472, 365)
+        Me.GroupBox6.Size = New System.Drawing.Size(472, 282)
         Me.GroupBox6.TabIndex = 8
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "LEFT PALLET"
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(359, 318)
+        Me.Button1.Location = New System.Drawing.Point(19, 323)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 23
@@ -1293,7 +1301,7 @@ Partial Class Manual_Weight
         '
         'TB_OC_Z_L
         '
-        Me.TB_OC_Z_L.Location = New System.Drawing.Point(344, 237)
+        Me.TB_OC_Z_L.Location = New System.Drawing.Point(344, 194)
         Me.TB_OC_Z_L.Name = "TB_OC_Z_L"
         Me.TB_OC_Z_L.Size = New System.Drawing.Size(68, 26)
         Me.TB_OC_Z_L.TabIndex = 22
@@ -1301,7 +1309,7 @@ Partial Class Manual_Weight
         '
         'TB_OC_Y_L
         '
-        Me.TB_OC_Y_L.Location = New System.Drawing.Point(216, 237)
+        Me.TB_OC_Y_L.Location = New System.Drawing.Point(216, 194)
         Me.TB_OC_Y_L.Name = "TB_OC_Y_L"
         Me.TB_OC_Y_L.Size = New System.Drawing.Size(68, 26)
         Me.TB_OC_Y_L.TabIndex = 21
@@ -1309,7 +1317,7 @@ Partial Class Manual_Weight
         '
         'TB_OC_X_L
         '
-        Me.TB_OC_X_L.Location = New System.Drawing.Point(67, 237)
+        Me.TB_OC_X_L.Location = New System.Drawing.Point(67, 194)
         Me.TB_OC_X_L.Name = "TB_OC_X_L"
         Me.TB_OC_X_L.Size = New System.Drawing.Size(68, 26)
         Me.TB_OC_X_L.TabIndex = 20
@@ -1317,7 +1325,7 @@ Partial Class Manual_Weight
         '
         'TB_IC_Z_L
         '
-        Me.TB_IC_Z_L.Location = New System.Drawing.Point(347, 142)
+        Me.TB_IC_Z_L.Location = New System.Drawing.Point(347, 118)
         Me.TB_IC_Z_L.Name = "TB_IC_Z_L"
         Me.TB_IC_Z_L.Size = New System.Drawing.Size(68, 26)
         Me.TB_IC_Z_L.TabIndex = 19
@@ -1325,7 +1333,7 @@ Partial Class Manual_Weight
         '
         'TB_IC_Y_L
         '
-        Me.TB_IC_Y_L.Location = New System.Drawing.Point(212, 142)
+        Me.TB_IC_Y_L.Location = New System.Drawing.Point(212, 118)
         Me.TB_IC_Y_L.Name = "TB_IC_Y_L"
         Me.TB_IC_Y_L.Size = New System.Drawing.Size(68, 26)
         Me.TB_IC_Y_L.TabIndex = 18
@@ -1333,7 +1341,7 @@ Partial Class Manual_Weight
         '
         'TB_IC_X_L
         '
-        Me.TB_IC_X_L.Location = New System.Drawing.Point(67, 142)
+        Me.TB_IC_X_L.Location = New System.Drawing.Point(67, 118)
         Me.TB_IC_X_L.Name = "TB_IC_X_L"
         Me.TB_IC_X_L.Size = New System.Drawing.Size(68, 26)
         Me.TB_IC_X_L.TabIndex = 17
@@ -1367,7 +1375,7 @@ Partial Class Manual_Weight
         '
         Me.Label44.AutoSize = True
         Me.Label44.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label44.Location = New System.Drawing.Point(6, 214)
+        Me.Label44.Location = New System.Drawing.Point(6, 171)
         Me.Label44.Name = "Label44"
         Me.Label44.Size = New System.Drawing.Size(181, 20)
         Me.Label44.TabIndex = 13
@@ -1377,7 +1385,7 @@ Partial Class Manual_Weight
         '
         Me.Label41.AutoSize = True
         Me.Label41.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label41.Location = New System.Drawing.Point(286, 240)
+        Me.Label41.Location = New System.Drawing.Point(286, 197)
         Me.Label41.Name = "Label41"
         Me.Label41.Size = New System.Drawing.Size(55, 20)
         Me.Label41.TabIndex = 12
@@ -1387,7 +1395,7 @@ Partial Class Manual_Weight
         '
         Me.Label42.AutoSize = True
         Me.Label42.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label42.Location = New System.Drawing.Point(151, 240)
+        Me.Label42.Location = New System.Drawing.Point(151, 197)
         Me.Label42.Name = "Label42"
         Me.Label42.Size = New System.Drawing.Size(60, 20)
         Me.Label42.TabIndex = 11
@@ -1397,7 +1405,7 @@ Partial Class Manual_Weight
         '
         Me.Label43.AutoSize = True
         Me.Label43.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label43.Location = New System.Drawing.Point(6, 240)
+        Me.Label43.Location = New System.Drawing.Point(6, 197)
         Me.Label43.Name = "Label43"
         Me.Label43.Size = New System.Drawing.Size(56, 20)
         Me.Label43.TabIndex = 10
@@ -1407,7 +1415,7 @@ Partial Class Manual_Weight
         '
         Me.Label38.AutoSize = True
         Me.Label38.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label38.Location = New System.Drawing.Point(286, 145)
+        Me.Label38.Location = New System.Drawing.Point(286, 121)
         Me.Label38.Name = "Label38"
         Me.Label38.Size = New System.Drawing.Size(55, 20)
         Me.Label38.TabIndex = 9
@@ -1417,7 +1425,7 @@ Partial Class Manual_Weight
         '
         Me.Label39.AutoSize = True
         Me.Label39.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label39.Location = New System.Drawing.Point(151, 145)
+        Me.Label39.Location = New System.Drawing.Point(151, 121)
         Me.Label39.Name = "Label39"
         Me.Label39.Size = New System.Drawing.Size(60, 20)
         Me.Label39.TabIndex = 8
@@ -1427,7 +1435,7 @@ Partial Class Manual_Weight
         '
         Me.Label40.AutoSize = True
         Me.Label40.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label40.Location = New System.Drawing.Point(6, 145)
+        Me.Label40.Location = New System.Drawing.Point(6, 121)
         Me.Label40.Name = "Label40"
         Me.Label40.Size = New System.Drawing.Size(56, 20)
         Me.Label40.TabIndex = 7
@@ -1437,7 +1445,7 @@ Partial Class Manual_Weight
         '
         Me.Label37.AutoSize = True
         Me.Label37.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label37.Location = New System.Drawing.Point(6, 119)
+        Me.Label37.Location = New System.Drawing.Point(6, 95)
         Me.Label37.Name = "Label37"
         Me.Label37.Size = New System.Drawing.Size(169, 20)
         Me.Label37.TabIndex = 6
@@ -1485,7 +1493,7 @@ Partial Class Manual_Weight
         '
         'Btn_Updt_Pllt_L
         '
-        Me.Btn_Updt_Pllt_L.Location = New System.Drawing.Point(10, 318)
+        Me.Btn_Updt_Pllt_L.Location = New System.Drawing.Point(10, 240)
         Me.Btn_Updt_Pllt_L.Name = "Btn_Updt_Pllt_L"
         Me.Btn_Updt_Pllt_L.Size = New System.Drawing.Size(256, 30)
         Me.Btn_Updt_Pllt_L.TabIndex = 1
@@ -1558,6 +1566,43 @@ Partial Class Manual_Weight
         'TMR_door
         '
         Me.TMR_door.Interval = 200
+        '
+        'Btn_Update_GB_Full
+        '
+        Me.Btn_Update_GB_Full.Location = New System.Drawing.Point(45, 277)
+        Me.Btn_Update_GB_Full.Name = "Btn_Update_GB_Full"
+        Me.Btn_Update_GB_Full.Size = New System.Drawing.Size(106, 38)
+        Me.Btn_Update_GB_Full.TabIndex = 17
+        Me.Btn_Update_GB_Full.Text = "Update Good Bin Limit"
+        Me.Btn_Update_GB_Full.UseVisualStyleBackColor = True
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(25, 249)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(78, 13)
+        Me.Label8.TabIndex = 18
+        Me.Label8.Text = "Good Bin Limit:"
+        '
+        'Lbl_Goodbin
+        '
+        Me.Lbl_Goodbin.AutoSize = True
+        Me.Lbl_Goodbin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_Goodbin.Location = New System.Drawing.Point(107, 249)
+        Me.Lbl_Goodbin.Name = "Lbl_Goodbin"
+        Me.Lbl_Goodbin.Size = New System.Drawing.Size(66, 15)
+        Me.Lbl_Goodbin.TabIndex = 19
+        Me.Lbl_Goodbin.Text = "lbl_GoodBin"
+        '
+        'BTN_TEACH
+        '
+        Me.BTN_TEACH.Location = New System.Drawing.Point(144, 331)
+        Me.BTN_TEACH.Name = "BTN_TEACH"
+        Me.BTN_TEACH.Size = New System.Drawing.Size(75, 23)
+        Me.BTN_TEACH.TabIndex = 24
+        Me.BTN_TEACH.Text = "Button2"
+        Me.BTN_TEACH.UseVisualStyleBackColor = True
         '
         'Manual_Weight
         '
@@ -1730,5 +1775,9 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_PalletStatus_L As System.Windows.Forms.Label
     Friend WithEvents Lbl_PalletStatus_R As System.Windows.Forms.Label
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents Btn_Update_GB_Full As System.Windows.Forms.Button
+    Friend WithEvents Lbl_Goodbin As System.Windows.Forms.Label
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents BTN_TEACH As System.Windows.Forms.Button
 
 End Class
