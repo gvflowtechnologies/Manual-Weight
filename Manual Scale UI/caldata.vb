@@ -106,6 +106,7 @@ Module caldata
         Dim DataFolder As String = ""
         Dim scompleteddata As String = ""
         Dim sfweigtdata As String = ""
+        Dim archivedata As String = ""
 
         DataFolder = My.Settings.File_Directory
 
@@ -140,6 +141,7 @@ Module caldata
 
         scompleteddata = DataFolder & "\Completed"
         sfweigtdata = DataFolder & "\In Process"
+        archivedata = DataFolder & "\Archived"
 
         If Not Directory.Exists(sfweigtdata) Then
             Directory.CreateDirectory(sfweigtdata)

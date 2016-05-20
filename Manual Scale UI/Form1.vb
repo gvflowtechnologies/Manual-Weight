@@ -121,11 +121,13 @@ Public Class Manual_Weight
 
         Lbl_PalletN_Right.Text = ""
         Lbl_BatchN_Right.Text = ""
-
+        Lbl_PalletN_Left.Text = ""
+        Lbl_BatchN_Left.Text = ""
 
         Lbl_CurrentBad_R.Text = "0"
         Lbl_CurrentGood_R.Text = "0"
-
+        Lbl_CurrentBadL.Text = "0"
+        Lbl_CurrentGoodL.Text = "0"
 
         LB_SerialPorts.ScrollAlwaysVisible = True
 
@@ -152,11 +154,13 @@ Public Class Manual_Weight
         ' Setup timer to check for door open or close
         ' Reviewing 50 times per second
         TMR_door = New Windows.Forms.Timer
+
         With TMR_door
             .Interval = 100 ' Fire 50 times per second
             .Enabled = False ' Enabled
             .Start() ' Started
         End With
+
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = False
 
@@ -164,11 +168,12 @@ Public Class Manual_Weight
         Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
         Scara.Jump(pausepoint)
         Scara.LimZ(-65)
-
+        Scara.MotorsOn = False
 
     End Sub
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
+        If Scara.MotorsOn Then Scara.MotorsOn = False
         Scara.Stop()
         Scara.Dispose()
         portclosing()
@@ -318,6 +323,9 @@ Public Class Manual_Weight
 
         ' Make sure commport is open
         newcommport()
+        'if motors are not on then turn them on.
+        If Not Scara.MotorsOn Then Scara.MotorsOn = True
+        If pauserequest = True Then Controlled_Pause()
 
         ' Set the inprocess property to processing
         ActivePallet.inprocess = PalletData.status.processing
@@ -538,6 +546,7 @@ Public Class Manual_Weight
         Next
         Closepallet(ActivePallet)
         Scara.Jump(pausepoint)
+        If Scara.MotorsOn Then Scara.MotorsOn = False ' When done turn off motors
         ActivePallet.inprocess = PalletData.status.complete
         If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then nextpallet = False
         ActivePallet = Nothing
@@ -663,118 +672,6 @@ Public Class Manual_Weight
         End If
         Lbl_BadCount.Text = My.Settings.TotalBad
         Lbl_GoodCount.Text = My.Settings.TotalGood
-
-    End Sub
-
-    Private Sub Btn_WeighRight_Click(sender As Object, e As EventArgs) Handles Btn_WeighRight.Click
-
-        '1.  Check calibration.  Go no further if failed.
-        checkcal()
-        If calfail Then Exit Sub
-
-
-        Dim followup As MsgBoxResult
-        '1. Clear out the pallet number and batch number labels.
-
-        Lbl_PalletN_Right.Text = ""
-        Lbl_BatchN_Right.Text = ""
-        '2. Create a pallet object with location on the right side of the robot. 
-        RightPallet = New PalletData(PalletData.PLocation.PalletRight)
-        RightPallet.inprocess = PalletData.status.waiting
-        RightPallet.RenewFileList()
-
-        '3. Eneter pallet tracking information to determine if a first weight exists.
-        '4.  First get pallet number:
-        Do
-            RightPallet.pallet = InputBox("Enter Pallet ID", "Pallet Identificaton", , , )
-            If RightPallet.pallet = "" Then Exit Sub
-            followup = MsgBox("You entered " & RightPallet.pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet ID")
-
-            If followup = MsgBoxResult.Cancel Then
-                RightPallet.pallet = ""
-                Exit Sub
-            End If
-        Loop Until followup = MsgBoxResult.Yes
-
-        Lbl_PalletN_Right.Text = RightPallet.pallet
-
-
-        ' 5. Send pallet number and if pallet exists pull batch number from existing record   
-
-        RightPallet.firstweight("_" & RightPallet.pallet & "_")
-
-        '6. Otherwise get batch information
-
-        If RightPallet.firstweightexists = False Then
-            Do
-                RightPallet.batch = InputBox("Enter Batch ID", "Batch Identification")
-                If RightPallet.batch = "" Then Exit Sub
-                followup = MsgBox("You entered " & RightPallet.batch & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Batch ID")
-                If followup = MsgBoxResult.Cancel Then
-                    RightPallet.batch = ""
-                    Lbl_BatchN_Right.Text = RightPallet.batch
-                    Exit Sub
-                End If
-            Loop Until followup = MsgBoxResult.Yes
-            Lbl_BatchN_Right.Text = RightPallet.batch
-
-            WritefileHeader1(RightPallet)
-
-        Else
-            'Read in existing file to get batch number
-
-            RightPallet.readfirstweight()
-
-            'Set the batch value
-            Lbl_BatchN_Right.Text = RightPallet.batch
-
-            ' and then write the file header.
-            writefileheader2(RightPallet)
-
-        End If
-
-        Btn_WeighRight.Enabled = False
-        ' Btn_StopPallet.Enabled = True
-
-        If Tmr_ScreenUpdate.Enabled = False Then
-            Tmr_ScreenUpdate.Start()
-        End If
-
-        Lbl_CurrentGood_R.Text = RightPallet.numgood.ToString
-        Lbl_CurrentBad_R.Text = RightPallet.numbad.ToString
-        Lbl_PalletStatus_R.Text = "STATUS: WAITING"
-
-        CheckLeft()
-
-    End Sub
-    Sub checkright()
-        If RightPallet IsNot Nothing Then
-            If RightPallet.inprocess = PalletData.status.waiting Then
-                ProcessPallet(RightPallet)
-            End If
-            Exit Sub
-        End If
-        If LeftPallet IsNot Nothing Then
-            If LeftPallet.inprocess = PalletData.status.waiting Then
-                ProcessPallet(LeftPallet)
-            End If
-        End If
-
-    End Sub
-
-    Sub CheckLeft()
-        ' Called when either a button is pressed or when a pallet is complete to determine if another pallet is ready.
-        If LeftPallet IsNot Nothing Then
-            If LeftPallet.inprocess = PalletData.status.waiting Then
-                ProcessPallet(LeftPallet)
-            End If
-            Exit Sub
-        End If
-        If RightPallet IsNot Nothing Then
-            If RightPallet.inprocess = PalletData.status.waiting Then
-                ProcessPallet(RightPallet)
-            End If
-        End If
 
     End Sub
 
@@ -1021,7 +918,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Btn_Password.Click
+    Private Sub PasswordUpdate(sender As Object, e As EventArgs) Handles Btn_Password.Click
 
         ChangePassword.Enabled = True
         ChangePassword.Show()
@@ -1302,7 +1199,7 @@ Public Class Manual_Weight
         Calibration.Lbl_OPID.Text = ""
         Calibration.lbl_CalValasReturned.Text = ""
 
-        If mycom.IsOpen = True Then portclosing()
+        If mycom.IsOpen Then portclosing()
         Calibration.Hide()
         Me.Show()
 
@@ -1504,8 +1401,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
-        ' Timer object to detect if the door is opened.
+    Sub DoorPause()
         ' Check if door is open, if the door is open then pause the robot if not already paused.
         ' If door is closesd, then have the robot conitnue if not already running.
 
@@ -1517,17 +1413,52 @@ Public Class Manual_Weight
         '    End If
 
         'Else ' Robot should not be running
-
-        '    Scara.Pause()
-
-
+        '    If Scara.PauseOn = False Then
+        '        Scara.Pause()
+        '    End If
         'End If
 
+    End Sub
+
+    Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
+        ' Timer object to detect if the door is opened.
+        DoorPause()
     End Sub
 
     Private Sub Btn_Updt_Pllt_L_Click(sender As Object, e As EventArgs) Handles Btn_Updt_Pllt_L.Click
         ' Updates Pallet Corners for left Pallet
         UpdateSettings.palletcornersout()
+    End Sub
+
+    Sub checkright()
+        If RightPallet IsNot Nothing Then
+            If RightPallet.inprocess = PalletData.status.waiting Then
+                ProcessPallet(RightPallet)
+            End If
+            Exit Sub
+        End If
+        If LeftPallet IsNot Nothing Then
+            If LeftPallet.inprocess = PalletData.status.waiting Then
+                ProcessPallet(LeftPallet)
+            End If
+        End If
+
+    End Sub
+
+    Sub CheckLeft()
+        ' Called when either a button is pressed or when a pallet is complete to determine if another pallet is ready.
+        If LeftPallet IsNot Nothing Then
+            If LeftPallet.inprocess = PalletData.status.waiting Then
+                ProcessPallet(LeftPallet)
+            End If
+            Exit Sub
+        End If
+        If RightPallet IsNot Nothing Then
+            If RightPallet.inprocess = PalletData.status.waiting Then
+                ProcessPallet(RightPallet)
+            End If
+        End If
+
     End Sub
 
     Private Sub Btn_WeighLeft_Click(sender As Object, e As EventArgs) Handles Btn_WeighLeft.Click
@@ -1577,7 +1508,7 @@ Public Class Manual_Weight
                 End If
             Loop Until followup = MsgBoxResult.Yes
             Lbl_BatchN_Left.Text = LeftPallet.batch
-            WritefileHeader1(LeftPallet)
+            '   WritefileHeader1(LeftPallet)
 
         Else
             'Read in existing file to get batch number
@@ -1588,7 +1519,7 @@ Public Class Manual_Weight
             Lbl_BatchN_Right.Text = LeftPallet.batch
 
             ' and then write the file header.
-            writefileheader2(LeftPallet)
+            '  writefileheader2(LeftPallet)
             'and set the cylinder index to 0
         End If
 
@@ -1601,7 +1532,115 @@ Public Class Manual_Weight
         Lbl_CurrentGoodL.Text = LeftPallet.numgood.ToString
         Lbl_CurrentBadL.Text = LeftPallet.numbad.ToString
 
+        Do While RightPallet.inprocess = PalletData.status.processing
+            Application.DoEvents()
+            Thread.Sleep(1)
+        Loop
+
+        If LeftPallet.firstweightexists Then
+            writefileheader2(LeftPallet)
+        Else
+            WritefileHeader1(LeftPallet)
+
+        End If
+
         checkright()
+
+
+    End Sub
+
+    Private Sub Btn_WeighRight_Click(sender As Object, e As EventArgs) Handles Btn_WeighRight.Click
+
+        '1.  Check calibration.  Go no further if failed.
+        checkcal()
+        If calfail Then Exit Sub
+
+
+        Dim followup As MsgBoxResult
+        '1. Clear out the pallet number and batch number labels.
+
+        Lbl_PalletN_Right.Text = ""
+        Lbl_BatchN_Right.Text = ""
+        '2. Create a pallet object with location on the right side of the robot. 
+        RightPallet = New PalletData(PalletData.PLocation.PalletRight)
+        RightPallet.inprocess = PalletData.status.waiting
+        RightPallet.RenewFileList()
+
+        '3. Eneter pallet tracking information to determine if a first weight exists.
+        '4.  First get pallet number:
+        Do
+            RightPallet.pallet = InputBox("Enter Pallet ID", "Pallet Identificaton", , , )
+            If RightPallet.pallet = "" Then Exit Sub
+            followup = MsgBox("You entered " & RightPallet.pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet ID")
+
+            If followup = MsgBoxResult.Cancel Then
+                RightPallet.pallet = ""
+                Exit Sub
+            End If
+        Loop Until followup = MsgBoxResult.Yes
+
+        Lbl_PalletN_Right.Text = RightPallet.pallet
+
+
+        ' 5. Send pallet number and if pallet exists pull batch number from existing record   
+
+        RightPallet.firstweight("_" & RightPallet.pallet & "_")
+
+        '6. Otherwise get batch information
+
+        If RightPallet.firstweightexists = False Then
+            Do
+                RightPallet.batch = InputBox("Enter Batch ID", "Batch Identification")
+                If RightPallet.batch = "" Then Exit Sub
+                followup = MsgBox("You entered " & RightPallet.batch & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Batch ID")
+                If followup = MsgBoxResult.Cancel Then
+                    RightPallet.batch = ""
+                    Lbl_BatchN_Right.Text = RightPallet.batch
+                    Exit Sub
+                End If
+            Loop Until followup = MsgBoxResult.Yes
+            Lbl_BatchN_Right.Text = RightPallet.batch
+
+            '  WritefileHeader1(RightPallet)
+
+        Else
+            'Read in existing file to get batch number
+
+            RightPallet.readfirstweight()
+
+            'Set the batch value
+            Lbl_BatchN_Right.Text = RightPallet.batch
+
+            ' and then write the file header.
+            ' writefileheader2(RightPallet)
+
+        End If
+
+        Btn_WeighRight.Enabled = False
+        ' Btn_StopPallet.Enabled = True
+
+        If Tmr_ScreenUpdate.Enabled = False Then
+            Tmr_ScreenUpdate.Start()
+        End If
+
+        Lbl_CurrentGood_R.Text = RightPallet.numgood.ToString
+        Lbl_CurrentBad_R.Text = RightPallet.numbad.ToString
+        Lbl_PalletStatus_R.Text = "STATUS: WAITING"
+
+        Do While LeftPallet.inprocess = PalletData.status.processing
+            Application.DoEvents()
+            Thread.Sleep(1)
+        Loop
+
+        If RightPallet.firstweightexists Then
+            writefileheader2(RightPallet)
+        Else
+            WritefileHeader1(RightPallet)
+
+        End If
+
+
+        CheckLeft()
 
     End Sub
 
@@ -1615,7 +1654,6 @@ Public Class Manual_Weight
         ' Set flag to request pause
         pauserequest = True
         resumemotion = False
-
         Btn_PauseRobot.Enabled = False
     End Sub
 
@@ -1637,7 +1675,6 @@ Public Class Manual_Weight
         Do
             Application.DoEvents()
             Thread.Sleep(1)
-
         Loop Until resumemotion = True
         ' Move to pause point slowly.  Restarts if 
         Scara.LimZ(-1)
@@ -1657,4 +1694,7 @@ Public Class Manual_Weight
 
 
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+
+    End Sub
 End Class
