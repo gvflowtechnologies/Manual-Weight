@@ -774,8 +774,8 @@ Public Class Manual_Weight
             write_history(curpallet)
         End If
 
-        swdataset.Close() ' Need to think if we close here or create a routine to handle closing
-        swdataset.Dispose()
+        '    swdataset.Close() ' Need to think if we close here or create a routine to handle closing
+        '    swdataset.Dispose()
 
         ' swlogdata.Close()
     End Sub
