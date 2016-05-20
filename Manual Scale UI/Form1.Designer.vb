@@ -125,6 +125,7 @@ Partial Class Manual_Weight
         Me.Label66 = New System.Windows.Forms.Label()
         Me.Btn_Updt_Pllt_R = New System.Windows.Forms.Button()
         Me.GroupBox6 = New System.Windows.Forms.GroupBox()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.TB_OC_Z_L = New System.Windows.Forms.TextBox()
         Me.TB_OC_Y_L = New System.Windows.Forms.TextBox()
         Me.TB_OC_X_L = New System.Windows.Forms.TextBox()
@@ -156,7 +157,6 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -1282,6 +1282,15 @@ Partial Class Manual_Weight
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "LEFT PALLET"
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(359, 318)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 23
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'TB_OC_Z_L
         '
         Me.TB_OC_Z_L.Location = New System.Drawing.Point(344, 237)
@@ -1548,16 +1557,7 @@ Partial Class Manual_Weight
         '
         'TMR_door
         '
-        Me.TMR_door.Interval = 75
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(359, 318)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 23
-        Me.Button1.Text = "Button1"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.TMR_door.Interval = 200
         '
         'Manual_Weight
         '

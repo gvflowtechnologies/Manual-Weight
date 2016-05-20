@@ -28,7 +28,7 @@ Public Class Manual_Weight
     ' Z height Offsets above part location points in (mm).
     Const CanistercheckZ As Single = 16 ' Height in mm at which the laser sensor looks for canisters.
     Const StartPickZ As Single = 2 ' Height in mm above canister point that we start picking canisters
-    Const PlaceZ As Single = 5 ' Height in mm above scale point that we spit canister out at.
+    Const PlaceZ As Single = 3 ' Height in mm above scale point that we spit canister out at.
     Const Returnz As Single = 8 ' Height in mm above canister rack that we spit parts out at.
     Const WeightZ As Single = 15 ' Height (mm) above scale nest that robot waits while waiting for reading.
     Const postweighpickZ As Single = 2 ' Height above scale the robot starts to pick up part off of scale.
@@ -38,7 +38,7 @@ Public Class Manual_Weight
     Const TipBlowOff As Integer = 8 ' Identifier for tip blow off function
     Const TipVacuum As Integer = 9 ' Identifier for tip vacuum function
     Const blowofftime As Integer = 250 ' msec pause to allow part to eject from holder
-
+    Const DoorSwitch As Integer = 11 ' Identifier for door switch input
     'X,Y,Z Locations on system for component locations in mm
     Const scalex As Single = -2
     Const scaley As Single = 267
@@ -473,9 +473,9 @@ Public Class Manual_Weight
                             '7 Wait for scale to indicate ready
                             '*******************************************************
                             '*******************************************************
-                            ' tmrcycle.Restart()
+                            'tmrcycle.Restart()
                             Do Until teststate = Weighprocess.weighing
-                                '    If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                '   If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
@@ -488,9 +488,9 @@ Public Class Manual_Weight
                             Scara.Move(WeighingPoint)
 
                             '9 Wait for reading 
-                            ' tmrcycle.Restart()
+                            'tmrcycle.Restart()
                             Do Until teststate = Weighprocess.prompting
-                                '    If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                '   If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
@@ -1025,7 +1025,12 @@ Public Class Manual_Weight
 
         Do
             Operatorid = InputBox("Enter Operator Identification", ccaldata)
-            If Operatorid = "" Then Exit Sub
+
+            If Operatorid = "" Then
+                CancelCalibration()
+                Exit Sub
+            End If
+
             Calibration.Lbl_OPID.Text = Operatorid
             followup = MsgBox("You entered " & Operatorid & ", is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Entry")
             If followup = MsgBoxResult.Cancel Then
@@ -1406,17 +1411,18 @@ Public Class Manual_Weight
         ' If door is closesd, then have the robot conitnue if not already running.
 
 
-        'If Scara.In(1) = 8 Or Scara.In(1) = 9 Then 'Robot should be running
-        '    ' Check if robot is paused or not
-        '    If Scara.PauseOn = True Then
-        '        Scara.Continue()
-        '    End If
+        If Scara.Sw(11) = False Then 'Robot should be running
+            '    ' Check if robot is paused or not
 
-        'Else ' Robot should not be running
-        '    If Scara.PauseOn = False Then
-        '        Scara.Pause()
-        '    End If
-        'End If
+
+            Scara.Continue()
+
+
+        Else ' Robot should not be running
+            If Scara.PauseOn = False Then
+                Scara.Pause()
+            End If
+        End If
 
     End Sub
 
@@ -1531,11 +1537,12 @@ Public Class Manual_Weight
 
         Lbl_CurrentGoodL.Text = LeftPallet.numgood.ToString
         Lbl_CurrentBadL.Text = LeftPallet.numbad.ToString
-
-        Do While RightPallet.inprocess = PalletData.status.processing
-            Application.DoEvents()
-            Thread.Sleep(1)
-        Loop
+        If RightPallet IsNot Nothing Then
+            Do While RightPallet.inprocess = PalletData.status.processing
+                Application.DoEvents()
+                Thread.Sleep(1000)
+            Loop
+        End If
 
         If LeftPallet.firstweightexists Then
             writefileheader2(LeftPallet)
@@ -1627,10 +1634,14 @@ Public Class Manual_Weight
         Lbl_CurrentBad_R.Text = RightPallet.numbad.ToString
         Lbl_PalletStatus_R.Text = "STATUS: WAITING"
 
-        Do While LeftPallet.inprocess = PalletData.status.processing
-            Application.DoEvents()
-            Thread.Sleep(1)
-        Loop
+        If LeftPallet IsNot Nothing Then
+            Do While RightPallet.inprocess = PalletData.status.processing
+                Application.DoEvents()
+                Thread.Sleep(1)
+            Loop
+        End If
+
+
 
         If RightPallet.firstweightexists Then
             writefileheader2(RightPallet)

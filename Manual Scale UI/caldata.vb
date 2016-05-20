@@ -149,7 +149,9 @@ Module caldata
         If Not Directory.Exists(scompleteddata) Then
             Directory.CreateDirectory(scompleteddata)
         End If
-
+        If Not Directory.Exists(archivedata) Then
+            Directory.CreateDirectory(archivedata)
+        End If
 
 
 
