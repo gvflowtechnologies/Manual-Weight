@@ -396,7 +396,7 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
 
-        For r = 0 To 4 'ActivePallet.rows - 1
+        For r = 0 To 1 'ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -406,7 +406,7 @@ Public Class Manual_Weight
                 End If
             End If
 
-            For c = 0 To 4 'ActivePallet.columns - 1
+            For c = 0 To 1 'ActivePallet.columns - 1
 
                 '************************************
                 'Stop measuring if the scale is bad.
@@ -775,6 +775,8 @@ Public Class Manual_Weight
         End If
 
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
+        swdataset.Dispose()
+
         ' swlogdata.Close()
     End Sub
 
