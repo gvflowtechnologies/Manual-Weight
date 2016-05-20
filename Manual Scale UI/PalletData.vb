@@ -45,6 +45,7 @@ Public Class PalletData
     Private Index_filename As Integer ' Index in array of filenames that contains the current file
     Private fweight As String ' String with fweight data path
     Private completed As String ' String with completed Data Path
+    Private Archived As String ' String with archive of first weights
     Private Backcorner(3) As Single 'Array to hold X,Y, and Z locations of backcorner
     Private InsideCorner(3) As Single 'Array to hold X,Y, and Z locations of Inside
     Private OutsideCorner(3) As Single 'Array to hold X,Y, and Z locations of Outside
@@ -63,6 +64,8 @@ Public Class PalletData
         number_of_Canisters = iNumCols * iNumRows - 1
         fweight = My.Settings.File_Directory & "\In Process"
         completed = My.Settings.File_Directory & "\Completed"
+        Archived = My.Settings.File_Directory & "\Archived"
+
         location = side
 
         UpdatePalletCorners(location)
@@ -205,6 +208,7 @@ Public Class PalletData
             Sttimesecond = DateTime.Now
             '            dseconddweightdate = DateTime.Now
             tmpstream.Dispose()
+            File.Copy(Path.Combine(fweight, currentfilename), Path.Combine(Archived, currentfilename))
             File.Delete(FNreadfirst)
 
 

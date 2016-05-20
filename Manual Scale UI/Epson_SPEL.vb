@@ -23,19 +23,17 @@ Module Epson_SPEL
             .MotorsOn = True
         End With
 
-
-
-
     End Sub
 
     Public Sub settings()
         'Settings for running the robot.
-        Scara.Tool(1)
-        Scara.LimZ(-65)
-        Scara.Speed(50) '60 is production
-        Scara.Accel(30, 30)
-        Scara.PowerHigh = True
-
+        With Scara
+            .Tool(1)
+            .LimZ(-65)
+            .Speed(60) '60 is production
+            .Accel(30, 20)
+            .PowerHigh = True
+        End With
     End Sub
 
     Public Sub EventReceived(ByVal sender As Object, ByVal e As RCAPINet.SpelEventArgs) Handles Scara.EventReceived
