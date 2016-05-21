@@ -52,44 +52,46 @@ Public Class Scalemanagement
         ' Not parsing for error codes 
         Dim position As Integer
         Dim isdata As Integer
+        If reading <> "" Then
+            SRAWDATA = reading
 
-        SRAWDATA = reading
+            isdata = Datacheck(reading)
 
-        isdata = Datacheck(reading)
+            If isdata = 2 Then
+                calcheck(SRAWDATA) ' check for cal string
+                errorcheck(SRAWDATA) ' check string for critical error code.
+            Else
+                Bstable = reading.Contains(stabconst)
+                reading = reading.Substring(1)
+                reading = reading.Trim()
+                position = reading.IndexOf(" ")
+                Try
+                    If position <> -1 Then reading = reading.Remove(position)
+                    dweightreading = CDbl(reading) * isdata
+                Catch ex As Exception
 
-        If isdata = 2 Then
-            calcheck(SRAWDATA) ' check for cal string
-            errorcheck(SRAWDATA) ' check string for critical error code.
-        Else
-            Bstable = reading.Contains(stabconst)
-            reading = reading.Substring(1)
-            reading = reading.Trim()
-            position = reading.IndexOf(" ")
-            Try
-                If position <> -1 Then reading = reading.Remove(position)
-                dweightreading = CDbl(reading) * isdata
-            Catch ex As Exception
+                End Try
 
-            End Try
-
+            End If
         End If
-
     End Sub
 
     Private Function Datacheck(ByVal rawstring As String) As Integer
         Dim testchar As String
         Dim outvalue As Integer
-        testchar = rawstring.Substring(0, 1)
+        outvalue = 3
+        If rawstring <> "" Then
+            testchar = rawstring.Substring(0, 1)
 
-        Select Case testchar
-            Case Is = "+"
-                outvalue = 1
-            Case Is = "-"
-                outvalue = -1
-            Case Else
-                outvalue = 2
-        End Select
-
+            Select Case testchar
+                Case Is = "+"
+                    outvalue = 1
+                Case Is = "-"
+                    outvalue = -1
+                Case Else
+                    outvalue = 2
+            End Select
+        End If
         Return outvalue
 
     End Function

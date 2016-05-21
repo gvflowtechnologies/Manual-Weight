@@ -40,9 +40,7 @@ Public Class Manual_Weight
     Const blowofftime As Integer = 250 ' msec pause to allow part to eject from holder
     Const DoorSwitch As Integer = 11 ' Identifier for door switch input
     'X,Y,Z Locations on system for component locations in mm
-    Const scalex As Single = -2
-    Const scaley As Single = 267
-    Const scalez As Single = -101.8
+
 
     Const Good1x As Single = 122.295
     Const Good1Y As Single = 339.438
@@ -51,7 +49,7 @@ Public Class Manual_Weight
     Const BadX As Single = -127
     Const BadY As Single = 339.438
     Const DisopositionZ As Single = -110
-
+    Private teachingpoint As Boolean
     ' Speed Settings
     Const speed As Integer = 60 ' Speed constant
     Const accelin As Integer = 30
@@ -72,6 +70,12 @@ Public Class Manual_Weight
     'Variables
     Public WithEvents mycom As SerialPort 'Serial port for communicating with the scale
     Private newdata As Datareceive
+
+    ' SCALE LOCATIONS
+    Dim scalex As Single
+    Dim scaley As Single
+    Dim scalez As Single
+
 
     Dim LeftPallet As PalletData 'pallet object pallets on the left hand side of the robot
     Dim RightPallet As PalletData 'Pallet object for pallets on the right hand side of the robot
@@ -101,12 +105,13 @@ Public Class Manual_Weight
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Epson_SPEL.InitApp() ' Start Robot
+
         newdata = New Datareceive
         tmrcycle = New Stopwatch
         sartorius = New Scalemanagement
         tmrsort = New Stopwatch
         pauserequest = False
-
+        teachingpoint = False
         For Each sp As String In My.Computer.Ports.SerialPortNames
             LB_SerialPorts.Items.Add(sp)
         Next
@@ -160,7 +165,7 @@ Public Class Manual_Weight
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = False
 
-
+        Scara.Reset()
         Scara.LimZ(-1)
         Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
         Scara.Jump(pausepoint)
@@ -168,6 +173,7 @@ Public Class Manual_Weight
         Scara.MotorsOn = False
 
         TMR_door = New Windows.Forms.Timer
+        Thread.Sleep(500)
         With TMR_door
             .Interval = 200 ' Fire 50 times per second
             .Enabled = False ' Enabled
@@ -398,7 +404,7 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
 
-        For r = 0 To 4 'ActivePallet.rows - 1
+        For r = 0 To 1 'ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -480,9 +486,9 @@ Public Class Manual_Weight
                             '7 Wait for scale to indicate ready
                             '*******************************************************
                             '*******************************************************
-                            'tmrcycle.Restart()
+                            tmrcycle.Restart()
                             Do Until teststate = Weighprocess.weighing
-                                '   If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
@@ -495,9 +501,9 @@ Public Class Manual_Weight
                             Scara.Move(WeighingPoint)
 
                             '9 Wait for reading 
-                            'tmrcycle.Restart()
+                            tmrcycle.Restart()
                             Do Until teststate = Weighprocess.prompting
-                                '   If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
@@ -569,7 +575,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub writeheader(ByRef pallet As PalletData)
+    Private Sub writeheader(ByVal pallet As PalletData)
         If pallet.firstweightexists Then
             writefileheader2(pallet)
         Else
@@ -586,7 +592,15 @@ Public Class Manual_Weight
         Scara.Off(TipBlowOff)
     End Sub
 
+    Sub FIXEDPOINTS()
+        'FIXED POINTS.  WORLD CORDINATES WITHOUT ROBOT SIDE.
+        scalex = My.Settings.scalex
+        scaley = My.Settings.scaley
+        scalez = My.Settings.scalez
+    End Sub
+
     Sub fixedlocations(ByVal angle As RCAPINet.SpelHand)
+
 
         Scara.SetPoint(PlaceScalePoint, scalex, scaley, scalez + PlaceZ, 0, 0, angle)
         Scara.SetPoint(WeighingPoint, scalex, scaley, scalez + WeightZ, 0, 0, angle)
@@ -635,16 +649,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub updatetare()
-        mycom.Write("T" & ControlChars.CrLf)
-    End Sub
-    Public Sub startcal()
 
-        'Loop
-        mycom.Write("W" & ControlChars.CrLf)
-        '   sartorius.CalRequest = False
-
-    End Sub
 
     Private Sub Disposition(ByRef currentpallet As PalletData)
         ' Determines disposition of the canister
@@ -769,7 +774,7 @@ Public Class Manual_Weight
     'End Sub
 
 
-    Private Sub Closepallet(ByVal curpallet As PalletData)
+    Private Sub Closepallet(ByRef curpallet As PalletData)
 
         If curpallet.Palletlocation = PalletData.PLocation.PalletLeft Then
             Lbl_PalletStatus_L.Text = "STATUS: COMPLETE"
@@ -788,10 +793,10 @@ Public Class Manual_Weight
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
         swdataset.Dispose()
 
-        ' swlogdata.Close()
+
     End Sub
 
-    Private Sub WritefileHeader1(ByRef curpallet As PalletData) ' write the header to the firstweight data set.
+    Private Sub WritefileHeader1(ByVal curpallet As PalletData) ' write the header to the firstweight data set.
         ' Very simple file to hold first pass data.
         Dim Myfile As String
         Myfile = curpallet.currentfilepath & "\" & curpallet.filename
@@ -811,7 +816,7 @@ Public Class Manual_Weight
         swdataset.Flush()
     End Sub
 
-    Private Sub writefileheader2(ByRef currpallet As PalletData) ' Write the header data for the Final data set
+    Private Sub writefileheader2(ByVal currpallet As PalletData) ' Write the header data for the Final data set
 
         Dim Myfile As String
         Myfile = currpallet.currentfilepath & "\" & currpallet.filename
@@ -1408,6 +1413,18 @@ Public Class Manual_Weight
 
     End Sub
 
+    Private Sub updatetare()
+        newcommport()
+        mycom.Write("T" & ControlChars.CrLf)
+    End Sub
+    Public Sub startcal()
+
+        'Loop
+        mycom.Write("W" & ControlChars.CrLf)
+        '   sartorius.CalRequest = False
+
+    End Sub
+
     Private Sub Btn_ManualTare_Click(sender As Object, e As EventArgs) Handles Btn_ManualTare.Click
         updatetare()
     End Sub
@@ -1439,24 +1456,27 @@ Public Class Manual_Weight
         ' If door is closesd, then have the robot conitnue if not already running.
 
 
-        If Scara.Sw(11) = False Then 'Robot should be running
-            '    ' Check if robot is paused or not
+        'If Scara.Sw(11) = False Then 'Robot should be running
+        '    '    ' Check if robot is paused or not
 
 
-            Scara.Continue()
+        '    Scara.Continue()
 
 
-        Else ' Robot should not be running
-            If Scara.PauseOn = False Then
-                Scara.Pause()
-            End If
-        End If
+        'Else ' Robot should not be running
+        '    If Scara.PauseOn = False Then
+        '        Scara.Pause()
+        '    End If
+        'End If
 
     End Sub
 
     Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
         ' Timer object to detect if the door is opened.
         DoorPause()
+        If teachingpoint Then
+            teachrobotpoint()
+        End If
     End Sub
 
     Private Sub Btn_Updt_Pllt_L_Click(sender As Object, e As EventArgs) Handles Btn_Updt_Pllt_L.Click
@@ -1721,6 +1741,16 @@ Public Class Manual_Weight
 
     End Sub
 
+    Private Sub teachrobotpoint()
+
+        Dim VALUES() As Single
+        VALUES = Scara.GetRobotPos(RCAPINet.SpelRobotPosType.World, 0, 1, 0)
+        Lbl_S_X.Text = VALUES(0).ToString("N4")
+        Lbl_S_Y.Text = VALUES(1).ToString("N4")
+        Lbl_S_Z.Text = VALUES(2).ToString("N4")
+
+    End Sub
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
         ' 1 TURN MOTORS OFF
@@ -1755,9 +1785,30 @@ Public Class Manual_Weight
         My.Settings.Save()
     End Sub
 
-    Private Sub BTN_TEACH_Click(sender As Object, e As EventArgs) Handles BTN_TEACH.Click
+    Private Sub BTN_TEACH_Click(sender As Object, e As EventArgs) Handles BTN_TEACHScale.Click
+
+        'Saving scale point to settings
         Dim VALUES() As Single
         VALUES = Scara.GetRobotPos(RCAPINet.SpelRobotPosType.World, 0, 1, 0)
         Scara.Off(8)
+        My.Settings.scalex = VALUES(0)
+        My.Settings.scaley = VALUES(1)
+        My.Settings.scalez = VALUES(2)
+
+        'update labels
+        Lbl_S_X.Text = My.Settings.scalex.ToString("N4")
+        Lbl_S_Y.Text = My.Settings.scaley.ToString("N4")
+        Lbl_S_Z.Text = My.Settings.scalez.ToString("N4")
+        'update point values
+        UpdateSettings.palletcornersout()
+        FIXEDPOINTS()
+        'reset flag
+        teachingpoint = False
+    End Sub
+
+    Private Sub Btn_SelectScale_Click(sender As Object, e As EventArgs) Handles Btn_SelectScale.Click
+        ' Setting flat that you would like to teach scale point
+        teachingpoint = True
+
     End Sub
 End Class

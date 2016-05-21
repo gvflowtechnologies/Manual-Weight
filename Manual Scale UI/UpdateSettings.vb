@@ -3,7 +3,7 @@ Module UpdateSettings
     Sub palletcorners()
 
 
-        'Setting Up Pallet Corners
+        'Setting Up Pallet corner text display on pallet setup screen
         Manual_Weight.TB_RC_X_L.Text = My.Settings.RCXL.ToString("N3")
         Manual_Weight.TB_RC_Y_L.Text = My.Settings.RCYL.ToString("N3")
         Manual_Weight.TB_RC_Z_L.Text = My.Settings.RCZL.ToString("N3")
@@ -34,6 +34,7 @@ Module UpdateSettings
 
     Sub palletcornersout()
 
+        ' updating points in settings.
         My.Settings.RCXL = CSng(Manual_Weight.TB_RC_X_L.Text)
         My.Settings.RCYL = CSng(Manual_Weight.TB_RC_Y_L.Text)
         My.Settings.RCZL = CSng(Manual_Weight.TB_RC_Z_L.Text)
@@ -57,6 +58,11 @@ Module UpdateSettings
         My.Settings.ICXR = CSng(Manual_Weight.TB_IC_X_R.Text)
         My.Settings.ICYR = CSng(Manual_Weight.TB_IC_Y_R.Text)
         My.Settings.ICZR = CSng(Manual_Weight.TB_IC_Z_R.Text)
+
+        My.Settings.scalex = CSng(Manual_Weight.Lbl_S_X.Text)
+        My.Settings.scaley = CSng(Manual_Weight.Lbl_S_Y.Text)
+        My.Settings.scalez = CSng(Manual_Weight.Lbl_S_Z.Text)
+
 
         My.Settings.Save()
 

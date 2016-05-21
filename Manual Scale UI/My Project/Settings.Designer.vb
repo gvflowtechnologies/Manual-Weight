@@ -473,6 +473,42 @@ Namespace My
                 Me("GoodBInMax") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("-2")>  _
+        Public Property scalex() As Single
+            Get
+                Return CType(Me("scalex"),Single)
+            End Get
+            Set
+                Me("scalex") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("267")>  _
+        Public Property scaley() As Single
+            Get
+                Return CType(Me("scaley"),Single)
+            End Get
+            Set
+                Me("scaley") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("-101.8")>  _
+        Public Property scalez() As Single
+            Get
+                Return CType(Me("scalez"),Single)
+            End Get
+            Set
+                Me("scalez") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

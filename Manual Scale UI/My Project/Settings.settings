@@ -107,5 +107,14 @@
     <Setting Name="GoodBInMax" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>
     </Setting>
+    <Setting Name="scalex" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">-2</Value>
+    </Setting>
+    <Setting Name="scaley" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">267</Value>
+    </Setting>
+    <Setting Name="scalez" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">-101.8</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
