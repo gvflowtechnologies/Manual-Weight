@@ -333,6 +333,8 @@ Public Class Manual_Weight
 
         ' Set the inprocess property to processing
         ActivePallet.inprocess = PalletData.status.processing
+        ' write file headers
+        writeheader(ActivePallet)
 
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = True
@@ -567,6 +569,15 @@ Public Class Manual_Weight
 
     End Sub
 
+    Private Sub writeheader(ByRef pallet As PalletData)
+        If pallet.firstweightexists Then
+            writefileheader2(pallet)
+        Else
+            WritefileHeader1(pallet)
+        End If
+    End Sub
+
+
     Sub ejectpart()
         ' Routine to efect part from holder on the robot
         Scara.Off(TipVacuum)
@@ -774,8 +785,8 @@ Public Class Manual_Weight
             write_history(curpallet)
         End If
 
-        '    swdataset.Close() ' Need to think if we close here or create a routine to handle closing
-        '    swdataset.Dispose()
+        swdataset.Close() ' Need to think if we close here or create a routine to handle closing
+        swdataset.Dispose()
 
         ' swlogdata.Close()
     End Sub
@@ -1457,18 +1468,13 @@ Public Class Manual_Weight
         If RightPallet IsNot Nothing Then
             If RightPallet.inprocess = PalletData.status.waiting Then
                 ProcessPallet(RightPallet)
+
             End If
             Exit Sub
         End If
         If LeftPallet IsNot Nothing Then
             If LeftPallet.inprocess = PalletData.status.waiting Then
 
-                If LeftPallet.firstweightexists Then
-                    writefileheader2(LeftPallet)
-                Else
-                    WritefileHeader1(LeftPallet)
-
-                End If
                 ProcessPallet(LeftPallet)
             End If
         End If
@@ -1479,21 +1485,13 @@ Public Class Manual_Weight
         ' Called when either a button is pressed or when a pallet is complete to determine if another pallet is ready.
         If LeftPallet IsNot Nothing Then
             If LeftPallet.inprocess = PalletData.status.waiting Then
-
                 ProcessPallet(LeftPallet)
             End If
             Exit Sub
         End If
-        If RightPallet IsNot Nothing Then
-            If RightPallet.inprocess = PalletData.status.waiting Then
-                If RightPallet.firstweightexists Then
-                    writefileheader2(RightPallet)
-                Else
-                    WritefileHeader1(RightPallet)
+        If RightPallet IsNot Nothing And RightPallet.inprocess = PalletData.status.waiting Then
 
-                End If
-                ProcessPallet(RightPallet)
-            End If
+            ProcessPallet(RightPallet)
         End If
 
     End Sub
@@ -1568,12 +1566,13 @@ Public Class Manual_Weight
 
         Lbl_CurrentGoodL.Text = LeftPallet.numgood.ToString
         Lbl_CurrentBadL.Text = LeftPallet.numbad.ToString
-        If RightPallet IsNot Nothing Then
-            Do While RightPallet.inprocess = PalletData.status.processing
-                Application.DoEvents()
-                Thread.Sleep(1000)
-            Loop
-        End If
+
+        'If RightPallet IsNot Nothing Then
+        '    Do While RightPallet.inprocess = PalletData.status.processing
+        '        Application.DoEvents()
+        '        Thread.Sleep(1000)
+        '    Loop
+        'End If
 
 
         checkright()
