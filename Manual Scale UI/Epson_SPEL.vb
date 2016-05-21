@@ -21,11 +21,17 @@ Module Epson_SPEL
                 .Initialize()
                 .Project = "C:\EpsonRC70\Projects\vbcontorl\vbcontorl.sprj"
                 .TLSet(1, -16.01, -0.303, 0, 0, 0, 0)
-                .MotorsOn = True
+                .Reset()
             End With
+
         Catch EX As RCAPINet.SpelException
             MessageBox.Show(EX.Message)
         End Try
+
+        If Scara.EStopOn = True Then
+            MsgBox("Reset EStop Button", MsgBoxStyle.OkOnly, "ROBOT ESTOP DETECTED")
+        End If
+        Scara.MotorsOn = True
 
     End Sub
 
@@ -34,21 +40,15 @@ Module Epson_SPEL
         With Scara
             .Tool(1)
             .LimZ(-65)
-            .Speed(60) '60 is production
-            .Accel(50, 20)
+            .Speed(Manual_Weight.speed) '60 is production
+            .Accel(Manual_Weight.accel, Manual_Weight.decel)
             .PowerHigh = True
         End With
         Dim VALUES() As Single
 
         VALUES = Scara.GetRobotPos(RCAPINet.SpelRobotPosType.World, 0, 1, 0)
-        If VALUES(2) > -65 Then
-            With Scara
-                .LimZ(VALUES(2) + 1)
-                .SetPoint(incjump, VALUES(0), VALUES(1), -70, VALUES(3))
-                .Jump(incjump)
-                .LimZ(-65)
-            End With
-        End If
+
+        RobotHeightOutOfRange()
 
 
     End Sub
@@ -56,5 +56,26 @@ Module Epson_SPEL
     Public Sub EventReceived(ByVal sender As Object, ByVal e As RCAPINet.SpelEventArgs) Handles Scara.EventReceived
         MsgBox("received event " & e.Event)
     End Sub
+
+    Public Sub RobotHeightOutOfRange()
+        Dim values() As Single
+        values = Scara.GetRobotPos(SpelRobotPosType.World, 0, 0, 0)
+        If values(2) > -2 Then
+            If Scara.MotorsOn = True Then Scara.MotorsOn = False
+            MsgBox("Move robot acutator down and then press ok", MsgBoxStyle.Critical, "Robot acuator out of range")
+
+        End If
+        If values(2) > -65 Then
+            With Scara
+                .LimZ(values(2) + 1)
+                .SetPoint(incjump, values(0), values(1), -70, values(3))
+                .Jump(incjump)
+                .LimZ(-65)
+            End With
+        End If
+
+    End Sub
+
+
 
 End Module

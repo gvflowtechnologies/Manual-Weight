@@ -49,10 +49,12 @@ Public Class Manual_Weight
     Const BadX As Single = -127
     Const BadY As Single = 339.438
     Const DisopositionZ As Single = -110
+
     Private teachingpoint As Boolean
     ' Speed Settings
-    Const speed As Integer = 60 ' Speed constant
-    Const accelin As Integer = 30
+    Public Const speed As Integer = 60 ' Speed constant
+    Public Const accel As Integer = 30 ' Accel out of location constant
+    Public Const decel As Integer = 30 ' Decel into location constant
 
     ' Points identifiers for jump commands 
     Const PlaceScalePoint As Integer = 10 ' Scale place location
@@ -165,11 +167,11 @@ Public Class Manual_Weight
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = False
 
-        Scara.Reset()
-        Scara.LimZ(0)
+        Epson_SPEL.RobotHeightOutOfRange()
+
         Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
         Scara.Jump(pausepoint)
-        Scara.LimZ(-65)
+
         Scara.MotorsOn = False
 
         TMR_door = New Windows.Forms.Timer
@@ -222,24 +224,6 @@ Public Class Manual_Weight
     End Function
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
-
-        'If LeftPallet.inprocess = PalletData.status.processing Or RightPallet.inprocess = PalletData.status.processing Then
-
-        'Else
-        '    If LeftPallet.inprocess = PalletData.status.complete Then
-        '        LeftPallet.dispose()
-        '    End If
-        '    If RightPallet.inprocess = PalletData.status.complete Then
-        '        RightPallet.dispose()
-        '    End If
-        '    If LeftPallet.inprocess = PalletData.status.waiting Then
-        '        ProcessPallet(LeftPallet)
-        '    Else
-        '        If RightPallet.inprocess = PalletData.status.waiting Then
-        '            ProcessPallet(RightPallet)
-        '        End If
-        '    End If
-        'End If
 
 
         Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
@@ -588,15 +572,6 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub writeheader(ByVal pallet As PalletData)
-        If pallet.firstweightexists Then
-            writefileheader2(pallet)
-        Else
-            WritefileHeader1(pallet)
-        End If
-    End Sub
-
-
     Sub ejectpart()
         ' Routine to efect part from holder on the robot
         Scara.Off(TipVacuum)
@@ -676,8 +651,6 @@ Public Class Manual_Weight
         End If
 
     End Sub
-
-
 
     Private Sub Disposition(ByRef currentpallet As PalletData)
         ' Determines disposition of the canister
@@ -823,6 +796,13 @@ Public Class Manual_Weight
 
 
     End Sub
+    Private Sub writeheader(ByVal pallet As PalletData)
+        If pallet.firstweightexists Then
+            writefileheader2(pallet)
+        Else
+            WritefileHeader1(pallet)
+        End If
+    End Sub
 
     Private Sub WritefileHeader1(ByVal curpallet As PalletData) ' write the header to the firstweight data set.
         ' Very simple file to hold first pass data.
@@ -938,7 +918,9 @@ Public Class Manual_Weight
     End Sub
 
     Sub loginhandling()
-
+        'This routine is called when a user tries to enter either of the settings tabs.  User can take three attempts at
+        'entering the appropriate password to access the tabs.  After three times the routine returns the user to  the
+        ' run page.
         Dim count As Integer
         Dim login As String
         Dim logintype As MsgBoxResult
@@ -1058,6 +1040,8 @@ Public Class Manual_Weight
         ' Need to work on the test when the scale arrives
         '****************************************
 
+        MsgBox("Check Around Scale and Remove any Foreign Materials", MsgBoxStyle.OkOnly, "Check Scale Area")
+
         ' 1. Tare Scale
         Do Until sartorius.ScaleEmpty ' Add value for scale weight less than tare error
 
@@ -1141,6 +1125,25 @@ Public Class Manual_Weight
         Calibration.Lbl_CalPrompts.Text = "Remove all weight from scale"
         Calibration.Lbl_CalPrompts.BackColor = Color.Red
 
+
+        ' 4. Tare Scale again
+        Do Until sartorius.ScaleEmpty ' Add value for scale weight less than tare error
+
+            If cancelclicked Then
+                CancelCalibration()
+                Exit Sub
+            End If
+
+            Application.DoEvents()
+            Threading.Thread.Sleep(1)
+
+        Loop
+
+
+        updatetare()
+
+
+
         Do ' Add value for scale weight less than 1.0 grams
 
             If cancelclicked Then
@@ -1153,6 +1156,8 @@ Public Class Manual_Weight
         Loop Until sartorius.ScaleEmpty
 
         Calibration.PB_Calprogress.PerformStep()
+
+        '5. send calibration string
 
         startcal()
 
@@ -1442,14 +1447,15 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub updatetare()
+        'Retares the scale.  Opens up a commport if necessary.
         newcommport()
         mycom.Write("T" & ControlChars.CrLf)
     End Sub
     Public Sub startcal()
-
-        'Loop
+        ' Sends the command charaters required to start calibration of the sartorius scale.
+        ' Calibration method is primarily set and controlled by sartorius.
         mycom.Write("W" & ControlChars.CrLf)
-        '   sartorius.CalRequest = False
+
 
     End Sub
 
@@ -1534,11 +1540,12 @@ Public Class Manual_Weight
             End If
             Exit Sub
         End If
-        If RightPallet IsNot Nothing And RightPallet.inprocess = PalletData.status.waiting Then
+        If RightPallet IsNot Nothing Then
+            If RightPallet.inprocess = PalletData.status.waiting Then
 
-            ProcessPallet(RightPallet)
+                ProcessPallet(RightPallet)
+            End If
         End If
-
     End Sub
 
     Private Sub Btn_WeighLeft_Click(sender As Object, e As EventArgs) Handles Btn_WeighLeft.Click
@@ -1596,7 +1603,7 @@ Public Class Manual_Weight
             LeftPallet.readfirstweight()
 
             'Set the batch value
-            Lbl_BatchN_Right.Text = LeftPallet.batch
+            Lbl_BatchN_Left.Text = LeftPallet.batch
 
             ' and then write the file header.
             '  writefileheader2(LeftPallet)
@@ -1778,10 +1785,10 @@ Public Class Manual_Weight
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
-        ' 1 TURN MOTORS OFF
-
-        Scara.MotorsOn = False
-
+        ' 1 TURN MOTORS OFF if they are on.
+        If Scara.MotorsOn = True Then
+            Scara.MotorsOn = False
+        End If
         '2 
 
     End Sub
@@ -1824,8 +1831,8 @@ Public Class Manual_Weight
     End Sub
 
 
-
-    Private Sub RunPage_Click(sender As Object, e As EventArgs) Handles RunPage.Click
+    Private Sub RunPage_Click(sender As Object, e As EventArgs) Handles RunPage.Enter
+        teachingpoint = False
 
     End Sub
 End Class

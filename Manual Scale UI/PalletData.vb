@@ -19,7 +19,7 @@ Public Class PalletData
     Private palletid As String ' current active pallet
     Private batchid As String ' current active pallet
     Private currentfilename As String ' Current Active File.
-    Private BFirstweightExists As Boolean
+    Private BFirstweightExists As Boolean ' true if a first weight was located for the part
     Private sttimefirst As Date ' time stamp of first weight
     Private Sttimesecond As Date ' time stamp of second weight
     Private FirstWeightReading() As String 'Array of all of the first weights
@@ -151,7 +151,7 @@ Public Class PalletData
         For Each filename In currentfirstweights
             If BFirstweightExists = True Then
                 Sttimesecond = DateTime.Now
-                '                   dseconddweightdate = DateTime.Now
+                '                 
                 Exit Sub
             Else
 
@@ -266,8 +266,8 @@ Public Class PalletData
                 Dim iaddpallet As Integer
                 iaddpallet = 0
 
-                sbname.Append(batch).Append("_")
-                sbname.Append(pallet).Append("_")
+                sbname.Append(batchid).Append("_")
+                sbname.Append(palletid).Append("_")
                 sbname.Append(DateTime.Now.Month).Append("_")
                 sbname.Append(DateTime.Now.Day).Append("_")
                 sbname.Append(DateTime.Now.Year).Append("_")
@@ -314,7 +314,7 @@ Public Class PalletData
 
         End Get
         Set(ByVal value As String)
-            Me.palletid = value
+            Me.palletid = "P" & value
 
         End Set
     End Property
