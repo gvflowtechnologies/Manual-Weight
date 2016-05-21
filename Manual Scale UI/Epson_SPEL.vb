@@ -31,7 +31,7 @@ Module Epson_SPEL
             .Tool(1)
             .LimZ(-65)
             .Speed(60) '60 is production
-            .Accel(30, 20)
+            .Accel(50, 20)
             .PowerHigh = True
         End With
         Dim VALUES() As Single

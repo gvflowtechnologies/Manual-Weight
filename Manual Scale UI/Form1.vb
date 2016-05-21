@@ -396,7 +396,7 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
 
-        For r = 0 To 1 'ActivePallet.rows - 1
+        For r = 0 To 4 'ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
