@@ -39,9 +39,9 @@ Public Class Manual_Weight
     Const TipVacuum As Integer = 9 ' Identifier for tip vacuum function
     Const blowofftime As Integer = 250 ' msec pause to allow part to eject from holder
     Const DoorSwitch As Integer = 11 ' Identifier for door switch input
+    Const PickTries As Integer = 3 ' Number of times that the robot will try to pick a part
+
     'X,Y,Z Locations on system for component locations in mm
-
-
     Const Good1x As Single = 122.295
     Const Good1Y As Single = 339.438
     Const Good2x As Single = 122.295
@@ -166,7 +166,7 @@ Public Class Manual_Weight
         Btn_PauseRobot.Enabled = False
 
         Scara.Reset()
-        Scara.LimZ(-1)
+        Scara.LimZ(0)
         Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
         Scara.Jump(pausepoint)
         Scara.LimZ(-65)
@@ -205,6 +205,7 @@ Public Class Manual_Weight
     Private Sub palletclick() Handles TPPalletLayout.Enter
         ' Allows access only to Authorized personnel    
         loginhandling()
+        teachingpoint = True
 
     End Sub
 
@@ -387,7 +388,8 @@ Public Class Manual_Weight
             leftyrighty = RCAPINet.SpelHand.Righty
             Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS"
         End If
-        ' get fixed locations
+        ' SET fixed locations
+
         fixedlocations(leftyrighty)
 
         Dim ucord As Single
@@ -462,19 +464,29 @@ Public Class Manual_Weight
                         Dim descend As Single
                         descend = 0
 
-                        Do Until Scara.In(2) = 1
+                        For X = 0 To PickTries - 1
+                            Do Until Scara.In(2) = 1
 
-                            descend = descend - 0.2
-                            Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ + descend, ucord, 0, leftyrighty)
+                                descend = descend - 0.2
+                                Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ + descend, ucord, 0, leftyrighty)
+                                Scara.Move(1)
+
+                                Application.DoEvents()
+                                Thread.Sleep(50)
+                                If descend * -1 > StartPickZ Then
+                                    Exit Do
+                                    Picked = False
+                                End If
+                            Loop
+                            Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, leftyrighty)
                             Scara.Move(1)
-
-                            Application.DoEvents()
-                            Thread.Sleep(50)
-                            If descend * -1 > StartPickZ Then
-                                Exit Do
-                                Picked = False
+                            If Scara.Sw(16) Then
+                                Picked = True
+                                Exit For
                             End If
-                        Loop
+
+
+                        Next
 
                         If pauserequest = True Then Controlled_Pause()
                         '6 Move part to scale if part was picked    
@@ -486,9 +498,9 @@ Public Class Manual_Weight
                             '7 Wait for scale to indicate ready
                             '*******************************************************
                             '*******************************************************
-                            tmrcycle.Restart()
+                            'tmrcycle.Restart()
                             Do Until teststate = Weighprocess.weighing
-                                If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                '   If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
@@ -501,9 +513,9 @@ Public Class Manual_Weight
                             Scara.Move(WeighingPoint)
 
                             '9 Wait for reading 
-                            tmrcycle.Restart()
+                            'tmrcycle.Restart()
                             Do Until teststate = Weighprocess.prompting
-                                If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                '   If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
@@ -511,6 +523,7 @@ Public Class Manual_Weight
                             If pauserequest = True Then Controlled_Pause()
                             ' 10 Pick up part from scale
                             pickscalepart(leftyrighty)
+
                             If pauserequest = True Then Controlled_Pause()
                         Else 'If no cylinder was PICKED in the spot set the weight to -10 (flag for no part)
                             NOCYLINDER()
@@ -601,11 +614,11 @@ Public Class Manual_Weight
 
     Sub fixedlocations(ByVal angle As RCAPINet.SpelHand)
 
-
+        FIXEDPOINTS()
         Scara.SetPoint(PlaceScalePoint, scalex, scaley, scalez + PlaceZ, 0, 0, angle)
         Scara.SetPoint(WeighingPoint, scalex, scaley, scalez + WeightZ, 0, 0, angle)
         Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ, 0, 0, angle)
-        Scara.SetPoint(23, scalex, scaley, scalez + tareheight, 0, 0, angle)
+        Scara.SetPoint(tarepoint, scalex, scaley, scalez + tareheight, 0, 0, angle)
         Scara.SetPoint(badpoint, BadX, BadY, DisopositionZ, 0, 0, angle)
         Scara.SetPoint(goodpoint1, Good1x, Good1Y, DisopositionZ, 0, 0, angle)
         Scara.SetPoint(goodpoint2, Good1x, Good1Y, DisopositionZ, 0, 0, angle)
@@ -625,19 +638,34 @@ Public Class Manual_Weight
         Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ, 0, 0, handdirec)
         Scara.Jump(postweighpick)
         Scara.On(TipVacuum)
-        Do Until Scara.In(2) = 1
 
-            descend = descend - 0.2
-            Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ + descend, 0, 0, handdirec)
+        For X = 0 To PickTries - 1
+            Do Until Scara.In(2) = 1
+
+                descend = descend - 0.2
+                Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ + descend, 0, 0, handdirec)
+                Scara.Move(postweighpick)
+                Application.DoEvents()
+                Thread.Sleep(50)
+                If descend * -1 > postweighpickZ Then
+                    Exit Do
+                    Picked = False
+                End If
+            Loop
+            Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ, 0, 0, handdirec)
             Scara.Move(postweighpick)
-            Application.DoEvents()
-            Thread.Sleep(50)
-            If descend * -1 > postweighpickZ Then
-                Exit Do
-                Picked = False
+
+            If Scara.Sw(16) Then
+                Exit For
             End If
-        Loop
-        Scara.Delay(100)
+            If X = PickTries - 1 Then
+                Picked = False
+                Scara.Jump(pausepoint)
+                MsgBox("TAKE CANISTER OFF OF SCALE", MsgBoxStyle.Critical, "FAILED TO PICK SCALE OFF OF CANISTER")
+            End If
+
+        Next
+
     End Sub
 
     Sub NOCYLINDER()
@@ -1456,18 +1484,14 @@ Public Class Manual_Weight
         ' If door is closesd, then have the robot conitnue if not already running.
 
 
-        'If Scara.Sw(11) = False Then 'Robot should be running
-        '    '    ' Check if robot is paused or not
-
-
-        '    Scara.Continue()
-
-
-        'Else ' Robot should not be running
-        '    If Scara.PauseOn = False Then
-        '        Scara.Pause()
-        '    End If
-        'End If
+        If Scara.Sw(11) = False Then 'Robot should be running
+            '    ' Check if robot is paused or not
+            Scara.Continue()
+        Else ' Robot should not be running
+            If Scara.PauseOn = False Then
+                Scara.Pause()
+            End If
+        End If
 
     End Sub
 
@@ -1482,6 +1506,7 @@ Public Class Manual_Weight
     Private Sub Btn_Updt_Pllt_L_Click(sender As Object, e As EventArgs) Handles Btn_Updt_Pllt_L.Click
         ' Updates Pallet Corners for left Pallet
         UpdateSettings.palletcornersout()
+        UpdateSettings.palletcorners()
     End Sub
 
     Sub checkright()
@@ -1742,12 +1767,12 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub teachrobotpoint()
-
+        ' updates robot location on pallet settings page
         Dim VALUES() As Single
         VALUES = Scara.GetRobotPos(RCAPINet.SpelRobotPosType.World, 0, 1, 0)
-        Lbl_S_X.Text = VALUES(0).ToString("N4")
-        Lbl_S_Y.Text = VALUES(1).ToString("N4")
-        Lbl_S_Z.Text = VALUES(2).ToString("N4")
+        Lbl_RLocationX.Text = VALUES(0).ToString("N4")
+        Lbl_RlocationY.Text = VALUES(1).ToString("N4")
+        Lbl_RlocationZ.Text = VALUES(2).ToString("N4")
 
     End Sub
 
@@ -1785,30 +1810,22 @@ Public Class Manual_Weight
         My.Settings.Save()
     End Sub
 
-    Private Sub BTN_TEACH_Click(sender As Object, e As EventArgs) Handles BTN_TEACHScale.Click
+    Private Sub BTN_TeachScale_Click(sender As Object, e As EventArgs) Handles BTN_TEACHScale.Click
 
         'Saving scale point to settings
-        Dim VALUES() As Single
-        VALUES = Scara.GetRobotPos(RCAPINet.SpelRobotPosType.World, 0, 1, 0)
-        Scara.Off(8)
-        My.Settings.scalex = VALUES(0)
-        My.Settings.scaley = VALUES(1)
-        My.Settings.scalez = VALUES(2)
 
-        'update labels
-        Lbl_S_X.Text = My.Settings.scalex.ToString("N4")
-        Lbl_S_Y.Text = My.Settings.scaley.ToString("N4")
-        Lbl_S_Z.Text = My.Settings.scalez.ToString("N4")
+
         'update point values
         UpdateSettings.palletcornersout()
-        FIXEDPOINTS()
+        UpdateSettings.palletcorners()
+
         'reset flag
-        teachingpoint = False
+
     End Sub
 
-    Private Sub Btn_SelectScale_Click(sender As Object, e As EventArgs) Handles Btn_SelectScale.Click
-        ' Setting flat that you would like to teach scale point
-        teachingpoint = True
+
+
+    Private Sub RunPage_Click(sender As Object, e As EventArgs) Handles RunPage.Click
 
     End Sub
 End Class

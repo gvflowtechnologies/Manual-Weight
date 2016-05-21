@@ -16,12 +16,16 @@ Module Epson_SPEL
 
     Public Sub InitApp()
         Scara = New RCAPINet.Spel
-        With Scara
-            .Initialize()
-            .Project = "C:\EpsonRC70\Projects\vbcontorl\vbcontorl.sprj"
-            .TLSet(1, -16.01, -0.303, 0, 0, 0, 0)
-            .MotorsOn = True
-        End With
+        Try
+            With Scara
+                .Initialize()
+                .Project = "C:\EpsonRC70\Projects\vbcontorl\vbcontorl.sprj"
+                .TLSet(1, -16.01, -0.303, 0, 0, 0, 0)
+                .MotorsOn = True
+            End With
+        Catch EX As RCAPINet.SpelException
+            MessageBox.Show(EX.Message)
+        End Try
 
     End Sub
 

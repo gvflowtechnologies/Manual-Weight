@@ -29,6 +29,10 @@ Module UpdateSettings
         Manual_Weight.TB_IC_Z_R.Text = My.Settings.ICZR.ToString("N3")
 
 
+        Manual_Weight.Tb_S_X.Text = My.Settings.scalex.ToString("N4")
+        Manual_Weight.Tb_SY.Text = My.Settings.scaley.ToString("N4")
+        Manual_Weight.TB_Sz.Text = My.Settings.scalez.ToString("N4")
+
 
     End Sub
 
@@ -59,9 +63,9 @@ Module UpdateSettings
         My.Settings.ICYR = CSng(Manual_Weight.TB_IC_Y_R.Text)
         My.Settings.ICZR = CSng(Manual_Weight.TB_IC_Z_R.Text)
 
-        My.Settings.scalex = CSng(Manual_Weight.Lbl_S_X.Text)
-        My.Settings.scaley = CSng(Manual_Weight.Lbl_S_Y.Text)
-        My.Settings.scalez = CSng(Manual_Weight.Lbl_S_Z.Text)
+        My.Settings.scalex = CSng(Manual_Weight.Tb_S_X.Text)
+        My.Settings.scaley = CSng(Manual_Weight.Tb_SY.Text)
+        My.Settings.scalez = CSng(Manual_Weight.TB_Sz.Text)
 
 
         My.Settings.Save()
