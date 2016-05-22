@@ -668,7 +668,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Sub NOCYLINDER()
+    Sub NOCYLINDER() ' Routine to set weight and flags for cylinders that are not present.
         If ccylinder.FirstWeightExists Then
             ccylinder.Secondweight = -10.0
         Else
@@ -883,13 +883,14 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub write_second_weight()
-
-        swdataset.Write(ccylinder.CylIndex.ToString & ", ")
-        swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
-        swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
-        swdataset.Write(ccylinder.Disposition & ", ")
-        swdataset.WriteLine(ccylinder.DispReason)
-        swdataset.Flush()
+        If ccylinder.present Then ' only write data for cylinders that are present.
+            swdataset.Write(ccylinder.CylIndex.ToString & ", ")
+            swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
+            swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
+            swdataset.Write(ccylinder.Disposition & ", ")
+            swdataset.WriteLine(ccylinder.DispReason)
+            swdataset.Flush()
+        End If
     End Sub
 
     Private Sub write_Summary(ByRef currpallet As PalletData)
