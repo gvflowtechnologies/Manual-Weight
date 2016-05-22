@@ -631,6 +631,8 @@ Public Class Manual_Weight
                     Picked = False
                 End If
             Loop
+            Scara.Delay(100)
+
             Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ, 0, 0, handdirec)
             Scara.Move(postweighpick)
 
