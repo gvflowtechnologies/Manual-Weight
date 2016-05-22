@@ -29,9 +29,9 @@ Module Epson_SPEL
         End Try
 
         If Scara.EStopOn = True Then
-            MsgBox("Reset EStop Button", MsgBoxStyle.OkOnly, "ROBOT ESTOP DETECTED")
+            MsgBox("Reset EStop Button", MsgBoxStyle.OkOnly, "ROBOT E-STOP DETECTED")
         End If
-        Scara.MotorsOn = True
+
 
     End Sub
 
@@ -54,7 +54,24 @@ Module Epson_SPEL
     End Sub
 
     Public Sub EventReceived(ByVal sender As Object, ByVal e As RCAPINet.SpelEventArgs) Handles Scara.EventReceived
-        MsgBox("received event " & e.Event)
+        Select Case e.Event
+            Case SpelEvents.EstopOn
+                MsgBox("Manually reset E-Stop Switch prior to restarting", MsgBoxStyle.Critical, "E-Stop Detected")
+            Case SpelEvents.EstopOff
+                MsgBox("Press Continue Button to resume operation", MsgBoxStyle.OkOnly, "E-Stop Reset")
+                Scara.Reset()
+            Case SpelEvents.Pause
+                ' MsgBox("trying to detect pause", MsgBoxStyle.OkOnly, "Yeah")
+                'Manual_Weight.BtnResume.Enabled = True
+
+            Case Else
+                MsgBox("received event " & e.Event)
+
+        End Select
+
+
+
+
     End Sub
 
     Public Sub RobotHeightOutOfRange()
@@ -67,10 +84,12 @@ Module Epson_SPEL
         End If
         If values(2) > -65 Then
             With Scara
+                .AsyncMode = True
                 .LimZ(values(2) + 1)
                 .SetPoint(incjump, values(0), values(1), -70, values(3))
                 .Jump(incjump)
                 .LimZ(-65)
+                .WaitCommandComplete()
             End With
         End If
 

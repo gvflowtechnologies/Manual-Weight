@@ -166,12 +166,14 @@ Public Class Manual_Weight
 
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = False
+        Scara.MotorsOn = True
 
         Epson_SPEL.RobotHeightOutOfRange()
 
+        Scara.AsyncMode = True
         Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
         Scara.Jump(pausepoint)
-
+        Scara.WaitCommandComplete()
         Scara.MotorsOn = False
 
         TMR_door = New Windows.Forms.Timer
@@ -1493,11 +1495,17 @@ Public Class Manual_Weight
 
         If Scara.Sw(11) = False Then 'Robot should be running
             '    ' Check if robot is paused or not
+            ' shut off timer
+            'TMR_door.Enabled = False
+            ' message user to close door and then push continue
+
+
+
             Scara.Continue()
         Else ' Robot should not be running
-            If Scara.PauseOn = False Then
-                Scara.Pause()
-            End If
+            '  If Scara.PauseOn = False Then
+            Scara.Pause()
+            'End If
         End If
 
     End Sub
@@ -1759,10 +1767,8 @@ Public Class Manual_Weight
             Thread.Sleep(1)
         Loop Until resumemotion = True
         ' Move to pause point slowly.  Restarts if 
-        Scara.LimZ(-1)
-        Scara.MotorsOn = True
-        Scara.Jump(pausepoint)
-        Scara.LimZ(-65)
+        Epson_SPEL.RobotHeightOutOfRange()
+
 
         ' 5. Set Flags
         BtnResume.Enabled = False
@@ -1830,7 +1836,6 @@ Public Class Manual_Weight
         'reset flag
 
     End Sub
-
 
     Private Sub RunPage_Click(sender As Object, e As EventArgs) Handles RunPage.Enter
         teachingpoint = False
