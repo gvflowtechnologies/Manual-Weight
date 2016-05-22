@@ -320,17 +320,17 @@ Public Class Manual_Weight
         If pallet.Palletlocation = PalletData.PLocation.PalletLeft Then
             leftyrighty = RCAPINet.SpelHand.Lefty
             If pallet.firstweightexists Then
-                Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 2nd Pass"
+                Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 2nd Weight"
             Else
-                Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 1st Pass"
+                Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 1st Weight"
             End If
 
         Else
             leftyrighty = RCAPINet.SpelHand.Righty
             If pallet.firstweightexists Then
-                Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 2nd Pass"
+                Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 2nd Weight"
             Else
-                Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 1st Pass"
+                Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 1st Weight"
             End If
         End If
 
