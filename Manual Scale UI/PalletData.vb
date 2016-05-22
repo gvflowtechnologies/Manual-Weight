@@ -39,7 +39,7 @@ Public Class PalletData
     '************************
     ' File Handling  
     '************************
-   
+
     Private currentfirstweights() As String ' Array of short file names of first pallets in the system
     Private Currentfirstpallets() As String ' Array of first pallets in the system
     Private Index_filename As Integer ' Index in array of filenames that contains the current file
@@ -223,7 +223,7 @@ Public Class PalletData
             Else
                 x = OutsideCorner(0)
             End If
-            
+
             Return x
         End Get
     End Property
