@@ -8,13 +8,14 @@
     Private sDispReason As String 'string explaining disposition
     Private firstfail As Boolean
     Private BSecondpass As Boolean 'First or second weight 
+    Private BcanisterPresent As Boolean
 
     Sub New(ByVal SecondPass As Boolean)
         BSecondpass = SecondPass
         ddisposition = False
         dMyfirstweight = 0.0
         dMySecondweight = 0.0
-
+        BcanisterPresent = True
     End Sub
 
     Sub dispose()
@@ -135,7 +136,7 @@
         End Set
     End Property
 
-    Property Disposition As Boolean
+    Property Disposition As Boolean ' Boolean for disposition
         Get
             Return ddisposition
         End Get
@@ -144,12 +145,20 @@
         End Set
     End Property
 
-    ReadOnly Property DispReason As String
+    ReadOnly Property DispReason As String ' String with disposition reason text
         Get
             Return sDispReason
         End Get
     End Property
 
+    Property present As Boolean
+        Get
+            Return BcanisterPresent
+        End Get
+        Set(value As Boolean)
+            BcanisterPresent = value
+        End Set
+    End Property
 
 
 End Class

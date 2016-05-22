@@ -113,6 +113,12 @@ Partial Class Manual_Weight
         Me.Label18 = New System.Windows.Forms.Label()
         Me.Lbl_RlocationY = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.TB_Sz = New System.Windows.Forms.TextBox()
+        Me.Tb_SY = New System.Windows.Forms.TextBox()
+        Me.Tb_S_X = New System.Windows.Forms.TextBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label17 = New System.Windows.Forms.Label()
         Me.BTN_TEACHScale = New System.Windows.Forms.Button()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
         Me.TB_OC_Z_R = New System.Windows.Forms.TextBox()
@@ -169,12 +175,6 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
-        Me.Label10 = New System.Windows.Forms.Label()
-        Me.Label16 = New System.Windows.Forms.Label()
-        Me.Label17 = New System.Windows.Forms.Label()
-        Me.TB_Sz = New System.Windows.Forms.TextBox()
-        Me.Tb_SY = New System.Windows.Forms.TextBox()
-        Me.Tb_S_X = New System.Windows.Forms.TextBox()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -1176,6 +1176,60 @@ Partial Class Manual_Weight
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Scale Location"
         '
+        'TB_Sz
+        '
+        Me.TB_Sz.Location = New System.Drawing.Point(344, 29)
+        Me.TB_Sz.Name = "TB_Sz"
+        Me.TB_Sz.Size = New System.Drawing.Size(68, 20)
+        Me.TB_Sz.TabIndex = 30
+        Me.TB_Sz.Text = "-123.333"
+        '
+        'Tb_SY
+        '
+        Me.Tb_SY.Location = New System.Drawing.Point(216, 29)
+        Me.Tb_SY.Name = "Tb_SY"
+        Me.Tb_SY.Size = New System.Drawing.Size(68, 20)
+        Me.Tb_SY.TabIndex = 29
+        Me.Tb_SY.Text = "-123.333"
+        '
+        'Tb_S_X
+        '
+        Me.Tb_S_X.Location = New System.Drawing.Point(67, 29)
+        Me.Tb_S_X.Name = "Tb_S_X"
+        Me.Tb_S_X.Size = New System.Drawing.Size(68, 20)
+        Me.Tb_S_X.TabIndex = 28
+        Me.Tb_S_X.Text = "-123.333"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label10.Location = New System.Drawing.Point(286, 27)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(55, 20)
+        Me.Label10.TabIndex = 27
+        Me.Label10.Text = "Z(mm)"
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label16.Location = New System.Drawing.Point(151, 27)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(60, 20)
+        Me.Label16.TabIndex = 26
+        Me.Label16.Text = "Y (mm)"
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label17.Location = New System.Drawing.Point(6, 27)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(56, 20)
+        Me.Label17.TabIndex = 25
+        Me.Label17.Text = "x (mm)"
+        '
         'BTN_TEACHScale
         '
         Me.BTN_TEACHScale.Location = New System.Drawing.Point(414, 12)
@@ -1717,60 +1771,6 @@ Partial Class Manual_Weight
         'TMR_door
         '
         Me.TMR_door.Interval = 200
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(286, 27)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(55, 20)
-        Me.Label10.TabIndex = 27
-        Me.Label10.Text = "Z(mm)"
-        '
-        'Label16
-        '
-        Me.Label16.AutoSize = True
-        Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(151, 27)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(60, 20)
-        Me.Label16.TabIndex = 26
-        Me.Label16.Text = "Y (mm)"
-        '
-        'Label17
-        '
-        Me.Label17.AutoSize = True
-        Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.Location = New System.Drawing.Point(6, 27)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(56, 20)
-        Me.Label17.TabIndex = 25
-        Me.Label17.Text = "x (mm)"
-        '
-        'TB_Sz
-        '
-        Me.TB_Sz.Location = New System.Drawing.Point(344, 29)
-        Me.TB_Sz.Name = "TB_Sz"
-        Me.TB_Sz.Size = New System.Drawing.Size(68, 20)
-        Me.TB_Sz.TabIndex = 30
-        Me.TB_Sz.Text = "-123.333"
-        '
-        'Tb_SY
-        '
-        Me.Tb_SY.Location = New System.Drawing.Point(216, 29)
-        Me.Tb_SY.Name = "Tb_SY"
-        Me.Tb_SY.Size = New System.Drawing.Size(68, 20)
-        Me.Tb_SY.TabIndex = 29
-        Me.Tb_SY.Text = "-123.333"
-        '
-        'Tb_S_X
-        '
-        Me.Tb_S_X.Location = New System.Drawing.Point(67, 29)
-        Me.Tb_S_X.Name = "Tb_S_X"
-        Me.Tb_S_X.Size = New System.Drawing.Size(68, 20)
-        Me.Tb_S_X.TabIndex = 28
-        Me.Tb_S_X.Text = "-123.333"
         '
         'Manual_Weight
         '
