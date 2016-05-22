@@ -550,6 +550,7 @@ Public Class Manual_Weight
                         End If
                     End If
                 End If
+
                 If gbinfull Then
                     MsgBox("Empty good bin and then press OK", MsgBoxStyle.OkOnly, "Good Bin Full")
                     resetgood()
