@@ -707,16 +707,16 @@ Public Class Manual_Weight
                 If My.Settings.TotalGood >= My.Settings.GoodBInMax Then gbinfull = True
             End If
 
-        Else
-            pallet.numbad = pallet.numbad + 1
-            If Not ccylinder.present Then
+        Else ' cyliner disposition is fail.
 
-                If pallet.firstweightexists = True Then 'IF on a se
-                    If Not ccylinder.FirstWeightFail Then
+            If Not ccylinder.present Then ' Only count parts that were present
+                pallet.numbad = pallet.numbad + 1
+                If pallet.firstweightexists = True Then 'IF on a second weight
+                    If Not ccylinder.FirstWeightFail Then ' and not a first weight fail
                         My.Settings.TotalBad = My.Settings.TotalBad + 1
                         My.Settings.Save()
                     End If
-                Else
+                Else ' If on first weight 
                     My.Settings.TotalBad = My.Settings.TotalBad + 1
                     My.Settings.Save()
                 End If
