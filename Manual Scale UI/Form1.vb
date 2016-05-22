@@ -1505,20 +1505,20 @@ Public Class Manual_Weight
         ' If door is closesd, then have the robot conitnue if not already running.
 
 
-        If Scara.Sw(11) = False Then 'Robot should be running
-            '    ' Check if robot is paused or not
-            ' shut off timer
-            'TMR_door.Enabled = False
-            ' message user to close door and then push continue
+        'If Scara.Sw(11) = False Then 'Robot should be running
+        '    '    ' Check if robot is paused or not
+        '    ' shut off timer
+        '    'TMR_door.Enabled = False
+        '    ' message user to close door and then push continue
 
 
 
-            Scara.Continue()
-        Else ' Robot should not be running
-            '  If Scara.PauseOn = False Then
-            Scara.Pause()
-            'End If
-        End If
+        '    Scara.Continue()
+        'Else ' Robot should not be running
+        '    '  If Scara.PauseOn = False Then
+        '    Scara.Pause()
+        '    'End If
+        'End If
 
     End Sub
 
