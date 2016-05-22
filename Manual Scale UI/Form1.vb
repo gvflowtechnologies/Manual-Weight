@@ -597,7 +597,6 @@ Public Class Manual_Weight
         End If
     End Sub
 
-
     Sub ejectpart()
         ' Routine to efect part from holder on the robot
         Scara.Off(TipVacuum)
