@@ -482,6 +482,7 @@ Public Class Manual_Weight
                                     Picked = False
                                 End If
                             Loop
+                            Scara.Delay(100)
                             Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, ActivePallet.Palletlocation)
                             Scara.Move(1)
                             If Scara.Sw(16) Then
