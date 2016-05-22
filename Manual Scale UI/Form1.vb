@@ -315,6 +315,30 @@ Public Class Manual_Weight
 
     End Sub
 
+    Sub updatepalletstatus(ByRef pallet As PalletData)
+        Dim leftyrighty As RCAPINet.SpelHand
+        If pallet.Palletlocation = PalletData.PLocation.PalletLeft Then
+            leftyrighty = RCAPINet.SpelHand.Lefty
+            If pallet.firstweightexists Then
+                Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 2nd Pass"
+            Else
+                Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 1st Pass"
+            End If
+
+        Else
+            leftyrighty = RCAPINet.SpelHand.Righty
+            If pallet.firstweightexists Then
+                Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 2nd Pass"
+            Else
+                Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 1st Pass"
+            End If
+        End If
+
+        ' SET fixed locations
+        fixedlocations(leftyrighty)
+
+    End Sub
+
     Sub ProcessPallet(ByRef ActivePallet As PalletData)
         ' Process Pallet with a Robot
 
@@ -348,7 +372,7 @@ Public Class Manual_Weight
         Dim RincX As Single
         Dim RincY As Single
 
-        Dim leftyrighty As RCAPINet.SpelHand
+
 
         'set initial values for corner
         basex = ActivePallet.BaseX
@@ -366,17 +390,11 @@ Public Class Manual_Weight
         ' We are working with Tool here in the following envelopes
         Epson_SPEL.settings()
 
+        updatepalletstatus(ActivePallet)
 
-        If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
-            leftyrighty = RCAPINet.SpelHand.Lefty
-            Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS"
-        Else
-            leftyrighty = RCAPINet.SpelHand.Righty
-            Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS"
-        End If
-        ' SET fixed locations
 
-        fixedlocations(leftyrighty)
+ 
+
 
         Dim ucord As Single
 
