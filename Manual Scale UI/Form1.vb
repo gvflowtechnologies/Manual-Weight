@@ -522,6 +522,7 @@ Public Class Manual_Weight
                     End If
                 Else
                     Picked = False
+
                 End If
 
                 '10 Move to spot (either Pallet/Good/Bad) - Seperate Routine
@@ -652,7 +653,7 @@ Public Class Manual_Weight
         Else
             ccylinder.Firstweight = -10.0
         End If
-
+        ccylinder.present = False
     End Sub
 
     Private Sub Disposition(ByRef currentpallet As PalletData)
@@ -687,9 +688,18 @@ Public Class Manual_Weight
 
         Else
             pallet.numbad = pallet.numbad + 1
-            If pallet.firstweightexists = True Then
-                My.Settings.TotalBad = My.Settings.TotalBad + 1
-                My.Settings.Save()
+            If Not ccylinder.present Then
+
+                If pallet.firstweightexists = True Then
+                    If Not ccylinder.FirstWeightFail Then
+                        My.Settings.TotalBad = My.Settings.TotalBad + 1
+                        My.Settings.Save()
+                    End If
+                Else
+                    My.Settings.TotalBad = My.Settings.TotalBad + 1
+                    My.Settings.Save()
+                End If
+
             End If
         End If
 
