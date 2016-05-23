@@ -495,7 +495,7 @@ Public Class Manual_Weight
                                 Scara.Move(1)
 
                                 Application.DoEvents()
-                                Thread.Sleep(50)
+                                Thread.Sleep(100)
                                 If descend * -1 > StartPickZ Then
                                     Exit Do
                                     Picked = False
@@ -664,7 +664,7 @@ Public Class Manual_Weight
                 Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ + descend, 0, 0, handdirec)
                 Scara.Move(postweighpick)
                 Application.DoEvents()
-                Thread.Sleep(50)
+                Thread.Sleep(100)
                 If descend * -1 > postweighpickZ Then
                     Exit Do
                     Picked = False
