@@ -52,7 +52,7 @@ Public Class Manual_Weight
 
     Private teachingpoint As Boolean
     ' Speed Settings
-    Public Const speed As Integer = 60 ' Speed constant
+    Public Const speed As Integer = 3 ' Speed constant
     Public Const accel As Integer = 30 ' Accel out of location constant
     Public Const decel As Integer = 30 ' Decel into location constant
 

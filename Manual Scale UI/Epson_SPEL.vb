@@ -80,16 +80,16 @@ Module Epson_SPEL
         If values(2) > -2 Then
             If Scara.MotorsOn = True Then Scara.MotorsOn = False
             MsgBox("Move robot acutator down and then press ok", MsgBoxStyle.Critical, "Robot acuator out of range")
-
+            Scara.MotorsOn = True
         End If
         If values(2) > -65 Then
             With Scara
-                .AsyncMode = True
+                '  .AsyncMode = True
                 .LimZ(values(2) + 1)
                 .SetPoint(incjump, values(0), values(1), -70, values(3))
                 .Jump(incjump)
                 .LimZ(-65)
-                .WaitCommandComplete()
+                '    .WaitCommandComplete()
             End With
         End If
 
