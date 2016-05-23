@@ -430,18 +430,18 @@ Partial Class Manual_Weight
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(21, 33)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(88, 20)
+        Me.Label15.Size = New System.Drawing.Size(83, 20)
         Me.Label15.TabIndex = 5
-        Me.Label15.Text = "Total Good"
+        Me.Label15.Text = "Total Pass"
         '
         'Label14
         '
         Me.Label14.AutoSize = True
         Me.Label14.Location = New System.Drawing.Point(32, 150)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(77, 20)
+        Me.Label14.Size = New System.Drawing.Size(73, 20)
         Me.Label14.TabIndex = 4
-        Me.Label14.Text = "Total Bad"
+        Me.Label14.Text = "Total Fail"
         '
         'Lbl_BadCount
         '

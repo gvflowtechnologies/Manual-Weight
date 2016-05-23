@@ -27,11 +27,11 @@ Public Class Manual_Weight
 
     ' Z height Offsets above part location points in (mm).
     Const CanistercheckZ As Single = 16 ' Height in mm at which the laser sensor looks for canisters.
-    Const StartPickZ As Single = 2 ' Height in mm above canister point that we start picking canisters
+    Const StartPickZ As Single = 1 ' Height in mm above canister point that we start picking canisters
     Const PlaceZ As Single = 3 ' Height in mm above scale point that we spit canister out at.
     Const Returnz As Single = 8 ' Height in mm above canister rack that we spit parts out at.
     Const WeightZ As Single = 15 ' Height (mm) above scale nest that robot waits while waiting for reading.
-    Const postweighpickZ As Single = 2 ' Height above scale the robot starts to pick up part off of scale.
+    Const postweighpickZ As Single = 1 ' Height above scale the robot starts to pick up part off of scale.
     Const tareheight As Integer = 20 ' Height above scale nest that the robot waits at while waiting for stability
 
     'Output constants used for picking and placing parts
@@ -52,9 +52,9 @@ Public Class Manual_Weight
 
     Private teachingpoint As Boolean
     ' Speed Settings
-    Public Const speed As Integer = 3 ' Speed constant
-    Public Const accel As Integer = 30 ' Accel out of location constant
-    Public Const decel As Integer = 30 ' Decel into location constant
+    Public Const speed As Integer = 60 ' Speed constant
+    Public Const accel As Integer = 40 ' Accel out of location constant
+    Public Const decel As Integer = 40 ' Decel into location constant
 
     ' Points identifiers for jump commands 
     Const PlaceScalePoint As Integer = 10 ' Scale place location
@@ -429,7 +429,7 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
 
-        For r = 0 To 1 'ActivePallet.rows - 1
+        For r = 0 To ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -439,7 +439,7 @@ Public Class Manual_Weight
                 End If
             End If
 
-            For c = 0 To 1 'ActivePallet.columns - 1
+            For c = 0 To ActivePallet.columns - 1
 
                 '************************************
                 'Stop measuring if the scale is bad.
