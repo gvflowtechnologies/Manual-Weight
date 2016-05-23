@@ -58,6 +58,8 @@ Module Epson_SPEL
         Select Case e.Event
             Case SpelEvents.EstopOn
                 MsgBox("Manually reset E-Stop Switch prior to restarting", MsgBoxStyle.Critical, "E-Stop Detected")
+
+
             Case SpelEvents.EstopOff
                 MsgBox("Press Continue Button to resume operation", MsgBoxStyle.OkOnly, "E-Stop Reset")
                 Scara.Reset()

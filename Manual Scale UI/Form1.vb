@@ -468,10 +468,15 @@ Public Class Manual_Weight
 
 
                     '4 Check pallet location for part
+                    ccylinder.present = True ' initially sent to true
                     Scara.SetPoint(1, xcord, ycord, zcord + CanistercheckZ, ucord, 0, leftyrighty)
                     Scara.Jump(1)
+                    Scara.WaitCommandComplete()
                     If pauserequest = True Then Controlled_Pause()
                     Scara.WaitSw(8, True, 0.5)
+                    If Scara.TW Then
+                        ccylinder.present = False
+                    End If
                     whatreading = 0
                     whatreading = Scara.In(1)
                     If whatreading = 1 Then
@@ -1724,7 +1729,7 @@ Public Class Manual_Weight
         Do
             RightPallet.pallet = InputBox("Enter Pallet ID", "Pallet Identificaton", , , )
             If RightPallet.pallet = "" Then Exit Sub
-            followup = MsgBox("You entered " & RightPallet.pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet ID")
+            followup = MsgBox("You entered " & RightPallet.pallet.Substring(1) & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet ID")
 
             If followup = MsgBoxResult.Cancel Then
                 RightPallet.pallet = ""
