@@ -533,6 +533,7 @@ Public Class Manual_Weight
                             '8 Place on scale
 
                             Scara.Move(PlaceScalePoint)
+                            Scara.Delay(100)
                             ejectpart()
                             Scara.Move(WeighingPoint)
 
@@ -1561,13 +1562,13 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
-        ' Timer object to detect if the door is opened.
-        DoorPause()
-        If teachingpoint Then
-            teachrobotpoint()
-        End If
-    End Sub
+    'Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
+    '    ' Timer object to detect if the door is opened.
+    '    DoorPause()
+    '    If teachingpoint Then
+    '        teachrobotpoint()
+    '    End If
+    'End Sub
 
     Private Sub Btn_Updt_Pllt_L_Click(sender As Object, e As EventArgs) Handles Btn_Updt_Pllt_L.Click
         ' Updates Pallet Corners for left Pallet
@@ -1625,7 +1626,7 @@ Public Class Manual_Weight
         Do
             LeftPallet.pallet = InputBox("Enter Pallet ID", "Pallet Identificaton", , , )
             If LeftPallet.pallet = "" Then Exit Sub
-            followup = MsgBox("You entered " & LeftPallet.pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet ID")
+            followup = MsgBox("You entered " & LeftPallet.pallet.Substring(1) & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet ID")
 
             If followup = MsgBoxResult.Cancel Then
                 LeftPallet.pallet = ""
@@ -1633,7 +1634,7 @@ Public Class Manual_Weight
             End If
         Loop Until followup = MsgBoxResult.Yes
 
-        Lbl_PalletN_Left.Text = LeftPallet.pallet
+        Lbl_PalletN_Left.Text = LeftPallet.pallet.Substring(1)
 
         ' send pallet number and 
         ' if pallet exists pull batch number   
@@ -1722,7 +1723,7 @@ Public Class Manual_Weight
             End If
         Loop Until followup = MsgBoxResult.Yes
 
-        Lbl_PalletN_Right.Text = RightPallet.pallet
+        Lbl_PalletN_Right.Text = RightPallet.pallet.Substring(1)
 
 
         ' 5. Send pallet number and if pallet exists pull batch number from existing record   
@@ -1818,6 +1819,7 @@ Public Class Manual_Weight
             Thread.Sleep(1)
         Loop Until resumemotion = True
         ' Move to pause point slowly.  Restarts if 
+        Scara.MotorsOn = True
         Epson_SPEL.RobotHeightOutOfRange()
 
 
