@@ -468,7 +468,7 @@ Public Class Manual_Weight
 
 
                     '4 Check pallet location for part
-                    Scara.SetPoint(1, xcord, ycord, zcord + CanistercheckZ, ucord, 0, ActivePallet.Palletlocation)
+                    Scara.SetPoint(1, xcord, ycord, zcord + CanistercheckZ, ucord, 0, leftyrighty)
                     Scara.Jump(1)
                     If pauserequest = True Then Controlled_Pause()
                     Scara.WaitSw(8, True, 0.5)
@@ -479,7 +479,7 @@ Public Class Manual_Weight
                         '   If PauseRequest = True Then Controlled_Pause()
 
                         '5 pick up part
-                        Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, ActivePallet.Palletlocation)
+                        Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, leftyrighty)
                         Scara.Move(1)
                         If pauserequest = True Then Controlled_Pause()
                         Scara.On(TipVacuum) ' TURN ON TipVacuum
@@ -491,7 +491,7 @@ Public Class Manual_Weight
                             Do Until Scara.In(2) = 1
 
                                 descend = descend - 0.2
-                                Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ + descend, ucord, 0, ActivePallet.Palletlocation)
+                                Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ + descend, ucord, 0, leftyrighty)
                                 Scara.Move(1)
 
                                 Application.DoEvents()
@@ -502,7 +502,7 @@ Public Class Manual_Weight
                                 End If
                             Loop
                             Scara.Delay(100)
-                            Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, ActivePallet.Palletlocation)
+                            Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, leftyrighty)
                             Scara.Move(1)
                             If Scara.Sw(16) Then
                                 Picked = True
@@ -546,7 +546,7 @@ Public Class Manual_Weight
 
                             If pauserequest = True Then Controlled_Pause()
                             ' 10 Pick up part from scale
-                            pickscalepart(ActivePallet.Palletlocation)
+                            pickscalepart(leftyrighty)
 
                             If pauserequest = True Then Controlled_Pause()
                         Else 'If no cylinder was PICKED in the spot set the weight to -10 (flag for no part)
@@ -576,7 +576,7 @@ Public Class Manual_Weight
 
                         Else
 
-                            Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, ActivePallet.Palletlocation)
+                            Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
                             Scara.Jump(1)
                             ejectpart()
                             If pauserequest = True Then Controlled_Pause()
