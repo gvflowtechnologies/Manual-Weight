@@ -316,26 +316,26 @@ Public Class Manual_Weight
     End Sub
 
     Sub updatepalletstatus(ByRef pallet As PalletData)
-        Dim leftyrighty As RCAPINet.SpelHand
-        If pallet.Palletlocation = PalletData.PLocation.PalletLeft Then
-            leftyrighty = RCAPINet.SpelHand.Lefty
-            If pallet.firstweightexists Then
-                Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 2nd Weight"
-            Else
-                Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 1st Weight"
-            End If
+        'Dim leftyrighty As RCAPINet.SpelHand
+        'If pallet.Palletlocation = PalletData.PLocation.PalletLeft Then
+        '    leftyrighty = RCAPINet.SpelHand.Lefty
+        '    If pallet.firstweightexists Then
+        '        Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 2nd Weight"
+        '    Else
+        '        Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 1st Weight"
+        '    End If
 
-        Else
-            leftyrighty = RCAPINet.SpelHand.Righty
-            If pallet.firstweightexists Then
-                Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 2nd Weight"
-            Else
-                Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 1st Weight"
-            End If
-        End If
+        'Else
+        '    leftyrighty = RCAPINet.SpelHand.Righty
+        '    If pallet.firstweightexists Then
+        '        Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 2nd Weight"
+        '    Else
+        '        Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 1st Weight"
+        '    End If
+        'End If
 
-        ' SET fixed locations
-        fixedlocations(leftyrighty)
+        '' SET fixed locations
+        'fixedlocations(leftyrighty)
 
     End Sub
 
@@ -390,8 +390,27 @@ Public Class Manual_Weight
         ' We are working with Tool here in the following envelopes
         Epson_SPEL.settings()
 
-        updatepalletstatus(ActivePallet)
+        '  updatepalletstatus(ActivePallet)
+        Dim leftyrighty As RCAPINet.SpelHand
+        If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
+            leftyrighty = RCAPINet.SpelHand.Lefty
+            If ActivePallet.firstweightexists Then
+                Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 2nd Weight"
+            Else
+                Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 1st Weight"
+            End If
 
+        Else
+            leftyrighty = RCAPINet.SpelHand.Righty
+            If ActivePallet.firstweightexists Then
+                Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 2nd Weight"
+            Else
+                Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 1st Weight"
+            End If
+        End If
+
+        ' SET fixed locations
+        fixedlocations(leftyrighty)
 
  
 
