@@ -19,7 +19,7 @@ Module Epson_SPEL
         Try
             With Scara
                 .Initialize()
-                .Project = "C:\EpsonRC70\Projects\vbcontorl\vbcontorl.sprj"
+                .Project = "C:\EpsonRC70\Projects\vbcontrol\vbcontrol.sprj"
                 .TLSet(1, -16.01, -0.303, 0, 0, 0, 0)
                 .Reset()
             End With
@@ -32,6 +32,7 @@ Module Epson_SPEL
             MsgBox("Reset EStop Button", MsgBoxStyle.OkOnly, "ROBOT E-STOP DETECTED")
         End If
 
+        Scara.AsyncMode = False
 
     End Sub
 

@@ -481,6 +481,7 @@ Public Class Manual_Weight
                         '5 pick up part
                         Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, leftyrighty)
                         Scara.Move(1)
+                        Scara.WaitCommandComplete()
                         If pauserequest = True Then Controlled_Pause()
                         Scara.On(TipVacuum) ' TURN ON TipVacuum
                         Scara.Off(TipBlowOff)
@@ -493,6 +494,7 @@ Public Class Manual_Weight
                                 descend = descend - 0.2
                                 Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ + descend, ucord, 0, leftyrighty)
                                 Scara.Move(1)
+                                Scara.WaitCommandComplete()
 
                                 Application.DoEvents()
                                 Thread.Sleep(100)
@@ -504,6 +506,7 @@ Public Class Manual_Weight
                             Scara.Delay(100)
                             Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, leftyrighty)
                             Scara.Move(1)
+                            Scara.WaitCommandComplete()
                             If Scara.Sw(16) Then
                                 Picked = True
                                 Exit For
@@ -533,6 +536,7 @@ Public Class Manual_Weight
                             '8 Place on scale
 
                             Scara.Move(PlaceScalePoint)
+                            Scara.WaitCommandComplete()
                             Scara.Delay(100)
                             ejectpart()
                             Scara.Move(WeighingPoint)
@@ -572,6 +576,7 @@ Public Class Manual_Weight
                         If ccylinder.FirstWeightExists Then ' If first weight exists sent to good part
 
                             Scara.Jump(goodpoint1)
+                            Scara.WaitCommandComplete()
                             ejectpart()
                             If pauserequest = True Then Controlled_Pause()
 
@@ -579,6 +584,7 @@ Public Class Manual_Weight
 
                             Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
                             Scara.Jump(1)
+                            Scara.WaitCommandComplete()
                             ejectpart()
                             If pauserequest = True Then Controlled_Pause()
 
@@ -587,6 +593,7 @@ Public Class Manual_Weight
                     Else
                         If whatreading = 1 Then
                             Scara.Jump(badpoint) ' SHOULD BE BAD POINT
+                            Scara.WaitCommandComplete()
                             ejectpart()
                             If pauserequest = True Then Controlled_Pause()
                         End If
@@ -663,6 +670,7 @@ Public Class Manual_Weight
                 descend = descend - 0.2
                 Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ + descend, 0, 0, handdirec)
                 Scara.Move(postweighpick)
+                Scara.WaitCommandComplete()
                 Application.DoEvents()
                 Thread.Sleep(100)
                 If descend * -1 > postweighpickZ Then
@@ -674,6 +682,7 @@ Public Class Manual_Weight
 
             Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ, 0, 0, handdirec)
             Scara.Move(postweighpick)
+            Scara.WaitCommandComplete()
 
             If Scara.Sw(16) Then
                 Exit For
