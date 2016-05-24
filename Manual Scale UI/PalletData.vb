@@ -32,7 +32,7 @@ Public Class PalletData
     Private iCurCol As Integer
     Private currentstatus As status ' Current status of pallet
     Private location As PLocation ' Am I on the left or right
-
+    Private hand As RCAPINet.SpelHand
     Private number_of_Canisters As Integer ' number of canisters in pallet
     Private canisternumber As Integer ' Currrent Canister weighed
 
@@ -310,11 +310,11 @@ Public Class PalletData
     Public Property pallet As String ' Pallet Identification
 
         Get
-            Return Me.palletid
+            Return palletid
 
         End Get
         Set(ByVal value As String)
-            Me.palletid = "P" & value
+            palletid = "P" & value
 
         End Set
     End Property
@@ -488,6 +488,18 @@ Public Class PalletData
                 x = -1 * (Backcorner(1) - OutsideCorner(1)) / (iNumRows - 1)
             End If
             Return x
+        End Get
+    End Property
+    ReadOnly Property robothand As RCAPINet.SpelHand
+        Get
+            If location = PLocation.PalletLeft Then
+                hand = RCAPINet.SpelHand.Lefty
+            Else
+                hand = RCAPINet.SpelHand.Righty
+
+            End If
+            Return hand
+
         End Get
     End Property
 

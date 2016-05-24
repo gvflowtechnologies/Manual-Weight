@@ -412,9 +412,6 @@ Public Class Manual_Weight
         ' SET fixed locations
         fixedlocations(leftyrighty)
 
- 
-
-
         Dim ucord As Single
 
         '   Scara.SetPoint(1, basex, basey, basez, -175, 0, RCAPINet.SpelHand.Lefty)
@@ -474,12 +471,12 @@ Public Class Manual_Weight
                     Scara.WaitCommandComplete()
                     If pauserequest = True Then Controlled_Pause()
                     Scara.WaitSw(8, True, 0.5)
-                    If Scara.TW Then
+                    If Not Scara.Sw(8) Then
                         ccylinder.present = False
                     End If
-                    whatreading = 0
-                    whatreading = Scara.In(1)
-                    If whatreading = 1 Then
+
+
+                    If ccylinder.present Then
 
                         '   If PauseRequest = True Then Controlled_Pause()
 
@@ -589,7 +586,7 @@ Public Class Manual_Weight
 
                             Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
                             Scara.Jump(1)
-                            Scara.WaitCommandComplete()
+                            'Scara.WaitCommandComplete()
                             ejectpart()
                             If pauserequest = True Then Controlled_Pause()
 
@@ -629,6 +626,7 @@ Public Class Manual_Weight
 
     Sub ejectpart()
         ' Routine to efect part from holder on the robot
+        Scara.WaitCommandComplete()
         Scara.Off(TipVacuum)
         Scara.On(TipBlowOff)
         Scara.Delay(blowofftime)
