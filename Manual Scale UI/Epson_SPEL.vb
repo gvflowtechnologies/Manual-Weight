@@ -5,7 +5,7 @@ Imports System.Threading
 Module Epson_SPEL
 
     Public WithEvents Scara As RCAPINet.Spel
-   
+
     Const incjump As Integer = 66
     Public pointpallet01 As SpelPoint
     Public pointpallet02 As SpelPoint
