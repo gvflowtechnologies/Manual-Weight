@@ -55,6 +55,12 @@ Module Epson_SPEL
     End Sub
 
     Public Sub EventReceived(ByVal sender As Object, ByVal e As RCAPINet.SpelEventArgs) Handles Scara.EventReceived
+        Dim followup As MsgBoxResult
+
+
+
+
+
         Select Case e.Event
             Case SpelEvents.EstopOn
                 MsgBox("Manually reset E-Stop Switch prior to restarting", MsgBoxStyle.Critical, "E-Stop Detected")
@@ -80,11 +86,14 @@ Module Epson_SPEL
     Public Sub RobotHeightOutOfRange()
         Dim values() As Single
         values = Scara.GetRobotPos(SpelRobotPosType.World, 0, 0, 0)
-        If values(2) > -2 Then
-            If Scara.MotorsOn = True Then Scara.MotorsOn = False
-            MsgBox("Move robot acutator down and then press ok", MsgBoxStyle.Critical, "Robot acuator out of range")
-            Scara.MotorsOn = True
-        End If
+        Do While values(2) > -5
+            values = Scara.GetRobotPos(SpelRobotPosType.World, 0, 0, 0)
+            If values(2) > -2 Then
+                If Scara.MotorsOn = True Then Scara.MotorsOn = False
+                MsgBox("Move robot acutator down and then press ok", MsgBoxStyle.Critical, "Robot acuator out of range")
+                Scara.MotorsOn = True
+            End If
+        Loop
         If values(2) > -65 Then
             With Scara
                 '  .AsyncMode = True

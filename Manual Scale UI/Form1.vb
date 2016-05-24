@@ -392,8 +392,9 @@ Public Class Manual_Weight
 
         '  updatepalletstatus(ActivePallet)
         Dim leftyrighty As RCAPINet.SpelHand
+
         If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
-            leftyrighty = RCAPINet.SpelHand.Lefty
+
             If ActivePallet.firstweightexists Then
                 Lbl_PalletStatus_L.Text = "STATUS: IN PROCESS 2nd Weight"
             Else
@@ -401,7 +402,7 @@ Public Class Manual_Weight
             End If
 
         Else
-            leftyrighty = RCAPINet.SpelHand.Righty
+
             If ActivePallet.firstweightexists Then
                 Lbl_PalletStatus_R.Text = "STATUS: IN PROCESS 2nd Weight"
             Else
@@ -410,23 +411,21 @@ Public Class Manual_Weight
         End If
 
         ' SET fixed locations
-        fixedlocations(leftyrighty)
+
 
         Dim ucord As Single
 
-        '   Scara.SetPoint(1, basex, basey, basez, -175, 0, RCAPINet.SpelHand.Lefty)
         Dim r As Integer
         Dim c As Integer
-        '     Set U angle
-        If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
-            ucord = 0
-        Else
-            ucord = 0
-        End If
+        '     Set U angle = zero for either pallet at the beginning of the cycle.
+
+        ucord = 0
+        leftyrighty = ActivePallet.robothand
+        fixedlocations(leftyrighty)
 
         'Cycle through cylinders in pallet
 
-        For r = 0 To ActivePallet.rows - 1
+        For r = 0 To 4 'activePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -436,7 +435,7 @@ Public Class Manual_Weight
                 End If
             End If
 
-            For c = 0 To ActivePallet.columns - 1
+            For c = 0 To 4 'ActivePallet.columns - 1
 
                 '************************************
                 'Stop measuring if the scale is bad.
@@ -471,6 +470,7 @@ Public Class Manual_Weight
                     Scara.WaitCommandComplete()
                     If pauserequest = True Then Controlled_Pause()
                     Scara.WaitSw(8, True, 0.5)
+
                     If Not Scara.Sw(8) Then
                         ccylinder.present = False
                     End If
@@ -522,6 +522,7 @@ Public Class Manual_Weight
                         If Picked = True Then
 
                             Scara.Jump(tarepoint)
+                            Scara.WaitCommandComplete()
                             If pauserequest = True Then Controlled_Pause()
 
                             '7 Wait for scale to indicate ready
@@ -586,7 +587,7 @@ Public Class Manual_Weight
 
                             Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
                             Scara.Jump(1)
-                            'Scara.WaitCommandComplete()
+                            Scara.WaitCommandComplete()
                             ejectpart()
                             If pauserequest = True Then Controlled_Pause()
 
@@ -626,7 +627,7 @@ Public Class Manual_Weight
 
     Sub ejectpart()
         ' Routine to efect part from holder on the robot
-        Scara.WaitCommandComplete()
+
         Scara.Off(TipVacuum)
         Scara.On(TipBlowOff)
         Scara.Delay(blowofftime)
@@ -741,7 +742,7 @@ Public Class Manual_Weight
 
         Else ' cyliner disposition is fail.
 
-            If Not ccylinder.present Then ' Only count parts that were present
+            If ccylinder.present Then ' Only count parts that were present
                 pallet.numbad = pallet.numbad + 1
                 If pallet.firstweightexists = True Then 'IF on a second weight
                     If Not ccylinder.FirstWeightFail Then ' and not a first weight fail
@@ -1831,6 +1832,12 @@ Public Class Manual_Weight
             Thread.Sleep(1)
         Loop Until resumemotion = True
         ' Move to pause point slowly.  Restarts if 
+        controlledresume()
+
+    End Sub
+
+    Sub controlledresume()
+
         Scara.MotorsOn = True
         Epson_SPEL.RobotHeightOutOfRange()
 
@@ -1843,7 +1850,9 @@ Public Class Manual_Weight
         Epson_SPEL.settings()
         Scara.Jump(pausereturn)
 
+
     End Sub
+
 
     Private Sub teachrobotpoint()
         ' updates robot location on pallet settings page
