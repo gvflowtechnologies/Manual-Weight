@@ -613,7 +613,7 @@ Public Class Manual_Weight
                 ccylinder.dispose()
             Next
         Next
-    
+
         Closepallet(ActivePallet)
         Scara.Jump(pausepoint)
         If Scara.MotorsOn Then Scara.MotorsOn = False ' When done turn off motors
