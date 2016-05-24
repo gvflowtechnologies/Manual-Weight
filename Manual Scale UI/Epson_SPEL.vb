@@ -1,19 +1,18 @@
 ﻿Option Explicit On
 Imports RCAPINet
 Imports System.Timers
-
+Imports System.Threading
 Module Epson_SPEL
 
     Public WithEvents Scara As RCAPINet.Spel
-    Dim Tmr_Door As Timer
-
+   
     Const incjump As Integer = 66
     Public pointpallet01 As SpelPoint
     Public pointpallet02 As SpelPoint
     Public pointpallet03 As SpelPoint
     Public pointpallet04 As SpelPoint
-
-
+    Public EStopOff As Boolean
+    Public EStopOn As Boolean
     Public Sub InitApp()
         Scara = New RCAPINet.Spel
         Try
@@ -31,6 +30,8 @@ Module Epson_SPEL
         If Scara.EStopOn = True Then
             MsgBox("Reset EStop Button", MsgBoxStyle.OkOnly, "ROBOT E-STOP DETECTED")
         End If
+        EStopOn = False
+        EStopOff = True
 
         Scara.AsyncMode = False
 
@@ -55,18 +56,18 @@ Module Epson_SPEL
     End Sub
 
     Public Sub EventReceived(ByVal sender As Object, ByVal e As RCAPINet.SpelEventArgs) Handles Scara.EventReceived
-        Dim followup As MsgBoxResult
-
-
-
 
 
         Select Case e.Event
             Case SpelEvents.EstopOn
+                EStopOn = True
+                EStopOff = False
                 estophandling()
 
 
             Case SpelEvents.EstopOff
+                EStopOn = False
+                EStopOff = True
                 MsgBox("Press Continue Button to resume operation", MsgBoxStyle.OkOnly, "E-Stop Reset")
                 Scara.Reset()
             Case SpelEvents.Pause
@@ -82,8 +83,11 @@ Module Epson_SPEL
     End Sub
 
     Public Sub estophandling()
-
-        MsgBox("Manually reset E-Stop Switch prior to restarting", MsgBoxStyle.Critical, "E-Stop Detected")
+        Do Until EStopOff = True
+            MsgBox("Manually reset E-Stop Switch prior to restarting", MsgBoxStyle.Critical, "E-Stop Detected")
+            Application.DoEvents()
+            Thread.Sleep(100)
+        Loop
 
 
     End Sub

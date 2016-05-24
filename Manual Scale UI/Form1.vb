@@ -478,9 +478,7 @@ Public Class Manual_Weight
                         ccylinder.present = False
                     End If
 
-
                     If ccylinder.present Then
-
                         '   If PauseRequest = True Then Controlled_Pause()
 
                         '5 pick up part
@@ -570,13 +568,15 @@ Public Class Manual_Weight
 
                     End If
                 Else
+
                     Picked = False
 
                 End If
 
                 '10 Move to spot (either Pallet/Good/Bad) - Seperate Routine
+                Disposition(ActivePallet)
                 If Picked Then
-                    Disposition(ActivePallet)
+
 
                     If ccylinder.Disposition Then ' If disposition was true (Good Part)
                         If ccylinder.FirstWeightExists Then ' If first weight exists sent to good part
@@ -613,9 +613,7 @@ Public Class Manual_Weight
                 ccylinder.dispose()
             Next
         Next
-        If ActivePallet.firstweightexists Then
-            write_Summary(ActivePallet)
-        End If
+    
         Closepallet(ActivePallet)
         Scara.Jump(pausepoint)
         If Scara.MotorsOn Then Scara.MotorsOn = False ' When done turn off motors
@@ -728,9 +726,10 @@ Public Class Manual_Weight
         If currentpallet.firstweightexists = False Then
             writefirstweight()
         Else
-            write_second_weight()
+            If ccylinder.present Then
+                write_second_weight()
+            End If
         End If
-
         ' update the counters for disposition 
         updatecounts(currentpallet)
 
@@ -1566,30 +1565,30 @@ Public Class Manual_Weight
         ' If door is closesd, then have the robot conitnue if not already running.
 
 
-        'If Scara.Sw(11) = False Then 'Robot should be running
-        '    '    ' Check if robot is paused or not
-        '    ' shut off timer
-        '    'TMR_door.Enabled = False
-        '    ' message user to close door and then push continue
+        If Scara.Sw(11) = False Then 'Robot should be running
+            '    ' Check if robot is paused or not
+            ' shut off timer
+            'TMR_door.Enabled = False
+            ' message user to close door and then push continue
 
 
 
-        '    Scara.Continue()
-        'Else ' Robot should not be running
-        '    '  If Scara.PauseOn = False Then
-        '    Scara.Pause()
-        '    'End If
-        'End If
+            Scara.Continue()
+        Else ' Robot should not be running
+            '  If Scara.PauseOn = False Then
+            Scara.Pause()
+            'End If
+        End If
 
     End Sub
 
-    'Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
-    '    ' Timer object to detect if the door is opened.
-    '    DoorPause()
-    '    If teachingpoint Then
-    '        teachrobotpoint()
-    '    End If
-    'End Sub
+    Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
+        ' Timer object to detect if the door is opened.
+        DoorPause()
+        If teachingpoint Then
+            teachrobotpoint()
+        End If
+    End Sub
 
     Private Sub Btn_Updt_Pllt_L_Click(sender As Object, e As EventArgs) Handles Btn_Updt_Pllt_L.Click
         ' Updates Pallet Corners for left Pallet

@@ -50,6 +50,7 @@
                     sDispReason = "First Weight Too Low"
                     If dMyfirstweight < -9 Then
                         sDispReason = "Part Not Present"
+
                     End If
                 Case Else
                     Select Case dMySecondweight
@@ -108,6 +109,9 @@
                     firstfail = True
                 Case Is < My.Settings.MinWeight
                     firstfail = True
+                    If dMyfirstweight < -9 Then
+                        BcanisterPresent = False
+                    End If
                 Case Else
                     firstfail = False
             End Select
