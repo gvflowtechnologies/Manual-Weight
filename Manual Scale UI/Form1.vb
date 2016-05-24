@@ -263,6 +263,7 @@ Public Class Manual_Weight
                     Select Case Math.Abs(sartorius.CurrentReading)
 
                         Case Is < My.Settings.TareLimit / 1000
+                            Thread.Sleep(25) ' Added in a little time to keep in sync with process pallet
                             teststate = Weighprocess.weighing
                             entering = True
 
@@ -613,14 +614,14 @@ Public Class Manual_Weight
                 ccylinder.dispose()
             Next
         Next
-    
+
         Closepallet(ActivePallet)
         Scara.Jump(pausepoint)
         If Scara.MotorsOn Then Scara.MotorsOn = False ' When done turn off motors
 
         ActivePallet.inprocess = PalletData.status.complete
 
-        write_history(ActivePallet)
+
         If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then nextpallet = False
         ActivePallet = Nothing
         If nextpallet Then
@@ -984,6 +985,9 @@ Public Class Manual_Weight
         swlogdata.Write(sartorius.NScaleCalDate & ", ")
         swlogdata.Write(currpallet.numgood & ", ")
         swlogdata.WriteLine(currpallet.numbad)
+        swlogdata.Flush()
+        swlogdata.Close()
+        swlogdata.Dispose()
 
     End Sub
 
