@@ -346,6 +346,8 @@ Public Class Manual_Weight
         newcommport()
         'if motors are not on then turn them on.
         If Not Scara.MotorsOn Then Scara.MotorsOn = True
+        Scara.PowerHigh = False
+
         If pauserequest = True Then Controlled_Pause()
 
         ' Set the inprocess property to processing
@@ -358,7 +360,8 @@ Public Class Manual_Weight
         '1. Get cordinates of the system
 
         Dim nextpallet As Boolean 'Indicates which pallet was active to look for next pallet
-        Dim whatreading As Integer ' reading from laser proximity sensor 9 means something is there.
+
+
 
         Dim basex As Single ' Base Corner x  - Depends on left vs right so let pallet tell us
         Dim basey As Single
@@ -594,7 +597,7 @@ Public Class Manual_Weight
                         End If
 
                     Else
-                        If whatreading = 1 Then
+                        If ccylinder.present Then
                             Scara.Jump(badpoint) ' SHOULD BE BAD POINT
                             Scara.WaitCommandComplete()
                             ejectpart()
@@ -610,11 +613,16 @@ Public Class Manual_Weight
                 ccylinder.dispose()
             Next
         Next
+        If ActivePallet.firstweightexists Then
+            write_Summary(ActivePallet)
+        End If
         Closepallet(ActivePallet)
         Scara.Jump(pausepoint)
         If Scara.MotorsOn Then Scara.MotorsOn = False ' When done turn off motors
 
         ActivePallet.inprocess = PalletData.status.complete
+
+        write_history(ActivePallet)
         If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then nextpallet = False
         ActivePallet = Nothing
         If nextpallet Then

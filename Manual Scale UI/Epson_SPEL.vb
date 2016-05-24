@@ -63,7 +63,7 @@ Module Epson_SPEL
 
         Select Case e.Event
             Case SpelEvents.EstopOn
-                MsgBox("Manually reset E-Stop Switch prior to restarting", MsgBoxStyle.Critical, "E-Stop Detected")
+                estophandling()
 
 
             Case SpelEvents.EstopOff
@@ -79,9 +79,15 @@ Module Epson_SPEL
         End Select
 
 
+    End Sub
+
+    Public Sub estophandling()
+
+        MsgBox("Manually reset E-Stop Switch prior to restarting", MsgBoxStyle.Critical, "E-Stop Detected")
 
 
     End Sub
+
 
     Public Sub RobotHeightOutOfRange()
         Dim values() As Single
