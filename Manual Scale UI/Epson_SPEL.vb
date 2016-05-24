@@ -83,11 +83,12 @@ Module Epson_SPEL
     End Sub
 
     Public Sub estophandling()
-        Do Until EStopOff = True
-            MsgBox("Manually reset E-Stop Switch prior to restarting", MsgBoxStyle.Critical, "E-Stop Detected")
-            Application.DoEvents()
-            Thread.Sleep(100)
-        Loop
+        ' Do Until EStopOff = True
+        MsgBox("Manually reset E-Stop Switch prior to restarting", MsgBoxStyle.Critical, "E-Stop Detected")
+        Scara.Reset()
+        'Application.DoEvents()
+        'Thread.Sleep(100)
+        'Loop
 
 
     End Sub
