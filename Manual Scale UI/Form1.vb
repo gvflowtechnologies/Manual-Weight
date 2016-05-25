@@ -40,6 +40,7 @@ Public Class Manual_Weight
     Const blowofftime As Integer = 250 ' msec pause to allow part to eject from holder
     Const DoorSwitch As Integer = 11 ' Identifier for door switch input
     Const PickTries As Integer = 3 ' Number of times that the robot will try to pick a part
+    Const pickcheck As Single = 7 ' Height above pick height that we check to see that we picked part
 
     'X,Y,Z Locations on system for component locations in mm
     Const Good1x As Single = 122.295
@@ -67,7 +68,7 @@ Public Class Manual_Weight
     Const pausereturn As Integer = 30 ' Point for capturing robot location when pause was initiated to allow return to this location prior to completing activities.
     Const pausepoint As Integer = 31 ' Pause Location
 
-    Const weightimeout As Integer = 1000 ' Timeout in milliseconds for any weighing operation.  
+    Const weightimeout As Integer = 30000 ' Timeout in milliseconds for any weighing operation.  
 
     'Variables
     Public WithEvents mycom As SerialPort 'Serial port for communicating with the scale
@@ -265,7 +266,6 @@ Public Class Manual_Weight
                         Case Is < My.Settings.TareLimit / 1000
                             Thread.Sleep(25) ' Added in a little time to keep in sync with process pallet
                             teststate = Weighprocess.weighing
-                            entering = True
 
                         Case Is > My.Settings.TareError / 1000
                             Dim myresponse As MsgBoxResult
@@ -284,10 +284,7 @@ Public Class Manual_Weight
                 End If
 
             Case Weighprocess.weighing
-                'If entering Then
-                '    entering = False
-                'End If
-
+          
                 If sartorius.Stable And sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
                     If ccylinder.FirstWeightExists Then
                         ' Second weight reading
@@ -361,11 +358,8 @@ Public Class Manual_Weight
         '1. Get cordinates of the system
 
         Dim nextpallet As Boolean 'Indicates which pallet was active to look for next pallet
-
-
-
         Dim basex As Single ' Base Corner x  - Depends on left vs right so let pallet tell us
-        Dim basey As Single
+        Dim basey As Single ' Base Corner Y - Depends on left vs right.  Pallet tells direction.
         Dim basez As Single
 
         Dim xcord As Single
@@ -418,7 +412,6 @@ Public Class Manual_Weight
 
 
         Dim ucord As Single
-
         Dim r As Integer
         Dim c As Integer
         '     Set U angle = zero for either pallet at the beginning of the cycle.
@@ -453,7 +446,7 @@ Public Class Manual_Weight
                 xcord = basex - c * CincX - r * RincX
                 ycord = basey - c * CincY - r * RincY
                 zcord = basez
-                Picked = True
+
                 'If PauseRequest = True Then Controlled_Pause()
 
                 'Create a canister and if this is a second weight populate the first weight.
@@ -466,7 +459,6 @@ Public Class Manual_Weight
                 '2 if on second weight is null or bad skip  
                 If ActivePallet.firstweightexists = False Or ccylinder.FirstWeightFail = False Then
 
-
                     '4 Check pallet location for part
                     ccylinder.present = True ' initially sent to true
                     Scara.SetPoint(1, xcord, ycord, zcord + CanistercheckZ, ucord, 0, leftyrighty)
@@ -474,6 +466,7 @@ Public Class Manual_Weight
                     Scara.WaitCommandComplete()
                     If pauserequest = True Then Controlled_Pause()
                     Scara.WaitSw(8, True, 0.5)
+
 
                     If Not Scara.Sw(8) Then
                         ccylinder.present = False
@@ -491,8 +484,9 @@ Public Class Manual_Weight
                         Scara.Off(TipBlowOff)
                         Dim descend As Single
                         descend = 0
+                        Picked = False ' set picked to false.  Assumption is we have not picked up part
 
-                        For X = 0 To PickTries - 1
+                        For X = 0 To PickTries - 1 ' Pick up multiple times
                             Do Until Scara.In(2) = 1
 
                                 descend = descend - 0.2
@@ -501,22 +495,20 @@ Public Class Manual_Weight
                                 Scara.WaitCommandComplete()
 
                                 Application.DoEvents()
-                                Thread.Sleep(100)
+                                Thread.Sleep(50)
                                 If descend * -1 > StartPickZ Then
                                     Exit Do
-                                    Picked = False
                                 End If
                             Loop
+                            ' Wait and pull up and see if part came up.
                             Scara.Delay(100)
-                            Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, leftyrighty)
+                            Scara.SetPoint(1, xcord, ycord, zcord + pickcheck, ucord, 0, leftyrighty)
                             Scara.Move(1)
                             Scara.WaitCommandComplete()
                             If Scara.Sw(16) Then
                                 Picked = True
                                 Exit For
                             End If
-
-
                         Next
 
                         If pauserequest = True Then Controlled_Pause()
@@ -538,40 +530,42 @@ Public Class Manual_Weight
                             Loop
                             entering = True
                             If pauserequest = True Then Controlled_Pause()
+
                             '8 Place on scale
 
                             Scara.Move(PlaceScalePoint)
                             Scara.WaitCommandComplete()
-                            Scara.Delay(100)
                             ejectpart()
                             Scara.Move(WeighingPoint)
 
+
+
                             '9 Wait for reading 
-                            'tmrcycle.Restart()
+                            tmrcycle.Restart()
                             Do Until teststate = Weighprocess.prompting
-                                '   If tmrcycle.ElapsedMilliseconds > weightimeout Then Exit Do
+                                If tmrcycle.ElapsedMilliseconds > weightimeout Then
+                                    MsgBox("Place canister on scale", MsgBoxStyle.OkOnly, "System Timed Out")
+                                End If
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
 
-                            If pauserequest = True Then Controlled_Pause()
-                            ' 10 Pick up part from scale
-                            pickscalepart(leftyrighty)
+                    If pauserequest = True Then Controlled_Pause()
+                    ' 10 Pick up part from scale
+                    pickscalepart(leftyrighty)
 
-                            If pauserequest = True Then Controlled_Pause()
-                        Else 'If no cylinder was PICKED in the spot set the weight to -10 (flag for no part)
-                            NOCYLINDER()
-                        End If
+                    If pauserequest = True Then Controlled_Pause()
+                Else 'If no cylinder was PICKED in the spot set the weight to -10 (flag for no part)
+                    NOCYLINDER()
+                End If
 
                     Else
-                        'If no cylinder was detected in the spot set the weight to -10 (flag for no part)
-                        NOCYLINDER()
+                'If no cylinder was detected in the spot set the weight to -10 (flag for no part)
+                NOCYLINDER()
 
                     End If
                 Else
-
-                    Picked = False
-
+                Picked = False
                 End If
 
                 '10 Move to spot (either Pallet/Good/Bad) - Seperate Routine
@@ -670,11 +664,10 @@ Public Class Manual_Weight
         Dim descend As Single
 
         descend = 0
-        '   Scara.Off(TipVacuum)
         Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ, 0, 0, handdirec)
-        Scara.Jump(postweighpick)
+        Scara.Move(postweighpick)
         Scara.On(TipVacuum)
-
+        Picked = False
         For X = 0 To PickTries - 1
             Do Until Scara.In(2) = 1
 
@@ -683,23 +676,23 @@ Public Class Manual_Weight
                 Scara.Move(postweighpick)
                 Scara.WaitCommandComplete()
                 Application.DoEvents()
-                Thread.Sleep(100)
+                Thread.Sleep(50)
                 If descend * -1 > postweighpickZ Then
                     Exit Do
-                    Picked = False
+
                 End If
             Loop
             Scara.Delay(100)
 
-            Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ, 0, 0, handdirec)
+            Scara.SetPoint(postweighpick, scalex, scaley, scalez + pickcheck, 0, 0, handdirec)
             Scara.Move(postweighpick)
             Scara.WaitCommandComplete()
 
             If Scara.Sw(16) Then
+                Picked = True
                 Exit For
             End If
             If X = PickTries - 1 Then
-                Picked = False
                 Scara.Jump(pausepoint)
                 MsgBox("TAKE CANISTER OFF OF SCALE", MsgBoxStyle.Critical, "FAILED TO PICK SCALE OFF OF CANISTER")
             End If
@@ -985,6 +978,7 @@ Public Class Manual_Weight
         swlogdata.Write(sartorius.NScaleCalDate & ", ")
         swlogdata.Write(currpallet.numgood & ", ")
         swlogdata.WriteLine(currpallet.numbad)
+
         swlogdata.Flush()
         swlogdata.Close()
         swlogdata.Dispose()
@@ -1925,5 +1919,29 @@ Public Class Manual_Weight
     Private Sub RunPage_Click(sender As Object, e As EventArgs) Handles RunPage.Enter
         teachingpoint = False
 
+    End Sub
+
+    Private Sub Btn_Tare_Frequency_Click(sender As Object, e As EventArgs) Handles Btn_Tare_Frequency.Click
+
+
+        Dim TareFreqency As Integer
+
+        Dim sinputstring As String
+        Dim inerror As Boolean = True
+
+
+        While inerror = True
+            sinputstring = InputBox("How many canisters to weigh between Tares", , My.Settings.TareFreqency.ToString("N0"))
+
+            If Integer.TryParse(sinputstring, TareFreqency) Then
+                inerror = False
+                My.Settings.TareFreqency = TareFreqency
+                Lbl_TareFrequency.Text = "Taring between every " & TareFreqency.ToString("N0") & " canisters"
+            Else
+                MsgBox("Integer Numbers Only Please")
+            End If
+
+        End While
+        My.Settings.Save()
     End Sub
 End Class

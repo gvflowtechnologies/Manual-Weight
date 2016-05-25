@@ -175,6 +175,8 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
+        Me.Btn_Tare_Frequency = New System.Windows.Forms.Button()
+        Me.Lbl_TareFrequency = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -864,6 +866,8 @@ Partial Class Manual_Weight
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.Lbl_TareFrequency)
+        Me.GroupBox2.Controls.Add(Me.Btn_Tare_Frequency)
         Me.GroupBox2.Controls.Add(Me.Btn_SerialPort)
         Me.GroupBox2.Controls.Add(Me.Lbl_MinWeight)
         Me.GroupBox2.Controls.Add(Me.Lbl_MaxWeight)
@@ -1772,6 +1776,24 @@ Partial Class Manual_Weight
         '
         Me.TMR_door.Interval = 200
         '
+        'Btn_Tare_Frequency
+        '
+        Me.Btn_Tare_Frequency.Location = New System.Drawing.Point(43, 292)
+        Me.Btn_Tare_Frequency.Name = "Btn_Tare_Frequency"
+        Me.Btn_Tare_Frequency.Size = New System.Drawing.Size(75, 23)
+        Me.Btn_Tare_Frequency.TabIndex = 25
+        Me.Btn_Tare_Frequency.Text = "Tare Frequency"
+        Me.Btn_Tare_Frequency.UseVisualStyleBackColor = True
+        '
+        'Lbl_TareFrequency
+        '
+        Me.Lbl_TareFrequency.AutoSize = True
+        Me.Lbl_TareFrequency.Location = New System.Drawing.Point(136, 297)
+        Me.Lbl_TareFrequency.Name = "Lbl_TareFrequency"
+        Me.Lbl_TareFrequency.Size = New System.Drawing.Size(161, 13)
+        Me.Lbl_TareFrequency.TabIndex = 26
+        Me.Lbl_TareFrequency.Text = "Tare between every  X Canisters"
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1965,5 +1987,7 @@ Partial Class Manual_Weight
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents Label16 As System.Windows.Forms.Label
     Friend WithEvents Label17 As System.Windows.Forms.Label
+    Friend WithEvents Btn_Tare_Frequency As System.Windows.Forms.Button
+    Friend WithEvents Lbl_TareFrequency As System.Windows.Forms.Label
 
 End Class
