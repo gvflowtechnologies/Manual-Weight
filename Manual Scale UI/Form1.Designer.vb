@@ -936,7 +936,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_TareError.AutoSize = True
         Me.Lbl_TareError.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_TareError.Location = New System.Drawing.Point(204, 67)
+        Me.Lbl_TareError.Location = New System.Drawing.Point(242, 67)
         Me.Lbl_TareError.Name = "Lbl_TareError"
         Me.Lbl_TareError.Size = New System.Drawing.Size(47, 15)
         Me.Lbl_TareError.TabIndex = 21
@@ -946,7 +946,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_RetareLimit.AutoSize = True
         Me.Lbl_RetareLimit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_RetareLimit.Location = New System.Drawing.Point(207, 32)
+        Me.Lbl_RetareLimit.Location = New System.Drawing.Point(245, 32)
         Me.Lbl_RetareLimit.Name = "Lbl_RetareLimit"
         Me.Lbl_RetareLimit.Size = New System.Drawing.Size(47, 15)
         Me.Lbl_RetareLimit.TabIndex = 16
@@ -1008,7 +1008,7 @@ Partial Class Manual_Weight
         'sLbl_retare
         '
         Me.sLbl_retare.AutoSize = True
-        Me.sLbl_retare.Location = New System.Drawing.Point(112, 32)
+        Me.sLbl_retare.Location = New System.Drawing.Point(150, 32)
         Me.sLbl_retare.Name = "sLbl_retare"
         Me.sLbl_retare.Size = New System.Drawing.Size(89, 13)
         Me.sLbl_retare.TabIndex = 7
@@ -1017,7 +1017,7 @@ Partial Class Manual_Weight
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(121, 67)
+        Me.Label2.Location = New System.Drawing.Point(159, 67)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(80, 13)
         Me.Label2.TabIndex = 8
@@ -1027,7 +1027,7 @@ Partial Class Manual_Weight
         '
         Me.Btn_Tare.Location = New System.Drawing.Point(18, 27)
         Me.Btn_Tare.Name = "Btn_Tare"
-        Me.Btn_Tare.Size = New System.Drawing.Size(88, 54)
+        Me.Btn_Tare.Size = New System.Drawing.Size(100, 54)
         Me.Btn_Tare.TabIndex = 2
         Me.Btn_Tare.Text = "Update Tare Limits"
         Me.Btn_Tare.UseVisualStyleBackColor = True
@@ -1778,9 +1778,9 @@ Partial Class Manual_Weight
         '
         'Btn_Tare_Frequency
         '
-        Me.Btn_Tare_Frequency.Location = New System.Drawing.Point(43, 292)
+        Me.Btn_Tare_Frequency.Location = New System.Drawing.Point(18, 287)
         Me.Btn_Tare_Frequency.Name = "Btn_Tare_Frequency"
-        Me.Btn_Tare_Frequency.Size = New System.Drawing.Size(75, 23)
+        Me.Btn_Tare_Frequency.Size = New System.Drawing.Size(100, 23)
         Me.Btn_Tare_Frequency.TabIndex = 25
         Me.Btn_Tare_Frequency.Text = "Tare Frequency"
         Me.Btn_Tare_Frequency.UseVisualStyleBackColor = True
