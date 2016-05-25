@@ -68,14 +68,16 @@ Module Epson_SPEL
             Case SpelEvents.EstopOff
                 EStopOn = False
                 EStopOff = True
+                MsgBox("Robot Reset", MsgBoxStyle.OkOnly, "Robot was reset")
                 MsgBox("Press Continue Button to resume operation", MsgBoxStyle.OkOnly, "E-Stop Reset")
-                Scara.Reset()
+
             Case SpelEvents.Pause
                 ' MsgBox("trying to detect pause", MsgBoxStyle.OkOnly, "Yeah")
                 'Manual_Weight.BtnResume.Enabled = True
 
             Case Else
-                MsgBox("received event " & e.Event)
+                MsgBox("Received Event " & e.Event)
+                MsgBox("Received Message " & e.Message)
 
         End Select
 
