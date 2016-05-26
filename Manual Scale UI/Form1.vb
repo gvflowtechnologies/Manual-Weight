@@ -284,7 +284,7 @@ Public Class Manual_Weight
                 End If
 
             Case Weighprocess.weighing
-          
+
                 If sartorius.Stable And sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
                     If ccylinder.FirstWeightExists Then
                         ' Second weight reading
@@ -550,22 +550,22 @@ Public Class Manual_Weight
                                 Thread.Sleep(1)
                             Loop
 
-                    If pauserequest = True Then Controlled_Pause()
-                    ' 10 Pick up part from scale
-                    pickscalepart(leftyrighty)
+                            If pauserequest = True Then Controlled_Pause()
+                            ' 10 Pick up part from scale
+                            pickscalepart(leftyrighty)
 
-                    If pauserequest = True Then Controlled_Pause()
-                Else 'If no cylinder was PICKED in the spot set the weight to -10 (flag for no part)
-                    NOCYLINDER()
-                End If
+                            If pauserequest = True Then Controlled_Pause()
+                        Else 'If no cylinder was PICKED in the spot set the weight to -10 (flag for no part)
+                            NOCYLINDER()
+                        End If
 
                     Else
-                'If no cylinder was detected in the spot set the weight to -10 (flag for no part)
-                NOCYLINDER()
+                        'If no cylinder was detected in the spot set the weight to -10 (flag for no part)
+                        NOCYLINDER()
 
                     End If
                 Else
-                Picked = False
+                    Picked = False
                 End If
 
                 '10 Move to spot (either Pallet/Good/Bad) - Seperate Routine
