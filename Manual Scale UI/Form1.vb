@@ -284,7 +284,7 @@ Public Class Manual_Weight
                 End If
 
             Case Weighprocess.weighing
-          
+
                 If sartorius.Stable And sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
                     If ccylinder.FirstWeightExists Then
                         ' Second weight reading
