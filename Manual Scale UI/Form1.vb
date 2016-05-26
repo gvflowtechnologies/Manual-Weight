@@ -391,6 +391,8 @@ Public Class Manual_Weight
         RincX = ActivePallet.RincX
         RincY = ActivePallet.RincY
 
+        ' Get Tare Skip Value
+        tareskip = My.Settings.TareFreqency
 
         ' We are working with Tool here in the following envelopes
         Epson_SPEL.settings()
@@ -428,7 +430,7 @@ Public Class Manual_Weight
         fixedlocations(leftyrighty)
 
         'Cycle through cylinders in pallet
-
+        teststate = Weighprocess.taring
         For r = 0 To ActivePallet.rows - 1
 
             If r > 10 Then
@@ -445,8 +447,6 @@ Public Class Manual_Weight
                 'Stop measuring if the scale is bad.
 
 
-
-                teststate = Weighprocess.taring
                 entering = True
 
                 '3 Determine location to pick
@@ -613,6 +613,13 @@ Public Class Manual_Weight
                     resetgood()
                 End If
                 ccylinder.dispose()
+                ' determine if we are going to tare the next canister.
+                If ActivePallet.canisternum Mod tareskip = 0 Then
+                    teststate = Weighprocess.taring
+                Else
+                    teststate = Weighprocess.weighing
+                End If
+
             Next
         Next
 
