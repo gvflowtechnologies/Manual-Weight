@@ -1799,7 +1799,7 @@ Partial Class Manual_Weight
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CausesValidation = False
-        Me.ClientSize = New System.Drawing.Size(1534, 421)
+        Me.ClientSize = New System.Drawing.Size(1362, 421)
         Me.Controls.Add(Me.TC_MainControl)
         Me.Name = "Manual_Weight"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
