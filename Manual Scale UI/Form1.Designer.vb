@@ -24,7 +24,7 @@ Partial Class Manual_Weight
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Manual_Weight))
-        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TC_MainControl = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
         Me.BtnResume = New System.Windows.Forms.Button()
         Me.Btn_PauseRobot = New System.Windows.Forms.Button()
@@ -86,6 +86,8 @@ Partial Class Manual_Weight
         Me.Btn_ScaleCal = New System.Windows.Forms.Button()
         Me.Btn_Password = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Lbl_TareFrequency = New System.Windows.Forms.Label()
+        Me.Btn_Tare_Frequency = New System.Windows.Forms.Button()
         Me.Btn_SerialPort = New System.Windows.Forms.Button()
         Me.Lbl_MinWeight = New System.Windows.Forms.Label()
         Me.Lbl_MaxWeight = New System.Windows.Forms.Label()
@@ -175,9 +177,7 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
-        Me.Btn_Tare_Frequency = New System.Windows.Forms.Button()
-        Me.Lbl_TareFrequency = New System.Windows.Forms.Label()
-        Me.TabControl1.SuspendLayout()
+        Me.TC_MainControl.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
         Me.GB_Scale.SuspendLayout()
@@ -195,16 +195,16 @@ Partial Class Manual_Weight
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'TabControl1
+        'TC_MainControl
         '
-        Me.TabControl1.Controls.Add(Me.RunPage)
-        Me.TabControl1.Controls.Add(Me.Setup)
-        Me.TabControl1.Controls.Add(Me.TPPalletLayout)
-        Me.TabControl1.Location = New System.Drawing.Point(10, 10)
-        Me.TabControl1.Name = "TabControl1"
-        Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1524, 400)
-        Me.TabControl1.TabIndex = 0
+        Me.TC_MainControl.Controls.Add(Me.RunPage)
+        Me.TC_MainControl.Controls.Add(Me.Setup)
+        Me.TC_MainControl.Controls.Add(Me.TPPalletLayout)
+        Me.TC_MainControl.Location = New System.Drawing.Point(10, 10)
+        Me.TC_MainControl.Name = "TC_MainControl"
+        Me.TC_MainControl.SelectedIndex = 0
+        Me.TC_MainControl.Size = New System.Drawing.Size(1524, 400)
+        Me.TC_MainControl.TabIndex = 0
         '
         'RunPage
         '
@@ -889,6 +889,24 @@ Partial Class Manual_Weight
         Me.GroupBox2.TabIndex = 11
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Scale Parameters"
+        '
+        'Lbl_TareFrequency
+        '
+        Me.Lbl_TareFrequency.AutoSize = True
+        Me.Lbl_TareFrequency.Location = New System.Drawing.Point(136, 297)
+        Me.Lbl_TareFrequency.Name = "Lbl_TareFrequency"
+        Me.Lbl_TareFrequency.Size = New System.Drawing.Size(161, 13)
+        Me.Lbl_TareFrequency.TabIndex = 26
+        Me.Lbl_TareFrequency.Text = "Tare between every  X Canisters"
+        '
+        'Btn_Tare_Frequency
+        '
+        Me.Btn_Tare_Frequency.Location = New System.Drawing.Point(18, 287)
+        Me.Btn_Tare_Frequency.Name = "Btn_Tare_Frequency"
+        Me.Btn_Tare_Frequency.Size = New System.Drawing.Size(100, 23)
+        Me.Btn_Tare_Frequency.TabIndex = 25
+        Me.Btn_Tare_Frequency.Text = "Tare Frequency"
+        Me.Btn_Tare_Frequency.UseVisualStyleBackColor = True
         '
         'Btn_SerialPort
         '
@@ -1776,35 +1794,17 @@ Partial Class Manual_Weight
         '
         Me.TMR_door.Interval = 200
         '
-        'Btn_Tare_Frequency
-        '
-        Me.Btn_Tare_Frequency.Location = New System.Drawing.Point(18, 287)
-        Me.Btn_Tare_Frequency.Name = "Btn_Tare_Frequency"
-        Me.Btn_Tare_Frequency.Size = New System.Drawing.Size(100, 23)
-        Me.Btn_Tare_Frequency.TabIndex = 25
-        Me.Btn_Tare_Frequency.Text = "Tare Frequency"
-        Me.Btn_Tare_Frequency.UseVisualStyleBackColor = True
-        '
-        'Lbl_TareFrequency
-        '
-        Me.Lbl_TareFrequency.AutoSize = True
-        Me.Lbl_TareFrequency.Location = New System.Drawing.Point(136, 297)
-        Me.Lbl_TareFrequency.Name = "Lbl_TareFrequency"
-        Me.Lbl_TareFrequency.Size = New System.Drawing.Size(161, 13)
-        Me.Lbl_TareFrequency.TabIndex = 26
-        Me.Lbl_TareFrequency.Text = "Tare between every  X Canisters"
-        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CausesValidation = False
         Me.ClientSize = New System.Drawing.Size(1534, 421)
-        Me.Controls.Add(Me.TabControl1)
+        Me.Controls.Add(Me.TC_MainControl)
         Me.Name = "Manual_Weight"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Altaviz Automated Weighing System"
-        Me.TabControl1.ResumeLayout(False)
+        Me.TC_MainControl.ResumeLayout(False)
         Me.RunPage.ResumeLayout(False)
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
@@ -1836,7 +1836,7 @@ Partial Class Manual_Weight
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents TC_MainControl As System.Windows.Forms.TabControl
     Friend WithEvents RunPage As System.Windows.Forms.TabPage
     Friend WithEvents Setup As System.Windows.Forms.TabPage
     Friend WithEvents Lbl_BatchN_Right As System.Windows.Forms.Label

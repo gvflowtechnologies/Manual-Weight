@@ -953,7 +953,7 @@ Public Class Manual_Weight
             Do
                 login = InputBox("Enter Login key for Setup?", "Altaviz Quality Login", "")
                 If login = "" Then
-                    Me.TabControl1.SelectedTab = RunPage
+                    Me.TC_MainControl.SelectedTab = RunPage
                     Exit Sub
                 End If
                 If login <> My.Settings.Password Then
@@ -962,7 +962,7 @@ Public Class Manual_Weight
                     count += 1
 
                     If count > 3 Then
-                        Me.TabControl1.SelectedTab = RunPage
+                        Me.TC_MainControl.SelectedTab = RunPage
                         Exit Sub
                     End If
 
@@ -970,7 +970,7 @@ Public Class Manual_Weight
 
             Loop Until login = My.Settings.Password
         Else
-            Me.TabControl1.SelectedTab = RunPage
+            Me.TC_MainControl.SelectedTab = RunPage
 
         End If
 
@@ -1509,13 +1509,15 @@ Public Class Manual_Weight
         ' Check if door is open, if the door is open then pause the robot if not already paused.
         ' If door is closesd, then have the robot conitnue if not already running.
         Btn_PauseRobot.Enabled = False
-        If Scara.Sw(11) = True Then 'Safegaurd is open and robot should be stopped.
-            Scara.Here(pausereturn)
-            Scara.Pause()
-            Scara.MotorsOn = False
-            TMR_door.Stop()
-            MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
-            TMR_door.Start()
+        If TC_MainControl.SelectedIndex = 0 Then
+            If Scara.Sw(11) = True Then 'Safegaurd is open and robot should be stopped.
+                Scara.Here(pausereturn)
+                Scara.Pause()
+                Scara.MotorsOn = False
+                TMR_door.Stop()
+                MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
+                TMR_door.Start()
+            End If
         End If
         BtnResume.Enabled = True
     End Sub
@@ -1881,5 +1883,11 @@ Public Class Manual_Weight
 
         End While
         My.Settings.Save()
+    End Sub
+
+ 
+
+    Private Sub TPPalletLayout_Click(sender As Object, e As EventArgs) Handles TPPalletLayout.Click
+
     End Sub
 End Class
