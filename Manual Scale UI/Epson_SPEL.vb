@@ -84,9 +84,13 @@ Module Epson_SPEL
     End Sub
 
     Public Sub estophandling()
+        Manual_Weight.TMR_door.Stop()
         ' Do Until EStopOff = True
         MsgBox("Reset E-Stop Switch and then press OK", MsgBoxStyle.Critical, "E-Stop Detected")
         Scara.Reset()
+        Scara.WaitCommandComplete()
+        Manual_Weight.TMR_door.Start()
+
         'Application.DoEvents()
         'Thread.Sleep(100)
         'Loop

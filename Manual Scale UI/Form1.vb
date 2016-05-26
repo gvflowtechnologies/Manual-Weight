@@ -33,6 +33,7 @@ Public Class Manual_Weight
     Const WeightZ As Single = 15 ' Height (mm) above scale nest that robot waits while waiting for reading.
     Const postweighpickZ As Single = 1 ' Height above scale the robot starts to pick up part off of scale.
     Const tareheight As Integer = 20 ' Height above scale nest that the robot waits at while waiting for stability
+    Const pickcheck As Single = 9 ' Height above pick height that we check to see that we picked part
 
     'Output constants used for picking and placing parts
     Const TipBlowOff As Integer = 8 ' Identifier for tip blow off function
@@ -40,7 +41,7 @@ Public Class Manual_Weight
     Const blowofftime As Integer = 250 ' msec pause to allow part to eject from holder
     Const DoorSwitch As Integer = 11 ' Identifier for door switch input
     Const PickTries As Integer = 3 ' Number of times that the robot will try to pick a part
-    Const pickcheck As Single = 7 ' Height above pick height that we check to see that we picked part
+
 
     'X,Y,Z Locations on system for component locations in mm
     Const Good1x As Single = 122.295
@@ -1798,17 +1799,6 @@ Public Class Manual_Weight
         Lbl_CurrentGood_R.Text = RightPallet.numgood.ToString
         Lbl_CurrentBad_R.Text = RightPallet.numbad.ToString
         Lbl_PalletStatus_R.Text = "STATUS: WAITING"
-
-        'If LeftPallet IsNot Nothing Then
-        '    Do While RightPallet.inprocess = PalletData.status.processing
-        '        Application.DoEvents()
-        '        Thread.Sleep(1)
-        '    Loop
-        'End If
-
-
-
-
 
         checkright()
 
