@@ -177,6 +177,9 @@ Public Class Manual_Weight
         Scara.WaitCommandComplete()
         Scara.MotorsOn = False
 
+    End Sub
+
+    Private Sub manual_WeightShown(sender As Object, e As EventArgs) Handles MyBase.Shown
         TMR_door = New Windows.Forms.Timer
         Thread.Sleep(500)
         With TMR_door
@@ -186,6 +189,7 @@ Public Class Manual_Weight
         End With
 
     End Sub
+
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
         If Scara.MotorsOn Then Scara.MotorsOn = False
@@ -264,7 +268,7 @@ Public Class Manual_Weight
                     Select Case Math.Abs(sartorius.CurrentReading)
 
                         Case Is < My.Settings.TareLimit / 1000
-                            Thread.Sleep(25) ' Added in a little time to keep in sync with process pallet
+                            ' Added in a little time to keep in sync with process pallet
                             teststate = Weighprocess.weighing
 
                         Case Is > My.Settings.TareError / 1000
@@ -278,13 +282,16 @@ Public Class Manual_Weight
 
                         Case Else
                             updatetare()
+                            Tmr_ScreenUpdate.Stop()
+                            Thread.Sleep(200)
+                            Tmr_ScreenUpdate.Start()
 
                     End Select
 
                 End If
 
             Case Weighprocess.weighing
-          
+
                 If sartorius.Stable And sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
                     If ccylinder.FirstWeightExists Then
                         ' Second weight reading
@@ -369,7 +376,7 @@ Public Class Manual_Weight
         Dim CincY As Single
         Dim RincX As Single
         Dim RincY As Single
-
+        Dim tareskip As Integer
 
 
         'set initial values for corner
@@ -550,22 +557,22 @@ Public Class Manual_Weight
                                 Thread.Sleep(1)
                             Loop
 
-                    If pauserequest = True Then Controlled_Pause()
-                    ' 10 Pick up part from scale
-                    pickscalepart(leftyrighty)
+                            If pauserequest = True Then Controlled_Pause()
+                            ' 10 Pick up part from scale
+                            pickscalepart(leftyrighty)
 
-                    If pauserequest = True Then Controlled_Pause()
-                Else 'If no cylinder was PICKED in the spot set the weight to -10 (flag for no part)
-                    NOCYLINDER()
-                End If
+                            If pauserequest = True Then Controlled_Pause()
+                        Else 'If no cylinder was PICKED in the spot set the weight to -10 (flag for no part)
+                            NOCYLINDER()
+                        End If
 
                     Else
-                'If no cylinder was detected in the spot set the weight to -10 (flag for no part)
-                NOCYLINDER()
+                        'If no cylinder was detected in the spot set the weight to -10 (flag for no part)
+                        NOCYLINDER()
 
                     End If
                 Else
-                Picked = False
+                    Picked = False
                 End If
 
                 '10 Move to spot (either Pallet/Good/Bad) - Seperate Routine
@@ -614,15 +621,9 @@ Public Class Manual_Weight
         If Scara.MotorsOn Then Scara.MotorsOn = False ' When done turn off motors
 
         ActivePallet.inprocess = PalletData.status.complete
-
-
-        If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then nextpallet = False
         ActivePallet = Nothing
-        If nextpallet Then
-            CheckLeft()
-        Else
-            checkright()
-        End If
+        checkright()
+
 
     End Sub
 
@@ -1596,36 +1597,45 @@ Public Class Manual_Weight
 
     Sub checkright()
         If RightPallet IsNot Nothing Then
+            If RightPallet.inprocess = PalletData.status.processing Then
+                Exit Sub
+            End If
+
             If RightPallet.inprocess = PalletData.status.waiting Then
                 ProcessPallet(RightPallet)
-
+                Exit Sub
             End If
-            Exit Sub
-        End If
-        If LeftPallet IsNot Nothing Then
-            If LeftPallet.inprocess = PalletData.status.waiting Then
 
+        End If
+
+        If LeftPallet IsNot Nothing Then
+            If LeftPallet.inprocess = PalletData.status.processing Then
+                Exit Sub
+            End If
+
+            If LeftPallet.inprocess = PalletData.status.waiting Then
                 ProcessPallet(LeftPallet)
+
             End If
         End If
 
     End Sub
 
-    Sub CheckLeft()
-        ' Called when either a button is pressed or when a pallet is complete to determine if another pallet is ready.
-        If LeftPallet IsNot Nothing Then
-            If LeftPallet.inprocess = PalletData.status.waiting Then
-                ProcessPallet(LeftPallet)
-            End If
-            Exit Sub
-        End If
-        If RightPallet IsNot Nothing Then
-            If RightPallet.inprocess = PalletData.status.waiting Then
+    'Sub CheckLeft()
+    '    ' Called when either a button is pressed or when a pallet is complete to determine if another pallet is ready.
+    '    If LeftPallet IsNot Nothing Then
+    '        If LeftPallet.inprocess = PalletData.status.waiting Then
+    '            ProcessPallet(LeftPallet)
+    '        End If
+    '        Exit Sub
+    '    End If
+    '    If RightPallet IsNot Nothing Then
+    '        If RightPallet.inprocess = PalletData.status.waiting Then
 
-                ProcessPallet(RightPallet)
-            End If
-        End If
-    End Sub
+    '            ProcessPallet(RightPallet)
+    '        End If
+    '    End If
+    'End Sub
 
     Private Sub Btn_WeighLeft_Click(sender As Object, e As EventArgs) Handles Btn_WeighLeft.Click
         ' Setting up a new pallet to be run
@@ -1800,7 +1810,7 @@ Public Class Manual_Weight
 
 
 
-        CheckLeft()
+        checkright()
 
     End Sub
 
@@ -1923,12 +1933,9 @@ Public Class Manual_Weight
 
     Private Sub Btn_Tare_Frequency_Click(sender As Object, e As EventArgs) Handles Btn_Tare_Frequency.Click
 
-
         Dim TareFreqency As Integer
-
         Dim sinputstring As String
         Dim inerror As Boolean = True
-
 
         While inerror = True
             sinputstring = InputBox("How many canisters to weigh between Tares", , My.Settings.TareFreqency.ToString("N0"))
