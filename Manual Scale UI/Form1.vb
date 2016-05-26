@@ -33,7 +33,7 @@ Public Class Manual_Weight
     Const WeightZ As Single = 15 ' Height (mm) above scale nest that robot waits while waiting for reading.
     Const postweighpickZ As Single = 1 ' Height above scale the robot starts to pick up part off of scale.
     Const tareheight As Integer = 20 ' Height above scale nest that the robot waits at while waiting for stability
-    Const pickcheck As Single = 9 ' Height above pick height that we check to see that we picked part
+    Const pickcheck As Single = 13 ' Height above pick height that we check to see that we picked part
 
     'Output constants used for picking and placing parts
     Const TipBlowOff As Integer = 8 ' Identifier for tip blow off function
@@ -190,7 +190,6 @@ Public Class Manual_Weight
         End With
 
     End Sub
-
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
         If Scara.MotorsOn Then Scara.MotorsOn = False
@@ -365,7 +364,7 @@ Public Class Manual_Weight
         Btn_PauseRobot.Enabled = True
         '1. Get cordinates of the system
 
-        Dim nextpallet As Boolean 'Indicates which pallet was active to look for next pallet
+        'Dim nextpallet As Boolean 'Indicates which pallet was active to look for next pallet
         Dim basex As Single ' Base Corner x  - Depends on left vs right so let pallet tell us
         Dim basey As Single ' Base Corner Y - Depends on left vs right.  Pallet tells direction.
         Dim basez As Single
@@ -791,60 +790,6 @@ Public Class Manual_Weight
 
     End Sub
 
-    'Private Sub Btn_StopPallet_Click(sender As Object, e As EventArgs)
-    '    ' Empty LeftPallet of ID information.
-    '    manualstop = True
-    '    checkpalletcomplete()
-
-    'End Sub
-
-    'Private Sub checkpalletcomplete()
-
-    '    If LeftPallet.palletcount >= LeftPallet.canisternum Then
-    '        If LeftPallet.firstweightexists = True Then
-    '            ccylinder.CylIndex = LeftPallet.canisternum
-    '            ccylinder.Firstweight = LeftPallet.initialweight
-    '        End If
-
-
-
-    '    Else
-    '        ' closing a pallet.
-
-    '        ' update instructions
-
-    '        Dim updatedinstruction As String
-    '        updatedinstruction = Lbl_Instruction.Text
-    '        updatedinstruction = updatedinstruction & "Closing Pallet"
-
-    '        ' Provide 15 seconds to get last sort.
-
-    '        Dim closewatch As Stopwatch
-
-    '        If IsNothing(closewatch) Then
-    '            closewatch = New Stopwatch
-    '            closewatch.Start()
-    '        Else
-    '            closewatch.Restart()
-    '        End If
-
-    '        Do Until closewatch.ElapsedMilliseconds > 15000
-
-    '            Application.DoEvents()
-    '            Thread.Sleep(10)
-    '        Loop
-    '        closewatch.Stop()
-
-
-    '        Closepallet()
-
-    '        MsgBox("Pallet Complete")
-    '    End If
-
-
-    'End Sub
-
-
     Private Sub Closepallet(ByRef curpallet As PalletData)
 
         If curpallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -862,8 +807,9 @@ Public Class Manual_Weight
         End If
 
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
-        swdataset.Dispose()
-
+        If swdataset IsNot Nothing Then swdataset.Dispose()
+        swlogdata.Close()
+        If swlogdata IsNot Nothing Then swlogdata.Dispose()
 
     End Sub
     Private Sub writeheader(ByVal pallet As PalletData)
@@ -964,7 +910,7 @@ Public Class Manual_Weight
             swlogdata = New StreamWriter(Logfile, True)
 
         End If
-
+        swlogdata.AutoFlush = True
     End Sub
 
     Private Sub write_history(ByRef currpallet As PalletData)
@@ -981,9 +927,8 @@ Public Class Manual_Weight
         swlogdata.Write(currpallet.numgood & ", ")
         swlogdata.WriteLine(currpallet.numbad)
 
-        swlogdata.Flush()
-        swlogdata.Close()
-        swlogdata.Dispose()
+
+        
 
     End Sub
 
@@ -1563,23 +1508,16 @@ Public Class Manual_Weight
     Sub DoorPause()
         ' Check if door is open, if the door is open then pause the robot if not already paused.
         ' If door is closesd, then have the robot conitnue if not already running.
-
-
-        If Scara.Sw(11) = False Then 'Robot should be running
-            '    ' Check if robot is paused or not
-            ' shut off timer
-            'TMR_door.Enabled = False
-            ' message user to close door and then push continue
-
-
-
-            Scara.Continue()
-        Else ' Robot should not be running
-            '  If Scara.PauseOn = False Then
+        Btn_PauseRobot.Enabled = False
+        If Scara.Sw(11) = True Then 'Safegaurd is open and robot should be stopped.
+            Scara.Here(pausereturn)
             Scara.Pause()
-            'End If
+            Scara.MotorsOn = False
+            TMR_door.Stop()
+            MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
+            TMR_door.Start()
         End If
-
+        BtnResume.Enabled = True
     End Sub
 
     Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
@@ -1815,10 +1753,15 @@ Public Class Manual_Weight
         pauserequest = True
         resumemotion = False
         Btn_PauseRobot.Enabled = False
+
     End Sub
 
     Private Sub BtnResume_Click(sender As Object, e As EventArgs) Handles BtnResume.Click
         resumemotion = True
+        If pauserequest = False Then
+            controlledresume()
+        End If
+        pauserequest = False
     End Sub
 
     Private Sub Controlled_Pause()
@@ -1826,7 +1769,6 @@ Public Class Manual_Weight
         ' 1.  Capture Current Location
         Scara.Here(pausereturn)
         ' 2. Jump to location.
-
         Scara.Jump(pausepoint)
         ' 3. Enable button to start
         BtnResume.Enabled = True
@@ -1836,7 +1778,7 @@ Public Class Manual_Weight
             Application.DoEvents()
             Thread.Sleep(1)
         Loop Until resumemotion = True
-        ' Move to pause point slowly.  Restarts if 
+        ' Move to pause point.
         controlledresume()
 
     End Sub
@@ -1846,7 +1788,6 @@ Public Class Manual_Weight
         Scara.MotorsOn = True
         Epson_SPEL.RobotHeightOutOfRange()
 
-
         ' 5. Set Flags
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = True
@@ -1854,7 +1795,7 @@ Public Class Manual_Weight
         ' 6. Jump to location 
         Epson_SPEL.settings()
         Scara.Jump(pausereturn)
-
+        Scara.WaitCommandComplete()
 
     End Sub
 

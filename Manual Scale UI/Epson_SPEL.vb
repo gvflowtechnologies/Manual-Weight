@@ -67,8 +67,7 @@ Module Epson_SPEL
             Case SpelEvents.EstopOff
                 EStopOn = False
                 EStopOff = True
-                MsgBox("Robot Reset", MsgBoxStyle.OkOnly, "Robot was reset")
-                MsgBox("Press Continue Button to resume operation", MsgBoxStyle.OkOnly, "E-Stop Reset")
+                estophandling()
 
             Case SpelEvents.Pause
                 ' MsgBox("trying to detect pause", MsgBoxStyle.OkOnly, "Yeah")
@@ -83,13 +82,24 @@ Module Epson_SPEL
 
     End Sub
 
+    Public Sub EStopOffHandle()
+
+        MsgBox("Robot Reset", MsgBoxStyle.OkOnly, "Robot was reset")
+        MsgBox("Press Continue Button to resume operation", MsgBoxStyle.OkOnly, "E-Stop Reset")
+        Manual_Weight.TMR_door.Start()
+
+
+    End Sub
+
+
     Public Sub estophandling()
         Manual_Weight.TMR_door.Stop()
         ' Do Until EStopOff = True
         MsgBox("Reset E-Stop Switch and then press OK", MsgBoxStyle.Critical, "E-Stop Detected")
         Scara.Reset()
         Scara.WaitCommandComplete()
-        Manual_Weight.TMR_door.Start()
+
+
 
         'Application.DoEvents()
         'Thread.Sleep(100)
