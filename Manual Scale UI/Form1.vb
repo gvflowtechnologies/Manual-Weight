@@ -619,11 +619,11 @@ Public Class Manual_Weight
         Closepallet(ActivePallet)
         Scara.Jump(pausepoint)
         If Scara.MotorsOn Then Scara.MotorsOn = False ' When done turn off motors
-
+        Scara.Off(8)
+        Scara.Off(9)
         ActivePallet.inprocess = PalletData.status.complete
         ActivePallet = Nothing
-        checkright()
-
+        CheckNextPallet()
 
     End Sub
 
@@ -928,7 +928,7 @@ Public Class Manual_Weight
         swlogdata.WriteLine(currpallet.numbad)
 
 
-        
+
 
     End Sub
 
@@ -1536,7 +1536,7 @@ Public Class Manual_Weight
         UpdateSettings.palletcorners()
     End Sub
 
-    Sub checkright()
+    Sub CheckNextPallet()
         If RightPallet IsNot Nothing Then
             If RightPallet.inprocess = PalletData.status.processing Then
                 Exit Sub
@@ -1657,7 +1657,7 @@ Public Class Manual_Weight
         'End If
 
 
-        checkright()
+        CheckNextPallet()
 
 
     End Sub
@@ -1740,7 +1740,7 @@ Public Class Manual_Weight
         Lbl_CurrentBad_R.Text = RightPallet.numbad.ToString
         Lbl_PalletStatus_R.Text = "STATUS: WAITING"
 
-        checkright()
+        CheckNextPallet()
 
     End Sub
 
@@ -1885,7 +1885,7 @@ Public Class Manual_Weight
         My.Settings.Save()
     End Sub
 
- 
+
 
     Private Sub TPPalletLayout_Click(sender As Object, e As EventArgs) Handles TPPalletLayout.Click
 
