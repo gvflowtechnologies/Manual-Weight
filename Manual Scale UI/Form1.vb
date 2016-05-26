@@ -392,23 +392,23 @@ Public Class Manual_Weight
 
         ' We are working with Tool here in the following envelopes
         Epson_SPEL.settings()
-
+        ' Update Screen
         updatepalletstatus(ActivePallet)
-        Dim leftyrighty As RCAPINet.SpelHand
-
 
 
         ' SET fixed locations
-
-
         Dim ucord As Single
+        ucord = 0
+
+        Dim leftyrighty As RCAPINet.SpelHand
+        leftyrighty = ActivePallet.robothand
+        fixedlocations(leftyrighty)
+
+
         Dim r As Integer
         Dim c As Integer
         '     Set U angle = zero for either pallet at the beginning of the cycle.
 
-        ucord = 0
-        leftyrighty = ActivePallet.robothand
-        fixedlocations(leftyrighty)
 
         'Cycle through cylinders in pallet
         teststate = Weighprocess.taring
