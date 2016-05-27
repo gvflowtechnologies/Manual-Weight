@@ -115,9 +115,9 @@ Module Epson_SPEL
     Public Sub RobotHeightOutOfRange()
         Dim values() As Single
         values = Scara.GetRobotPos(SpelRobotPosType.World, 0, 0, 0)
-        Do While values(2) > -5
+        Do While values(2) > -10
             values = Scara.GetRobotPos(SpelRobotPosType.World, 0, 0, 0)
-            If values(2) > -2 Then
+            If values(2) > -8 Then
                 If Scara.MotorsOn = True Then Scara.MotorsOn = False
                 MsgBox("Move robot acutator down and then press ok", MsgBoxStyle.Critical, "Robot acuator out of range")
                 Scara.MotorsOn = True

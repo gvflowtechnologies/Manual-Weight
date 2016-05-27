@@ -1500,6 +1500,8 @@ Public Class Manual_Weight
         If TC_MainControl.SelectedIndex = 0 Then
             If Scara.Sw(11) = True Then
                 'Safegaurd is open and robot should be stopped.
+
+
                 Btn_PauseRobot.Enabled = False
                 BtnResume.Enabled = True
                 TMR_door.Stop()
@@ -1802,6 +1804,7 @@ Public Class Manual_Weight
     Sub DoorResume()
 
         Scara.MotorsOn = True
+        Scara.Jump(pausepoint)
         Epson_SPEL.RobotHeightOutOfRange()
 
         ' 5. Set Flags
@@ -1810,7 +1813,8 @@ Public Class Manual_Weight
 
         pauserequest = False
         ' 6. Jump to location 
-        Scara.PowerHigh = True
+
+        '  Scara.Jump(pausereturn)
 
 
 
