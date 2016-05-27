@@ -928,7 +928,7 @@ Public Class Manual_Weight
         swlogdata.WriteLine(currpallet.numbad)
 
 
-        
+
 
     End Sub
 
@@ -1885,7 +1885,7 @@ Public Class Manual_Weight
         My.Settings.Save()
     End Sub
 
- 
+
 
     Private Sub TPPalletLayout_Click(sender As Object, e As EventArgs) Handles TPPalletLayout.Click
 
