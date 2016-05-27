@@ -308,7 +308,7 @@ Public Class Manual_Weight
 
 
             Case Weighprocess.erroring ' if we end up here stop processing
-       
+
 
         End Select
 
@@ -1500,22 +1500,23 @@ Public Class Manual_Weight
         If TC_MainControl.SelectedIndex = 0 Then
             If Scara.Sw(11) = True Then
                 'Safegaurd is open and robot should be stopped.
+                Scara.Pause()
 
-                Controlled_Pause()
-                Btn_PauseRobot.Enabled = False
-                BtnResume.Enabled = True
+             
                 TMR_door.Stop()
 
-                Scara.Pause()
+
                 '  Scara.Here(pausereturn)
-                Scara.MotorsOn = False
+
                 MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
 
 
                 TMR_door.Start()
+            Else
+                Scara.Continue()
             End If
         End If
-       
+
     End Sub
 
     Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
@@ -1820,7 +1821,7 @@ Public Class Manual_Weight
         ' 6. Jump to location 
 
         '  Scara.Jump(pausereturn)
-    
+
 
 
     End Sub
