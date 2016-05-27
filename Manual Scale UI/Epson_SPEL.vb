@@ -72,8 +72,8 @@ Module Epson_SPEL
                 EStopOffHandle()
 
             Case SpelEvents.Pause
-                ' MsgBox("trying to detect pause", MsgBoxStyle.OkOnly, "Yeah")
-                'Manual_Weight.BtnResume.Enabled = True
+                MsgBox("trying to detect pause", MsgBoxStyle.OkOnly, "Yeah")
+                Manual_Weight.BtnResume.Enabled = True
 
             Case Else
                 MsgBox("Received Event " & e.Event)
@@ -85,6 +85,7 @@ Module Epson_SPEL
     End Sub
 
     Public Sub EStopOffHandle()
+        Scara.Reset()
 
         MsgBox("Robot Reset", MsgBoxStyle.OkOnly, "Robot was reset")
         MsgBox("Press Continue Button to resume operation", MsgBoxStyle.OkOnly, "E-Stop Reset")
@@ -99,7 +100,7 @@ Module Epson_SPEL
         Manual_Weight.TMR_door.Stop()
         ' Do Until EStopOff = True
         MsgBox("Reset E-Stop Switch and then press OK", MsgBoxStyle.Critical, "E-Stop Detected")
-        Scara.Reset()
+
 
 
 
@@ -114,10 +115,10 @@ Module Epson_SPEL
 
     Public Sub RobotHeightOutOfRange()
         Dim values() As Single
-        values = Scara.GetRobotPos(SpelRobotPosType.World, 0, 0, 0)
-        Do While values(2) > -15
+        values = Scara.GetRobotPos(SpelRobotPosType.World, 0, 1, 0)
+        Do While values(2) > -30
             values = Scara.GetRobotPos(SpelRobotPosType.World, 0, 0, 0)
-            If values(2) > -10 Then
+            If values(2) > -35 Then
                 If Scara.MotorsOn = True Then Scara.MotorsOn = False
                 MsgBox("Move robot acutator down and then press ok", MsgBoxStyle.Critical, "Robot acuator out of range")
                 Scara.MotorsOn = True

@@ -175,10 +175,10 @@ Public Class Manual_Weight
 
         Epson_SPEL.RobotHeightOutOfRange()
 
-        Scara.AsyncMode = True
+        Scara.AsyncMode = False
         Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
         Scara.Jump(pausepoint)
-        Scara.WaitCommandComplete()
+        'Scara.WaitCommandComplete()
         Scara.MotorsOn = False
 
     End Sub
@@ -446,7 +446,8 @@ Public Class Manual_Weight
                     ccylinder.present = True ' initially sent to true
                     Scara.SetPoint(1, xcord, ycord, zcord + CanistercheckZ, ucord, 0, leftyrighty)
                     Scara.Jump(1)
-                    Scara.WaitCommandComplete()
+                    '    Scara.WaitCommandComplete()
+ 
                     If pauserequest = True Then Controlled_Pause()
                     Scara.WaitSw(8, True, 0.5)
 
@@ -461,7 +462,7 @@ Public Class Manual_Weight
                         '5 pick up part
                         Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, leftyrighty)
                         Scara.Move(1)
-                        Scara.WaitCommandComplete()
+                        ' Scara.WaitCommandComplete()
                         If pauserequest = True Then Controlled_Pause()
                         Scara.On(TipVacuum) ' TURN ON TipVacuum
                         Scara.Off(TipBlowOff)
@@ -475,7 +476,7 @@ Public Class Manual_Weight
                                 descend = descend - 0.2
                                 Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ + descend, ucord, 0, leftyrighty)
                                 Scara.Move(1)
-                                Scara.WaitCommandComplete()
+                                ' Scara.WaitCommandComplete()
 
                                 Application.DoEvents()
                                 Thread.Sleep(50)
@@ -487,7 +488,7 @@ Public Class Manual_Weight
                             Scara.Delay(100)
                             Scara.SetPoint(1, xcord, ycord, zcord + pickcheck, ucord, 0, leftyrighty)
                             Scara.Move(1)
-                            Scara.WaitCommandComplete()
+                            ' Scara.WaitCommandComplete()
                             If Scara.Sw(16) Then
                                 Picked = True
                                 Exit For
@@ -499,7 +500,8 @@ Public Class Manual_Weight
                         If Picked = True Then
 
                             Scara.Jump(tarepoint)
-                            Scara.WaitCommandComplete()
+                            '                            Scara.Jump(tarepoint)
+                            ' Scara.WaitCommandComplete()
                             If pauserequest = True Then Controlled_Pause()
 
                             '7 Wait for scale to indicate ready
@@ -517,7 +519,7 @@ Public Class Manual_Weight
                             '8 Place on scale
 
                             Scara.Move(PlaceScalePoint)
-                            Scara.WaitCommandComplete()
+                            ' Scara.WaitCommandComplete()
                             ejectpart()
                             Scara.Move(WeighingPoint)
 
@@ -560,28 +562,43 @@ Public Class Manual_Weight
                         If ccylinder.FirstWeightExists Then ' If first weight exists sent to good part
 
                             Scara.Jump(goodpoint1)
-                            Scara.WaitCommandComplete()
+                            ' Scara.WaitCommandComplete()
                             ejectpart()
                             If pauserequest = True Then Controlled_Pause()
 
                         Else
 
                             Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
-                            Scara.Jump(1)
-                            Scara.Jump(1)
-                            Scara.WaitCommandComplete()
+                            '   Scara.Jump(1)
+                            With Scara
+                                '    .AsyncMode = False
+                                .Jump(1)
+                                ' .WaitCommandComplete()
+                                'Scara.Move(1)
+                                '   .AsyncMode = True
+                            End With
+                            '
+                            'Dim values() As Single
+                            'values = Scara.GetRobotPos(RCAPINet.SpelRobotPosType.World, 0, 1, 0)
+                            'Do Until values(0) <> xcord And values(1) = ycord And values(2) = zcord
+                            '    values = Scara.GetRobotPos(RCAPINet.SpelRobotPosType.World, 0, 1, 0)
+                            '    Scara.Jump(1)
+                            '    Application.DoEvents()
+                            '    Thread.Sleep(1)
+                            'Loop
+
                             ejectpart()
                             If pauserequest = True Then Controlled_Pause()
 
                         End If
 
                     Else
-                        If ccylinder.present Then
-                            Scara.Jump(badpoint) ' SHOULD BE BAD POINT
-                            Scara.WaitCommandComplete()
-                            ejectpart()
-                            If pauserequest = True Then Controlled_Pause()
-                        End If
+                            If ccylinder.present Then
+                                Scara.Jump(badpoint) ' SHOULD BE BAD POINT
+                                ' Scara.WaitCommandComplete()
+                                ejectpart()
+                                If pauserequest = True Then Controlled_Pause()
+                            End If
                     End If
                 End If
 
@@ -662,7 +679,7 @@ Public Class Manual_Weight
                 descend = descend - 0.2
                 Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ + descend, 0, 0, handdirec)
                 Scara.Move(postweighpick)
-                Scara.WaitCommandComplete()
+                ' Scara.WaitCommandComplete()
                 Application.DoEvents()
                 Thread.Sleep(50)
                 If descend * -1 > postweighpickZ Then
@@ -674,7 +691,7 @@ Public Class Manual_Weight
 
             Scara.SetPoint(postweighpick, scalex, scaley, scalez + pickcheck, 0, 0, handdirec)
             Scara.Move(postweighpick)
-            Scara.WaitCommandComplete()
+            ' Scara.WaitCommandComplete()
 
             If Scara.Sw(16) Then
                 Picked = True
@@ -1505,18 +1522,23 @@ Public Class Manual_Weight
 
                 Btn_PauseRobot.Enabled = False
                 BtnResume.Enabled = True
+                ' Scara.AsyncMode = False
+                Scara.Pause()
                 TMR_door.Stop()
 
-                Scara.Pause()
+     
+
+
+
                 '  Scara.Here(pausereturn)
 
                 MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
 
 
                 TMR_door.Start()
-                DoorResume()
+                '  DoorResume()
             Else
-
+                Scara.Continue()
             End If
         End If
 
@@ -1796,7 +1818,7 @@ Public Class Manual_Weight
         ' 6. Jump to location 
         Epson_SPEL.settings()
         Scara.Jump(pausereturn)
-        Scara.WaitCommandComplete()
+        'Scara.WaitCommandComplete()
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = True
 
@@ -1812,7 +1834,7 @@ Public Class Manual_Weight
         Loop Until resumemotion = True
 
         Scara.Continue()
-
+        '  Scara.AsyncMode = True
         '  Epson_SPEL.settings()
         '  Epson_SPEL.RobotHeightOutOfRange()
 
