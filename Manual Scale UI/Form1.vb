@@ -57,6 +57,9 @@ Public Class Manual_Weight
     Public Const speed As Integer = 60 ' Speed constant
     Public Const accel As Integer = 40 ' Accel out of location constant
     Public Const decel As Integer = 40 ' Decel into location constant
+    Public Const sspeed As Single = 120 ' Speed constant for Move
+    Public Const saccel As Single = 4000 ' accel constant for move command
+    Public Const sdecel As Single = 4000 ' decel constant for move command
 
     ' Points identifiers for jump commands 
     Const PlaceScalePoint As Integer = 10 ' Scale place location
@@ -193,6 +196,8 @@ Public Class Manual_Weight
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
         If Scara.MotorsOn Then Scara.MotorsOn = False
+        Scara.Off(TipVacuum)
+        Scara.Off(TipBlowOff)
         Scara.Stop()
         Scara.Dispose()
         portclosing()
@@ -347,7 +352,7 @@ Public Class Manual_Weight
         newcommport()
         'if motors are not on then turn them on.
         If Not Scara.MotorsOn Then Scara.MotorsOn = True
-        Scara.PowerHigh = False
+
 
         If pauserequest = True Then Controlled_Pause()
 
@@ -1498,23 +1503,26 @@ Public Class Manual_Weight
     Sub DoorPause()
         ' Check if door is open, if the door is open then pause the robot if not already paused.
         ' If door is closesd, then have the robot conitnue if not already running.
-        Btn_PauseRobot.Enabled = False
+
         If TC_MainControl.SelectedIndex = 0 Then
             If Scara.Sw(11) = True Then
                 'Safegaurd is open and robot should be stopped.
+                Btn_PauseRobot.Enabled = False
+                BtnResume.Enabled = True
                 TMR_door.Stop()
-                MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
-
-
                 Scara.Here(pausereturn)
                 Scara.Pause()
                 Scara.MotorsOn = False
+                MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
+
+
+
 
 
                 TMR_door.Start()
             End If
         End If
-        BtnResume.Enabled = True
+
     End Sub
 
     Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
@@ -1760,7 +1768,7 @@ Public Class Manual_Weight
     Private Sub BtnResume_Click(sender As Object, e As EventArgs) Handles BtnResume.Click
         resumemotion = True
         If pauserequest = False Then
-            controlledresume()
+            DoorResume()
         End If
         pauserequest = False
     End Sub
@@ -1780,11 +1788,25 @@ Public Class Manual_Weight
             Thread.Sleep(1)
         Loop Until resumemotion = True
         ' Move to pause point.
-        controlledresume()
+        Scara.MotorsOn = True
+        Epson_SPEL.RobotHeightOutOfRange()
+
+        ' 5. Set Flags
+        BtnResume.Enabled = False
+        Btn_PauseRobot.Enabled = True
+        Btn_PauseRobot.Enabled = False
+        pauserequest = False
+        ' 6. Jump to location 
+        Epson_SPEL.settings()
+        Scara.Jump(pausereturn)
+        Scara.WaitCommandComplete()
+        BtnResume.Enabled = False
+        Btn_PauseRobot.Enabled = True
+
 
     End Sub
 
-    Sub controlledresume()
+    Sub DoorResume()
 
         Scara.MotorsOn = True
         Epson_SPEL.RobotHeightOutOfRange()
@@ -1792,11 +1814,12 @@ Public Class Manual_Weight
         ' 5. Set Flags
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = True
+
         pauserequest = False
         ' 6. Jump to location 
-        Epson_SPEL.settings()
-        Scara.Jump(pausereturn)
-        Scara.WaitCommandComplete()
+        Scara.PowerHigh = True
+
+
 
     End Sub
 
@@ -1885,12 +1908,4 @@ Public Class Manual_Weight
     End Sub
 
 
-
-    Private Sub TPPalletLayout_Click(sender As Object, e As EventArgs) Handles TPPalletLayout.Click
-
-    End Sub
-
-    Private Sub RunPage_Click_1(sender As Object, e As EventArgs) Handles RunPage.Click
-
-    End Sub
 End Class

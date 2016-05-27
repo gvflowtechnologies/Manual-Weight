@@ -45,6 +45,8 @@ Module Epson_SPEL
             .Speed(Manual_Weight.speed) '60 is production
             .Accel(Manual_Weight.accel, Manual_Weight.decel)
             .PowerHigh = True
+            .SpeedS(Manual_Weight.sspeed)
+            .AccelS(Manual_Weight.saccel, Manual_Weight.sdecel)
         End With
         Dim VALUES() As Single
 
