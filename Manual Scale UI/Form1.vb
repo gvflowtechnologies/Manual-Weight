@@ -57,6 +57,9 @@ Public Class Manual_Weight
     Public Const speed As Integer = 60 ' Speed constant
     Public Const accel As Integer = 40 ' Accel out of location constant
     Public Const decel As Integer = 40 ' Decel into location constant
+    Public Const sspeed As Single = 120 ' Speed constant for Move
+    Public Const saccel As Single = 4000 ' accel constant for move command
+    Public Const sdecel As Single = 4000 ' decel constant for move command
 
     ' Points identifiers for jump commands 
     Const PlaceScalePoint As Integer = 10 ' Scale place location
@@ -193,6 +196,8 @@ Public Class Manual_Weight
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
         If Scara.MotorsOn Then Scara.MotorsOn = False
+        Scara.Off(TipVacuum)
+        Scara.Off(TipBlowOff)
         Scara.Stop()
         Scara.Dispose()
         portclosing()
@@ -347,7 +352,7 @@ Public Class Manual_Weight
         newcommport()
         'if motors are not on then turn them on.
         If Not Scara.MotorsOn Then Scara.MotorsOn = True
-        Scara.PowerHigh = False
+
 
         If pauserequest = True Then Controlled_Pause()
 
@@ -799,7 +804,7 @@ Public Class Manual_Weight
 
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
         If swdataset IsNot Nothing Then swdataset.Dispose()
-        
+
 
     End Sub
     Private Sub writeheader(ByVal pallet As PalletData)
@@ -1498,10 +1503,11 @@ Public Class Manual_Weight
     Sub DoorPause()
         ' Check if door is open, if the door is open then pause the robot if not already paused.
         ' If door is closesd, then have the robot conitnue if not already running.
-        Btn_PauseRobot.Enabled = False
+
         If TC_MainControl.SelectedIndex = 0 Then
             If Scara.Sw(11) = True Then
                 'Safegaurd is open and robot should be stopped.
+                Btn_PauseRobot.Enabled = False
                 TMR_door.Stop()
                 MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
 
