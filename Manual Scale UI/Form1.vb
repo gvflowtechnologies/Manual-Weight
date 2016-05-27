@@ -1905,12 +1905,4 @@ Public Class Manual_Weight
     End Sub
 
 
-
-    Private Sub TPPalletLayout_Click(sender As Object, e As EventArgs) Handles TPPalletLayout.Click
-
-    End Sub
-
-    Private Sub RunPage_Click_1(sender As Object, e As EventArgs) Handles RunPage.Click
-
-    End Sub
 End Class
