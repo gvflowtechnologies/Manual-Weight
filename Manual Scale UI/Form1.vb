@@ -1508,19 +1508,21 @@ Public Class Manual_Weight
             If Scara.Sw(11) = True Then
                 'Safegaurd is open and robot should be stopped.
                 Btn_PauseRobot.Enabled = False
+                BtnResume.Enabled = True
                 TMR_door.Stop()
-                MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
-
-
                 Scara.Here(pausereturn)
                 Scara.Pause()
                 Scara.MotorsOn = False
+                MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
+
+
+
 
 
                 TMR_door.Start()
             End If
         End If
-        BtnResume.Enabled = True
+
     End Sub
 
     Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
@@ -1766,7 +1768,7 @@ Public Class Manual_Weight
     Private Sub BtnResume_Click(sender As Object, e As EventArgs) Handles BtnResume.Click
         resumemotion = True
         If pauserequest = False Then
-            controlledresume()
+            DoorResume()
         End If
         pauserequest = False
     End Sub
@@ -1786,11 +1788,22 @@ Public Class Manual_Weight
             Thread.Sleep(1)
         Loop Until resumemotion = True
         ' Move to pause point.
-        controlledresume()
+        Scara.MotorsOn = True
+        Epson_SPEL.RobotHeightOutOfRange()
+
+        ' 5. Set Flags
+        BtnResume.Enabled = False
+        Btn_PauseRobot.Enabled = True
+        Btn_PauseRobot.Enabled = False
+        pauserequest = False
+        ' 6. Jump to location 
+        Epson_SPEL.settings()
+        Scara.Jump(pausereturn)
+        Scara.WaitCommandComplete()
 
     End Sub
 
-    Sub controlledresume()
+    Sub DoorResume()
 
         Scara.MotorsOn = True
         Epson_SPEL.RobotHeightOutOfRange()
@@ -1798,11 +1811,12 @@ Public Class Manual_Weight
         ' 5. Set Flags
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = True
+
         pauserequest = False
         ' 6. Jump to location 
-        Epson_SPEL.settings()
-        Scara.Jump(pausereturn)
-        Scara.WaitCommandComplete()
+        Scara.PowerHigh = True
+
+
 
     End Sub
 
