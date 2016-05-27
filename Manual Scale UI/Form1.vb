@@ -799,7 +799,7 @@ Public Class Manual_Weight
 
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
         If swdataset IsNot Nothing Then swdataset.Dispose()
-        
+
 
     End Sub
     Private Sub writeheader(ByVal pallet As PalletData)
