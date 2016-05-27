@@ -1518,7 +1518,10 @@ Public Class Manual_Weight
                 TMR_door.Start()
                 '  DoorResume()
             Else
+     
+
                 Scara.Continue()
+
             End If
         End If
 
@@ -1805,31 +1808,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Sub DoorResume()
-
-       
-        Do
-            Application.DoEvents()
-            Thread.Sleep(1)
-        Loop Until resumemotion = True
-
-        Scara.Continue()
-        '  Scara.AsyncMode = True
-        '  Epson_SPEL.settings()
-        '  Epson_SPEL.RobotHeightOutOfRange()
-
-        ' 5. Set Flags
-        BtnResume.Enabled = False
-        Btn_PauseRobot.Enabled = True
-
-        pauserequest = False
-        ' 6. Jump to location 
-
-        '  Scara.Jump(pausereturn)
-
-
-
-    End Sub
+  
 
 
     Private Sub teachrobotpoint()
