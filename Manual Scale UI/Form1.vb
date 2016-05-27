@@ -792,12 +792,13 @@ Public Class Manual_Weight
         If curpallet.firstweightexists = True Then
             write_Summary(curpallet)
             write_history(curpallet)
+            swlogdata.Close()
+            If swlogdata IsNot Nothing Then swlogdata.Dispose()
         End If
 
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
         If swdataset IsNot Nothing Then swdataset.Dispose()
-        swlogdata.Close()
-        If swlogdata IsNot Nothing Then swlogdata.Dispose()
+        
 
     End Sub
     Private Sub writeheader(ByVal pallet As PalletData)
@@ -1498,12 +1499,17 @@ Public Class Manual_Weight
         ' If door is closesd, then have the robot conitnue if not already running.
         Btn_PauseRobot.Enabled = False
         If TC_MainControl.SelectedIndex = 0 Then
-            If Scara.Sw(11) = True Then 'Safegaurd is open and robot should be stopped.
+            If Scara.Sw(11) = True Then
+                'Safegaurd is open and robot should be stopped.
+                TMR_door.Stop()
+                MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
+
+
                 Scara.Here(pausereturn)
                 Scara.Pause()
                 Scara.MotorsOn = False
-                TMR_door.Stop()
-                MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
+
+
                 TMR_door.Start()
             End If
         End If
