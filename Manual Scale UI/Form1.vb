@@ -1521,7 +1521,7 @@ Public Class Manual_Weight
      
 
                 Scara.Continue()
-
+                Btn_PauseRobot.Enabled = True
             End If
         End If
 
