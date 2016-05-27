@@ -570,23 +570,7 @@ Public Class Manual_Weight
 
                             Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
                             '   Scara.Jump(1)
-                            With Scara
-                                '    .AsyncMode = False
-                                .Jump(1)
-                                ' .WaitCommandComplete()
-                                'Scara.Move(1)
-                                '   .AsyncMode = True
-                            End With
-                            '
-                            'Dim values() As Single
-                            'values = Scara.GetRobotPos(RCAPINet.SpelRobotPosType.World, 0, 1, 0)
-                            'Do Until values(0) <> xcord And values(1) = ycord And values(2) = zcord
-                            '    values = Scara.GetRobotPos(RCAPINet.SpelRobotPosType.World, 0, 1, 0)
-                            '    Scara.Jump(1)
-                            '    Application.DoEvents()
-                            '    Thread.Sleep(1)
-                            'Loop
-
+                            Scara.Jump(1)
                             ejectpart()
                             If pauserequest = True Then Controlled_Pause()
 
@@ -1521,18 +1505,14 @@ Public Class Manual_Weight
                 resumemotion = False
 
                 Btn_PauseRobot.Enabled = False
-                BtnResume.Enabled = True
-                ' Scara.AsyncMode = False
+
+
                 Scara.Pause()
                 TMR_door.Stop()
 
-     
-
-
-
                 '  Scara.Here(pausereturn)
 
-                MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
+                MsgBox("Close Door And Then Click OK to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
 
 
                 TMR_door.Start()
