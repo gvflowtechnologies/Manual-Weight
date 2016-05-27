@@ -172,8 +172,8 @@ Public Class Manual_Weight
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = False
         Scara.MotorsOn = True
+        Epson_SPEL.settings()
 
-        Epson_SPEL.RobotHeightOutOfRange()
 
         Scara.AsyncMode = False
         Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
