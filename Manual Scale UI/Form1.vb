@@ -99,7 +99,7 @@ Public Class Manual_Weight
 
     Dim updateweight As scaledata
     Dim teststate As Weighprocess
-    Dim entering As Boolean ' Entering a new state
+
     Dim gbinfull As Boolean ' Flag to tell that bin is full
     Dim tmrcycle As Stopwatch 'Timer to exit out of do loops if scale is not working.
 
@@ -258,14 +258,9 @@ Public Class Manual_Weight
         Select Case teststate
 
             Case Weighprocess.idle
-                'If entering Then
-                '    entering = False
-                'End If
+    
 
             Case Weighprocess.taring
-                'If entering Then
-                '    entering = False
-                'End If
 
                 ''Taring Section
                 '' check for scale health and stability
@@ -306,19 +301,14 @@ Public Class Manual_Weight
                         ccylinder.Firstweight = sartorius.CurrentReading
                     End If
                     teststate = Weighprocess.prompting
-                    entering = True
+
                 End If
 
             Case Weighprocess.prompting
 
-                'If entering Then
-                '    entering = False
-                'End If
 
             Case Weighprocess.erroring ' if we end up here stop processing
-                'If entering Then
-                '    entering = False
-                'End If
+       
 
         End Select
 
@@ -433,7 +423,7 @@ Public Class Manual_Weight
                 'Stop measuring if the scale is bad.
 
 
-                entering = True
+
 
                 '3 Determine location to pick
                 xcord = basex - c * CincX - r * RincX
@@ -521,7 +511,7 @@ Public Class Manual_Weight
                                 Application.DoEvents()
                                 Thread.Sleep(1)
                             Loop
-                            entering = True
+
                             If pauserequest = True Then Controlled_Pause()
 
                             '8 Place on scale
@@ -617,6 +607,9 @@ Public Class Manual_Weight
         ActivePallet.inprocess = PalletData.status.complete
         ActivePallet = Nothing
         CheckNextPallet()
+
+    End Sub
+    Sub processcylinder()
 
     End Sub
 
