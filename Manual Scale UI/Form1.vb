@@ -1800,6 +1800,9 @@ Public Class Manual_Weight
         Epson_SPEL.settings()
         Scara.Jump(pausereturn)
         Scara.WaitCommandComplete()
+        BtnResume.Enabled = False
+        Btn_PauseRobot.Enabled = True
+
 
     End Sub
 
