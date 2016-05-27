@@ -308,7 +308,7 @@ Public Class Manual_Weight
 
 
             Case Weighprocess.erroring ' if we end up here stop processing
-
+       
 
         End Select
 
@@ -567,6 +567,7 @@ Public Class Manual_Weight
                         Else
 
                             Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
+                            Scara.Jump(1)
                             Scara.Jump(1)
                             Scara.WaitCommandComplete()
                             ejectpart()
@@ -1500,18 +1501,22 @@ Public Class Manual_Weight
         If TC_MainControl.SelectedIndex = 0 Then
             If Scara.Sw(11) = True Then
                 'Safegaurd is open and robot should be stopped.
-                Scara.Pause()
+                resumemotion = False
 
+                Btn_PauseRobot.Enabled = False
+                BtnResume.Enabled = True
                 TMR_door.Stop()
 
+                Scara.Pause()
                 '  Scara.Here(pausereturn)
 
                 MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
 
 
                 TMR_door.Start()
+                DoorResume()
             Else
-                Scara.Continue()
+
             End If
         End If
 
@@ -1800,12 +1805,12 @@ Public Class Manual_Weight
 
     Sub DoorResume()
 
+       
         Do
             Application.DoEvents()
             Thread.Sleep(1)
         Loop Until resumemotion = True
 
-        Scara.MotorsOn = True
         Scara.Continue()
 
         '  Epson_SPEL.settings()
