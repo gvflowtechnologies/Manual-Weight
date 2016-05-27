@@ -1502,9 +1502,7 @@ Public Class Manual_Weight
                 'Safegaurd is open and robot should be stopped.
                 Scara.Pause()
 
-
                 TMR_door.Stop()
-
 
                 '  Scara.Here(pausereturn)
 
