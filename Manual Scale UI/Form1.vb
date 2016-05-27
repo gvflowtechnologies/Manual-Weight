@@ -1501,23 +1501,21 @@ Public Class Manual_Weight
             If Scara.Sw(11) = True Then
                 'Safegaurd is open and robot should be stopped.
 
-
+                Controlled_Pause()
                 Btn_PauseRobot.Enabled = False
                 BtnResume.Enabled = True
                 TMR_door.Stop()
-                Scara.Here(pausereturn)
+
                 Scara.Pause()
+                '  Scara.Here(pausereturn)
                 Scara.MotorsOn = False
                 MsgBox("Close Door And Then Click on Resume Button to Resume Robot Activity", MsgBoxStyle.Critical, "Safety Open")
-
-
-
 
 
                 TMR_door.Start()
             End If
         End If
-
+       
     End Sub
 
     Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
@@ -1762,9 +1760,9 @@ Public Class Manual_Weight
 
     Private Sub BtnResume_Click(sender As Object, e As EventArgs) Handles BtnResume.Click
         resumemotion = True
-        If pauserequest = False Then
-            DoorResume()
-        End If
+        'If pauserequest = False Then
+        '    DoorResume()
+        'End If
         pauserequest = False
     End Sub
 
@@ -1803,9 +1801,16 @@ Public Class Manual_Weight
 
     Sub DoorResume()
 
+        Do
+            Application.DoEvents()
+            Thread.Sleep(1)
+        Loop Until resumemotion = True
+
         Scara.MotorsOn = True
-        Scara.Jump(pausepoint)
-        Epson_SPEL.RobotHeightOutOfRange()
+        Scara.Continue()
+
+        '  Epson_SPEL.settings()
+        '  Epson_SPEL.RobotHeightOutOfRange()
 
         ' 5. Set Flags
         BtnResume.Enabled = False
@@ -1815,7 +1820,7 @@ Public Class Manual_Weight
         ' 6. Jump to location 
 
         '  Scara.Jump(pausereturn)
-
+    
 
 
     End Sub
