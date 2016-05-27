@@ -1525,28 +1525,32 @@ Public Class Manual_Weight
     End Sub
 
     Sub CheckNextPallet()
+        ' Is right pallet running. If yes Exit
         If RightPallet IsNot Nothing Then
             If RightPallet.inprocess = PalletData.status.processing Then
                 Exit Sub
             End If
-
-            If RightPallet.inprocess = PalletData.status.waiting Then
-                ProcessPallet(RightPallet)
-                Exit Sub
-            End If
-
         End If
-
+        ' Is left pallet running.  If yes Exit
         If LeftPallet IsNot Nothing Then
             If LeftPallet.inprocess = PalletData.status.processing Then
                 Exit Sub
             End If
-
-            If LeftPallet.inprocess = PalletData.status.waiting Then
-                ProcessPallet(LeftPallet)
-
+        End If
+        ' If right pallet is waiting.  Start running
+        If RightPallet IsNot Nothing Then
+            If RightPallet.inprocess = PalletData.status.waiting Then
+                ProcessPallet(RightPallet)
+                Exit Sub
             End If
         End If
+        ' IF left pallet is waiting. Start running.
+        If LeftPallet IsNot Nothing Then
+            If LeftPallet.inprocess = PalletData.status.waiting Then
+                ProcessPallet(LeftPallet)
+            End If
+        End If
+
 
     End Sub
 
