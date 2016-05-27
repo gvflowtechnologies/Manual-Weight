@@ -412,7 +412,7 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
         teststate = Weighprocess.taring
-        For r = 0 To ActivePallet.rows - 1
+        For r = 0 To 4 'ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -422,7 +422,7 @@ Public Class Manual_Weight
                 End If
             End If
 
-            For c = 0 To ActivePallet.columns - 1
+            For c = 0 To 4 ' ActivePallet.columns - 1
 
                 '************************************
                 'Stop measuring if the scale is bad.
@@ -794,6 +794,7 @@ Public Class Manual_Weight
             write_history(curpallet)
             swlogdata.Close()
             If swlogdata IsNot Nothing Then swlogdata.Dispose()
+            swlogdata = Nothing
         End If
 
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
