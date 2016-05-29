@@ -407,7 +407,7 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
         teststate = Weighprocess.taring
-        For r = 0 To 4 'ActivePallet.rows - 1
+        For r = 0 To ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -417,7 +417,7 @@ Public Class Manual_Weight
                 End If
             End If
 
-            For c = 0 To 4 ' ActivePallet.columns - 1
+            For c = 0 To ActivePallet.columns - 1
 
                 '************************************
                 'Stop measuring if the scale is bad.
@@ -447,7 +447,7 @@ Public Class Manual_Weight
                     Scara.SetPoint(1, xcord, ycord, zcord + CanistercheckZ, ucord, 0, leftyrighty)
                     Scara.Jump(1)
                     '    Scara.WaitCommandComplete()
- 
+
                     If pauserequest = True Then Controlled_Pause()
                     Scara.WaitSw(8, True, 0.5)
 
@@ -577,12 +577,12 @@ Public Class Manual_Weight
                         End If
 
                     Else
-                            If ccylinder.present Then
-                                Scara.Jump(badpoint) ' SHOULD BE BAD POINT
-                                ' Scara.WaitCommandComplete()
-                                ejectpart()
-                                If pauserequest = True Then Controlled_Pause()
-                            End If
+                        If ccylinder.present Then
+                            Scara.Jump(badpoint) ' SHOULD BE BAD POINT
+                            ' Scara.WaitCommandComplete()
+                            ejectpart()
+                            If pauserequest = True Then Controlled_Pause()
+                        End If
                     End If
                 End If
 
