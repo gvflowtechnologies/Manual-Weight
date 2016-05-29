@@ -18,6 +18,7 @@ Module Epson_SPEL
         Try
             With Scara
                 .Initialize()
+                .Connect(5)
                 .Project = "C:\EpsonRC70\Projects\vbcontrol\vbcontrol.sprj"
                 .TLSet(1, -16.01, -0.303, 0, 0, 0, 0)
                 .Reset()
