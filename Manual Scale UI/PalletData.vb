@@ -215,6 +215,13 @@ Public Class PalletData
         End If
 
     End Sub
+    Public Sub AbortWeighing()
+
+
+        'File.Copy(Path.Combine(fweight, currentfilename), Path.Combine(Archived, currentfilename))
+        'File.Delete(FNreadfirst)
+
+    End Sub
     ReadOnly Property BaseX As Single
         Get
             Dim x As Single
