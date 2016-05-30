@@ -159,7 +159,7 @@ Public Class Manual_Weight
 
         Dim v As String
 
-        '     v = My.Application.Deployment.CurrentVersion.ToString
+        '    v = My.Application.Deployment.CurrentVersion.ToString
 
         LBL_Version.Text = "Version:" & v
 
@@ -207,6 +207,7 @@ Public Class Manual_Weight
         If Not IsNothing(ChangePassword) Then ChangePassword.Close()
         TMR_door.Enabled = False
         TMR_door.Dispose()
+
     End Sub
 
     Private Sub SetupClick() Handles Setup.Enter
@@ -308,7 +309,7 @@ Public Class Manual_Weight
 
 
             Case Weighprocess.erroring ' if we end up here stop processing
-       
+
 
         End Select
 
@@ -407,7 +408,7 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
         teststate = Weighprocess.taring
-        For r = 0 To ActivePallet.rows - 1
+        For r = 0 To 6 'ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -417,7 +418,7 @@ Public Class Manual_Weight
                 End If
             End If
 
-            For c = 0 To ActivePallet.columns - 1
+            For c = 0 To 6 'ActivePallet.columns - 1
 
                 '************************************
                 'Stop measuring if the scale is bad.
@@ -1518,9 +1519,14 @@ Public Class Manual_Weight
                 TMR_door.Start()
                 '  DoorResume()
             Else
-     
 
-                Scara.Continue()
+                Try
+
+                    Scara.Continue()
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
+
                 Btn_PauseRobot.Enabled = True
             End If
         End If
