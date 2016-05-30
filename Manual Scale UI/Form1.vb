@@ -259,7 +259,7 @@ Public Class Manual_Weight
         Select Case teststate
 
             Case Weighprocess.idle
-    
+
 
             Case Weighprocess.taring
 
