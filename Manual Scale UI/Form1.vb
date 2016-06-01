@@ -41,7 +41,7 @@ Public Class Manual_Weight
     Const blowofftime As Integer = 250 ' msec pause to allow part to eject from holder
     Const DoorSwitch As Integer = 11 ' Identifier for door switch input
     Const PickTries As Integer = 3 ' Number of times that the robot will try to pick a part
-
+    Const Vactesttime As Integer = 100
 
     'X,Y,Z Locations on system for component locations in mm
     Const Good1x As Single = 122.295
@@ -187,7 +187,7 @@ Public Class Manual_Weight
         TMR_door = New Windows.Forms.Timer
         Thread.Sleep(500)
         With TMR_door
-            .Interval = 200 ' Fire 50 times per second
+            .Interval = 200 ' Fire 5 times per second
             .Enabled = False ' Enabled
             .Start() ' Started
         End With
@@ -338,7 +338,7 @@ Public Class Manual_Weight
 
     Sub ProcessPallet(ByRef ActivePallet As PalletData)
         ' Process Pallet with a Robot.  Takes in the pallet object - either left or right and starts to process.
-
+        ActivePallet.inprocess = PalletData.status.processing
         ' Make sure commport is open
         newcommport()
         'if motors are not on then turn them on.
@@ -348,7 +348,7 @@ Public Class Manual_Weight
         If pauserequest = True Then Controlled_Pause()
 
         ' Set the inprocess property to processing
-        ActivePallet.inprocess = PalletData.status.processing
+
         ' write file headers
         writeheader(ActivePallet)
 
@@ -438,6 +438,7 @@ Public Class Manual_Weight
                 If ActivePallet.firstweightexists Then
                     ccylinder.Firstweight = ActivePallet.initialweight
                 End If
+                ccylinder.CylIndex = ActivePallet.canisternum
                 ActivePallet.canisternum = ActivePallet.canisternum + 1
 
                 '2 if on second weight is null or bad skip  
@@ -486,7 +487,7 @@ Public Class Manual_Weight
                                 End If
                             Loop
                             ' Wait and pull up and see if part came up.
-                            Scara.Delay(100)
+                            Scara.Delay(Vactesttime)
                             Scara.SetPoint(1, xcord, ycord, zcord + pickcheck, ucord, 0, leftyrighty)
                             Scara.Move(1)
                             ' Scara.WaitCommandComplete()
@@ -521,7 +522,7 @@ Public Class Manual_Weight
 
                             Scara.Move(PlaceScalePoint)
                             ' Scara.WaitCommandComplete()
-                            ejectpart()
+                            ejectpart(False)
                             Scara.Move(WeighingPoint)
 
 
@@ -564,7 +565,8 @@ Public Class Manual_Weight
 
                             Scara.Jump(goodpoint1)
                             ' Scara.WaitCommandComplete()
-                            ejectpart()
+                            ejectpart(False)
+
                             If pauserequest = True Then Controlled_Pause()
 
                         Else
@@ -572,7 +574,7 @@ Public Class Manual_Weight
                             Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
                             '   Scara.Jump(1)
                             Scara.Jump(1)
-                            ejectpart()
+                            ejectpart(False)
                             If pauserequest = True Then Controlled_Pause()
 
                         End If
@@ -581,7 +583,7 @@ Public Class Manual_Weight
                         If ccylinder.present Then
                             Scara.Jump(badpoint) ' SHOULD BE BAD POINT
                             ' Scara.WaitCommandComplete()
-                            ejectpart()
+                            ejectpart(False)
                             If pauserequest = True Then Controlled_Pause()
                         End If
                     End If
@@ -605,8 +607,8 @@ Public Class Manual_Weight
         Closepallet(ActivePallet)
         Scara.Jump(pausepoint)
         If Scara.MotorsOn Then Scara.MotorsOn = False ' When done turn off motors
-        Scara.Off(8)
-        Scara.Off(9)
+        Scara.Off(TipBlowOff)
+        Scara.Off(TipVacuum)
         ActivePallet.inprocess = PalletData.status.complete
         ActivePallet = Nothing
         CheckNextPallet()
@@ -616,13 +618,37 @@ Public Class Manual_Weight
 
     End Sub
 
-    Sub ejectpart()
+    Sub ejectpart(ByRef CheckPart As Boolean)
         ' Routine to efect part from holder on the robot
 
         Scara.Off(TipVacuum)
         Scara.On(TipBlowOff)
         Scara.Delay(blowofftime)
         Scara.Off(TipBlowOff)
+        If CheckPart Then
+            For x = 0 To 1
+                'Pull vacuum for vactesttime
+                Scara.On(TipVacuum)
+                ' check switch
+                If swdataset(8) Then
+
+                    ' if switch is on then
+                    Scara.Off(TipVacuum)
+                    Scara.On(TipBlowOff)
+                    Scara.Delay(blowofftime * 2)
+                    Scara.Off(TipBlowOff)
+                    ' if secondtime through.
+
+                    'else 
+
+                    Exit For
+
+            Next
+        End If
+
+
+        Vactesttime()
+
     End Sub
 
     Sub FIXEDPOINTS()
