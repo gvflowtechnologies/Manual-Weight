@@ -55,8 +55,8 @@ Public Class Manual_Weight
     Private teachingpoint As Boolean
     ' Speed Settings
     Public Const speed As Integer = 60 ' Speed constant
-    Public Const accel As Integer = 40 ' Accel out of location constant
-    Public Const decel As Integer = 40 ' Decel into location constant
+    Public Const accel As Integer = 50 ' Accel out of location constant
+    Public Const decel As Integer = 50 ' Decel into location constant
     Public Const sspeed As Single = 120 ' Speed constant for Move
     Public Const saccel As Single = 4000 ' accel constant for move command
     Public Const sdecel As Single = 4000 ' decel constant for move command
@@ -259,7 +259,7 @@ Public Class Manual_Weight
         Select Case teststate
 
             Case Weighprocess.idle
-    
+
 
             Case Weighprocess.taring
 
@@ -408,7 +408,7 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
         teststate = Weighprocess.taring
-        For r = 0 To 6 'ActivePallet.rows - 1
+        For r = 0 To 2 'ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -418,7 +418,7 @@ Public Class Manual_Weight
                 End If
             End If
 
-            For c = 0 To 6 'ActivePallet.columns - 1
+            For c = 0 To ActivePallet.columns - 1
 
                 '************************************
                 'Stop measuring if the scale is bad.
