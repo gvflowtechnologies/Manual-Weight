@@ -341,6 +341,7 @@ Public Class Manual_Weight
 
         ' Make sure commport is open
         newcommport()
+        ActivePallet.inprocess = PalletData.status.processing
         'if motors are not on then turn them on.
         If Not Scara.MotorsOn Then Scara.MotorsOn = True
 
@@ -348,7 +349,7 @@ Public Class Manual_Weight
         If pauserequest = True Then Controlled_Pause()
 
         ' Set the inprocess property to processing
-        ActivePallet.inprocess = PalletData.status.processing
+
         ' write file headers
         writeheader(ActivePallet)
 
