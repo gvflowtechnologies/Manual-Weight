@@ -88,6 +88,8 @@ Public Class Manual_Weight
     Dim RightPallet As PalletData 'Pallet object for pallets on the right hand side of the robot
     Public sartorius As Scalemanagement ' Scale object
     Dim ccylinder As Cylinder ' Cylinder object
+    Dim Goodbin1 As BinClass ' First Good Bin
+    Dim Goodbin2 As BinClass  ' Second good bin
 
     Dim swdataset As StreamWriter ' Streamwriter for writing data files
     Dim swlogdata As StreamWriter ' streamwriter for writing log files
@@ -112,6 +114,8 @@ Public Class Manual_Weight
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Epson_SPEL.InitApp() ' Start Robot
+        Goodbin1 = New BinClass(My.Settings.TotalGood1)
+        Goodbin2 = New BinClass(My.Settings.TotalGood2)
 
         newdata = New Datareceive
         tmrcycle = New Stopwatch
@@ -423,7 +427,12 @@ Public Class Manual_Weight
                 '************************************
                 'Stop measuring if the scale is bad.
 
-
+                ' Stop measuring if the bins are full
+                Do Until Goodbin1.status <> BinClass.BinStatus.Full Or Goodbin2.status <> BinClass.BinStatus.Full
+                    MsgBox("Empty Good Bins, Click OK, and then Reset Counts", MsgBoxStyle.OkOnly, "Both Good Bins Full")
+                    Application.DoEvents()
+                    Thread.Sleep(2000)
+                Loop
 
 
                 '3 Determine location to pick
@@ -625,29 +634,28 @@ Public Class Manual_Weight
         Scara.On(TipBlowOff)
         Scara.Delay(blowofftime)
         Scara.Off(TipBlowOff)
-        If CheckPart Then
-            For x = 0 To 1
-                'Pull vacuum for vactesttime
-                Scara.On(TipVacuum)
-                ' check switch
-                If swdataset(8) Then
+        'If CheckPart Then
+        '    For x = 0 To 1
+        '        'Pull vacuum for vactesttime
+        '        Scara.On(TipVacuum)
+        '        ' check switch
+        '        If Scara.Sw(16) Then
 
-                    ' if switch is on then
-                    Scara.Off(TipVacuum)
-                    Scara.On(TipBlowOff)
-                    Scara.Delay(blowofftime * 2)
-                    Scara.Off(TipBlowOff)
-                    ' if secondtime through.
+        '            ' if switch is on then
+        '            Scara.Off(TipVacuum)
+        '            Scara.On(TipBlowOff)
+        '            Scara.Delay(blowofftime * 2)
+        '            Scara.Off(TipBlowOff)
+        '            ' if secondtime through.
 
-                    'else 
+        '            'else 
+        '        End If
+        '        Exit For
 
-                    Exit For
-
-            Next
-        End If
+        '    Next
+        'End If
 
 
-        Vactesttime()
 
     End Sub
 
@@ -752,9 +760,11 @@ Public Class Manual_Weight
 
             pallet.numgood = pallet.numgood + 1
             If pallet.firstweightexists = True Then
-                My.Settings.TotalGood = My.Settings.TotalGood + 1
+
+                My.Settings.TotalGood1 = My.Settings.TotalGood1 + 1
                 My.Settings.Save()
-                If My.Settings.TotalGood >= My.Settings.GoodBInMax Then gbinfull = True
+                ' gbinfull = Goodbin1.status
+                If My.Settings.TotalGood1 >= My.Settings.GoodBInMax Then gbinfull = True
             End If
 
         Else ' cyliner disposition is fail.
@@ -782,9 +792,48 @@ Public Class Manual_Weight
             Lbl_CurrentBad_R.Text = pallet.numbad.ToString
         End If
         Lbl_BadCount.Text = My.Settings.TotalBad
-        Lbl_GoodCount.Text = My.Settings.TotalGood
+        Lbl_GoodCount1.Text = My.Settings.TotalGood1
 
     End Sub
+    Sub goodbincount()
+        If Goodbin1.status = BinClass.BinStatus.Full Then
+            Lbl_GoodCount1.BackColor = Color.RoyalBlue
+        End If
+        If Goodbin2.status = BinClass.BinStatus.Full Then
+            ' add c
+        End If
+        If Goodbin1.status = BinClass.BinStatus.Filling Then
+            Goodbin1.add1()
+            My.Settings.TotalGood1 = Goodbin1.Count
+            My.Settings.Save()
+
+            Exit Sub
+        End If
+        If Goodbin2.status = BinClass.BinStatus.Filling Then
+            Goodbin2.add1()
+            My.Settings.TotalGood2 = Goodbin2.Count
+            My.Settings.Save()
+            Exit Sub
+        End If
+        If Goodbin1.status = BinClass.BinStatus.Empty Then
+            Goodbin1.status = BinClass.BinStatus.Filling
+            Goodbin1.add1()
+            My.Settings.TotalGood1 = Goodbin1.Count
+            My.Settings.Save()
+            Exit Sub
+        End If
+        If Goodbin2.status = BinClass.BinStatus.Empty Then
+            Goodbin2.status = BinClass.BinStatus.Filling
+            Goodbin2.add1()
+            My.Settings.TotalGood2 = Goodbin2.Count
+            My.Settings.Save()
+            Exit Sub
+        End If
+
+        MsgBox("Empty Good Bins and Reset Counts", MsgBoxStyle.OkOnly, "Both Good Bins Full")
+
+    End Sub
+
 
     Sub checkcal()
         ' Checks calibration dates and disables buttons if past due or in error.
@@ -1264,7 +1313,6 @@ Public Class Manual_Weight
 
                         followup = MsgBox("You entered " & sfrequency & ", is this correct?", MsgBoxStyle.YesNo, "Confirm Entry")
 
-
                     Else
                         MsgBox("Numbers Only Please")
                     End If
@@ -1375,9 +1423,7 @@ Public Class Manual_Weight
         Dim sweightloss As Single = My.Settings.WeightLoss
 
         supdatevalues("Enter Weight Loss limit in grams", sweightloss)
-
         supdatevalues("Enter Maximum Accepatble Weight in grams", smaxweight)
-
         supdatevalues("Enter Minimum Acceptable Weight in grams", sminweight)
 
 
@@ -1509,16 +1555,24 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub resetgood()
-        My.Settings.TotalGood = 0
-        My.Settings.Save()
+    Sub resetgood()
+        Goodbin1.empty()
+        My.Settings.TotalGood1 = Goodbin1.Count
+        Lbl_GoodCount1.BackColor = Color.Transparent
         gbinfull = False
-        Lbl_GoodCount.Text = My.Settings.TotalGood
-    End Sub
+        My.Settings.Save()
+        Lbl_GoodCount1.Text = Goodbin1.Count
 
-    Private Sub Btn_ResetGood_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood.Click
+    End Sub
+    Private Sub Btn_ResetGood1_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood1.Click
+
         ' Resettin cumulative good counter
-        resetgood()
+        Goodbin1.empty()
+        My.Settings.TotalGood1 = Goodbin1.Count
+        Lbl_GoodCount1.BackColor = Color.Transparent
+        gbinfull = False
+        My.Settings.Save()
+        Lbl_GoodCount1.Text = Goodbin1.Count
 
     End Sub
 
@@ -1603,22 +1657,6 @@ Public Class Manual_Weight
 
     End Sub
 
-    'Sub CheckLeft()
-    '    ' Called when either a button is pressed or when a pallet is complete to determine if another pallet is ready.
-    '    If LeftPallet IsNot Nothing Then
-    '        If LeftPallet.inprocess = PalletData.status.waiting Then
-    '            ProcessPallet(LeftPallet)
-    '        End If
-    '        Exit Sub
-    '    End If
-    '    If RightPallet IsNot Nothing Then
-    '        If RightPallet.inprocess = PalletData.status.waiting Then
-
-    '            ProcessPallet(RightPallet)
-    '        End If
-    '    End If
-    'End Sub
-
     Private Sub Btn_WeighLeft_Click(sender As Object, e As EventArgs) Handles Btn_WeighLeft.Click
         ' Setting up a new pallet to be run
         checkcal()
@@ -1690,16 +1728,7 @@ Public Class Manual_Weight
         Lbl_CurrentGoodL.Text = LeftPallet.numgood.ToString
         Lbl_CurrentBadL.Text = LeftPallet.numbad.ToString
 
-        'If RightPallet IsNot Nothing Then
-        '    Do While RightPallet.inprocess = PalletData.status.processing
-        '        Application.DoEvents()
-        '        Thread.Sleep(1000)
-        '    Loop
-        'End If
-
-
         CheckNextPallet()
-
 
     End Sub
 
@@ -1840,9 +1869,6 @@ Public Class Manual_Weight
 
     End Sub
 
-  
-
-
     Private Sub teachrobotpoint()
         ' updates robot location on pallet settings page
         Dim VALUES() As Single
@@ -1875,7 +1901,8 @@ Public Class Manual_Weight
 
             If Integer.TryParse(sinputstring, Goodbinquantity) Then
                 inerror = False
-
+                Goodbin1.capacity = Goodbinquantity
+                Goodbin2.capacity = Goodbinquantity
                 My.Settings.GoodBInMax = Goodbinquantity
                 Lbl_Goodbin.Text = Goodbinquantity.ToString("N0")
             Else

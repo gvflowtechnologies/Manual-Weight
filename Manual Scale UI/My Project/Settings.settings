@@ -41,7 +41,7 @@
     <Setting Name="MinWeight" Type="System.Single" Scope="User">
       <Value Profile="(Default)">2.6</Value>
     </Setting>
-    <Setting Name="TotalGood" Type="System.Int32" Scope="User">
+    <Setting Name="TotalGood1" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="TotalBad" Type="System.Int32" Scope="User">
@@ -118,6 +118,9 @@
     </Setting>
     <Setting Name="TareFreqency" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="TotalGood2" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

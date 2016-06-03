@@ -47,9 +47,9 @@ Partial Class Manual_Weight
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Lbl_BadCount = New System.Windows.Forms.Label()
-        Me.Lbl_GoodCount = New System.Windows.Forms.Label()
+        Me.Lbl_GoodCount1 = New System.Windows.Forms.Label()
         Me.Btn_ResetBad = New System.Windows.Forms.Button()
-        Me.Btn_ResetGood = New System.Windows.Forms.Button()
+        Me.Btn_ResetGood1 = New System.Windows.Forms.Button()
         Me.GBCurrentPallet = New System.Windows.Forms.GroupBox()
         Me.Lbl_PalletStatus_R = New System.Windows.Forms.Label()
         Me.sLbl_PN = New System.Windows.Forms.Label()
@@ -416,9 +416,9 @@ Partial Class Manual_Weight
         Me.GBBinData.Controls.Add(Me.Label15)
         Me.GBBinData.Controls.Add(Me.Label14)
         Me.GBBinData.Controls.Add(Me.Lbl_BadCount)
-        Me.GBBinData.Controls.Add(Me.Lbl_GoodCount)
+        Me.GBBinData.Controls.Add(Me.Lbl_GoodCount1)
         Me.GBBinData.Controls.Add(Me.Btn_ResetBad)
-        Me.GBBinData.Controls.Add(Me.Btn_ResetGood)
+        Me.GBBinData.Controls.Add(Me.Btn_ResetGood1)
         Me.GBBinData.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GBBinData.Location = New System.Drawing.Point(532, 16)
         Me.GBBinData.Name = "GBBinData"
@@ -456,16 +456,16 @@ Partial Class Manual_Weight
         Me.Lbl_BadCount.TabIndex = 3
         Me.Lbl_BadCount.Text = "Bad Count"
         '
-        'Lbl_GoodCount
+        'Lbl_GoodCount1
         '
-        Me.Lbl_GoodCount.AutoSize = True
-        Me.Lbl_GoodCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_GoodCount.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_GoodCount.Location = New System.Drawing.Point(139, 33)
-        Me.Lbl_GoodCount.Name = "Lbl_GoodCount"
-        Me.Lbl_GoodCount.Size = New System.Drawing.Size(103, 22)
-        Me.Lbl_GoodCount.TabIndex = 2
-        Me.Lbl_GoodCount.Text = "GoodCount"
+        Me.Lbl_GoodCount1.AutoSize = True
+        Me.Lbl_GoodCount1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_GoodCount1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_GoodCount1.Location = New System.Drawing.Point(139, 33)
+        Me.Lbl_GoodCount1.Name = "Lbl_GoodCount1"
+        Me.Lbl_GoodCount1.Size = New System.Drawing.Size(103, 22)
+        Me.Lbl_GoodCount1.TabIndex = 2
+        Me.Lbl_GoodCount1.Text = "GoodCount"
         '
         'Btn_ResetBad
         '
@@ -476,14 +476,14 @@ Partial Class Manual_Weight
         Me.Btn_ResetBad.Text = "Reset Bad Count"
         Me.Btn_ResetBad.UseVisualStyleBackColor = True
         '
-        'Btn_ResetGood
+        'Btn_ResetGood1
         '
-        Me.Btn_ResetGood.Location = New System.Drawing.Point(270, 26)
-        Me.Btn_ResetGood.Name = "Btn_ResetGood"
-        Me.Btn_ResetGood.Size = New System.Drawing.Size(103, 34)
-        Me.Btn_ResetGood.TabIndex = 0
-        Me.Btn_ResetGood.Text = "Reset Good Count"
-        Me.Btn_ResetGood.UseVisualStyleBackColor = True
+        Me.Btn_ResetGood1.Location = New System.Drawing.Point(270, 26)
+        Me.Btn_ResetGood1.Name = "Btn_ResetGood1"
+        Me.Btn_ResetGood1.Size = New System.Drawing.Size(103, 34)
+        Me.Btn_ResetGood1.TabIndex = 0
+        Me.Btn_ResetGood1.Text = "Reset Good Count"
+        Me.Btn_ResetGood1.UseVisualStyleBackColor = True
         '
         'GBCurrentPallet
         '
@@ -1844,9 +1844,9 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_PalletN_Right As System.Windows.Forms.Label
     Friend WithEvents GBBinData As System.Windows.Forms.GroupBox
     Friend WithEvents Lbl_BadCount As System.Windows.Forms.Label
-    Friend WithEvents Lbl_GoodCount As System.Windows.Forms.Label
+    Friend WithEvents Lbl_GoodCount1 As System.Windows.Forms.Label
     Friend WithEvents Btn_ResetBad As System.Windows.Forms.Button
-    Friend WithEvents Btn_ResetGood As System.Windows.Forms.Button
+    Friend WithEvents Btn_ResetGood1 As System.Windows.Forms.Button
     Friend WithEvents GBCurrentPallet As System.Windows.Forms.GroupBox
     Friend WithEvents sLbl_G As System.Windows.Forms.Label
     Friend WithEvents Lbl_CurrentBad_R As System.Windows.Forms.Label
