@@ -102,7 +102,7 @@ Public Class Manual_Weight
     Dim updateweight As scaledata
     Dim teststate As Weighprocess
 
-    Dim gbinfull As Boolean ' Flag to tell that bin is full
+    Dim gbinfull As Boolean ' Flag to tell that both bins are full
     Dim tmrcycle As Stopwatch 'Timer to exit out of do loops if scale is not working.
 
     Dim tmrsort As Stopwatch
@@ -164,7 +164,7 @@ Public Class Manual_Weight
         Dim v As String
 
         '    v = My.Application.Deployment.CurrentVersion.ToString
-
+        v = Application.ProductVersion
         LBL_Version.Text = "Version:" & v
 
         ' Setup timer to check for door open or close
@@ -182,7 +182,6 @@ Public Class Manual_Weight
         Scara.AsyncMode = False
         Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
         Scara.Jump(pausepoint)
-        'Scara.WaitCommandComplete()
         Scara.MotorsOn = False
 
     End Sub
@@ -342,6 +341,7 @@ Public Class Manual_Weight
 
     Sub ProcessPallet(ByRef ActivePallet As PalletData)
         ' Process Pallet with a Robot.  Takes in the pallet object - either left or right and starts to process.
+
         ActivePallet.inprocess = PalletData.status.processing
         ' Make sure commport is open
         newcommport()
@@ -412,7 +412,7 @@ Public Class Manual_Weight
 
         'Cycle through cylinders in pallet
         teststate = Weighprocess.taring
-        For r = 0 To 2 'ActivePallet.rows - 1
+        For r = 0 To ActivePallet.rows - 1
 
             If r > 10 Then
                 If ActivePallet.Palletlocation = PalletData.PLocation.PalletLeft Then
@@ -426,13 +426,6 @@ Public Class Manual_Weight
 
                 '************************************
                 'Stop measuring if the scale is bad.
-
-                ' Stop measuring if the bins are full
-                Do Until Goodbin1.status <> BinClass.BinStatus.Full Or Goodbin2.status <> BinClass.BinStatus.Full
-                    MsgBox("Empty Good Bins, Click OK, and then Reset Counts", MsgBoxStyle.OkOnly, "Both Good Bins Full")
-                    Application.DoEvents()
-                    Thread.Sleep(2000)
-                Loop
 
 
                 '3 Determine location to pick
@@ -565,14 +558,21 @@ Public Class Manual_Weight
                 End If
 
                 '10 Move to spot (either Pallet/Good/Bad) - Seperate Routine
-                Disposition(ActivePallet)
-                If Picked Then
+                Disposition(ActivePallet) ' Determining part dispostion.
+                ' IF both good bins are full then pause the robot
+                If gbinfull Then Controlled_Pause()
 
+                If Picked Then
 
                     If ccylinder.Disposition Then ' If disposition was true (Good Part)
                         If ccylinder.FirstWeightExists Then ' If first weight exists sent to good part
+                            ' Jump to whichever bin is filling
+                            If Goodbin1.status = BinClass.BinStatus.Filling Then
+                                Scara.Jump(goodpoint1)
+                            ElseIf Goodbin2.status = BinClass.BinStatus.Filling Then
+                                Scara.Jump(goodpoint2)
+                            End If
 
-                            Scara.Jump(goodpoint1)
                             ' Scara.WaitCommandComplete()
                             ejectpart(False)
 
@@ -591,17 +591,16 @@ Public Class Manual_Weight
                     Else
                         If ccylinder.present Then
                             Scara.Jump(badpoint) ' SHOULD BE BAD POINT
-                            ' Scara.WaitCommandComplete()
                             ejectpart(False)
                             If pauserequest = True Then Controlled_Pause()
                         End If
                     End If
                 End If
+                ' If both bins are full then Pause
 
-                If gbinfull Then
-                    MsgBox("Empty good bin and then press OK", MsgBoxStyle.OkOnly, "Good Bin Full")
-                    resetgood()
-                End If
+
+
+
                 ccylinder.dispose()
                 ' determine if we are going to tare the next canister.
                 If ActivePallet.canisternum Mod tareskip = 0 Then
@@ -627,7 +626,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Sub ejectpart(ByRef CheckPart As Boolean)
+    Sub ejectpart(ByVal CheckPart As Boolean)
         ' Routine to efect part from holder on the robot
 
         Scara.Off(TipVacuum)
@@ -760,11 +759,7 @@ Public Class Manual_Weight
 
             pallet.numgood = pallet.numgood + 1
             If pallet.firstweightexists = True Then
-
-                My.Settings.TotalGood1 = My.Settings.TotalGood1 + 1
-                My.Settings.Save()
-                ' gbinfull = Goodbin1.status
-                If My.Settings.TotalGood1 >= My.Settings.GoodBInMax Then gbinfull = True
+                goodbincount() ' Part goes into good bin.
             End If
 
         Else ' cyliner disposition is fail.
@@ -792,27 +787,29 @@ Public Class Manual_Weight
             Lbl_CurrentBad_R.Text = pallet.numbad.ToString
         End If
         Lbl_BadCount.Text = My.Settings.TotalBad
-        Lbl_GoodCount1.Text = My.Settings.TotalGood1
-
+        Lbl_GoodCount1.Text = Goodbin1.Count
+        Lbl_GoodCount2.Text = Goodbin2.Count
     End Sub
+
     Sub goodbincount()
+        ' 
         If Goodbin1.status = BinClass.BinStatus.Full Then
             Lbl_GoodCount1.BackColor = Color.RoyalBlue
         End If
         If Goodbin2.status = BinClass.BinStatus.Full Then
-            ' add c
+            Lbl_GoodCount2.BackColor = Color.RoyalBlue
         End If
         If Goodbin1.status = BinClass.BinStatus.Filling Then
             Goodbin1.add1()
             My.Settings.TotalGood1 = Goodbin1.Count
             My.Settings.Save()
-
-            Exit Sub
+            If Goodbin1.status = BinClass.BinStatus.Filling Then Exit Sub 'If bin is not full ok to put cylinder here 
         End If
         If Goodbin2.status = BinClass.BinStatus.Filling Then
             Goodbin2.add1()
             My.Settings.TotalGood2 = Goodbin2.Count
             My.Settings.Save()
+            If Goodbin2.status = BinClass.BinStatus.Filling Then Exit Sub 'If bin is not full ok to put cylinder here
             Exit Sub
         End If
         If Goodbin1.status = BinClass.BinStatus.Empty Then
@@ -829,8 +826,8 @@ Public Class Manual_Weight
             My.Settings.Save()
             Exit Sub
         End If
+        gbinfull = True ' If no bins are empty or filling then set flag to true.
 
-        MsgBox("Empty Good Bins and Reset Counts", MsgBoxStyle.OkOnly, "Both Good Bins Full")
 
     End Sub
 
@@ -1555,7 +1552,15 @@ Public Class Manual_Weight
 
     End Sub
 
-    Sub resetgood()
+
+    Private Sub Btn_ResetGood1_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood1.Click
+
+        ' Resettin cumulative good counter
+        ' 1. Empty Count
+        ' 2. Update Settings
+        ' 3. Reset Flag
+        ' 4. Save Settings
+        ' 5 Update Display
         Goodbin1.empty()
         My.Settings.TotalGood1 = Goodbin1.Count
         Lbl_GoodCount1.BackColor = Color.Transparent
@@ -1564,16 +1569,14 @@ Public Class Manual_Weight
         Lbl_GoodCount1.Text = Goodbin1.Count
 
     End Sub
-    Private Sub Btn_ResetGood1_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood1.Click
 
-        ' Resettin cumulative good counter
-        Goodbin1.empty()
-        My.Settings.TotalGood1 = Goodbin1.Count
-        Lbl_GoodCount1.BackColor = Color.Transparent
+    Private Sub Btn_ResetGood2_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood2.Click
+        Goodbin2.empty()
+        My.Settings.TotalGood2 = Goodbin2.Count
+        Lbl_GoodCount2.BackColor = Color.Transparent
         gbinfull = False
         My.Settings.Save()
-        Lbl_GoodCount1.Text = Goodbin1.Count
-
+        Lbl_GoodCount2.Text = Goodbin1.Count
     End Sub
 
     Sub DoorPause()
@@ -1846,6 +1849,9 @@ Public Class Manual_Weight
         BtnResume.Enabled = True
         Scara.MotorsOn = False
         ' 4. Wait for continue to be pressed
+        If gbinfull = True Then
+            MsgBox("Empty Good Bins, Reset Counts, And then Resume", MsgBoxStyle.OkOnly, "Both Good Bins Full")
+        End If
         Do
             Application.DoEvents()
             Thread.Sleep(1)
@@ -1952,6 +1958,7 @@ Public Class Manual_Weight
         End While
         My.Settings.Save()
     End Sub
+
 
 
 End Class

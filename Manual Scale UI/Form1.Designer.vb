@@ -177,6 +177,9 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.Lbl_GoodCount2 = New System.Windows.Forms.Label()
+        Me.Btn_ResetGood2 = New System.Windows.Forms.Button()
         Me.TC_MainControl.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -413,6 +416,9 @@ Partial Class Manual_Weight
         '
         'GBBinData
         '
+        Me.GBBinData.Controls.Add(Me.Btn_ResetGood2)
+        Me.GBBinData.Controls.Add(Me.Lbl_GoodCount2)
+        Me.GBBinData.Controls.Add(Me.Label23)
         Me.GBBinData.Controls.Add(Me.Label15)
         Me.GBBinData.Controls.Add(Me.Label14)
         Me.GBBinData.Controls.Add(Me.Lbl_BadCount)
@@ -432,9 +438,9 @@ Partial Class Manual_Weight
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(21, 33)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(83, 20)
+        Me.Label15.Size = New System.Drawing.Size(84, 20)
         Me.Label15.TabIndex = 5
-        Me.Label15.Text = "Total Pass"
+        Me.Label15.Text = "Bin 1 Pass"
         '
         'Label14
         '
@@ -1794,6 +1800,35 @@ Partial Class Manual_Weight
         '
         Me.TMR_door.Interval = 200
         '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(21, 88)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(84, 20)
+        Me.Label23.TabIndex = 6
+        Me.Label23.Text = "Bin 2 Pass"
+        '
+        'Lbl_GoodCount2
+        '
+        Me.Lbl_GoodCount2.AutoSize = True
+        Me.Lbl_GoodCount2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_GoodCount2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_GoodCount2.Location = New System.Drawing.Point(140, 88)
+        Me.Lbl_GoodCount2.Name = "Lbl_GoodCount2"
+        Me.Lbl_GoodCount2.Size = New System.Drawing.Size(103, 22)
+        Me.Lbl_GoodCount2.TabIndex = 7
+        Me.Lbl_GoodCount2.Text = "GoodCount"
+        '
+        'Btn_ResetGood2
+        '
+        Me.Btn_ResetGood2.Location = New System.Drawing.Point(270, 81)
+        Me.Btn_ResetGood2.Name = "Btn_ResetGood2"
+        Me.Btn_ResetGood2.Size = New System.Drawing.Size(103, 34)
+        Me.Btn_ResetGood2.TabIndex = 8
+        Me.Btn_ResetGood2.Text = "Reset Good Count"
+        Me.Btn_ResetGood2.UseVisualStyleBackColor = True
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1989,5 +2024,8 @@ Partial Class Manual_Weight
     Friend WithEvents Label17 As System.Windows.Forms.Label
     Friend WithEvents Btn_Tare_Frequency As System.Windows.Forms.Button
     Friend WithEvents Lbl_TareFrequency As System.Windows.Forms.Label
+    Friend WithEvents Lbl_GoodCount2 As System.Windows.Forms.Label
+    Friend WithEvents Label23 As System.Windows.Forms.Label
+    Friend WithEvents Btn_ResetGood2 As System.Windows.Forms.Button
 
 End Class

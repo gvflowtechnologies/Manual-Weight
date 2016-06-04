@@ -78,31 +78,31 @@
       <Value Profile="(Default)">-107.484</Value>
     </Setting>
     <Setting Name="RCXR" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">-188.5</Value>
     </Setting>
     <Setting Name="RCYR" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">-41.8</Value>
     </Setting>
     <Setting Name="RCZR" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">-107</Value>
     </Setting>
     <Setting Name="ICXR" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">-58.4</Value>
     </Setting>
     <Setting Name="ICYR" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">183.5</Value>
     </Setting>
     <Setting Name="ICZR" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">-107</Value>
     </Setting>
     <Setting Name="OCXR" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">-390.8</Value>
     </Setting>
     <Setting Name="OCYR" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">74.3</Value>
     </Setting>
     <Setting Name="OCZR" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">-107</Value>
     </Setting>
     <Setting Name="GoodBInMax" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>
