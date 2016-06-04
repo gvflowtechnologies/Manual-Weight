@@ -345,6 +345,7 @@ Public Class Manual_Weight
         ActivePallet.inprocess = PalletData.status.processing
         ' Make sure commport is open
         newcommport()
+        ActivePallet.inprocess = PalletData.status.processing
         'if motors are not on then turn them on.
         If Not Scara.MotorsOn Then Scara.MotorsOn = True
 
