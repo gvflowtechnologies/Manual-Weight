@@ -44,9 +44,9 @@ Public Class Manual_Weight
     Const Vactesttime As Integer = 100
 
     'X,Y,Z Locations on system for component locations in mm
-    Const Good1x As Single = 122.295
+    Const Good1x As Single = 119.5
     Const Good1Y As Single = 339.438
-    Const Good2x As Single = 122.295
+    Const Good2x As Single = 134.5
     Const Good2y As Single = 339.438
     Const BadX As Single = -127
     Const BadY As Single = 339.438
@@ -449,10 +449,12 @@ Public Class Manual_Weight
 
                     '4 Check pallet location for part
                     ccylinder.present = True ' initially sent to true
+
                     Scara.SetPoint(1, xcord, ycord, zcord + CanistercheckZ, ucord, 0, leftyrighty)
                     Scara.Jump(1)
-                    '    Scara.WaitCommandComplete()
 
+
+                    
                     If pauserequest = True Then Controlled_Pause()
                     Scara.WaitSw(8, True, 0.5)
 
@@ -467,7 +469,7 @@ Public Class Manual_Weight
                         '5 pick up part
                         Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, leftyrighty)
                         Scara.Move(1)
-                        ' Scara.WaitCommandComplete()
+
                         If pauserequest = True Then Controlled_Pause()
                         Scara.On(TipVacuum) ' TURN ON TipVacuum
                         Scara.Off(TipBlowOff)
@@ -481,7 +483,7 @@ Public Class Manual_Weight
                                 descend = descend - 0.2
                                 Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ + descend, ucord, 0, leftyrighty)
                                 Scara.Move(1)
-                                ' Scara.WaitCommandComplete()
+
 
                                 Application.DoEvents()
                                 Thread.Sleep(50)
@@ -493,7 +495,7 @@ Public Class Manual_Weight
                             Scara.Delay(Vactesttime)
                             Scara.SetPoint(1, xcord, ycord, zcord + pickcheck, ucord, 0, leftyrighty)
                             Scara.Move(1)
-                            ' Scara.WaitCommandComplete()
+
                             If Scara.Sw(16) Then
                                 Picked = True
                                 Exit For
@@ -506,7 +508,7 @@ Public Class Manual_Weight
 
                             Scara.Jump(tarepoint)
                             '                            Scara.Jump(tarepoint)
-                            ' Scara.WaitCommandComplete()
+
                             If pauserequest = True Then Controlled_Pause()
 
                             '7 Wait for scale to indicate ready
@@ -524,7 +526,7 @@ Public Class Manual_Weight
                             '8 Place on scale
 
                             Scara.Move(PlaceScalePoint)
-                            ' Scara.WaitCommandComplete()
+
                             ejectpart(False)
                             Scara.Move(WeighingPoint)
 
@@ -574,7 +576,7 @@ Public Class Manual_Weight
                                 Scara.Jump(goodpoint2)
                             End If
 
-                            ' Scara.WaitCommandComplete()
+
                             ejectpart(False)
 
                             If pauserequest = True Then Controlled_Pause()
@@ -698,7 +700,7 @@ Public Class Manual_Weight
                 descend = descend - 0.2
                 Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ + descend, 0, 0, handdirec)
                 Scara.Move(postweighpick)
-                ' Scara.WaitCommandComplete()
+
                 Application.DoEvents()
                 Thread.Sleep(50)
                 If descend * -1 > postweighpickZ Then
@@ -710,7 +712,7 @@ Public Class Manual_Weight
 
             Scara.SetPoint(postweighpick, scalex, scaley, scalez + pickcheck, 0, 0, handdirec)
             Scara.Move(postweighpick)
-            ' Scara.WaitCommandComplete()
+
 
             If Scara.Sw(16) Then
                 Picked = True
@@ -1869,7 +1871,7 @@ Public Class Manual_Weight
         ' 6. Jump to location 
         Epson_SPEL.settings()
         Scara.Jump(pausereturn)
-        'Scara.WaitCommandComplete()
+
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = True
 
