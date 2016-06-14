@@ -44,13 +44,13 @@ Public Class Manual_Weight
     Const Vactesttime As Integer = 100
 
     'X,Y,Z Locations on system for component locations in mm
-    Const Good1x As Single = 119.5
-    Const Good1Y As Single = 339.438
-    Const Good2x As Single = 134.5
-    Const Good2y As Single = 339.438
-    Const BadX As Single = -127
-    Const BadY As Single = 339.438
-    Const DisopositionZ As Single = -110
+    Const Good1x As Single = 128.9
+    Const Good1Y As Single = 338.3
+    Const Good2x As Single = 145.0
+    Const Good2y As Single = 338.3
+    Const BadX As Single = -116.8
+    Const BadY As Single = 345.0
+    Const DisopositionZ As Single = -109
 
     Private teachingpoint As Boolean
     ' Speed Settings
@@ -1585,9 +1585,10 @@ Public Class Manual_Weight
     Sub DoorPause()
         ' Check if door is open, if the door is open then pause the robot if not already paused.
         ' If door is closesd, then have the robot conitnue if not already running.
+        ' Door open is false
 
         If TC_MainControl.SelectedIndex = 0 Then
-            If Scara.Sw(11) = True Then
+            If Scara.Sw(DoorSwitch) = False Then
                 'Safegaurd is open and robot should be stopped.
                 resumemotion = False
 
