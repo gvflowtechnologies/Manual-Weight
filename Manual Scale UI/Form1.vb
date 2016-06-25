@@ -878,6 +878,7 @@ Public Class Manual_Weight
 
 
     End Sub
+#Region "File Writing"
     Private Sub writeheader(ByVal pallet As PalletData)
         If pallet.firstweightexists Then
             writefileheader2(pallet)
@@ -997,6 +998,7 @@ Public Class Manual_Weight
 
 
     End Sub
+#End Region
 
     Private Sub Btn_WeighFolders(sender As Object, e As EventArgs) Handles Btn_WeighFolder.Click
         caldata.SelectDataFolder()
