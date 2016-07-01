@@ -1826,7 +1826,7 @@ Public Class Manual_Weight
     Private Sub Btn_Updt_Pllt_R_Click(sender As Object, e As EventArgs) Handles Btn_Updt_Pllt_R.Click
         ' Updates the pallet corners to the values entered on the pallet screen
         UpdateSettings.palletcornersout()
-
+        UpdateSettings.palletcorners()
     End Sub
 
     Private Sub Btn_PauseRobot_Click(sender As Object, e As EventArgs) Handles Btn_PauseRobot.Click
