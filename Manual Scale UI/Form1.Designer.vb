@@ -44,6 +44,9 @@ Partial Class Manual_Weight
         Me.LblRawStream = New System.Windows.Forms.Label()
         Me.Lbl_CurrentScale = New System.Windows.Forms.Label()
         Me.GBBinData = New System.Windows.Forms.GroupBox()
+        Me.Btn_ResetGood2 = New System.Windows.Forms.Button()
+        Me.Lbl_GoodCount2 = New System.Windows.Forms.Label()
+        Me.Label23 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Lbl_BadCount = New System.Windows.Forms.Label()
@@ -177,9 +180,6 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
-        Me.Label23 = New System.Windows.Forms.Label()
-        Me.Lbl_GoodCount2 = New System.Windows.Forms.Label()
-        Me.Btn_ResetGood2 = New System.Windows.Forms.Button()
         Me.TC_MainControl.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -432,6 +432,35 @@ Partial Class Manual_Weight
         Me.GBBinData.TabIndex = 5
         Me.GBBinData.TabStop = False
         Me.GBBinData.Text = "Completed Count"
+        '
+        'Btn_ResetGood2
+        '
+        Me.Btn_ResetGood2.Location = New System.Drawing.Point(270, 81)
+        Me.Btn_ResetGood2.Name = "Btn_ResetGood2"
+        Me.Btn_ResetGood2.Size = New System.Drawing.Size(103, 34)
+        Me.Btn_ResetGood2.TabIndex = 8
+        Me.Btn_ResetGood2.Text = "Reset Good Count"
+        Me.Btn_ResetGood2.UseVisualStyleBackColor = True
+        '
+        'Lbl_GoodCount2
+        '
+        Me.Lbl_GoodCount2.AutoSize = True
+        Me.Lbl_GoodCount2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_GoodCount2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_GoodCount2.Location = New System.Drawing.Point(140, 88)
+        Me.Lbl_GoodCount2.Name = "Lbl_GoodCount2"
+        Me.Lbl_GoodCount2.Size = New System.Drawing.Size(103, 22)
+        Me.Lbl_GoodCount2.TabIndex = 7
+        Me.Lbl_GoodCount2.Text = "GoodCount"
+        '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(21, 88)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(84, 20)
+        Me.Label23.TabIndex = 6
+        Me.Label23.Text = "Bin 2 Pass"
         '
         'Label15
         '
@@ -1799,35 +1828,6 @@ Partial Class Manual_Weight
         'TMR_door
         '
         Me.TMR_door.Interval = 200
-        '
-        'Label23
-        '
-        Me.Label23.AutoSize = True
-        Me.Label23.Location = New System.Drawing.Point(21, 88)
-        Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(84, 20)
-        Me.Label23.TabIndex = 6
-        Me.Label23.Text = "Bin 2 Pass"
-        '
-        'Lbl_GoodCount2
-        '
-        Me.Lbl_GoodCount2.AutoSize = True
-        Me.Lbl_GoodCount2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_GoodCount2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_GoodCount2.Location = New System.Drawing.Point(140, 88)
-        Me.Lbl_GoodCount2.Name = "Lbl_GoodCount2"
-        Me.Lbl_GoodCount2.Size = New System.Drawing.Size(103, 22)
-        Me.Lbl_GoodCount2.TabIndex = 7
-        Me.Lbl_GoodCount2.Text = "GoodCount"
-        '
-        'Btn_ResetGood2
-        '
-        Me.Btn_ResetGood2.Location = New System.Drawing.Point(270, 81)
-        Me.Btn_ResetGood2.Name = "Btn_ResetGood2"
-        Me.Btn_ResetGood2.Size = New System.Drawing.Size(103, 34)
-        Me.Btn_ResetGood2.TabIndex = 8
-        Me.Btn_ResetGood2.Text = "Reset Good Count"
-        Me.Btn_ResetGood2.UseVisualStyleBackColor = True
         '
         'Manual_Weight
         '

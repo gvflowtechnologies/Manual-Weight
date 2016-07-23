@@ -1667,7 +1667,7 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub Btn_WeighLeft_Click(sender As Object, e As EventArgs) Handles Btn_WeighLeft.Click
-        ' Setting up a new pallet to be run
+        ' Setting up a new pallet to be run in the lefthand location
         checkcal()
         If calfail Then Exit Sub
 
@@ -1964,6 +1964,8 @@ Public Class Manual_Weight
         End While
         My.Settings.Save()
     End Sub
+
+
 
 
 

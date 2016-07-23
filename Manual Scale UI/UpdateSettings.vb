@@ -98,6 +98,7 @@ Module UpdateSettings
             .Lbl_CalInt.Text = My.Settings.CalFrequency.ToString
             .Lbl_NumCol.Text = My.Settings.ColNum.ToString("N0")
             .Lbl_NumRow.Text = My.Settings.RowNum.ToString("N0")
+            .Lbl_TareFrequency.Text = "Taring between every " & My.Settings.TareFreqency.ToString("N0") & " canisters"
         End With
 
     End Sub

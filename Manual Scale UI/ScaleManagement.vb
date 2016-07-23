@@ -55,7 +55,7 @@ Public Class Scalemanagement
         If reading <> "" Then
             SRAWDATA = reading
 
-            isdata = Datacheck(reading)
+            isdata = Datacheck(reading) ' Check reading to determine if this is valid data
 
             If isdata = 2 Then
                 calcheck(SRAWDATA) ' check for cal string
@@ -77,6 +77,8 @@ Public Class Scalemanagement
     End Sub
 
     Private Function Datacheck(ByVal rawstring As String) As Integer
+        ' Checks string looking for  a "+" sign at the beginning of the string.
+        ' If the data string has a "+" sign, the packet contains valid data.
         Dim testchar As String
         Dim outvalue As Integer
         outvalue = 3
@@ -98,7 +100,10 @@ Public Class Scalemanagement
 
 
     Sub errorcheck(ByVal datain As String) ' Checking to create a boolean for critical error
-
+        'Copyright Techniflow Inc 2016 
+        'The scale has a lot of error messages.
+        ' Most of these messages are not relevent to our application.
+        ' The messsages below are the ones that we need to stop program operation on.
         Dim listin As String
         Dim cutstring As Integer
         Dim errlength As Integer
@@ -140,10 +145,11 @@ Public Class Scalemanagement
     End Sub
 
     Sub calcheck(ByVal teststring As String)
-        ' Trim String to mininum
+        'Copyright Techniflow Inc 2016  
+        'Trim String to mininum
         ' are we in cal?  If no check to see if we should be, If yes, check to see if we should not be.
 
-        ' Need to stay in cal until finish sting
+        ' Need to stay in cal until finish string is sent
         'teststring = teststring.Trim
 
         Select Case bincal
