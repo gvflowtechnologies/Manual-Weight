@@ -21,6 +21,15 @@ Public Class Manual_Weight
         complete
     End Enum
 
+    Enum EjectLocation
+        Pallet
+        Scale
+        Good
+        Bad
+    End Enum
+
+
+
     ' Constants
 
     Const nocanweight As Double = 2.0
@@ -40,8 +49,10 @@ Public Class Manual_Weight
     Const TipVacuum As Integer = 9 ' Identifier for tip vacuum function
     Const blowofftime As Integer = 250 ' msec pause to allow part to eject from holder
     Const DoorSwitch As Integer = 11 ' Identifier for door switch input
-    Const PickTries As Integer = 3 ' Number of times that the robot will try to pick a part
+    Const PickTryLimit As Integer = 3 ' Number of times that the robot will try to pick a part
+    Const Vactest As Integer = 16 'Identififer for vaccum present 
     Const Vactesttime As Integer = 100
+    Const EjectTryLimit As Integer = 3 ' Number of times that the robot will try to eject a part
 
     'X,Y,Z Locations on system for component locations in mm
     Const Good1x As Single = 128.9
@@ -96,9 +107,12 @@ Public Class Manual_Weight
     Public cancelclicked As Boolean 'Variable to handle data transfer between the calibration form and the main form
     Dim calfail As Boolean ' Calibration failure
 
+    'Flags
     Dim pauserequest As Boolean ' Pause button sends request to pause
     Dim resumemotion As Boolean ' Continue button sends request to resume
+    Dim partstuck As Boolean ' Part is stuck in Robot
 
+    Dim Elocation As EjectLocation 'Part Eject Location
     Dim updateweight As scaledata
     Dim teststate As Weighprocess
 
@@ -345,7 +359,7 @@ Public Class Manual_Weight
         ActivePallet.inprocess = PalletData.status.processing
         ' Make sure commport is open
         newcommport()
-        ActivePallet.inprocess = PalletData.status.processing
+
         'if motors are not on then turn them on.
         If Not Scara.MotorsOn Then Scara.MotorsOn = True
 
@@ -477,7 +491,7 @@ Public Class Manual_Weight
                         descend = 0
                         Picked = False ' set picked to false.  Assumption is we have not picked up part
 
-                        For X = 0 To PickTries - 1 ' Pick up multiple times
+                        For X = 0 To PickTryLimit - 1 ' Pick up multiple times
                             Do Until Scara.In(2) = 1
 
                                 descend = descend - 0.2
@@ -496,7 +510,7 @@ Public Class Manual_Weight
                             Scara.SetPoint(1, xcord, ycord, zcord + pickcheck, ucord, 0, leftyrighty)
                             Scara.Move(1)
 
-                            If Scara.Sw(16) Then
+                            If Scara.Sw(Vactest) Then
                                 Picked = True
                                 Exit For
                             End If
@@ -526,8 +540,9 @@ Public Class Manual_Weight
                             '8 Place on scale
 
                             Scara.Move(PlaceScalePoint)
-
+                            Elocation = EjectLocation.Scale
                             ejectpart(False)
+
                             Scara.Move(WeighingPoint)
 
 
@@ -576,26 +591,28 @@ Public Class Manual_Weight
                                 Scara.Jump(goodpoint2)
                             End If
 
-
+                            Elocation = EjectLocation.Good
                             ejectpart(False)
 
-                            If pauserequest = True Then Controlled_Pause()
+                            If pauserequest = True Or partstuck = True Then Controlled_Pause()
 
                         Else
 
                             Scara.SetPoint(1, xcord, ycord, zcord + Returnz, ucord, 0, leftyrighty)
                             '   Scara.Jump(1)
                             Scara.Jump(1)
+                            Elocation = EjectLocation.Pallet
                             ejectpart(False)
-                            If pauserequest = True Then Controlled_Pause()
+                            If pauserequest = True Or partstuck = True Then Controlled_Pause()
 
                         End If
 
                     Else
                         If ccylinder.present Then
                             Scara.Jump(badpoint) ' SHOULD BE BAD POINT
+                            Elocation = EjectLocation.Bad
                             ejectpart(False)
-                            If pauserequest = True Then Controlled_Pause()
+                            If pauserequest = True Or partstuck = True Then Controlled_Pause()
                         End If
                     End If
                 End If
@@ -632,34 +649,48 @@ Public Class Manual_Weight
     Sub ejectpart(ByVal CheckPart As Boolean)
         ' Routine to efect part from holder on the robot
 
-        Scara.Off(TipVacuum)
-        Scara.On(TipBlowOff)
-        Scara.Delay(blowofftime)
-        Scara.Off(TipBlowOff)
-        'If CheckPart Then
-        '    For x = 0 To 1
-        '        'Pull vacuum for vactesttime
-        '        Scara.On(TipVacuum)
-        '        ' check switch
-        '        If Scara.Sw(16) Then
+        Dim partejected As Boolean
+        Dim EjectTries As Integer
+        partejected = False
+        partstuck = False
+        EjectandWait(blowofftime)
 
-        '            ' if switch is on then
-        '            Scara.Off(TipVacuum)
-        '            Scara.On(TipBlowOff)
-        '            Scara.Delay(blowofftime * 2)
-        '            Scara.Off(TipBlowOff)
-        '            ' if secondtime through.
 
-        '            'else 
-        '        End If
-        '        Exit For
+        If CheckPart Then
+            EjectTries = 1
 
-        '    Next
-        'End If
+            While partejected = False
+                Scara.On(TipVacuum)
+                Scara.Delay(Vactesttime)
+                If Scara.Sw(Vactest) Then ' If the part is present - Test to see if we have cycled to manytimes
+                    EjectTries += 1
+                    EjectandWait(blowofftime * EjectTries)
+                    If EjectTries > EjectTryLimit Then
+                        partstuck = True
+                        Scara.On(TipVacuum)
+                        Exit While
+                    End If
+                Else ' part was ejected and we can return to processing pallet.
+                    partejected = True
+                End If
+            End While
+
+
+        End If
 
 
 
     End Sub
+
+    Sub EjectandWait(ByVal ejecttime As Integer)
+
+        Scara.Off(TipVacuum)
+        Scara.On(TipBlowOff)
+        Scara.Delay(ejecttime)
+        Scara.Off(TipBlowOff)
+
+    End Sub
+
 
     Sub FIXEDPOINTS()
         'FIXED POINTS.  WORLD CORDINATES WITHOUT ROBOT SIDE.
@@ -694,7 +725,7 @@ Public Class Manual_Weight
         Scara.Move(postweighpick)
         Scara.On(TipVacuum)
         Picked = False
-        For X = 0 To PickTries - 1
+        For X = 0 To PickTryLimit - 1
             Do Until Scara.In(2) = 1
 
                 descend = descend - 0.2
@@ -714,11 +745,11 @@ Public Class Manual_Weight
             Scara.Move(postweighpick)
 
 
-            If Scara.Sw(16) Then
+            If Scara.Sw(Vactest) Then
                 Picked = True
                 Exit For
             End If
-            If X = PickTries - 1 Then
+            If X = PickTryLimit - 1 Then
                 Scara.Jump(pausepoint)
                 MsgBox("TAKE CANISTER OFF OF SCALE", MsgBoxStyle.Critical, "FAILED TO PICK SCALE OFF OF CANISTER")
             End If
@@ -1852,12 +1883,49 @@ Public Class Manual_Weight
         ' 2. Jump to location.
         Scara.Jump(pausepoint)
         ' 3. Enable button to start
+        Btn_PauseRobot.Enabled = False
         BtnResume.Enabled = True
         Scara.MotorsOn = False
-        ' 4. Wait for continue to be pressed
+        ' 4. Test for Bins full and stuck parts.
+
+        If partstuck Then
+            Dim usermessage As String
+            Select Case Elocation
+                Case EjectLocation.Bad
+                    usermessage = "in BAD BIN"
+                Case EjectLocation.Good
+                    If Goodbin1.status = BinClass.BinStatus.Filling Then
+                        usermessage = "in GOOD BIN 1"
+                    Else
+                        usermessage = "in GOOD BIN 2"
+                    End If
+
+                Case EjectLocation.Pallet
+                    If RightPallet.inprocess = PalletData.status.processing Then
+
+                        usermessage = "in Right PALLET" & RightPallet.currow & " Row and " & RightPallet.curcol & "Column"
+                    Else
+                        usermessage =  = "in Left PALLET" & LeftPallet.currow & " Row and " & LeftPallet.curcol & "Column"
+
+                    End If
+
+                Case EjectLocation.Scale
+                    usermessage = "on Scale"
+            End Select
+
+
+
+            MsgBox("Remove canister from actuator and place " & usermessage, MsgBoxStyle.OkOnly, "CANISTER STUCK")
+            Scara.Off(TipVacuum)
+        End If
+
+
         If gbinfull = True Then
             MsgBox("Empty Good Bins, Reset Counts, And then Resume", MsgBoxStyle.OkOnly, "Both Good Bins Full")
         End If
+
+        ' 4. Wait for continue to be pressed
+
         Do
             Application.DoEvents()
             Thread.Sleep(1)
