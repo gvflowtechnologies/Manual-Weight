@@ -174,7 +174,7 @@ Public Class Manual_Weight
 
         calfail = False ' SET CALIBRATTION FAIL FLAG TO FALSE ON STARTUP.
         checkcal()
-
+        partstuck = False ' SET Part Stuck to false
         Dim v As String
 
         '    v = My.Application.Deployment.CurrentVersion.ToString
@@ -541,7 +541,7 @@ Public Class Manual_Weight
 
                             Scara.Move(PlaceScalePoint)
                             Elocation = EjectLocation.Scale
-                            ejectpart(False)
+                            ejectpart(True)
 
                             Scara.Move(WeighingPoint)
 
@@ -592,7 +592,7 @@ Public Class Manual_Weight
                             End If
 
                             Elocation = EjectLocation.Good
-                            ejectpart(False)
+                            ejectpart(True)
 
                             If pauserequest = True Or partstuck = True Then Controlled_Pause()
 
@@ -602,7 +602,7 @@ Public Class Manual_Weight
                             '   Scara.Jump(1)
                             Scara.Jump(1)
                             Elocation = EjectLocation.Pallet
-                            ejectpart(False)
+                            ejectpart(True)
                             If pauserequest = True Or partstuck = True Then Controlled_Pause()
 
                         End If
@@ -611,7 +611,7 @@ Public Class Manual_Weight
                         If ccylinder.present Then
                             Scara.Jump(badpoint) ' SHOULD BE BAD POINT
                             Elocation = EjectLocation.Bad
-                            ejectpart(False)
+                            ejectpart(True)
                             If pauserequest = True Or partstuck = True Then Controlled_Pause()
                         End If
                     End If
@@ -1890,6 +1890,7 @@ Public Class Manual_Weight
 
         If partstuck Then
             Dim usermessage As String
+            usermessage = ""
             Select Case Elocation
                 Case EjectLocation.Bad
                     usermessage = "in BAD BIN"
@@ -1905,7 +1906,7 @@ Public Class Manual_Weight
 
                         usermessage = "in Right PALLET" & RightPallet.currow & " Row and " & RightPallet.curcol & "Column"
                     Else
-                        usermessage =  = "in Left PALLET" & LeftPallet.currow & " Row and " & LeftPallet.curcol & "Column"
+                        usermessage = "in Left PALLET" & LeftPallet.currow & " Row and " & LeftPallet.curcol & "Column"
 
                     End If
 
