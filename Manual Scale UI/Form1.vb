@@ -517,6 +517,9 @@ Public Class Manual_Weight
                             End If
                         Next
 
+                        If Picked = False Then Scara.Off(TipVacuum)
+
+
                         If pauserequest = True Then Controlled_Pause()
                         '6 Move part to scale if part was picked    
                         If Picked = True Then

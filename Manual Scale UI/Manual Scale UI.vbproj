@@ -26,7 +26,7 @@
     <UpdateUrl>https://www.dropbox.com/sh/446gl9rpbfyge5e/AAC0MwSHHblaxkTrJFw5WtTPa%3fdl=0/</UpdateUrl>
     <WebPage>publish.htm</WebPage>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>12</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>2.5.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
