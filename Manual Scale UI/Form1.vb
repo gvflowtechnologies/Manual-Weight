@@ -208,6 +208,7 @@ Public Class Manual_Weight
             .Enabled = False ' Enabled
             .Start() ' Started
         End With
+        newcommport()
         Tmr_ScreenUpdate.Start()
     End Sub
 
