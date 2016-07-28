@@ -545,7 +545,7 @@ Public Class Manual_Weight
 
                             Scara.Move(PlaceScalePoint)
                             Elocation = EjectLocation.Scale
-                            ejectpart(True)
+                            ejectpart(False)
 
                             Scara.Move(WeighingPoint)
 
@@ -596,7 +596,7 @@ Public Class Manual_Weight
                             End If
 
                             Elocation = EjectLocation.Good
-                            ejectpart(True)
+                            ejectpart(False)
 
                             If pauserequest = True Or partstuck = True Then Controlled_Pause()
 
@@ -606,7 +606,7 @@ Public Class Manual_Weight
                             '   Scara.Jump(1)
                             Scara.Jump(1)
                             Elocation = EjectLocation.Pallet
-                            ejectpart(True)
+                            ejectpart(False)
                             If pauserequest = True Or partstuck = True Then Controlled_Pause()
 
                         End If
@@ -615,7 +615,7 @@ Public Class Manual_Weight
                         If ccylinder.present Then
                             Scara.Jump(badpoint) ' SHOULD BE BAD POINT
                             Elocation = EjectLocation.Bad
-                            ejectpart(True)
+                            ejectpart(False)
                             If pauserequest = True Or partstuck = True Then Controlled_Pause()
                         End If
                     End If
