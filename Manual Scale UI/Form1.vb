@@ -208,7 +208,7 @@ Public Class Manual_Weight
             .Enabled = False ' Enabled
             .Start() ' Started
         End With
-
+        Tmr_ScreenUpdate.Start()
     End Sub
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
