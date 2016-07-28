@@ -1692,9 +1692,12 @@ Public Class Manual_Weight
         If LeftPallet IsNot Nothing Then
             If LeftPallet.inprocess = PalletData.status.waiting Then
                 ProcessPallet(LeftPallet)
+                Exit Sub
             End If
         End If
-
+        For x = 0 To 10
+            My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Asterisk)
+        Next
 
     End Sub
 
