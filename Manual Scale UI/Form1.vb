@@ -177,8 +177,8 @@ Public Class Manual_Weight
         partstuck = False ' SET Part Stuck to false
         Dim v As String
 
-        '    v = My.Application.Deployment.CurrentVersion.ToString
-        v = Application.ProductVersion
+        'v = My.Application.Deployment.CurrentVersion.ToString
+        v = "2.5.2.3"
         LBL_Version.Text = "Version:" & v
 
         ' Setup timer to check for door open or close
