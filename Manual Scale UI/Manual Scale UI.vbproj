@@ -23,10 +23,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <UpdateUrl>https://www.dropbox.com/sh/446gl9rpbfyge5e/AAC0MwSHHblaxkTrJFw5WtTPa%3fdl=0/</UpdateUrl>
-    <WebPage>publish.htm</WebPage>
+    <ProductName>Robot Scale Operation</ProductName>
+    <PublisherName>Techniflow</PublisherName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>2.5.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
