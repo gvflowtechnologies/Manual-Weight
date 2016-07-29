@@ -176,9 +176,12 @@ Public Class Manual_Weight
         checkcal()
         partstuck = False ' SET Part Stuck to false
         Dim v As String
+        If System.Diagnostics.Debugger.IsAttached = False Then
+            v = My.Application.Deployment.CurrentVersion.ToString
+        Else
 
-        'v = My.Application.Deployment.CurrentVersion.ToString
-        v = "2.5.2.3"
+            v = "2.5.2.3 GV"
+        End If
         LBL_Version.Text = "Version:" & v
 
         ' Setup timer to check for door open or close
