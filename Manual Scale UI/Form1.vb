@@ -520,7 +520,13 @@ Public Class Manual_Weight
                             End If
                         Next
 
-                        If Picked = False Then Scara.Off(TipVacuum)
+                        If Picked = False Then
+                            Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ + descend, ucord, 0, leftyrighty)
+                            Scara.Move(1)
+                            Scara.Off(TipVacuum)
+
+                        End If
+
 
 
                         If pauserequest = True Then Controlled_Pause()
