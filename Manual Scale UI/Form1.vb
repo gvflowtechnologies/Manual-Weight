@@ -42,7 +42,7 @@ Public Class Manual_Weight
     Const WeightZ As Single = 15 ' Height (mm) above scale nest that robot waits while waiting for reading.
     Const postweighpickZ As Single = 1 ' Height above scale the robot starts to pick up part off of scale.
     Const tareheight As Integer = 20 ' Height above scale nest that the robot waits at while waiting for stability
-    Const pickcheck As Single = 15 ' Height above pick height that we check to see that we picked part
+    Const pickcheck As Single = 18 ' Height above pick height that we check to see that we picked part
 
     'Output constants used for picking and placing parts
     Const TipBlowOff As Integer = 8 ' Identifier for tip blow off function
