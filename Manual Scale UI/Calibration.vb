@@ -35,4 +35,6 @@ Public Class Calibration
         Label1.Text = Manual_Weight.sartorius.RAWSTRING
         Label5.Text = Manual_Weight.sartorius.calibrating
     End Sub
+
+ 
 End Class

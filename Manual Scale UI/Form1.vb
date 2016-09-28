@@ -180,7 +180,7 @@ Public Class Manual_Weight
             v = My.Application.Deployment.CurrentVersion.ToString
         Else
 
-            v = "2.5.2.3 GV"
+            v = "Unable to Determine Current Version"
         End If
         LBL_Version.Text = "Version:" & v
 
@@ -721,7 +721,7 @@ Public Class Manual_Weight
         Scara.SetPoint(tarepoint, scalex, scaley, scalez + tareheight, 0, 0, angle)
         Scara.SetPoint(badpoint, BadX, BadY, DisopositionZ, 0, 0, angle)
         Scara.SetPoint(goodpoint1, Good1x, Good1Y, DisopositionZ, 0, 0, angle)
-        Scara.SetPoint(goodpoint2, Good1x, Good1Y, DisopositionZ, 0, 0, angle)
+        Scara.SetPoint(goodpoint2, Good2x, Good2y, DisopositionZ, 0, 0, angle)
         If angle = RCAPINet.SpelHand.Lefty Then
             Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
         Else
