@@ -99,6 +99,12 @@ Module UpdateSettings
             .Lbl_NumCol.Text = My.Settings.ColNum.ToString("N0")
             .Lbl_NumRow.Text = My.Settings.RowNum.ToString("N0")
             .Lbl_TareFrequency.Text = "Taring between every " & My.Settings.TareFreqency.ToString("N0") & " canisters"
+            .TB_JumpA.Text = My.Settings.JumpA.ToString
+            .TB_JumpD.Text = My.Settings.JumpD.ToString
+            .TB_JumpS.Text = My.Settings.JumpSpeed.ToString
+            .TB_MoveA.Text = My.Settings.MoveA.ToString
+            .TB_MoveD.Text = My.Settings.MoveD.ToString
+            .TB_MoveS.Text = My.Settings.MoveS.ToString
         End With
 
     End Sub

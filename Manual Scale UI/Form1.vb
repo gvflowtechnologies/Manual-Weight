@@ -53,6 +53,7 @@ Public Class Manual_Weight
     Const Vactest As Integer = 16 'Identififer for vaccum present 
     Const Vactesttime As Integer = 100
     Const EjectTryLimit As Integer = 3 ' Number of times that the robot will try to eject a part
+    Const descendstep As Single = 0.2 ' Step size in mm that the robot drops.
 
     'X,Y,Z Locations on system for component locations in mm
     Const Good1x As Single = 128.9
@@ -111,7 +112,7 @@ Public Class Manual_Weight
     Dim pauserequest As Boolean ' Pause button sends request to pause
     Dim resumemotion As Boolean ' Continue button sends request to resume
     Dim partstuck As Boolean ' Part is stuck in Robot
-
+    Dim TFLOWlog As Boolean ' Login indicating Tflow Account
     Dim Elocation As EjectLocation 'Part Eject Location
     Dim updateweight As scaledata
     Dim teststate As Weighprocess
@@ -137,6 +138,7 @@ Public Class Manual_Weight
         tmrsort = New Stopwatch
         pauserequest = False
         teachingpoint = False
+        TFLOWlog = False
         For Each sp As String In My.Computer.Ports.SerialPortNames
             LB_SerialPorts.Items.Add(sp)
         Next
@@ -235,8 +237,11 @@ Public Class Manual_Weight
         ' Allows access only to Authorized personnel
 
         loginhandling()
-
+        If TFLOWlog Then
+            GB_RobotSpeed.Visible = True
+        End If
     End Sub
+
 
     Private Sub palletclick() Handles TPPalletLayout.Enter
         ' Allows access only to Authorized personnel    
@@ -456,6 +461,7 @@ Public Class Manual_Weight
 
                 'Create a canister and if this is a second weight populate the first weight.
                 ccylinder = New Cylinder(ActivePallet.firstweightexists)
+
                 If ActivePallet.firstweightexists Then
                     ccylinder.Firstweight = ActivePallet.initialweight
                 End If
@@ -471,8 +477,6 @@ Public Class Manual_Weight
                     Scara.SetPoint(1, xcord, ycord, zcord + CanistercheckZ, ucord, 0, leftyrighty)
                     Scara.Jump(1)
 
-
-                    
                     If pauserequest = True Then Controlled_Pause()
                     Scara.WaitSw(8, True, 0.5)
 
@@ -498,7 +502,7 @@ Public Class Manual_Weight
                         For X = 0 To PickTryLimit - 1 ' Pick up multiple times
                             Do Until Scara.In(2) = 1
 
-                                descend = descend - 0.2
+                                descend = descend - descendstep
                                 Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ + descend, ucord, 0, leftyrighty)
                                 Scara.Move(1)
 
@@ -509,6 +513,7 @@ Public Class Manual_Weight
                                     Exit Do
                                 End If
                             Loop
+                            LblPallet.Text = descend / descendstep
                             ' Wait and pull up and see if part came up.
                             Scara.Delay(Vactesttime)
                             Scara.SetPoint(1, xcord, ycord, zcord + pickcheck, ucord, 0, leftyrighty)
@@ -559,7 +564,6 @@ Public Class Manual_Weight
                             Scara.Move(WeighingPoint)
 
 
-
                             '9 Wait for reading 
                             tmrcycle.Restart()
                             Do Until teststate = Weighprocess.prompting
@@ -590,8 +594,11 @@ Public Class Manual_Weight
 
                 '10 Move to spot (either Pallet/Good/Bad) - Seperate Routine
                 Disposition(ActivePallet) ' Determining part dispostion.
-                ' IF both good bins are full then pause the robot
-                If gbinfull Then Controlled_Pause()
+                ' IF both good bins are full then pause robot
+
+                Do While gbinfull 'Loop until bin reset button is pressed.
+                    Controlled_Pause()
+                Loop
 
                 If Picked Then
 
@@ -741,7 +748,7 @@ Public Class Manual_Weight
         For X = 0 To PickTryLimit - 1
             Do Until Scara.In(2) = 1
 
-                descend = descend - 0.2
+                descend = descend - descendstep
                 Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ + descend, 0, 0, handdirec)
                 Scara.Move(postweighpick)
 
@@ -752,6 +759,8 @@ Public Class Manual_Weight
 
                 End If
             Loop
+            LblDropsScale.Text = descend / descendstep
+
             Scara.Delay(100)
 
             Scara.SetPoint(postweighpick, scalex, scaley, scalez + pickcheck, 0, 0, handdirec)
@@ -840,6 +849,7 @@ Public Class Manual_Weight
 
     Sub goodbincount()
         ' 
+        gbinfull = False ' Initially set flag to false 
         If Goodbin1.status = BinClass.BinStatus.Full Then
             Lbl_GoodCount1.BackColor = Color.RoyalBlue
         End If
@@ -857,7 +867,7 @@ Public Class Manual_Weight
             My.Settings.TotalGood2 = Goodbin2.Count
             My.Settings.Save()
             If Goodbin2.status = BinClass.BinStatus.Filling Then Exit Sub 'If bin is not full ok to put cylinder here
-            Exit Sub
+
         End If
         If Goodbin1.status = BinClass.BinStatus.Empty Then
             Goodbin1.status = BinClass.BinStatus.Filling
@@ -1067,6 +1077,10 @@ Public Class Manual_Weight
                 If login = "" Then
                     Me.TC_MainControl.SelectedTab = RunPage
                     Exit Sub
+                End If
+                If login = "P.L.Bliss" Then 'If Pete Logs on show stuff.
+                    TFLOWlog = True
+                    Exit Do
                 End If
                 If login <> My.Settings.Password Then
 
@@ -1610,23 +1624,57 @@ Public Class Manual_Weight
         ' 3. Reset Flag
         ' 4. Save Settings
         ' 5 Update Display
-        Goodbin1.empty()
-        My.Settings.TotalGood1 = Goodbin1.Count
-        Lbl_GoodCount1.BackColor = Color.Transparent
-        gbinfull = False
-        My.Settings.Save()
-        Lbl_GoodCount1.Text = Goodbin1.Count
+        goodbinreset(Goodbin1)
+        'Goodbin1.empty()
+        'My.Settings.TotalGood1 = Goodbin1.Count
+        'Lbl_GoodCount1.BackColor = Color.Transparent
+        'If gbinfull Then
+        '    goodbincount()
+        '    ' gbinfull = False
+        'End If
+
+        'My.Settings.Save()
+        'Lbl_GoodCount1.Text = Goodbin1.Count
 
     End Sub
+
+
 
     Private Sub Btn_ResetGood2_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood2.Click
-        Goodbin2.empty()
-        My.Settings.TotalGood2 = Goodbin2.Count
-        Lbl_GoodCount2.BackColor = Color.Transparent
-        gbinfull = False
-        My.Settings.Save()
-        Lbl_GoodCount2.Text = Goodbin1.Count
+        goodbinreset(Goodbin2)
+        'Goodbin2.empty()
+        'My.Settings.TotalGood2 = Goodbin2.Count
+        'Lbl_GoodCount2.BackColor = Color.Transparent
+        'If gbinfull Then ' If the bins were both full.  Update counts here because the system will not count last cylinder before GBINfull, and  reset flag.
+        '    goodbincount()
+        '    'gbinfull = False
+        'End If
+        'My.Settings.Save()
+        'Lbl_GoodCount2.Text = Goodbin2.Count
     End Sub
+    Private Sub goodbinreset(ByRef Bin_Number As BinClass)
+
+        Bin_Number.empty()
+        If gbinfull Then ' If the bins were both full.  Update counts, will not count last cylinder, and reset flag.
+            goodbincount()
+
+        End If
+        If Bin_Number Is Goodbin1 Then
+            My.Settings.TotalGood1 = Bin_Number.Count
+            Lbl_GoodCount1.BackColor = Color.Transparent
+            Lbl_GoodCount1.Text = Bin_Number.Count
+        Else
+            My.Settings.TotalGood2 = Bin_Number.Count
+            Lbl_GoodCount2.BackColor = Color.Transparent
+            Lbl_GoodCount2.Text = Bin_Number.Count
+        End If
+
+
+        My.Settings.Save()
+
+    End Sub
+
+
 
     Sub DoorPause()
         ' Check if door is open, if the door is open then pause the robot if not already paused.
@@ -2026,7 +2074,8 @@ Public Class Manual_Weight
 
     Private Sub RunPage_Click(sender As Object, e As EventArgs) Handles RunPage.Enter
         teachingpoint = False
-
+        TFLOWlog = False
+        GB_RobotSpeed.Visible = False
     End Sub
 
     Private Sub Btn_Tare_Frequency_Click(sender As Object, e As EventArgs) Handles Btn_Tare_Frequency.Click
@@ -2052,6 +2101,15 @@ Public Class Manual_Weight
 
 
 
+
+
+    Private Sub Btn_Speed_Click(sender As Object, e As EventArgs) Handles Btn_Speed.Click
+
+
+
+
+        Epson_SPEL.settings()
+    End Sub
 
 
 End Class

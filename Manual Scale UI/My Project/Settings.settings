@@ -122,5 +122,23 @@
     <Setting Name="TotalGood2" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="JumpSpeed" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="JumpA" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="JumpD" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="MoveS" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">120</Value>
+    </Setting>
+    <Setting Name="MoveA" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">4000</Value>
+    </Setting>
+    <Setting Name="MoveD" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">4000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

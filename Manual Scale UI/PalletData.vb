@@ -146,7 +146,7 @@ Public Class PalletData
         Dim filename As String
         Dim x As Integer
         x = 0
-        '  BFirstweightExists = 
+        BFirstweightExists = False
         ' Looking through all files in the first weight directory.
         For Each filename In currentfirstweights
             If BFirstweightExists = True Then
@@ -200,8 +200,6 @@ Public Class PalletData
                 number_of_Canisters += 1
                 ReDim Preserve FirstWeightReading(number_of_Canisters)
                 FirstWeightReading(number_of_Canisters) = tmpstream.ReadLine
-
-
             Loop
 
 

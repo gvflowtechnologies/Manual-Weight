@@ -44,6 +44,10 @@ Partial Class Manual_Weight
         Me.LblRawStream = New System.Windows.Forms.Label()
         Me.Lbl_CurrentScale = New System.Windows.Forms.Label()
         Me.GBBinData = New System.Windows.Forms.GroupBox()
+        Me.LblDropsScale = New System.Windows.Forms.Label()
+        Me.Label46 = New System.Windows.Forms.Label()
+        Me.LblPallet = New System.Windows.Forms.Label()
+        Me.Label26 = New System.Windows.Forms.Label()
         Me.Btn_ResetGood2 = New System.Windows.Forms.Button()
         Me.Lbl_GoodCount2 = New System.Windows.Forms.Label()
         Me.Label23 = New System.Windows.Forms.Label()
@@ -65,6 +69,21 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN_Right = New System.Windows.Forms.Label()
         Me.Lbl_PalletN_Right = New System.Windows.Forms.Label()
         Me.Setup = New System.Windows.Forms.TabPage()
+        Me.GB_RobotSpeed = New System.Windows.Forms.GroupBox()
+        Me.Label51 = New System.Windows.Forms.Label()
+        Me.TB_MoveS = New System.Windows.Forms.TextBox()
+        Me.TB_MoveD = New System.Windows.Forms.TextBox()
+        Me.TB_MoveA = New System.Windows.Forms.TextBox()
+        Me.TB_JumpS = New System.Windows.Forms.TextBox()
+        Me.TB_JumpD = New System.Windows.Forms.TextBox()
+        Me.TB_JumpA = New System.Windows.Forms.TextBox()
+        Me.Label50 = New System.Windows.Forms.Label()
+        Me.Label49 = New System.Windows.Forms.Label()
+        Me.Label48 = New System.Windows.Forms.Label()
+        Me.Label47 = New System.Windows.Forms.Label()
+        Me.Label45 = New System.Windows.Forms.Label()
+        Me.Label27 = New System.Windows.Forms.Label()
+        Me.Btn_Speed = New System.Windows.Forms.Button()
         Me.LBL_Version = New System.Windows.Forms.Label()
         Me.CB_ViewRaw = New System.Windows.Forms.CheckBox()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
@@ -180,6 +199,8 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
+        Me.Label52 = New System.Windows.Forms.Label()
+        Me.Label53 = New System.Windows.Forms.Label()
         Me.TC_MainControl.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -187,6 +208,7 @@ Partial Class Manual_Weight
         Me.GBBinData.SuspendLayout()
         Me.GBCurrentPallet.SuspendLayout()
         Me.Setup.SuspendLayout()
+        Me.GB_RobotSpeed.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -416,6 +438,10 @@ Partial Class Manual_Weight
         '
         'GBBinData
         '
+        Me.GBBinData.Controls.Add(Me.LblDropsScale)
+        Me.GBBinData.Controls.Add(Me.Label46)
+        Me.GBBinData.Controls.Add(Me.LblPallet)
+        Me.GBBinData.Controls.Add(Me.Label26)
         Me.GBBinData.Controls.Add(Me.Btn_ResetGood2)
         Me.GBBinData.Controls.Add(Me.Lbl_GoodCount2)
         Me.GBBinData.Controls.Add(Me.Label23)
@@ -432,6 +458,42 @@ Partial Class Manual_Weight
         Me.GBBinData.TabIndex = 5
         Me.GBBinData.TabStop = False
         Me.GBBinData.Text = "Completed Count"
+        '
+        'LblDropsScale
+        '
+        Me.LblDropsScale.AutoSize = True
+        Me.LblDropsScale.Location = New System.Drawing.Point(334, 182)
+        Me.LblDropsScale.Name = "LblDropsScale"
+        Me.LblDropsScale.Size = New System.Drawing.Size(66, 20)
+        Me.LblDropsScale.TabIndex = 12
+        Me.LblDropsScale.Text = "Label45"
+        '
+        'Label46
+        '
+        Me.Label46.AutoSize = True
+        Me.Label46.Location = New System.Drawing.Point(223, 182)
+        Me.Label46.Name = "Label46"
+        Me.Label46.Size = New System.Drawing.Size(96, 20)
+        Me.Label46.TabIndex = 11
+        Me.Label46.Text = "Drops Scale"
+        '
+        'LblPallet
+        '
+        Me.LblPallet.AutoSize = True
+        Me.LblPallet.Location = New System.Drawing.Point(118, 182)
+        Me.LblPallet.Name = "LblPallet"
+        Me.LblPallet.Size = New System.Drawing.Size(66, 20)
+        Me.LblPallet.TabIndex = 10
+        Me.LblPallet.Text = "Label27"
+        '
+        'Label26
+        '
+        Me.Label26.AutoSize = True
+        Me.Label26.Location = New System.Drawing.Point(17, 183)
+        Me.Label26.Name = "Label26"
+        Me.Label26.Size = New System.Drawing.Size(95, 20)
+        Me.Label26.TabIndex = 9
+        Me.Label26.Text = "Drops Pallet"
         '
         'Btn_ResetGood2
         '
@@ -646,6 +708,7 @@ Partial Class Manual_Weight
         '
         'Setup
         '
+        Me.Setup.Controls.Add(Me.GB_RobotSpeed)
         Me.Setup.Controls.Add(Me.LBL_Version)
         Me.Setup.Controls.Add(Me.CB_ViewRaw)
         Me.Setup.Controls.Add(Me.GroupBox4)
@@ -661,6 +724,146 @@ Partial Class Manual_Weight
         Me.Setup.TabIndex = 1
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
+        '
+        'GB_RobotSpeed
+        '
+        Me.GB_RobotSpeed.Controls.Add(Me.Label53)
+        Me.GB_RobotSpeed.Controls.Add(Me.Label52)
+        Me.GB_RobotSpeed.Controls.Add(Me.Label51)
+        Me.GB_RobotSpeed.Controls.Add(Me.TB_MoveS)
+        Me.GB_RobotSpeed.Controls.Add(Me.TB_MoveD)
+        Me.GB_RobotSpeed.Controls.Add(Me.TB_MoveA)
+        Me.GB_RobotSpeed.Controls.Add(Me.TB_JumpS)
+        Me.GB_RobotSpeed.Controls.Add(Me.TB_JumpD)
+        Me.GB_RobotSpeed.Controls.Add(Me.TB_JumpA)
+        Me.GB_RobotSpeed.Controls.Add(Me.Label50)
+        Me.GB_RobotSpeed.Controls.Add(Me.Label49)
+        Me.GB_RobotSpeed.Controls.Add(Me.Label48)
+        Me.GB_RobotSpeed.Controls.Add(Me.Label47)
+        Me.GB_RobotSpeed.Controls.Add(Me.Label45)
+        Me.GB_RobotSpeed.Controls.Add(Me.Label27)
+        Me.GB_RobotSpeed.Controls.Add(Me.Btn_Speed)
+        Me.GB_RobotSpeed.Location = New System.Drawing.Point(1179, 19)
+        Me.GB_RobotSpeed.Name = "GB_RobotSpeed"
+        Me.GB_RobotSpeed.Size = New System.Drawing.Size(315, 324)
+        Me.GB_RobotSpeed.TabIndex = 18
+        Me.GB_RobotSpeed.TabStop = False
+        Me.GB_RobotSpeed.Text = "Robot Speed"
+        Me.GB_RobotSpeed.Visible = False
+        '
+        'Label51
+        '
+        Me.Label51.AutoSize = True
+        Me.Label51.Location = New System.Drawing.Point(226, 53)
+        Me.Label51.Name = "Label51"
+        Me.Label51.Size = New System.Drawing.Size(70, 13)
+        Me.Label51.TabIndex = 13
+        Me.Label51.Text = "Integer 1-100"
+        '
+        'TB_MoveS
+        '
+        Me.TB_MoveS.Location = New System.Drawing.Point(128, 251)
+        Me.TB_MoveS.Name = "TB_MoveS"
+        Me.TB_MoveS.Size = New System.Drawing.Size(92, 20)
+        Me.TB_MoveS.TabIndex = 12
+        '
+        'TB_MoveD
+        '
+        Me.TB_MoveD.Location = New System.Drawing.Point(128, 210)
+        Me.TB_MoveD.Name = "TB_MoveD"
+        Me.TB_MoveD.Size = New System.Drawing.Size(92, 20)
+        Me.TB_MoveD.TabIndex = 11
+        '
+        'TB_MoveA
+        '
+        Me.TB_MoveA.Location = New System.Drawing.Point(128, 169)
+        Me.TB_MoveA.Name = "TB_MoveA"
+        Me.TB_MoveA.Size = New System.Drawing.Size(92, 20)
+        Me.TB_MoveA.TabIndex = 10
+        '
+        'TB_JumpS
+        '
+        Me.TB_JumpS.Location = New System.Drawing.Point(128, 128)
+        Me.TB_JumpS.Name = "TB_JumpS"
+        Me.TB_JumpS.Size = New System.Drawing.Size(92, 20)
+        Me.TB_JumpS.TabIndex = 9
+        '
+        'TB_JumpD
+        '
+        Me.TB_JumpD.Location = New System.Drawing.Point(128, 87)
+        Me.TB_JumpD.Name = "TB_JumpD"
+        Me.TB_JumpD.Size = New System.Drawing.Size(92, 20)
+        Me.TB_JumpD.TabIndex = 8
+        '
+        'TB_JumpA
+        '
+        Me.TB_JumpA.Location = New System.Drawing.Point(128, 46)
+        Me.TB_JumpA.Name = "TB_JumpA"
+        Me.TB_JumpA.Size = New System.Drawing.Size(92, 20)
+        Me.TB_JumpA.TabIndex = 7
+        '
+        'Label50
+        '
+        Me.Label50.AutoSize = True
+        Me.Label50.Location = New System.Drawing.Point(51, 254)
+        Me.Label50.Name = "Label50"
+        Me.Label50.Size = New System.Drawing.Size(71, 13)
+        Me.Label50.TabIndex = 6
+        Me.Label50.Text = "Move Speed:"
+        '
+        'Label49
+        '
+        Me.Label49.AutoSize = True
+        Me.Label49.Location = New System.Drawing.Point(22, 213)
+        Me.Label49.Name = "Label49"
+        Me.Label49.Size = New System.Drawing.Size(100, 13)
+        Me.Label49.TabIndex = 5
+        Me.Label49.Text = "Move Deceleration:"
+        '
+        'Label48
+        '
+        Me.Label48.AutoSize = True
+        Me.Label48.Location = New System.Drawing.Point(23, 172)
+        Me.Label48.Name = "Label48"
+        Me.Label48.Size = New System.Drawing.Size(99, 13)
+        Me.Label48.TabIndex = 4
+        Me.Label48.Text = "Move Acceleration:"
+        '
+        'Label47
+        '
+        Me.Label47.AutoSize = True
+        Me.Label47.Location = New System.Drawing.Point(53, 131)
+        Me.Label47.Name = "Label47"
+        Me.Label47.Size = New System.Drawing.Size(69, 13)
+        Me.Label47.TabIndex = 3
+        Me.Label47.Text = "Jump Speed:"
+        '
+        'Label45
+        '
+        Me.Label45.AutoSize = True
+        Me.Label45.Location = New System.Drawing.Point(24, 90)
+        Me.Label45.Name = "Label45"
+        Me.Label45.Size = New System.Drawing.Size(98, 13)
+        Me.Label45.TabIndex = 2
+        Me.Label45.Text = "Jump Deceleration:"
+        '
+        'Label27
+        '
+        Me.Label27.AutoSize = True
+        Me.Label27.Location = New System.Drawing.Point(25, 49)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(97, 13)
+        Me.Label27.TabIndex = 1
+        Me.Label27.Text = "Jump Acceleration:"
+        '
+        'Btn_Speed
+        '
+        Me.Btn_Speed.Location = New System.Drawing.Point(91, 288)
+        Me.Btn_Speed.Name = "Btn_Speed"
+        Me.Btn_Speed.Size = New System.Drawing.Size(106, 23)
+        Me.Btn_Speed.TabIndex = 0
+        Me.Btn_Speed.Text = "Update Speed"
+        Me.Btn_Speed.UseVisualStyleBackColor = True
         '
         'LBL_Version
         '
@@ -1829,6 +2032,24 @@ Partial Class Manual_Weight
         '
         Me.TMR_door.Interval = 200
         '
+        'Label52
+        '
+        Me.Label52.AutoSize = True
+        Me.Label52.Location = New System.Drawing.Point(226, 94)
+        Me.Label52.Name = "Label52"
+        Me.Label52.Size = New System.Drawing.Size(70, 13)
+        Me.Label52.TabIndex = 14
+        Me.Label52.Text = "Integer 1-100"
+        '
+        'Label53
+        '
+        Me.Label53.AutoSize = True
+        Me.Label53.Location = New System.Drawing.Point(226, 131)
+        Me.Label53.Name = "Label53"
+        Me.Label53.Size = New System.Drawing.Size(70, 13)
+        Me.Label53.TabIndex = 15
+        Me.Label53.Text = "Integer 1-100"
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1851,6 +2072,8 @@ Partial Class Manual_Weight
         Me.GBCurrentPallet.PerformLayout()
         Me.Setup.ResumeLayout(False)
         Me.Setup.PerformLayout()
+        Me.GB_RobotSpeed.ResumeLayout(False)
+        Me.GB_RobotSpeed.PerformLayout()
         Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox4.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
@@ -2027,5 +2250,26 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_GoodCount2 As System.Windows.Forms.Label
     Friend WithEvents Label23 As System.Windows.Forms.Label
     Friend WithEvents Btn_ResetGood2 As System.Windows.Forms.Button
+    Friend WithEvents LblDropsScale As System.Windows.Forms.Label
+    Friend WithEvents Label46 As System.Windows.Forms.Label
+    Friend WithEvents LblPallet As System.Windows.Forms.Label
+    Friend WithEvents Label26 As System.Windows.Forms.Label
+    Friend WithEvents GB_RobotSpeed As System.Windows.Forms.GroupBox
+    Friend WithEvents Btn_Speed As System.Windows.Forms.Button
+    Friend WithEvents Label50 As System.Windows.Forms.Label
+    Friend WithEvents Label49 As System.Windows.Forms.Label
+    Friend WithEvents Label48 As System.Windows.Forms.Label
+    Friend WithEvents Label47 As System.Windows.Forms.Label
+    Friend WithEvents Label45 As System.Windows.Forms.Label
+    Friend WithEvents Label27 As System.Windows.Forms.Label
+    Friend WithEvents TB_MoveS As System.Windows.Forms.TextBox
+    Friend WithEvents TB_MoveD As System.Windows.Forms.TextBox
+    Friend WithEvents TB_MoveA As System.Windows.Forms.TextBox
+    Friend WithEvents TB_JumpS As System.Windows.Forms.TextBox
+    Friend WithEvents TB_JumpD As System.Windows.Forms.TextBox
+    Friend WithEvents TB_JumpA As System.Windows.Forms.TextBox
+    Friend WithEvents Label51 As System.Windows.Forms.Label
+    Friend WithEvents Label53 As System.Windows.Forms.Label
+    Friend WithEvents Label52 As System.Windows.Forms.Label
 
 End Class

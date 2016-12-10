@@ -533,6 +533,78 @@ Namespace My
                 Me("TotalGood2") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("60")>  _
+        Public Property JumpSpeed() As Integer
+            Get
+                Return CType(Me("JumpSpeed"),Integer)
+            End Get
+            Set
+                Me("JumpSpeed") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("50")>  _
+        Public Property JumpA() As Integer
+            Get
+                Return CType(Me("JumpA"),Integer)
+            End Get
+            Set
+                Me("JumpA") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("50")>  _
+        Public Property JumpD() As Integer
+            Get
+                Return CType(Me("JumpD"),Integer)
+            End Get
+            Set
+                Me("JumpD") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("120")>  _
+        Public Property MoveS() As Single
+            Get
+                Return CType(Me("MoveS"),Single)
+            End Get
+            Set
+                Me("MoveS") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("4000")>  _
+        Public Property MoveA() As Single
+            Get
+                Return CType(Me("MoveA"),Single)
+            End Get
+            Set
+                Me("MoveA") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("4000")>  _
+        Public Property MoveD() As Single
+            Get
+                Return CType(Me("MoveD"),Single)
+            End Get
+            Set
+                Me("MoveD") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
