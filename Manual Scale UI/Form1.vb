@@ -186,8 +186,7 @@ Public Class Manual_Weight
         End If
         LBL_Version.Text = "Version:" & v
 
-        ' Setup timer to check for door open or close
-        ' Reviewing 50 times per second
+
 
 
 
@@ -2104,9 +2103,17 @@ Public Class Manual_Weight
 
 
     Private Sub Btn_Speed_Click(sender As Object, e As EventArgs) Handles Btn_Speed.Click
+        With My.Settings
 
+            .JumpSpeed = CInt(TB_JumpS.Text)
+            .JumpA = CInt(TB_JumpA.Text)
 
-
+            .JumpD = CInt(TB_JumpD.Text)
+            .MoveA = CSng(TB_MoveA.Text)
+            .MoveD = CSng(TB_MoveD.Text)
+            .MoveS = CSng(TB_MoveD.Text)
+            .Save()
+        End With
 
         Epson_SPEL.settings()
     End Sub

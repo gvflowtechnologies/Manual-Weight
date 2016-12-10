@@ -43,7 +43,7 @@ Module Epson_SPEL
         With Scara
             .Tool(1)
             .LimZ(-65)
-            .Speed(Manual_Weight.speed) '60 is production
+            .Speed(My.Settings.JumpSpeed) '60 is production
             .Accel(Manual_Weight.accel, Manual_Weight.decel)
             .PowerHigh = True
             .SpeedS(Manual_Weight.sspeed)
