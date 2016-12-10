@@ -44,10 +44,10 @@ Module Epson_SPEL
             .Tool(1)
             .LimZ(-65)
             .Speed(My.Settings.JumpSpeed) '60 is production
-            .Accel(Manual_Weight.accel, Manual_Weight.decel)
+            .Accel(My.Settings.JumpA, My.Settings.JumpD)
             .PowerHigh = True
-            .SpeedS(Manual_Weight.sspeed)
-            .AccelS(Manual_Weight.saccel, Manual_Weight.sdecel)
+            .SpeedS(My.Settings.MoveS)
+            .AccelS(My.Settings.MoveA, My.Settings.MoveD)
         End With
         ' Dim VALUES() As Single
 
