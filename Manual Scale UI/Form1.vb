@@ -122,7 +122,7 @@ Public Class Manual_Weight
 
     Dim tmrsort As Stopwatch
     Dim Picked As Boolean ' Was canister picked or not True if picked
-
+    Const CSTFlowLogin As String = "P.L.Bliss"
     Delegate Sub scaledata(ByVal sdata As String) 'Delegate for 
 
     ' Form open close stuff
@@ -188,13 +188,10 @@ Public Class Manual_Weight
 
 
 
-
-
-
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = False
         Scara.MotorsOn = True
-        Epson_SPEL.settings()
+
 
 
         Scara.AsyncMode = False
@@ -245,6 +242,8 @@ Public Class Manual_Weight
     Private Sub palletclick() Handles TPPalletLayout.Enter
         ' Allows access only to Authorized personnel    
         loginhandling()
+        Epson_SPEL.settings()
+        If Scara.MotorsOn = True Then Scara.MotorsOn = False
         teachingpoint = True
 
     End Sub
@@ -1077,7 +1076,7 @@ Public Class Manual_Weight
                     Me.TC_MainControl.SelectedTab = RunPage
                     Exit Sub
                 End If
-                If login = "P.L.Bliss" Then 'If Pete Logs on show stuff.
+                If login = CSTFlowLogin Then 'If Pete Logs on show stuff.
                     TFLOWlog = True
                     Exit Do
                 End If
@@ -2075,6 +2074,7 @@ Public Class Manual_Weight
         teachingpoint = False
         TFLOWlog = False
         GB_RobotSpeed.Visible = False
+        Epson_SPEL.RobotHeightOutOfRange()
     End Sub
 
     Private Sub Btn_Tare_Frequency_Click(sender As Object, e As EventArgs) Handles Btn_Tare_Frequency.Click
@@ -2104,10 +2104,8 @@ Public Class Manual_Weight
 
     Private Sub Btn_Speed_Click(sender As Object, e As EventArgs) Handles Btn_Speed.Click
         With My.Settings
-
             .JumpSpeed = CInt(TB_JumpS.Text)
             .JumpA = CInt(TB_JumpA.Text)
-
             .JumpD = CInt(TB_JumpD.Text)
             .MoveA = CSng(TB_MoveA.Text)
             .MoveD = CSng(TB_MoveD.Text)
