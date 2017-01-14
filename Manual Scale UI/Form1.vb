@@ -122,7 +122,7 @@ Public Class Manual_Weight
 
     Dim tmrsort As Stopwatch
     Dim Picked As Boolean ' Was canister picked or not True if picked
-    Const CSTFlowLogin As String = "P.L.Bliss"
+    Const CSTFlowLogin As String = "AWS-17" ' constant to allow access to speed controls on robot
     Delegate Sub scaledata(ByVal sdata As String) 'Delegate for 
 
     ' Form open close stuff
