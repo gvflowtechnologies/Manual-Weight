@@ -173,7 +173,7 @@ Public Class Manual_Weight
 
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
-
+        turnoffdrops() ' turn off display of drops.
         calfail = False ' SET CALIBRATTION FAIL FLAG TO FALSE ON STARTUP.
         checkcal()
         partstuck = False ' SET Part Stuck to false
@@ -1064,7 +1064,7 @@ Public Class Manual_Weight
         Dim count As Integer
         Dim login As String
         Dim logintype As MsgBoxResult
-
+        TFLOWlog = False
         ' form loading
         count = 0
         logintype = MsgBox("Do you want to access settings", MsgBoxStyle.YesNo, "Password Required To Access Settings")
@@ -2072,7 +2072,12 @@ Public Class Manual_Weight
 
     Private Sub RunPage_Click(sender As Object, e As EventArgs) Handles RunPage.Enter
         teachingpoint = False
-        TFLOWlog = False
+        'TFLOWlog = False
+        If TFLOWlog Then
+            turnondrops()
+        Else
+            turnoffdrops()
+        End If
         GB_RobotSpeed.Visible = False
         Epson_SPEL.RobotHeightOutOfRange()
     End Sub
@@ -2098,8 +2103,18 @@ Public Class Manual_Weight
         My.Settings.Save()
     End Sub
 
-
-
+    Private Sub turnondrops()
+        Label46.Visible = True
+        Label26.Visible = True
+        LblDropsScale.Visible = True
+        LblPallet.Visible = True
+    End Sub
+    Private Sub turnoffdrops()
+        Label46.Visible = False
+        Label26.Visible = False
+        LblDropsScale.Visible = False
+        LblPallet.Visible = False
+    End Sub
 
 
     Private Sub Btn_Speed_Click(sender As Object, e As EventArgs) Handles Btn_Speed.Click
@@ -2115,6 +2130,7 @@ Public Class Manual_Weight
 
         Epson_SPEL.settings()
     End Sub
+
 
 
 End Class

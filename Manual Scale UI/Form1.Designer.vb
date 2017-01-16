@@ -70,6 +70,9 @@ Partial Class Manual_Weight
         Me.Lbl_PalletN_Right = New System.Windows.Forms.Label()
         Me.Setup = New System.Windows.Forms.TabPage()
         Me.GB_RobotSpeed = New System.Windows.Forms.GroupBox()
+        Me.Label68 = New System.Windows.Forms.Label()
+        Me.Label67 = New System.Windows.Forms.Label()
+        Me.Label54 = New System.Windows.Forms.Label()
         Me.Label53 = New System.Windows.Forms.Label()
         Me.Label52 = New System.Windows.Forms.Label()
         Me.Label51 = New System.Windows.Forms.Label()
@@ -201,9 +204,6 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
-        Me.Label54 = New System.Windows.Forms.Label()
-        Me.Label67 = New System.Windows.Forms.Label()
-        Me.Label68 = New System.Windows.Forms.Label()
         Me.TC_MainControl.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -756,6 +756,33 @@ Partial Class Manual_Weight
         Me.GB_RobotSpeed.TabStop = False
         Me.GB_RobotSpeed.Text = "Robot Speed"
         Me.GB_RobotSpeed.Visible = False
+        '
+        'Label68
+        '
+        Me.Label68.AutoSize = True
+        Me.Label68.Location = New System.Drawing.Point(225, 255)
+        Me.Label68.Name = "Label68"
+        Me.Label68.Size = New System.Drawing.Size(72, 13)
+        Me.Label68.TabIndex = 18
+        Me.Label68.Text = "Single 1-5000"
+        '
+        'Label67
+        '
+        Me.Label67.AutoSize = True
+        Me.Label67.Location = New System.Drawing.Point(225, 214)
+        Me.Label67.Name = "Label67"
+        Me.Label67.Size = New System.Drawing.Size(72, 13)
+        Me.Label67.TabIndex = 17
+        Me.Label67.Text = "Single 1-5000"
+        '
+        'Label54
+        '
+        Me.Label54.AutoSize = True
+        Me.Label54.Location = New System.Drawing.Point(225, 173)
+        Me.Label54.Name = "Label54"
+        Me.Label54.Size = New System.Drawing.Size(72, 13)
+        Me.Label54.TabIndex = 16
+        Me.Label54.Text = "Single 1-5000"
         '
         'Label53
         '
@@ -2055,33 +2082,6 @@ Partial Class Manual_Weight
         'TMR_door
         '
         Me.TMR_door.Interval = 200
-        '
-        'Label54
-        '
-        Me.Label54.AutoSize = True
-        Me.Label54.Location = New System.Drawing.Point(225, 173)
-        Me.Label54.Name = "Label54"
-        Me.Label54.Size = New System.Drawing.Size(72, 13)
-        Me.Label54.TabIndex = 16
-        Me.Label54.Text = "Single 1-5000"
-        '
-        'Label67
-        '
-        Me.Label67.AutoSize = True
-        Me.Label67.Location = New System.Drawing.Point(225, 214)
-        Me.Label67.Name = "Label67"
-        Me.Label67.Size = New System.Drawing.Size(72, 13)
-        Me.Label67.TabIndex = 17
-        Me.Label67.Text = "Single 1-5000"
-        '
-        'Label68
-        '
-        Me.Label68.AutoSize = True
-        Me.Label68.Location = New System.Drawing.Point(225, 255)
-        Me.Label68.Name = "Label68"
-        Me.Label68.Size = New System.Drawing.Size(72, 13)
-        Me.Label68.TabIndex = 18
-        Me.Label68.Text = "Single 1-5000"
         '
         'Manual_Weight
         '
