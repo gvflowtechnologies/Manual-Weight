@@ -242,7 +242,6 @@ Public Class Manual_Weight
     Private Sub palletclick() Handles TPPalletLayout.Enter
         ' Allows access only to Authorized personnel    
         loginhandling()
-        Epson_SPEL.settings()
         If Scara.MotorsOn = True Then Scara.MotorsOn = False
         teachingpoint = True
 
