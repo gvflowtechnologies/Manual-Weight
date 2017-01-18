@@ -204,6 +204,7 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
+        Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.TC_MainControl.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -221,6 +222,7 @@ Partial Class Manual_Weight
         Me.GroupBox7.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TC_MainControl
@@ -764,7 +766,7 @@ Partial Class Manual_Weight
         Me.Label68.Name = "Label68"
         Me.Label68.Size = New System.Drawing.Size(72, 13)
         Me.Label68.TabIndex = 18
-        Me.Label68.Text = "Single 1-5000"
+        Me.Label68.Text = "Single 1-2000"
         '
         'Label67
         '
@@ -2083,6 +2085,10 @@ Partial Class Manual_Weight
         '
         Me.TMR_door.Interval = 200
         '
+        'ErrorProvider1
+        '
+        Me.ErrorProvider1.ContainerControl = Me
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2124,6 +2130,7 @@ Partial Class Manual_Weight
         Me.GroupBox6.ResumeLayout(False)
         Me.GroupBox6.PerformLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -2307,5 +2314,6 @@ Partial Class Manual_Weight
     Friend WithEvents Label68 As System.Windows.Forms.Label
     Friend WithEvents Label67 As System.Windows.Forms.Label
     Friend WithEvents Label54 As System.Windows.Forms.Label
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
 
 End Class

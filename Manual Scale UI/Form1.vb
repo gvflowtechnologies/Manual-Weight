@@ -186,13 +186,9 @@ Public Class Manual_Weight
         End If
         LBL_Version.Text = "Version:" & v
 
-
-
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = False
         Scara.MotorsOn = True
-
-
 
         Scara.AsyncMode = False
         Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
@@ -233,9 +229,9 @@ Public Class Manual_Weight
         ' Allows access only to Authorized personnel
 
         loginhandling()
-        If TFLOWlog Then
-            GB_RobotSpeed.Visible = True
-        End If
+        'If TFLOWlog Then
+        '    GB_RobotSpeed.Visible = True
+        'End If
     End Sub
 
 
@@ -2002,7 +1998,7 @@ Public Class Manual_Weight
         Btn_PauseRobot.Enabled = False
         pauserequest = False
         ' 6. Jump to location 
-        Epson_SPEL.settings()
+
         Scara.Jump(pausereturn)
 
         BtnResume.Enabled = False
@@ -2126,10 +2122,14 @@ Public Class Manual_Weight
             .MoveS = CSng(TB_MoveD.Text)
             .Save()
         End With
-
         Epson_SPEL.settings()
     End Sub
 
+
+
+
+
+    
 
 
 End Class
