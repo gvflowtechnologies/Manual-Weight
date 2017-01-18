@@ -45,9 +45,7 @@ Partial Class Manual_Weight
         Me.Lbl_CurrentScale = New System.Windows.Forms.Label()
         Me.GBBinData = New System.Windows.Forms.GroupBox()
         Me.LblDropsScale = New System.Windows.Forms.Label()
-        Me.Label46 = New System.Windows.Forms.Label()
         Me.LblPallet = New System.Windows.Forms.Label()
-        Me.Label26 = New System.Windows.Forms.Label()
         Me.Btn_ResetGood2 = New System.Windows.Forms.Button()
         Me.Lbl_GoodCount2 = New System.Windows.Forms.Label()
         Me.Label23 = New System.Windows.Forms.Label()
@@ -88,7 +86,6 @@ Partial Class Manual_Weight
         Me.Label47 = New System.Windows.Forms.Label()
         Me.Label45 = New System.Windows.Forms.Label()
         Me.Label27 = New System.Windows.Forms.Label()
-        Me.Btn_Speed = New System.Windows.Forms.Button()
         Me.LBL_Version = New System.Windows.Forms.Label()
         Me.CB_ViewRaw = New System.Windows.Forms.CheckBox()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
@@ -238,6 +235,8 @@ Partial Class Manual_Weight
         '
         'RunPage
         '
+        Me.RunPage.Controls.Add(Me.LblDropsScale)
+        Me.RunPage.Controls.Add(Me.LblPallet)
         Me.RunPage.Controls.Add(Me.BtnResume)
         Me.RunPage.Controls.Add(Me.Btn_PauseRobot)
         Me.RunPage.Controls.Add(Me.GroupBox5)
@@ -443,10 +442,6 @@ Partial Class Manual_Weight
         '
         'GBBinData
         '
-        Me.GBBinData.Controls.Add(Me.LblDropsScale)
-        Me.GBBinData.Controls.Add(Me.Label46)
-        Me.GBBinData.Controls.Add(Me.LblPallet)
-        Me.GBBinData.Controls.Add(Me.Label26)
         Me.GBBinData.Controls.Add(Me.Btn_ResetGood2)
         Me.GBBinData.Controls.Add(Me.Lbl_GoodCount2)
         Me.GBBinData.Controls.Add(Me.Label23)
@@ -467,38 +462,22 @@ Partial Class Manual_Weight
         'LblDropsScale
         '
         Me.LblDropsScale.AutoSize = True
-        Me.LblDropsScale.Location = New System.Drawing.Point(334, 182)
+        Me.LblDropsScale.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblDropsScale.Location = New System.Drawing.Point(1468, 358)
         Me.LblDropsScale.Name = "LblDropsScale"
-        Me.LblDropsScale.Size = New System.Drawing.Size(66, 20)
+        Me.LblDropsScale.Size = New System.Drawing.Size(45, 13)
         Me.LblDropsScale.TabIndex = 12
         Me.LblDropsScale.Text = "Label45"
-        '
-        'Label46
-        '
-        Me.Label46.AutoSize = True
-        Me.Label46.Location = New System.Drawing.Point(223, 182)
-        Me.Label46.Name = "Label46"
-        Me.Label46.Size = New System.Drawing.Size(96, 20)
-        Me.Label46.TabIndex = 11
-        Me.Label46.Text = "Drops Scale"
         '
         'LblPallet
         '
         Me.LblPallet.AutoSize = True
-        Me.LblPallet.Location = New System.Drawing.Point(118, 182)
+        Me.LblPallet.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblPallet.Location = New System.Drawing.Point(1404, 360)
         Me.LblPallet.Name = "LblPallet"
-        Me.LblPallet.Size = New System.Drawing.Size(66, 20)
+        Me.LblPallet.Size = New System.Drawing.Size(45, 13)
         Me.LblPallet.TabIndex = 10
         Me.LblPallet.Text = "Label27"
-        '
-        'Label26
-        '
-        Me.Label26.AutoSize = True
-        Me.Label26.Location = New System.Drawing.Point(17, 183)
-        Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(95, 20)
-        Me.Label26.TabIndex = 9
-        Me.Label26.Text = "Drops Pallet"
         '
         'Btn_ResetGood2
         '
@@ -750,7 +729,6 @@ Partial Class Manual_Weight
         Me.GB_RobotSpeed.Controls.Add(Me.Label47)
         Me.GB_RobotSpeed.Controls.Add(Me.Label45)
         Me.GB_RobotSpeed.Controls.Add(Me.Label27)
-        Me.GB_RobotSpeed.Controls.Add(Me.Btn_Speed)
         Me.GB_RobotSpeed.Location = New System.Drawing.Point(1179, 19)
         Me.GB_RobotSpeed.Name = "GB_RobotSpeed"
         Me.GB_RobotSpeed.Size = New System.Drawing.Size(315, 324)
@@ -908,15 +886,6 @@ Partial Class Manual_Weight
         Me.Label27.Size = New System.Drawing.Size(97, 13)
         Me.Label27.TabIndex = 1
         Me.Label27.Text = "Jump Acceleration:"
-        '
-        'Btn_Speed
-        '
-        Me.Btn_Speed.Location = New System.Drawing.Point(91, 288)
-        Me.Btn_Speed.Name = "Btn_Speed"
-        Me.Btn_Speed.Size = New System.Drawing.Size(106, 23)
-        Me.Btn_Speed.TabIndex = 0
-        Me.Btn_Speed.Text = "Update Speed"
-        Me.Btn_Speed.UseVisualStyleBackColor = True
         '
         'LBL_Version
         '
@@ -2101,6 +2070,7 @@ Partial Class Manual_Weight
         Me.Text = "Altaviz Automated Weighing System"
         Me.TC_MainControl.ResumeLayout(False)
         Me.RunPage.ResumeLayout(False)
+        Me.RunPage.PerformLayout()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
         Me.GB_Scale.ResumeLayout(False)
@@ -2291,11 +2261,8 @@ Partial Class Manual_Weight
     Friend WithEvents Label23 As System.Windows.Forms.Label
     Friend WithEvents Btn_ResetGood2 As System.Windows.Forms.Button
     Friend WithEvents LblDropsScale As System.Windows.Forms.Label
-    Friend WithEvents Label46 As System.Windows.Forms.Label
     Friend WithEvents LblPallet As System.Windows.Forms.Label
-    Friend WithEvents Label26 As System.Windows.Forms.Label
     Friend WithEvents GB_RobotSpeed As System.Windows.Forms.GroupBox
-    Friend WithEvents Btn_Speed As System.Windows.Forms.Button
     Friend WithEvents Label50 As System.Windows.Forms.Label
     Friend WithEvents Label49 As System.Windows.Forms.Label
     Friend WithEvents Label48 As System.Windows.Forms.Label

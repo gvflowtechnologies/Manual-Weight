@@ -43,11 +43,11 @@ Module Epson_SPEL
         With Scara
             .Tool(1)
             .LimZ(-65)
-            .Speed(My.Settings.JumpSpeed) '60 is production
-            .Accel(My.Settings.JumpA, My.Settings.JumpD)
+            .Speed(Manual_Weight.speed) '60 is production
+            .Accel(Manual_Weight.accel, Manual_Weight.decel)
             .PowerHigh = True
-            .SpeedS(My.Settings.MoveS)
-            .AccelS(My.Settings.MoveA, My.Settings.MoveD)
+            .SpeedS(Manual_Weight.sspeed)
+            .AccelS(Manual_Weight.saccel, Manual_Weight.sdecel)
 
         End With
         ' Dim VALUES() As Single

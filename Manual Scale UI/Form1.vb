@@ -122,7 +122,7 @@ Public Class Manual_Weight
 
     Dim tmrsort As Stopwatch
     Dim Picked As Boolean ' Was canister picked or not True if picked
-    Const CSTFlowLogin As String = "AWS-17" ' constant to allow access to speed controls on robot
+    Const CSTFlowLogin As String = "G.Voss" ' constant to allow access to speed controls on robot
     Delegate Sub scaledata(ByVal sdata As String) 'Delegate for 
 
     ' Form open close stuff
@@ -173,7 +173,7 @@ Public Class Manual_Weight
 
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
-        turnoffdrops() ' turn off display of drops.
+        '   turnoffdrops() ' turn off display of drops.
         calfail = False ' SET CALIBRATTION FAIL FLAG TO FALSE ON STARTUP.
         checkcal()
         partstuck = False ' SET Part Stuck to false
@@ -189,6 +189,7 @@ Public Class Manual_Weight
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = False
         Scara.MotorsOn = True
+        Epson_SPEL.settings()
 
         Scara.AsyncMode = False
         Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
@@ -238,7 +239,7 @@ Public Class Manual_Weight
     Private Sub palletclick() Handles TPPalletLayout.Enter
         ' Allows access only to Authorized personnel    
         loginhandling()
-        If Scara.MotorsOn = True Then Scara.MotorsOn = False
+
         teachingpoint = True
 
     End Sub
@@ -1656,23 +1657,8 @@ Public Class Manual_Weight
 
     Private Sub Btn_ResetGood1_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood1.Click
 
-        ' Resettin cumulative good counter
-        ' 1. Empty Count
-        ' 2. Update Settings
-        ' 3. Reset Flag
-        ' 4. Save Settings
-        ' 5 Update Display
-        goodbinreset(Goodbin1)
-        'Goodbin1.empty()
-        'My.Settings.TotalGood1 = Goodbin1.Count
-        'Lbl_GoodCount1.BackColor = Color.Transparent
-        'If gbinfull Then
-        '    goodbincount()
-        '    ' gbinfull = False
-        'End If
 
-        'My.Settings.Save()
-        'Lbl_GoodCount1.Text = Goodbin1.Count
+        goodbinreset(Goodbin1)
 
     End Sub
 
@@ -1680,18 +1666,15 @@ Public Class Manual_Weight
 
     Private Sub Btn_ResetGood2_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood2.Click
         goodbinreset(Goodbin2)
-        'Goodbin2.empty()
-        'My.Settings.TotalGood2 = Goodbin2.Count
-        'Lbl_GoodCount2.BackColor = Color.Transparent
-        'If gbinfull Then ' If the bins were both full.  Update counts here because the system will not count last cylinder before GBINfull, and  reset flag.
-        '    goodbincount()
-        '    'gbinfull = False
-        'End If
-        'My.Settings.Save()
-        'Lbl_GoodCount2.Text = Goodbin2.Count
+
     End Sub
     Private Sub goodbinreset(ByRef Bin_Number As BinClass)
-
+        ' Resettin cumulative good counter
+        ' 1. Empty Count
+        ' 2. Update Settings
+        ' 3. Reset Flag
+        ' 4. Save Settings
+        ' 5 Update Display
         Bin_Number.empty()
         If gbinfull Then ' If the bins were both full.  Update counts, will not count last cylinder, and reset flag.
             Bin_Number.add1()
@@ -2118,12 +2101,12 @@ Public Class Manual_Weight
         teachingpoint = False
         'TFLOWlog = False
         If TFLOWlog Then
-            turnondrops()
+            '     turnondrops()
         Else
-            turnoffdrops()
+            '    turnoffdrops()
         End If
         GB_RobotSpeed.Visible = False
-        Epson_SPEL.RobotHeightOutOfRange()
+
     End Sub
 
     Private Sub Btn_Tare_Frequency_Click(sender As Object, e As EventArgs) Handles Btn_Tare_Frequency.Click
@@ -2147,32 +2130,21 @@ Public Class Manual_Weight
         My.Settings.Save()
     End Sub
 
-    Private Sub turnondrops()
-        Label46.Visible = True
-        Label26.Visible = True
-        LblDropsScale.Visible = True
-        LblPallet.Visible = True
-    End Sub
-    Private Sub turnoffdrops()
-        Label46.Visible = False
-        Label26.Visible = False
-        LblDropsScale.Visible = False
-        LblPallet.Visible = False
-    End Sub
+    'Private Sub turnondrops()
+    '    Label46.Visible = True
+    '    Label26.Visible = True
+    '    LblDropsScale.Visible = True
+    '    LblPallet.Visible = True
+    'End Sub
+    'Private Sub turnoffdrops()
+    '    Label46.Visible = False
+    '    Label26.Visible = False
+    '    LblDropsScale.Visible = False
+    '    LblPallet.Visible = False
+    'End Sub
 
 
-    Private Sub Btn_Speed_Click(sender As Object, e As EventArgs) Handles Btn_Speed.Click
-        With My.Settings
-            .JumpSpeed = CInt(TB_JumpS.Text)
-            .JumpA = CInt(TB_JumpA.Text)
-            .JumpD = CInt(TB_JumpD.Text)
-            .MoveA = CSng(TB_MoveA.Text)
-            .MoveD = CSng(TB_MoveD.Text)
-            .MoveS = CSng(TB_MoveD.Text)
-            .Save()
-        End With
-        Epson_SPEL.settings()
-    End Sub
+
 
 
 
