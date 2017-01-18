@@ -598,9 +598,9 @@ Public Class Manual_Weight
                     If ccylinder.Disposition Then ' If disposition was true (Good Part)
                         If ccylinder.FirstWeightExists Then ' If first weight exists sent to good part
                             ' Jump to whichever bin is filling
-                            If Goodbin1.status = BinClass.BinStatus.Filling Then
+                            If ActivePallet.Palletlocation = PalletData.PLocation.PalletRight Then
                                 Scara.Jump(goodpoint1)
-                            ElseIf Goodbin2.status = BinClass.BinStatus.Filling Then
+                            Else
                                 Scara.Jump(goodpoint2)
                             End If
 
@@ -808,7 +808,52 @@ Public Class Manual_Weight
 
             pallet.numgood = pallet.numgood + 1
             If pallet.firstweightexists = True Then
-                goodbincount() ' Part goes into good bin.
+                If pallet.Palletlocation = PalletData.PLocation.PalletLeft Then
+
+                    gbinfull = False ' Initially set flag to false 
+                    
+                    If Goodbin2.status = BinClass.BinStatus.Full Then
+                        Lbl_GoodCount2.BackColor = Color.RoyalBlue
+                        gbinfull = True
+                    End If
+
+                    If Goodbin2.status = BinClass.BinStatus.Filling Then
+                        Goodbin2.add1()
+                        My.Settings.TotalGood2 = Goodbin2.Count
+                        My.Settings.Save()
+                    End If
+
+                    If Goodbin2.status = BinClass.BinStatus.Empty Then
+                        Goodbin2.status = BinClass.BinStatus.Filling
+                        Goodbin2.add1()
+                        My.Settings.TotalGood2 = Goodbin2.Count
+                        My.Settings.Save()
+                    End If
+
+
+                Else
+                    gbinfull = False ' Initially set flag to false 
+                    If Goodbin1.status = BinClass.BinStatus.Full Then
+                        Lbl_GoodCount1.BackColor = Color.RoyalBlue
+                        gbinfull = True
+                    End If
+
+                    If Goodbin1.status = BinClass.BinStatus.Filling Then
+                        Goodbin1.add1()
+                        My.Settings.TotalGood1 = Goodbin1.Count
+                        My.Settings.Save()
+                        '  If Goodbin1.status = BinClass.BinStatus.Full Then gbinfull = True 'If bin is not full ok to put cylinder here 
+                    End If
+
+                    If Goodbin1.status = BinClass.BinStatus.Empty Then
+                        Goodbin1.status = BinClass.BinStatus.Filling
+                        Goodbin1.add1()
+                        My.Settings.TotalGood1 = Goodbin1.Count
+                        My.Settings.Save()
+
+                    End If
+
+                End If
             End If
 
         Else ' cyliner disposition is fail.
@@ -840,46 +885,46 @@ Public Class Manual_Weight
         Lbl_GoodCount2.Text = Goodbin2.Count
     End Sub
 
-    Sub goodbincount()
-        ' 
-        gbinfull = False ' Initially set flag to false 
-        If Goodbin1.status = BinClass.BinStatus.Full Then
-            Lbl_GoodCount1.BackColor = Color.RoyalBlue
-        End If
-        If Goodbin2.status = BinClass.BinStatus.Full Then
-            Lbl_GoodCount2.BackColor = Color.RoyalBlue
-        End If
-        If Goodbin1.status = BinClass.BinStatus.Filling Then
-            Goodbin1.add1()
-            My.Settings.TotalGood1 = Goodbin1.Count
-            My.Settings.Save()
-            If Goodbin1.status = BinClass.BinStatus.Filling Then Exit Sub 'If bin is not full ok to put cylinder here 
-        End If
-        If Goodbin2.status = BinClass.BinStatus.Filling Then
-            Goodbin2.add1()
-            My.Settings.TotalGood2 = Goodbin2.Count
-            My.Settings.Save()
-            If Goodbin2.status = BinClass.BinStatus.Filling Then Exit Sub 'If bin is not full ok to put cylinder here
+    'Sub goodbincount()
+    '    ' 
+    '    gbinfull = False ' Initially set flag to false 
+    '    If Goodbin1.status = BinClass.BinStatus.Full Then
+    '        Lbl_GoodCount1.BackColor = Color.RoyalBlue
+    '    End If
+    '    If Goodbin2.status = BinClass.BinStatus.Full Then
+    '        Lbl_GoodCount2.BackColor = Color.RoyalBlue
+    '    End If
+    '    If Goodbin1.status = BinClass.BinStatus.Filling Then
+    '        Goodbin1.add1()
+    '        My.Settings.TotalGood1 = Goodbin1.Count
+    '        My.Settings.Save()
+    '        If Goodbin1.status = BinClass.BinStatus.Filling Then Exit Sub 'If bin is not full ok to put cylinder here 
+    '    End If
+    '    If Goodbin2.status = BinClass.BinStatus.Filling Then
+    '        Goodbin2.add1()
+    '        My.Settings.TotalGood2 = Goodbin2.Count
+    '        My.Settings.Save()
+    '        If Goodbin2.status = BinClass.BinStatus.Filling Then Exit Sub 'If bin is not full ok to put cylinder here
 
-        End If
-        If Goodbin1.status = BinClass.BinStatus.Empty Then
-            Goodbin1.status = BinClass.BinStatus.Filling
-            Goodbin1.add1()
-            My.Settings.TotalGood1 = Goodbin1.Count
-            My.Settings.Save()
-            Exit Sub
-        End If
-        If Goodbin2.status = BinClass.BinStatus.Empty Then
-            Goodbin2.status = BinClass.BinStatus.Filling
-            Goodbin2.add1()
-            My.Settings.TotalGood2 = Goodbin2.Count
-            My.Settings.Save()
-            Exit Sub
-        End If
-        gbinfull = True ' If no bins are empty or filling then set flag to true.
+    '    End If
+    '    If Goodbin1.status = BinClass.BinStatus.Empty Then
+    '        Goodbin1.status = BinClass.BinStatus.Filling
+    '        Goodbin1.add1()
+    '        My.Settings.TotalGood1 = Goodbin1.Count
+    '        My.Settings.Save()
+    '        Exit Sub
+    '    End If
+    '    If Goodbin2.status = BinClass.BinStatus.Empty Then
+    '        Goodbin2.status = BinClass.BinStatus.Filling
+    '        Goodbin2.add1()
+    '        My.Settings.TotalGood2 = Goodbin2.Count
+    '        My.Settings.Save()
+    '        Exit Sub
+    '    End If
+    '    gbinfull = True ' If no bins are empty or filling then set flag to true.
 
 
-    End Sub
+    'End Sub
 
 
     Sub checkcal()
@@ -1649,9 +1694,10 @@ Public Class Manual_Weight
 
         Bin_Number.empty()
         If gbinfull Then ' If the bins were both full.  Update counts, will not count last cylinder, and reset flag.
-            goodbincount()
-
+            Bin_Number.add1()
+            gbinfull = False
         End If
+
         If Bin_Number Is Goodbin1 Then
             My.Settings.TotalGood1 = Bin_Number.Count
             Lbl_GoodCount1.BackColor = Color.Transparent
@@ -1662,8 +1708,10 @@ Public Class Manual_Weight
             Lbl_GoodCount2.Text = Bin_Number.Count
         End If
 
-
         My.Settings.Save()
+
+
+
 
     End Sub
 
@@ -1952,7 +2000,7 @@ Public Class Manual_Weight
                 Case EjectLocation.Bad
                     usermessage = "in BAD BIN"
                 Case EjectLocation.Good
-                    If Goodbin1.status = BinClass.BinStatus.Filling Then
+                    If RightPallet.inprocess = PalletData.status.processing Then
                         usermessage = "in GOOD BIN 1"
                     Else
                         usermessage = "in GOOD BIN 2"
@@ -1979,7 +2027,7 @@ Public Class Manual_Weight
 
 
         If gbinfull = True Then
-            MsgBox("Empty Good Bins, Reset Counts, And then Resume", MsgBoxStyle.OkOnly, "Both Good Bins Full")
+            MsgBox("Empty Good Bin, Reset Counts, And then Resume", MsgBoxStyle.OkOnly, "Good Bin Full")
         End If
 
         ' 4. Wait for continue to be pressed
@@ -2129,7 +2177,7 @@ Public Class Manual_Weight
 
 
 
-    
+
 
 
 End Class
