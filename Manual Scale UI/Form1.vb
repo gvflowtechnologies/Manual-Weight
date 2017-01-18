@@ -1698,6 +1698,7 @@ Public Class Manual_Weight
             gbinfull = False
         End If
 
+        ' Reset counters
         If Bin_Number Is Goodbin1 Then
             My.Settings.TotalGood1 = Bin_Number.Count
             Lbl_GoodCount1.BackColor = Color.Transparent
