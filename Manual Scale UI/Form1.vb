@@ -2030,7 +2030,7 @@ Public Class Manual_Weight
         Btn_PauseRobot.Enabled = False
         pauserequest = False
         ' 6. Jump to location 
-
+        Epson_SPEL.settings()
         Scara.Jump(pausereturn)
 
         BtnResume.Enabled = False
