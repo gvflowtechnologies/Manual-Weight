@@ -124,7 +124,7 @@ Module Epson_SPEL
 
     Public Sub RobotHeightOutOfRange()
         Dim values() As Single
-        If Scara.MotorsOn = False Then Scara.MotorsOn = True
+        ' If Scara.MotorsOn = False Then Scara.MotorsOn = True
         values = Scara.GetRobotPos(SpelRobotPosType.World, 0, 1, 0)
 
         Do While values(2) > -30

@@ -230,9 +230,9 @@ Public Class Manual_Weight
         ' Allows access only to Authorized personnel
 
         loginhandling()
-        'If TFLOWlog Then
-        '    GB_RobotSpeed.Visible = True
-        'End If
+        If TFLOWlog Then
+            GB_RobotSpeed.Visible = True
+        End If
     End Sub
 
 
@@ -590,9 +590,7 @@ Public Class Manual_Weight
                 Disposition(ActivePallet) ' Determining part dispostion.
                 ' IF both good bins are full then pause robot
 
-                Do While gbinfull 'Loop until bin reset button is pressed.
-                    Controlled_Pause()
-                Loop
+
 
                 If Picked Then
 
@@ -608,7 +606,7 @@ Public Class Manual_Weight
                             Elocation = EjectLocation.Good
                             ejectpart(False)
 
-                            If pauserequest = True Or partstuck = True Then Controlled_Pause()
+                            If pauserequest Or partstuck Or gbinfull Then Controlled_Pause()
 
                         Else
 
@@ -812,7 +810,7 @@ Public Class Manual_Weight
                 If pallet.Palletlocation = PalletData.PLocation.PalletLeft Then
 
                     gbinfull = False ' Initially set flag to false 
-                    
+
                     If Goodbin2.status = BinClass.BinStatus.Full Then
                         Lbl_GoodCount2.BackColor = Color.RoyalBlue
                         gbinfull = True
@@ -1676,11 +1674,10 @@ Public Class Manual_Weight
         ' 4. Save Settings
         ' 5 Update Display
         Bin_Number.empty()
-        If gbinfull Then ' If the bins were both full.  Update counts, will not count last cylinder, and reset flag.
-            Bin_Number.add1()
-            gbinfull = False
-        End If
 
+        
+        gbinfull = False
+        
         ' Reset counters
         If Bin_Number Is Goodbin1 Then
             My.Settings.TotalGood1 = Bin_Number.Count
