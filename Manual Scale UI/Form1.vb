@@ -588,7 +588,7 @@ Public Class Manual_Weight
 
                 '10 Move to spot (either Pallet/Good/Bad) - Seperate Routine
                 Disposition(ActivePallet) ' Determining part dispostion.
-                ' IF both good bins are full then pause robot
+
 
 
 
@@ -606,6 +606,7 @@ Public Class Manual_Weight
                             Elocation = EjectLocation.Good
                             ejectpart(False)
 
+                            'Pause robot if user requested, bin is full, or part is stuck
                             If pauserequest Or partstuck Or gbinfull Then Controlled_Pause()
 
                         Else
@@ -645,17 +646,19 @@ Public Class Manual_Weight
         Next
 
         Closepallet(ActivePallet)
-        Scara.Jump(pausepoint)
-        If Scara.MotorsOn Then Scara.MotorsOn = False ' When done turn off motors
-        Scara.Off(TipBlowOff)
-        Scara.Off(TipVacuum)
+
+        TurnoffRobot()
+
         ActivePallet.inprocess = PalletData.status.complete
         ActivePallet = Nothing
         CheckNextPallet()
 
     End Sub
-    Sub processcylinder()
-
+    Sub TurnoffRobot()
+        Scara.Jump(pausepoint)
+        If Scara.MotorsOn Then Scara.MotorsOn = False ' When done turn off motors
+        Scara.Off(TipBlowOff)
+        Scara.Off(TipVacuum)
     End Sub
 
     Sub ejectpart(ByVal CheckPart As Boolean)
@@ -816,19 +819,12 @@ Public Class Manual_Weight
                         gbinfull = True
                     End If
 
-                    If Goodbin2.status = BinClass.BinStatus.Filling Then
+                    If Goodbin2.status = BinClass.BinStatus.Filling Or Goodbin2.status = BinClass.BinStatus.Empty Then
+                        If Goodbin2.status = BinClass.BinStatus.Empty Then Goodbin2.status = BinClass.BinStatus.Filling
                         Goodbin2.add1()
                         My.Settings.TotalGood2 = Goodbin2.Count
                         My.Settings.Save()
                     End If
-
-                    If Goodbin2.status = BinClass.BinStatus.Empty Then
-                        Goodbin2.status = BinClass.BinStatus.Filling
-                        Goodbin2.add1()
-                        My.Settings.TotalGood2 = Goodbin2.Count
-                        My.Settings.Save()
-                    End If
-
 
                 Else
                     gbinfull = False ' Initially set flag to false 
@@ -837,19 +833,11 @@ Public Class Manual_Weight
                         gbinfull = True
                     End If
 
-                    If Goodbin1.status = BinClass.BinStatus.Filling Then
+                    If Goodbin1.status = BinClass.BinStatus.Filling Or Goodbin1.status = BinClass.BinStatus.Empty Then
+                        If Goodbin1.status = BinClass.BinStatus.Empty Then Goodbin1.status = BinClass.BinStatus.Filling
                         Goodbin1.add1()
                         My.Settings.TotalGood1 = Goodbin1.Count
                         My.Settings.Save()
-                        '  If Goodbin1.status = BinClass.BinStatus.Full Then gbinfull = True 'If bin is not full ok to put cylinder here 
-                    End If
-
-                    If Goodbin1.status = BinClass.BinStatus.Empty Then
-                        Goodbin1.status = BinClass.BinStatus.Filling
-                        Goodbin1.add1()
-                        My.Settings.TotalGood1 = Goodbin1.Count
-                        My.Settings.Save()
-
                     End If
 
                 End If
@@ -883,47 +871,6 @@ Public Class Manual_Weight
         Lbl_GoodCount1.Text = Goodbin1.Count
         Lbl_GoodCount2.Text = Goodbin2.Count
     End Sub
-
-    'Sub goodbincount()
-    '    ' 
-    '    gbinfull = False ' Initially set flag to false 
-    '    If Goodbin1.status = BinClass.BinStatus.Full Then
-    '        Lbl_GoodCount1.BackColor = Color.RoyalBlue
-    '    End If
-    '    If Goodbin2.status = BinClass.BinStatus.Full Then
-    '        Lbl_GoodCount2.BackColor = Color.RoyalBlue
-    '    End If
-    '    If Goodbin1.status = BinClass.BinStatus.Filling Then
-    '        Goodbin1.add1()
-    '        My.Settings.TotalGood1 = Goodbin1.Count
-    '        My.Settings.Save()
-    '        If Goodbin1.status = BinClass.BinStatus.Filling Then Exit Sub 'If bin is not full ok to put cylinder here 
-    '    End If
-    '    If Goodbin2.status = BinClass.BinStatus.Filling Then
-    '        Goodbin2.add1()
-    '        My.Settings.TotalGood2 = Goodbin2.Count
-    '        My.Settings.Save()
-    '        If Goodbin2.status = BinClass.BinStatus.Filling Then Exit Sub 'If bin is not full ok to put cylinder here
-
-    '    End If
-    '    If Goodbin1.status = BinClass.BinStatus.Empty Then
-    '        Goodbin1.status = BinClass.BinStatus.Filling
-    '        Goodbin1.add1()
-    '        My.Settings.TotalGood1 = Goodbin1.Count
-    '        My.Settings.Save()
-    '        Exit Sub
-    '    End If
-    '    If Goodbin2.status = BinClass.BinStatus.Empty Then
-    '        Goodbin2.status = BinClass.BinStatus.Filling
-    '        Goodbin2.add1()
-    '        My.Settings.TotalGood2 = Goodbin2.Count
-    '        My.Settings.Save()
-    '        Exit Sub
-    '    End If
-    '    gbinfull = True ' If no bins are empty or filling then set flag to true.
-
-
-    'End Sub
 
 
     Sub checkcal()
@@ -966,6 +913,7 @@ Public Class Manual_Weight
 
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
         If swdataset IsNot Nothing Then swdataset.Dispose()
+
 
 
     End Sub

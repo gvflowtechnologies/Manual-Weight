@@ -45,8 +45,8 @@ Public Class BinClass
     Public Sub add1()
         ' Adds one cylinder to bin when executed.  
         icount = icount + 1
-        If icount > icapacity Then
-            icount = icount - 1 ' Reduce count by one.  We will not be putting the cylinder in this bin.  Setting to full signals to go to next bin.
+        If icount >= icapacity Then
+            '   icount = icount - 1 ' Reduce count by one.  We will not be putting the cylinder in this bin.  Setting to full signals to go to next bin.
             istatus = BinStatus.Full
         End If
     End Sub
