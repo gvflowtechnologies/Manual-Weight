@@ -1903,7 +1903,12 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub BtnResume_Click(sender As Object, e As EventArgs) Handles BtnResume.Click
-        resumemotion = True
+        If gbinfull = True Then
+            MsgBox("Empty Good Bin, Reset Counts, And then Resume", MsgBoxStyle.OkOnly, "Good Bin Full")
+        Else
+            resumemotion = True
+
+        End If
         'If pauserequest = False Then
         '    DoorResume()
         'End If
