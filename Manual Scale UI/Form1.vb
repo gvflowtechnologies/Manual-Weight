@@ -814,11 +814,6 @@ Public Class Manual_Weight
 
                     gbinfull = False ' Initially set flag to false 
 
-                    If Goodbin2.status = BinClass.BinStatus.Full Then
-                        Lbl_GoodCount2.BackColor = Color.RoyalBlue
-                        gbinfull = True
-                    End If
-
                     If Goodbin2.status = BinClass.BinStatus.Filling Or Goodbin2.status = BinClass.BinStatus.Empty Then
                         If Goodbin2.status = BinClass.BinStatus.Empty Then Goodbin2.status = BinClass.BinStatus.Filling
                         Goodbin2.add1()
@@ -826,12 +821,14 @@ Public Class Manual_Weight
                         My.Settings.Save()
                     End If
 
-                Else
-                    gbinfull = False ' Initially set flag to false 
-                    If Goodbin1.status = BinClass.BinStatus.Full Then
-                        Lbl_GoodCount1.BackColor = Color.RoyalBlue
+                    If Goodbin2.status = BinClass.BinStatus.Full Then
+                        Lbl_GoodCount2.BackColor = Color.RoyalBlue
                         gbinfull = True
                     End If
+
+                Else
+                    gbinfull = False ' Initially set flag to false 
+
 
                     If Goodbin1.status = BinClass.BinStatus.Filling Or Goodbin1.status = BinClass.BinStatus.Empty Then
                         If Goodbin1.status = BinClass.BinStatus.Empty Then Goodbin1.status = BinClass.BinStatus.Filling
@@ -839,7 +836,10 @@ Public Class Manual_Weight
                         My.Settings.TotalGood1 = Goodbin1.Count
                         My.Settings.Save()
                     End If
-
+                    If Goodbin1.status = BinClass.BinStatus.Full Then
+                        Lbl_GoodCount1.BackColor = Color.RoyalBlue
+                        gbinfull = True
+                    End If
                 End If
             End If
 
