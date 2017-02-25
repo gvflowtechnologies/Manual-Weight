@@ -20,6 +20,7 @@ Public Class PalletData
     Private batchid As String ' current active pallet
     Private currentfilename As String ' Current Active File.
     Private BFirstweightExists As Boolean ' true if a first weight was located for the part
+    Private Multiplefirstweights As Boolean
     Private sttimefirst As Date ' time stamp of first weight
     Private Sttimesecond As Date ' time stamp of second weight
     Private FirstWeightReading() As String 'Array of all of the first weights
@@ -144,29 +145,38 @@ Public Class PalletData
 
 
         Dim filename As String
+        Multiplefirstweights = True
         Dim x As Integer
         x = 0
+        'Check for multiple files.
+        For Each filename In currentfirstweights
+
+            If filename.Contains(firstpallet) Then
+                x += 1
+            End If
+            If x = 1 Then Multiplefirstweights = False
+
+        Next
+
+
         BFirstweightExists = False
         ' Looking through all files in the first weight directory.
         For Each filename In currentfirstweights
-            If BFirstweightExists = True Then
-                Sttimesecond = DateTime.Now
-                '                 
-                Exit Sub
-            Else
 
-                If filename.Contains(firstpallet) Then
-                    BFirstweightExists = True
-                    currentfilename = currentfirstweights(x)
-                Else
-
-                    x += 1
-                End If
+            If filename.Contains(firstpallet) Then
+                BFirstweightExists = True
+                currentfilename = filename
             End If
+
+            If BFirstweightExists = True Then
+                Sttimesecond = DateTime.Now            
+                Exit Sub
+            End If
+
         Next
 
         sttimefirst = DateTime.Now
-        '        dfistweightdate = DateTime.Now
+
 
     End Sub
 
@@ -203,7 +213,7 @@ Public Class PalletData
             Loop
 
 
-            Sttimesecond = DateTime.Now
+            '  Sttimesecond = DateTime.Now
             '            dseconddweightdate = DateTime.Now
             tmpstream.Dispose()
             File.Copy(Path.Combine(fweight, currentfilename), Path.Combine(Archived, currentfilename))
@@ -334,13 +344,11 @@ Public Class PalletData
         End Set
     End Property
 
-    Public Property timefirstwt As Date
+    Public ReadOnly Property timefirstwt As Date
         Get
             Return sttimefirst
         End Get
-        Set(value As Date)
 
-        End Set
     End Property
     Public ReadOnly Property timesecondwt As Date
         Get

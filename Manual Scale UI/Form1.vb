@@ -451,7 +451,7 @@ Public Class Manual_Weight
                 ycord = basey - c * CincY - r * RincY
                 zcord = basez
 
-                'If PauseRequest = True Then Controlled_Pause()
+
 
                 'Create a canister and if this is a second weight populate the first weight.
                 ccylinder = New Cylinder(ActivePallet.firstweightexists)
@@ -480,7 +480,7 @@ Public Class Manual_Weight
                     End If
 
                     If ccylinder.present Then
-                        '   If PauseRequest = True Then Controlled_Pause()
+
 
                         '5 pick up part
                         Scara.SetPoint(1, xcord, ycord, zcord + StartPickZ, ucord, 0, leftyrighty)
@@ -1907,12 +1907,12 @@ Public Class Manual_Weight
             MsgBox("Empty Good Bin, Reset Counts, And then Resume", MsgBoxStyle.OkOnly, "Good Bin Full")
         Else
             resumemotion = True
-
+            pauserequest = False
         End If
         'If pauserequest = False Then
         '    DoorResume()
         'End If
-        pauserequest = False
+
     End Sub
 
     Private Sub Controlled_Pause()
