@@ -75,11 +75,11 @@ Public Class Manual_Weight
         Lbl_LastCal.Text = My.Settings.LastCalDate.ToString("d")
         Lbl_NextCal.Text = My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString("d")
         Lbl_CalInt.Text = My.Settings.CalFrequency.ToString
-        Lbl_NumCol.Text = My.Settings.ColNum.ToString("N0")
+
         LB_SerialPorts.ScrollAlwaysVisible = True
-        Lbl_NumRow.Text = My.Settings.RowNum.ToString("N0")
-        Lbl_ColSpace.Text = My.Settings.ColSpace.ToString("N4")
-        Lbl_RowSpace.Text = My.Settings.RowSpace.ToString("N4")
+
+
+
         Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
         Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
         Lbl_WeightLoss.Text = My.Settings.WeightLoss.ToString("N4")
@@ -1087,64 +1087,7 @@ Public Class Manual_Weight
     End Sub
 
 
-    Private Sub Btn_UpdatePallet_Click(sender As Object, e As EventArgs) Handles Btn_UpdatePallet.Click
-
-        Dim IColNum As Integer
-        Dim IRowNum As Integer
-        Dim SColSpace As Single = My.Settings.ColSpace
-        Dim SRowSpace As Single = My.Settings.RowSpace
-        Dim sinputstring As String
-        Dim inerror As Boolean = True
-
-
-        While inerror = True
-            sinputstring = InputBox("Enter Number of Columns in Pallet", , My.Settings.ColNum.ToString("N0"))
-
-            If Integer.TryParse(sinputstring, IColNum) Then
-                inerror = False
-
-                My.Settings.ColNum = IColNum
-                Lbl_NumCol.Text = IColNum.ToString("N0")
-            Else
-                MsgBox("Integer Numbers Only Please")
-            End If
-
-        End While
-
-        inerror = True
-
-        supdatevalues("Enter Distance between Columns in Pallet", SColSpace)
-
-        My.Settings.ColSpace = SColSpace
-        Lbl_ColSpace.Text = SColSpace.ToString("N4")
-
-        inerror = True
-
-        While inerror = True
-            sinputstring = InputBox("Enter Number of Rows in Pallet", , My.Settings.RowNum.ToString("N0"))
-
-            If Integer.TryParse(sinputstring, IRowNum) Then
-                inerror = False
-
-                My.Settings.RowNum = IRowNum
-                Lbl_NumRow.Text = IRowNum.ToString("N0")
-            Else
-                MsgBox("Integer Numbers Only Please")
-            End If
-
-        End While
-
-        inerror = True
-
-        supdatevalues("Enter Distance between Rows in Pallet", SRowSpace)
-
-
-        My.Settings.RowSpace = SRowSpace
-        Lbl_RowSpace.Text = SRowSpace.ToString("N4")
-
-        My.Settings.Save()
-
-    End Sub
+   
 
 
     Private Sub Btn_UpdateWeight_Click(sender As Object, e As EventArgs) Handles Btn_UpdateWeight.Click

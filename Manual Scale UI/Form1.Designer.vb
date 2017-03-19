@@ -62,16 +62,6 @@ Partial Class Manual_Weight
         Me.Setup = New System.Windows.Forms.TabPage()
         Me.LBL_Version = New System.Windows.Forms.Label()
         Me.CB_ViewRaw = New System.Windows.Forms.CheckBox()
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
-        Me.Lbl_RowSpace = New System.Windows.Forms.Label()
-        Me.Lbl_NumRow = New System.Windows.Forms.Label()
-        Me.Lbl_NumCol = New System.Windows.Forms.Label()
-        Me.Lbl_ColSpace = New System.Windows.Forms.Label()
-        Me.Label10 = New System.Windows.Forms.Label()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.Btn_UpdatePallet = New System.Windows.Forms.Button()
-        Me.Label4 = New System.Windows.Forms.Label()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.Lbl_CalFolder = New System.Windows.Forms.Label()
         Me.Lbl_CalInt = New System.Windows.Forms.Label()
@@ -111,7 +101,6 @@ Partial Class Manual_Weight
         Me.GBBinData.SuspendLayout()
         Me.GBCurrentPallet.SuspendLayout()
         Me.Setup.SuspendLayout()
-        Me.GroupBox4.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.SuspendLayout()
@@ -522,7 +511,6 @@ Partial Class Manual_Weight
         '
         Me.Setup.Controls.Add(Me.LBL_Version)
         Me.Setup.Controls.Add(Me.CB_ViewRaw)
-        Me.Setup.Controls.Add(Me.GroupBox4)
         Me.Setup.Controls.Add(Me.GroupBox3)
         Me.Setup.Controls.Add(Me.Button1)
         Me.Setup.Controls.Add(Me.GroupBox2)
@@ -554,109 +542,6 @@ Partial Class Manual_Weight
         Me.CB_ViewRaw.TabIndex = 16
         Me.CB_ViewRaw.Text = "View Raw Stream"
         Me.CB_ViewRaw.UseVisualStyleBackColor = True
-        '
-        'GroupBox4
-        '
-        Me.GroupBox4.Controls.Add(Me.Lbl_RowSpace)
-        Me.GroupBox4.Controls.Add(Me.Lbl_NumRow)
-        Me.GroupBox4.Controls.Add(Me.Lbl_NumCol)
-        Me.GroupBox4.Controls.Add(Me.Lbl_ColSpace)
-        Me.GroupBox4.Controls.Add(Me.Label10)
-        Me.GroupBox4.Controls.Add(Me.Label9)
-        Me.GroupBox4.Controls.Add(Me.Label8)
-        Me.GroupBox4.Controls.Add(Me.Btn_UpdatePallet)
-        Me.GroupBox4.Controls.Add(Me.Label4)
-        Me.GroupBox4.Location = New System.Drawing.Point(303, 15)
-        Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(183, 252)
-        Me.GroupBox4.TabIndex = 15
-        Me.GroupBox4.TabStop = False
-        Me.GroupBox4.Text = "Pallet Settings"
-        '
-        'Lbl_RowSpace
-        '
-        Me.Lbl_RowSpace.AutoSize = True
-        Me.Lbl_RowSpace.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_RowSpace.Location = New System.Drawing.Point(121, 178)
-        Me.Lbl_RowSpace.Name = "Lbl_RowSpace"
-        Me.Lbl_RowSpace.Size = New System.Drawing.Size(47, 15)
-        Me.Lbl_RowSpace.TabIndex = 17
-        Me.Lbl_RowSpace.Text = "Label14"
-        '
-        'Lbl_NumRow
-        '
-        Me.Lbl_NumRow.AutoSize = True
-        Me.Lbl_NumRow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_NumRow.Location = New System.Drawing.Point(121, 130)
-        Me.Lbl_NumRow.Name = "Lbl_NumRow"
-        Me.Lbl_NumRow.Size = New System.Drawing.Size(73, 15)
-        Me.Lbl_NumRow.TabIndex = 16
-        Me.Lbl_NumRow.Text = "Lbl_NumRow"
-        '
-        'Lbl_NumCol
-        '
-        Me.Lbl_NumCol.AutoSize = True
-        Me.Lbl_NumCol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_NumCol.Location = New System.Drawing.Point(121, 34)
-        Me.Lbl_NumCol.Name = "Lbl_NumCol"
-        Me.Lbl_NumCol.Size = New System.Drawing.Size(47, 15)
-        Me.Lbl_NumCol.TabIndex = 15
-        Me.Lbl_NumCol.Text = "Label14"
-        '
-        'Lbl_ColSpace
-        '
-        Me.Lbl_ColSpace.AutoSize = True
-        Me.Lbl_ColSpace.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_ColSpace.Location = New System.Drawing.Point(121, 83)
-        Me.Lbl_ColSpace.Name = "Lbl_ColSpace"
-        Me.Lbl_ColSpace.Size = New System.Drawing.Size(47, 15)
-        Me.Lbl_ColSpace.TabIndex = 14
-        Me.Lbl_ColSpace.Text = "Label14"
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(23, 180)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(91, 13)
-        Me.Label10.TabIndex = 13
-        Me.Label10.Text = "Row Spacing (in):"
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(25, 132)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(89, 13)
-        Me.Label9.TabIndex = 12
-        Me.Label9.Text = "Number of Rows:"
-        '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(12, 83)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(102, 13)
-        Me.Label8.TabIndex = 11
-        Me.Label8.Text = "Column Spacing (In)"
-        '
-        'Btn_UpdatePallet
-        '
-        Me.Btn_UpdatePallet.Location = New System.Drawing.Point(15, 224)
-        Me.Btn_UpdatePallet.Name = "Btn_UpdatePallet"
-        Me.Btn_UpdatePallet.Size = New System.Drawing.Size(154, 23)
-        Me.Btn_UpdatePallet.TabIndex = 0
-        Me.Btn_UpdatePallet.Text = "Update Pallet Settings"
-        Me.Btn_UpdatePallet.UseVisualStyleBackColor = True
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(12, 34)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(102, 13)
-        Me.Label4.TabIndex = 10
-        Me.Label4.Text = "Number of Columns:"
         '
         'GroupBox3
         '
@@ -998,8 +883,6 @@ Partial Class Manual_Weight
         Me.GBCurrentPallet.PerformLayout()
         Me.Setup.ResumeLayout(False)
         Me.Setup.PerformLayout()
-        Me.GroupBox4.ResumeLayout(False)
-        Me.GroupBox4.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
@@ -1044,7 +927,6 @@ Partial Class Manual_Weight
     Friend WithEvents sLbl_Row As System.Windows.Forms.Label
     Friend WithEvents Btn_Tare As System.Windows.Forms.Button
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
-    Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents sLbl_retare As System.Windows.Forms.Label
@@ -1061,19 +943,10 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_LastCal As System.Windows.Forms.Label
     Friend WithEvents Lbl_CalFolder As System.Windows.Forms.Label
     Friend WithEvents LB_SerialPorts As System.Windows.Forms.ListBox
-    Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
-    Friend WithEvents Btn_UpdatePallet As System.Windows.Forms.Button
-    Friend WithEvents Label10 As System.Windows.Forms.Label
-    Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents Btn_UpdateWeight As System.Windows.Forms.Button
     Friend WithEvents Label13 As System.Windows.Forms.Label
     Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents Label11 As System.Windows.Forms.Label
-    Friend WithEvents Lbl_ColSpace As System.Windows.Forms.Label
-    Friend WithEvents Lbl_NumCol As System.Windows.Forms.Label
-    Friend WithEvents Lbl_RowSpace As System.Windows.Forms.Label
-    Friend WithEvents Lbl_NumRow As System.Windows.Forms.Label
     Friend WithEvents Lbl_RetareLimit As System.Windows.Forms.Label
     Friend WithEvents Lbl_MinWeight As System.Windows.Forms.Label
     Friend WithEvents Lbl_MaxWeight As System.Windows.Forms.Label
