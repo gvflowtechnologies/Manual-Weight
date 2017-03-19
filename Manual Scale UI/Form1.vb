@@ -60,13 +60,13 @@ Public Class Manual_Weight
         Btn_StartPallet.Enabled = True
         Btn_StopPallet.Enabled = False
 
-        Lbl_PalletN.Text = ""
+
         Lbl_BatchN.Text = ""
 
         Lbl_BadCount.Text = My.Settings.TotalBad
         Lbl_GoodCount.Text = My.Settings.TotalGood
-        Lbl_CurrentBad.Text = "0"
-        Lbl_CurrentGood.Text = "0"
+
+
 
         LBFinal_Data_File.Text = My.Settings.File_Directory
         Lbl_RetareLimit.Text = My.Settings.TareLimit.ToString("N4")
@@ -84,8 +84,8 @@ Public Class Manual_Weight
         Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
         Lbl_WeightLoss.Text = My.Settings.WeightLoss.ToString("N4")
         Lbl_Instruction.Text = "Standby"
-        LBL_CCOL.Text = "0"
-        LBL_CRow.Text = "0"
+
+
 
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
@@ -342,17 +342,6 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub updaterowsandcolumns()
-
-        MDataset.updaterowandcoumn()
-
-
-
-        LBL_CCOL.Text = MDataset.curcol.ToString
-        LBL_CRow.Text = MDataset.currow.ToString
-
-
-    End Sub
 
     Private Sub Disposition()
         cylindersorter.Sort(1)
@@ -382,7 +371,7 @@ Public Class Manual_Weight
         End If
                 ' update the counters for disposition 
         updatecounts()
-        updaterowsandcolumns()
+
                 'set label colors
         Lbl_IDLE.BackColor = Color.Gold
 
@@ -426,8 +415,7 @@ Public Class Manual_Weight
         End If
         Lbl_BadCount.Text = My.Settings.TotalBad
         Lbl_GoodCount.Text = My.Settings.TotalGood
-        Lbl_CurrentGood.Text = MDataset.numgood.ToString
-        Lbl_CurrentBad.Text = MDataset.numbad.ToString
+
 
     End Sub
 
@@ -435,8 +423,6 @@ Public Class Manual_Weight
     Private Sub Btn_StartPallet_Click(sender As Object, e As EventArgs) Handles Btn_StartPallet.Click
         Dim followup As MsgBoxResult
 
-        Lbl_PalletN.Text = ""
-        Lbl_BatchN.Text = ""
         MDataset = New PalletData
         manualstop = False
         If checkdate() = False Then
@@ -464,7 +450,7 @@ Public Class Manual_Weight
             End If
         Loop Until followup = MsgBoxResult.Yes
 
-        Lbl_PalletN.Text = MDataset.pallet
+
 
 
         ' send pallet number and 
@@ -516,10 +502,7 @@ Public Class Manual_Weight
 
         newcommport()
 
-        Lbl_CurrentGood.Text = MDataset.numgood.ToString
-        Lbl_CurrentBad.Text = MDataset.numbad.ToString
-        LBL_CCOL.Text = MDataset.curcol.ToString
-        LBL_CRow.Text = MDataset.currow.ToString
+
         entering = True
 
 

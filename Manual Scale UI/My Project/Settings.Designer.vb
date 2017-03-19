@@ -152,30 +152,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("21")>  _
-        Public Property ColNum() As Integer
-            Get
-                Return CType(Me("ColNum"),Integer)
-            End Get
-            Set
-                Me("ColNum") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("19")>  _
-        Public Property RowNum() As Integer
-            Get
-                Return CType(Me("RowNum"),Integer)
-            End Get
-            Set
-                Me("RowNum") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0.5")>  _
         Public Property ColSpace() As Single
             Get
@@ -267,6 +243,30 @@ Namespace My
             End Get
             Set
                 Me("scalecalfail") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("19")>  _
+        Public Property RowNum() As Integer
+            Get
+                Return CType(Me("RowNum"),Integer)
+            End Get
+            Set
+                Me("RowNum") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("21")>  _
+        Public Property ColNum() As Integer
+            Get
+                Return CType(Me("ColNum"),Integer)
+            End Get
+            Set
+                Me("ColNum") = value
             End Set
         End Property
     End Class
