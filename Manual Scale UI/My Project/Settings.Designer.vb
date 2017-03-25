@@ -269,6 +269,17 @@ Namespace My
                 Me("ColNum") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\SerializedCylinders."& _ 
+            "mdf;Integrated Security=True;Connect Timeout=30")>  _
+        Public ReadOnly Property SerializedCylindersConnectionString() As String
+            Get
+                Return CType(Me("SerializedCylindersConnectionString"),String)
+            End Get
+        End Property
     End Class
 End Namespace
 

@@ -37,10 +37,12 @@ Public Class Scalemanagement
         calstring = ""
         bincal = calprocess.Complete
         Bstable = False
-
-
-
         bcalrequest = False
+
+
+
+
+
 
 
     End Sub

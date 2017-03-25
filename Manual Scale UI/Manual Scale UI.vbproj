@@ -62,10 +62,10 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>C1D407DF8EA0F5D889A56D122244CD9DC57FDFCD</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>A214EF47B5E5941A5681AE3138D47D18D15BB177</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Manual Scale UI_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Manual Scale UI_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -148,6 +148,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ScaleManagement.vb" />
+    <Compile Include="SerializedCylindersDataSet.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SerializedCylindersDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Settings.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +173,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Manual Scale UI_1_TemporaryKey.pfx" />
     <None Include="Manual Scale UI_TemporaryKey.pfx" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
@@ -180,6 +186,17 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="SerializedCylindersDataSet.xsc">
+      <DependentUpon>SerializedCylindersDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="SerializedCylindersDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SerializedCylindersDataSet.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SerializedCylindersDataSet.xss">
+      <DependentUpon>SerializedCylindersDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -201,17 +218,24 @@
   <ItemGroup>
     <PublishFile Include="MccDaq">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scale2.ico" />
+    <Content Include="SerializedCylinders.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SerializedCylinders_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>SerializedCylinders.mdf</DependentUpon>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
