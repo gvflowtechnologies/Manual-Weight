@@ -5,7 +5,7 @@ Public Class Datareceive
         Manual_Weight.sartorius.ParseData(reading)
         If Manual_Weight.sartorius.CalRequest = True Then
             '          SyncLock Me
-            Manual_Weight.startcal()
+            ' Manual_Weight.startcal()
             '           End SyncLock
             ' Thread.Sleep(10)
 

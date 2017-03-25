@@ -329,8 +329,8 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub updatetare()
-        mycom.Write("T" & ControlChars.CrLf)
+    Private Sub updatetare() ' UPDATED TO METTLER STRING
+        mycom.Write("Z" & ControlChars.CrLf)
     End Sub
     'Public Sub startcal()  ' Will be using scales own process.
 
@@ -812,13 +812,13 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Btn_ScaleCal_Click(sender As Object, e As EventArgs) Handles Btn_ScaleCal.Click
+    'Private Sub btn_scalecal_click(sender As Object, e As EventArgs) Handles Btn_ScaleCal.Click
 
-        recalibrate()
+    '    recalibrate()
 
 
 
-    End Sub
+    'End Sub
 
     'Sub recalibrate()  ' WE will be using the scale process.
 
@@ -1201,6 +1201,8 @@ Public Class Manual_Weight
 
     Private Sub scalesetupstring()
 
+        mycom.Write("UPD 5" & ControlChars.CrLf)
+        mycom.Write("SIR" & ControlChars.CrLf)
 
 
     End Sub
