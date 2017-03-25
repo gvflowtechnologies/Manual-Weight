@@ -18,7 +18,7 @@ Public Class Scalemanagement
     Dim Bstable As Boolean
     Dim dweightreading As Double
     Dim Bishealthy As Boolean 'Internal Healthy Tag
-    Const stabconst As String = " g "
+    Const stabconst As String = " S "
     Const errid As String = "Err"
     Private Delegate Sub updateproperty(ByVal currweight As Double)
     Private updateweight As updateproperty
@@ -48,9 +48,6 @@ Public Class Scalemanagement
     End Sub
 
 
-    Sub taring()
-
-    End Sub
     Sub ParseData(ByVal reading As String)
 
 
@@ -82,7 +79,7 @@ Public Class Scalemanagement
 
         Else
             Bstable = reading.Contains(stabconst)
-            reading = reading.Substring(1)
+            reading = reading.Substring(2)
             reading = reading.Trim()
             position = reading.IndexOf(" ")
             Try
@@ -96,14 +93,15 @@ Public Class Scalemanagement
 
     End Sub
 
-    Private Function Datacheck(ByVal rawstring As String) As Integer
+    Private Function Datacheck(ByRef rawstring As String) As Integer
         Dim testchar As String
         Dim outvalue As Integer
         testchar = rawstring.Substring(0, 1)
 
         Select Case testchar
-            Case Is = "+"
+            Case Is = "S"
                 outvalue = 1
+                rawstring = rawstring.Trim("S")
             Case Is = "-"
                 outvalue = -1
             Case Else
