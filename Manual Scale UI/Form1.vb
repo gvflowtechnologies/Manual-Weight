@@ -8,6 +8,7 @@ Imports System.String
 Public Class Manual_Weight
     Enum Weighprocess
         idle
+        Scanning
         taring
         weighing
         prompting
@@ -38,7 +39,7 @@ Public Class Manual_Weight
 
     Dim tmrcycle As Stopwatch
     Dim tmrsort As Stopwatch
-
+    Dim scanned As Boolean
 
     ' Form open close stuff
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -185,21 +186,38 @@ Public Class Manual_Weight
 
                 End If
 
-                teststate = Weighprocess.taring
+                teststate = Weighprocess.Scanning
+                entering = True
+
                 ' wait for start pallet buttonclick  when clickek
+
+            Case Weighprocess.Scanning
+                If entering Then
+                    entering = False
+                    ccylinder = New Cylinder
+                    scanned = False
+                End If
+
+                Lbl_Instruction.Text = "Scan"
+
+                ' Need code to detect scan filling in window.
+                If scanned = True Then
+                    entering = True
+                    teststate = Weighprocess.taring
+                End If
 
 
             Case Weighprocess.taring
                 If entering Then
                     entering = False
 
-                    ccylinder = New Cylinder
+
 
 
                     ' Setting up cylinder for second weight
 
                     checkpalletcomplete()
-                   
+
 
                     'set label colors
                     Lbl_Instruction.Text = "Zeroing"
@@ -209,7 +227,7 @@ Public Class Manual_Weight
                 End If
 
                 ' Check to see if something is on scale when it should not be and if it is, turn the background color red.
-                
+
                 If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
                     Me.BackColor = Color.Red
                 Else
@@ -222,7 +240,7 @@ Public Class Manual_Weight
 
                 If sartorius.Stable Then
                     Select Case Math.Abs(sartorius.CurrentReading)
-                 
+
                         Case Is < My.Settings.TareLimit / 1000
                             teststate = Weighprocess.weighing
                             entering = True
@@ -309,7 +327,7 @@ Public Class Manual_Weight
 
 
                 If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
-                    teststate = Weighprocess.taring
+                    teststate = Weighprocess.Scanning
                     entering = True
 
                     ccylinder.dispose()
@@ -494,17 +512,12 @@ Public Class Manual_Weight
 
         Btn_StartPallet.Enabled = False
         Btn_StopPallet.Enabled = True
-        teststate = Weighprocess.taring ' Start weighing Process
+        teststate = Weighprocess.Scanning ' Start weighing Process
         Tmr_ScreenUpdate.Start()
         tmrcycle.Start()
-
-
-
         newcommport()
-
-
         entering = True
-
+        TB_SerialNumber.Select()
 
     End Sub
 
@@ -812,242 +825,9 @@ Public Class Manual_Weight
 
     End Sub
 
-    'Private Sub btn_scalecal_click(sender As Object, e As EventArgs) Handles Btn_ScaleCal.Click
-
-    '    recalibrate()
 
 
 
-    'End Sub
-
-    'Sub recalibrate()  ' WE will be using the scale process.
-
-    '    ' Handles process for recalibration of the scale.
-    '    ' Set up variables
-    '    cancelclicked = False
-    '    Calibration.Enabled = True
-    '    Calibration.Show()
-    '    Me.Hide()
-    '    Dim CalID As String = ""
-    '    Dim calweight As String = ""
-    '    Dim Operatorid As String = ""
-    '    Dim calfinal As String = ""
-
-    '    Dim followup As MsgBoxResult
-
-    '    Const ccaldata As String = "Updating Calibration Data"
-    '    Const titles As String = "Calibration Sequence"
-
-    '    newcommport() 'open up commport to start communicting with the scal
-    '    teststate = Weighprocess.idle
-    '    Tmr_ScreenUpdate.Enabled = False
-    '    Calibration.PB_Calprogress.Value = 0
-    '    Calibration.Text = titles
-    '    Calibration.Lbl_CalPrompts.Text = "Remove all weight from scale"
-    '    Calibration.Lbl_CalPrompts.BackColor = Color.Red
-    '    ' Wait for scale to become unloaded
-    '    ' Need to work on the test when the scale arrives
-    '    '****************************************
-
-    '    ' 1. Tare Scale
-    '    Do Until sartorius.ScaleEmpty ' Add value for scale weight less than tare error
-
-    '        If cancelclicked Then
-    '            CancelCalibration()
-    '            Exit Sub
-    '        End If
-
-    '        Application.DoEvents()
-    '        Threading.Thread.Sleep(1)
-
-    '    Loop
-
-    '    updatetare()
-    '    ''****************************************************
-    '    '****************************************
-
-
-    '    ' 2 Get Data Input
-    '    Dim notnumbers As Boolean
-
-    '    Do
-    '        Operatorid = InputBox("Enter Operator Identification", ccaldata)
-    '        If Operatorid = "" Then Exit Sub
-    '        Calibration.Lbl_OPID.Text = Operatorid
-    '        followup = MsgBox("You entered " & Operatorid & ", is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Entry")
-    '        If followup = MsgBoxResult.Cancel Then
-    '            Operatorid = ""
-    '            CancelCalibration()
-    '            Exit Sub
-    '        End If
-    '    Loop Until followup = MsgBoxResult.Yes
-
-    '    ' Update Progress Bar
-    '    Calibration.PB_Calprogress.PerformStep()
-
-    '    Do
-    '        CalID = InputBox("Enter Calibration Standard ID", ccaldata)
-    '        If CalID = "" Then
-    '            CancelCalibration()
-    '            Exit Sub
-    '        End If
-    '        Calibration.Lbl_CalStd.Text = CalID
-    '        followup = MsgBox("You entered " & CalID & ", is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Entry")
-    '        If followup = MsgBoxResult.Cancel Then
-    '            CalID = ""
-    '            CancelCalibration()
-    '            Exit Sub
-    '        End If
-    '    Loop Until followup = MsgBoxResult.Yes
-    '    Calibration.PB_Calprogress.PerformStep()
-
-    '    ' 3 Get As Received Weight
-    '    Calibration.Lbl_CalPrompts.Text = "Place Calibration Weight on Scale"
-    '    Calibration.Lbl_CalPrompts.BackColor = Color.Green
-
-    '    MsgBox("Place calibration weight " & CalID & " on Scale and then press OK", MsgBoxStyle.OkOnly)
-    '    '*****************************************
-
-    '    Do ' Add value for scale weight less than 1.0 grams
-    '        If cancelclicked Then
-    '            CancelCalibration()
-    '            Exit Sub   ' change to exit sub when lie
-    '        End If
-
-    '        Application.DoEvents()
-    '        Threading.Thread.Sleep(1)
-    '    Loop Until sartorius.Stable And Not sartorius.ScaleEmpty
-
-    '    Calibration.PB_Calprogress.PerformStep()
-    '    calweight = sartorius.CurrentReading
-    '    Calibration.Lbl_CalValASRECEIVED.Text = calweight
-
-    '    sartorius.calibrating = Scalemanagement.calprocess.Complete
-    '    MsgBox("Remove calibration weight " & CalID & " on Scale and then press OK", MsgBoxStyle.OkOnly)
-    '    Calibration.Lbl_CalPrompts.Text = "Remove all weight from scale"
-    '    Calibration.Lbl_CalPrompts.BackColor = Color.Red
-
-    '    Do ' Add value for scale weight less than 1.0 grams
-
-    '        If cancelclicked Then
-    '            CancelCalibration()
-    '            Exit Sub   ' change to exit sub when lie
-    '        End If
-
-    '        Application.DoEvents()
-    '        Threading.Thread.Sleep(1)
-    '    Loop Until sartorius.ScaleEmpty
-
-    '    Calibration.PB_Calprogress.PerformStep()
-
-    '    startcal()
-
-    '    Do ' Add value for scale weight less than 1.0 grams
-
-
-    '        If cancelclicked Then
-    '            CancelCalibration()
-
-    '            Exit Sub   ' change to exit sub when lie
-    '        End If
-    '        If sartorius.ishealthy = False Then
-    '            MsgBox("!! Calibration Parameter Not Met !!", MsgBoxStyle.OkOnly)
-    '            MsgBox("!! Unplug Scale, Replugin Scale, and then Retry Calibration", MsgBoxStyle.OkOnly)
-    '            My.Settings.scalecalfail = True
-    '            My.Settings.Save()
-
-    '            CancelCalibration()
-    '            Exit Sub   ' change to exit sub when lie
-
-    '        End If
-    '        Application.DoEvents()
-    '        Thread.Sleep(1)
-    '    Loop Until sartorius.calibrating = Scalemanagement.calprocess.Active
-
-    '    Calibration.PB_Calprogress.PerformStep()
-    '    Calibration.Lbl_CalPrompts.Text = "Place Calibration Weight on Scale"
-    '    Calibration.Lbl_CalPrompts.BackColor = Color.Green
-    '    MsgBox("Place calibration weight " & CalID & " on Scale and then press OK", MsgBoxStyle.OkOnly)
-    '    Do
-    '        If cancelclicked Then
-    '            CancelCalibration()
-    '            Exit Sub   ' change to exit sub when lie
-    '        End If
-
-    '        If sartorius.ishealthy = False Then
-    '            MsgBox("!! Calibration Parameter Not Met !!", MsgBoxStyle.OkOnly)
-    '            MsgBox("!! Unplug Scale, Replugin Scale, and then Retry Calibration", MsgBoxStyle.OkOnly)
-    '            CancelCalibration()
-    '            My.Settings.scalecalfail = True
-    '            My.Settings.Save()
-    '            Exit Sub   ' change to exit sub when lie
-
-    '        End If
-    '        Application.DoEvents()
-    '        Thread.Sleep(1)
-
-    '    Loop Until sartorius.calibrating = Scalemanagement.calprocess.Complete
-    '    Calibration.PB_Calprogress.PerformStep()
-    '    calfinal = sartorius.CurrentReading
-    '    Calibration.lbl_CalValasReturned.Text = calfinal
-
-    '    Calibration.Lbl_CalPrompts.Text = "Calibrating Complete-Remove Weight"
-    '    Calibration.Lbl_CalPrompts.BackColor = Color.GreenYellow
-
-
-    '    followup = MsgBox("The current calbration frequency is: " & My.Settings.CalFrequency & " Months.  Do you want to change calibration frequency", MsgBoxStyle.YesNo, "Change Calibration Frequency?")
-    '    If followup = MsgBoxResult.Yes Then
-    '        Dim sfrequency As String
-    '        sfrequency = My.Settings.CalFrequency.ToString
-    '        Do
-    '            notnumbers = True
-    '            While notnumbers = True
-    '                sfrequency = InputBox("Enter new calibration frequency", "Change Calibration Frequency")
-
-    '                If IsNumeric(sfrequency) Then
-    '                    notnumbers = False
-
-    '                    followup = MsgBox("You entered " & sfrequency & ", is this correct?", MsgBoxStyle.YesNo, "Confirm Entry")
-
-
-    '                Else
-    '                    MsgBox("Numbers Only Please")
-    '                End If
-    '            End While
-    '        Loop Until followup = MsgBoxResult.Yes
-
-    '        My.Settings.CalFrequency = CSng(sfrequency)
-
-    '    End If
-
-    '    My.Settings.LastCalDate = DateTime.Now
-    '    My.Settings.scalecalfail = False
-    '    My.Settings.Save()
-
-    '    Lbl_LastCal.Text = My.Settings.LastCalDate.ToString("d")
-    '    Lbl_NextCal.Text = My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString("d")
-
-    '    caldata.Writecalrecord(CalID, calweight, calfinal, Operatorid)
-
-    '    If checkdate() = True Then Btn_StartPallet.Enabled = True
-
-    '    Calibration.Hide()
-    '    Calibration.Enabled = False
-    '    Me.Show()
-
-    'End Sub
-
-    Private Sub CancelCalibration()
-        Calibration.Lbl_CalStd.Text = ""
-        Calibration.Lbl_CalValASRECEIVED.Text = ""
-        Calibration.Lbl_OPID.Text = ""
-        Calibration.lbl_CalValasReturned.Text = ""
-
-        If mycom.IsOpen = True Then portclosing()
-        Calibration.Hide()
-        Me.Show()
-
-    End Sub
 
 
 
