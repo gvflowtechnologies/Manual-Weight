@@ -25,6 +25,8 @@ Partial Class Manual_Weight
         Me.components = New System.ComponentModel.Container()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
+        Me.TB_SerialNumber = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
         Me.LBL_Rationalle = New System.Windows.Forms.Label()
         Me.Btn_ManualTare = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -33,7 +35,6 @@ Partial Class Manual_Weight
         Me.Lbl_Bad = New System.Windows.Forms.Label()
         Me.Lbl_Good = New System.Windows.Forms.Label()
         Me.Lbl_Weighing = New System.Windows.Forms.Label()
-        Me.Lbl_IDLE = New System.Windows.Forms.Label()
         Me.sLbl_BN = New System.Windows.Forms.Label()
         Me.GB_Scale = New System.Windows.Forms.GroupBox()
         Me.LblRawStream = New System.Windows.Forms.Label()
@@ -83,8 +84,7 @@ Partial Class Manual_Weight
         Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.TB_SerialNumber = New System.Windows.Forms.TextBox()
+        Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -93,6 +93,7 @@ Partial Class Manual_Weight
         Me.Setup.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -127,6 +128,22 @@ Partial Class Manual_Weight
         Me.RunPage.Text = "Weighing"
         Me.RunPage.UseVisualStyleBackColor = True
         '
+        'TB_SerialNumber
+        '
+        Me.TB_SerialNumber.Location = New System.Drawing.Point(185, 50)
+        Me.TB_SerialNumber.Name = "TB_SerialNumber"
+        Me.TB_SerialNumber.Size = New System.Drawing.Size(227, 30)
+        Me.TB_SerialNumber.TabIndex = 13
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(40, 55)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(142, 25)
+        Me.Label4.TabIndex = 12
+        Me.Label4.Text = "Serial Number:"
+        '
         'LBL_Rationalle
         '
         Me.LBL_Rationalle.AutoSize = True
@@ -154,7 +171,6 @@ Partial Class Manual_Weight
         Me.GroupBox1.Controls.Add(Me.Lbl_Bad)
         Me.GroupBox1.Controls.Add(Me.Lbl_Good)
         Me.GroupBox1.Controls.Add(Me.Lbl_Weighing)
-        Me.GroupBox1.Controls.Add(Me.Lbl_IDLE)
         Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox1.Location = New System.Drawing.Point(36, 98)
         Me.GroupBox1.Name = "GroupBox1"
@@ -214,17 +230,6 @@ Partial Class Manual_Weight
         Me.Lbl_Weighing.TabIndex = 1
         Me.Lbl_Weighing.Text = "Weighing"
         Me.Lbl_Weighing.Visible = False
-        '
-        'Lbl_IDLE
-        '
-        Me.Lbl_IDLE.AutoSize = True
-        Me.Lbl_IDLE.BackColor = System.Drawing.Color.Transparent
-        Me.Lbl_IDLE.Location = New System.Drawing.Point(6, 89)
-        Me.Lbl_IDLE.Name = "Lbl_IDLE"
-        Me.Lbl_IDLE.Size = New System.Drawing.Size(46, 25)
-        Me.Lbl_IDLE.TabIndex = 0
-        Me.Lbl_IDLE.Text = "Idle"
-        Me.Lbl_IDLE.Visible = False
         '
         'sLbl_BN
         '
@@ -346,6 +351,7 @@ Partial Class Manual_Weight
         '
         'Btn_StopPallet
         '
+        Me.Btn_StopPallet.CausesValidation = False
         Me.Btn_StopPallet.Location = New System.Drawing.Point(204, 317)
         Me.Btn_StopPallet.Name = "Btn_StopPallet"
         Me.Btn_StopPallet.Size = New System.Drawing.Size(75, 33)
@@ -727,21 +733,9 @@ Partial Class Manual_Weight
         '
         Me.Tmr_ScreenUpdate.Interval = 50
         '
-        'Label4
+        'ErrorProvider1
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(40, 55)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(142, 25)
-        Me.Label4.TabIndex = 12
-        Me.Label4.Text = "Serial Number:"
-        '
-        'TB_SerialNumber
-        '
-        Me.TB_SerialNumber.Location = New System.Drawing.Point(185, 50)
-        Me.TB_SerialNumber.Name = "TB_SerialNumber"
-        Me.TB_SerialNumber.Size = New System.Drawing.Size(227, 30)
-        Me.TB_SerialNumber.TabIndex = 13
+        Me.ErrorProvider1.ContainerControl = Me
         '
         'Manual_Weight
         '
@@ -768,6 +762,7 @@ Partial Class Manual_Weight
         Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -790,7 +785,6 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_Bad As System.Windows.Forms.Label
     Friend WithEvents Lbl_Good As System.Windows.Forms.Label
     Friend WithEvents Lbl_Weighing As System.Windows.Forms.Label
-    Friend WithEvents Lbl_IDLE As System.Windows.Forms.Label
     Friend WithEvents LBFinal_Data_File As System.Windows.Forms.Label
     Friend WithEvents Btn_WeighFolder As System.Windows.Forms.Button
     Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
@@ -833,5 +827,6 @@ Partial Class Manual_Weight
     Friend WithEvents LBL_Rationalle As System.Windows.Forms.Label
     Friend WithEvents TB_SerialNumber As System.Windows.Forms.TextBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
 
 End Class

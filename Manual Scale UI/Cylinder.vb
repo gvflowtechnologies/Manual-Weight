@@ -6,6 +6,7 @@
     Private ddisposition As Boolean 'True = pass, False = Fail
     Private myindex As Integer
     Private sDispReason As String
+    Private sSN As String
 
     Sub New()
 
@@ -96,6 +97,14 @@
         End Get
     End Property
 
+    Property SerialNumber As String
+        Get
+            Return sSN
+        End Get
+        Set(value As String)
+            sSN = value
+        End Set
+    End Property
 
 
 End Class

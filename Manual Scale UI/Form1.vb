@@ -105,8 +105,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
         portclosing()
         If Not IsNothing(swdataset) Then swdataset.Close()
@@ -181,13 +179,12 @@ Public Class Manual_Weight
                     entering = False
 
                     'set label colors
-                    Lbl_IDLE.BackColor = Color.Gold
-
+           
 
                 End If
 
-                teststate = Weighprocess.Scanning
-                entering = True
+                'teststate = Weighprocess.Scanning
+                'entering = True
 
                 ' wait for start pallet buttonclick  when clickek
 
@@ -196,23 +193,23 @@ Public Class Manual_Weight
                     entering = False
                     ccylinder = New Cylinder
                     scanned = False
+                    Lbl_Instruction.Text = "Scan"
+                    Lbl_Instruction.BackColor = Color.CornflowerBlue
+                    TB_SerialNumber.Text = ""
                 End If
 
-                Lbl_Instruction.Text = "Scan"
-
+        
                 ' Need code to detect scan filling in window.
                 If scanned = True Then
                     entering = True
                     teststate = Weighprocess.taring
+
                 End If
 
 
             Case Weighprocess.taring
                 If entering Then
                     entering = False
-
-
-
 
                     ' Setting up cylinder for second weight
 
@@ -222,8 +219,7 @@ Public Class Manual_Weight
                     'set label colors
                     Lbl_Instruction.Text = "Zeroing"
                     Lbl_Instruction.BackColor = Color.Blue
-                    Lbl_IDLE.BackColor = Color.Gold
-                    Lbl_IDLE.Text = "Taring"
+
                 End If
 
                 ' Check to see if something is on scale when it should not be and if it is, turn the background color red.
@@ -270,7 +266,6 @@ Public Class Manual_Weight
                     entering = False
                     'set label colors
 
-                    Lbl_IDLE.Text = "Taring"
                     Lbl_Instruction.Text = "Place"
                     Lbl_Instruction.BackColor = Color.Violet
 
@@ -350,16 +345,6 @@ Public Class Manual_Weight
     Private Sub updatetare() ' UPDATED TO METTLER STRING
         mycom.Write("Z" & ControlChars.CrLf)
     End Sub
-    'Public Sub startcal()  ' Will be using scales own process.
-
-
-
-    '    'Loop
-    '    mycom.Write("W" & ControlChars.CrLf)
-    '    '   sartorius.CalRequest = False
-
-    'End Sub
-
 
     Private Sub Disposition()
         cylindersorter.Sort(1)
@@ -391,7 +376,7 @@ Public Class Manual_Weight
         updatecounts()
 
                 'set label colors
-        Lbl_IDLE.BackColor = Color.Gold
+
 
         Lbl_Weighing.BackColor = Color.Transparent
 
@@ -436,7 +421,6 @@ Public Class Manual_Weight
 
 
     End Sub
-
 
     Private Sub Btn_StartPallet_Click(sender As Object, e As EventArgs) Handles Btn_StartPallet.Click
         Dim followup As MsgBoxResult
@@ -603,9 +587,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
-
     Private Sub WritefileHeader1() ' write the header to the firstweight data set.
         ' Very simple file to hold first pass data.
         Dim Myfile As String
@@ -715,17 +696,11 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
     Private Sub Btn_WeighFolders(sender As Object, e As EventArgs) Handles Btn_WeighFolder.Click
         caldata.SelectDataFolder()
         LBFinal_Data_File.Text = My.Settings.File_Directory
 
     End Sub
-
-
-
-
 
     Sub loginhandling()
 
@@ -766,8 +741,6 @@ Public Class Manual_Weight
 
 
     End Sub
-
-
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         ChangePassword.Enabled = True
@@ -825,12 +798,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
-
-
-
-
     Private Sub Btn_SerialPort_Click(sender As Object, e As EventArgs) Handles Btn_SerialPort.Click
 
         If LB_SerialPorts.SelectedIndex = -1 Then
@@ -848,10 +815,6 @@ Public Class Manual_Weight
         caldata.selectcalfolder()
 
     End Sub
-
-
-   
-
 
     Private Sub Btn_UpdateWeight_Click(sender As Object, e As EventArgs) Handles Btn_UpdateWeight.Click
 
@@ -878,7 +841,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
     Private Sub supdatevalues(ByVal sprompt As String, ByRef Sdata As Single)
         Dim inerror As Boolean = True
         Dim sinputstring As String = ""
@@ -900,7 +862,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
     Private Sub portclosing()
         If IsNothing(mycom) Then Exit Sub
 
@@ -921,9 +882,6 @@ Public Class Manual_Weight
         End If
 
     End Sub
-
-
-
 
     Private Sub newcommport()
 
@@ -1031,5 +989,54 @@ Public Class Manual_Weight
 
     End Sub
 
+    Private Function ValidSerialNumber(ByVal SerialNumber As String, ByRef errorMessage As String) As Boolean
+        ' Function to check the serial number entered is 10 charaters long
 
+        If SerialNumber.Length = 0 Then
+            errorMessage = "No Serial Number Entered"
+            Return False
+        End If
+        If SerialNumber.Length = 10 Then
+            errorMessage = ""
+            Return True
+        End If
+
+        errorMessage = "Serial Number is not the Correct Length"
+        Return False
+
+    End Function
+
+
+    Private Sub SN_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_SerialNumber.Validating
+
+        Dim errormsg As String = ""
+
+        If Not ValidSerialNumber(TB_SerialNumber.Text, errormsg) Then
+            e.Cancel = True
+            TB_SerialNumber.Select(0, TB_SerialNumber.Text.Length)
+            Me.ErrorProvider1.SetError(TB_SerialNumber, errormsg)
+        End If
+
+
+    End Sub
+
+    Private Sub SN_Validated(sender As Object, e As EventArgs) Handles TB_SerialNumber.Validated
+        ccylinder.SerialNumber = TB_SerialNumber.Text
+        scanned = True
+        ErrorProvider1.SetError(TB_SerialNumber, "")
+        TB_SerialNumber.Select()
+
+    End Sub
+
+    Private Sub SN_KeyDown(sender As Object, e As KeyEventArgs) Handles TB_SerialNumber.KeyDown
+
+        If e.KeyCode = Keys.Return Then
+            Lbl_BatchN.Select()
+            TB_SerialNumber.Select()
+
+
+        End If
+
+
+    End Sub
 End Class
