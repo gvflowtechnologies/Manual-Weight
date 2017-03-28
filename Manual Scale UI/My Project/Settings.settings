@@ -12,7 +12,7 @@
       <Value Profile="(Default)">COM1</Value>
     </Setting>
     <Setting Name="LastCalDate" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)">2015-12-31</Value>
+      <Value Profile="(Default)">2016-12-31</Value>
     </Setting>
     <Setting Name="TareLimit" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.3</Value>

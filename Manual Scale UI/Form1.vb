@@ -40,6 +40,8 @@ Public Class Manual_Weight
     Dim tmrcycle As Stopwatch
     Dim tmrsort As Stopwatch
     Dim scanned As Boolean
+    Dim cylindercollect As Collection
+
 
     ' Form open close stuff
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -48,6 +50,7 @@ Public Class Manual_Weight
         ' loginhandling()
         sartorius = New Scalemanagement
         tmrsort = New Stopwatch
+        cylindercollect = New Collection
 
 
         For Each sp As String In My.Computer.Ports.SerialPortNames
@@ -196,6 +199,7 @@ Public Class Manual_Weight
                     Lbl_Instruction.Text = "Scan"
                     Lbl_Instruction.BackColor = Color.CornflowerBlue
                     TB_SerialNumber.Text = ""
+
                 End If
 
         
@@ -433,12 +437,6 @@ Public Class Manual_Weight
             Exit Sub
         End If
 
-        If My.Settings.scalecalfail Then
-            Btn_StartPallet.Enabled = False
-            MsgBox("Last Calibration Failed, ReCal Required")
-            Exit Sub
-        End If
-
         MDataset.RenewFileList()
 
         Do
@@ -604,6 +602,7 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub writefirstweight()
+        swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
         swdataset.WriteLine(ccylinder.Firstweight.ToString)
 
     End Sub
@@ -633,7 +632,7 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub write_second_weight()
-
+        swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
         swdataset.Write(ccylinder.CylIndex.ToString & ", ")
         swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
         swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
@@ -945,8 +944,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
     Private Sub mycom_Datareceived(ByVal sendor As Object, ByVal e As SerialDataReceivedEventArgs) Handles mycom.DataReceived
         ' Handles data when it comes in on serial port.
         Dim sweight As String
@@ -963,14 +960,9 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
-
-
     Private Sub Btn_ManualTare_Click(sender As Object, e As EventArgs) Handles Btn_ManualTare.Click
         updatetare()
     End Sub
-
 
     Private Sub Btn_ResetBad_Click(sender As Object, e As EventArgs) Handles Btn_ResetBad.Click
         ' Resetting cumulative counter
@@ -1006,7 +998,6 @@ Public Class Manual_Weight
 
     End Function
 
-
     Private Sub SN_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_SerialNumber.Validating
 
         Dim errormsg As String = ""
@@ -1039,4 +1030,14 @@ Public Class Manual_Weight
 
 
     End Sub
+
+    Private Function findcylinder(ByVal SNumber) As Cylinder
+
+
+
+    End Function
+
+
+
+
 End Class

@@ -45,10 +45,10 @@ Public Class PalletData
         DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
         CountBad = 0
         CountGood = 0
-        iCurRow = 1
-        iCurCol = 0
-        iNumRows = My.Settings.RowNum
-        iNumCols = My.Settings.ColNum
+        'iCurRow = 1
+        'iCurCol = 0
+        'iNumRows = My.Settings.RowNum
+        'iNumCols = My.Settings.ColNum
 
         number_of_Canisters = iNumCols * iNumRows - 1
         fweight = My.Settings.File_Directory & "\In Process"
@@ -82,7 +82,6 @@ Public Class PalletData
             MsgBox("Please Create New Directory For Weight Data", MsgBoxStyle.OkOnly, "File Location Not Found")
 
         End If
-
 
     End Sub
 
@@ -121,19 +120,19 @@ Public Class PalletData
 
     End Sub
 
-    Public Sub updaterowandcoumn()
+    'Public Sub updaterowandcoumn()
 
-        iCurCol += 1
-        If iCurCol > iNumCols Then
-            iCurRow += 1
-            iCurCol = 1
-            If iCurRow > iNumRows Then
-                iCurRow = iNumRows
-                iCurCol = iNumCols
-            End If
-        End If
+    '    iCurCol += 1
+    '    If iCurCol > iNumCols Then
+    '        iCurRow += 1
+    '        iCurCol = 1
+    '        If iCurRow > iNumRows Then
+    '            iCurRow = iNumRows
+    '            iCurCol = iNumCols
+    '        End If
+    '    End If
 
-    End Sub
+    'End Sub
 
 
     Public Sub readfirstweight()
@@ -310,23 +309,23 @@ Public Class PalletData
         End Set
     End Property
 
-    Property currow As Integer
-        Get
-            Return iCurRow
-        End Get
-        Set(value As Integer)
-            iCurRow = value
-        End Set
-    End Property
+    'Property currow As Integer
+    '    Get
+    '        Return iCurRow
+    '    End Get
+    '    Set(value As Integer)
+    '        iCurRow = value
+    '    End Set
+    'End Property
 
-    Property curcol As Integer
-        Get
-            Return iCurCol
-        End Get
-        Set(value As Integer)
-            iCurCol = value
-        End Set
-    End Property
+    'Property curcol As Integer
+    '    Get
+    '        Return iCurCol
+    '    End Get
+    '    Set(value As Integer)
+    '        iCurCol = value
+    '    End Set
+    'End Property
 
 
     ReadOnly Property initialweight As Single

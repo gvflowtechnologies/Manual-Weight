@@ -434,6 +434,7 @@ Partial Class Manual_Weight
         Me.GroupBox3.TabIndex = 13
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Calibration Data"
+        Me.GroupBox3.Visible = False
         '
         'Lbl_CalFolder
         '
@@ -532,6 +533,7 @@ Partial Class Manual_Weight
         Me.Btn_ScaleCal.TabIndex = 9
         Me.Btn_ScaleCal.Text = "Update Scale Cal Record"
         Me.Btn_ScaleCal.UseVisualStyleBackColor = True
+        Me.Btn_ScaleCal.Visible = False
         '
         'Button1
         '
