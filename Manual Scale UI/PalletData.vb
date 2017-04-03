@@ -15,10 +15,11 @@ Public Class PalletData
     Private Sttimesecond As Date ' time stamp of second weight
     Private DateScaleCalLast As Date ' Date of last scale calibration.
     Private DateScaleCalNext As Date ' Date of next scale calibratin.
-    Private FirstWeightReading() As String
+    Private FirstWeightReading(,) As String ' Array holding the first weights and serial numbers.
+
     Private CountBad As Integer    ' Number of bad parts in pallet
     Private CountGood As Integer ' Number of good parts in pallet
-
+    Private CylinderSerialNumber As String
     Private iNumRows As Integer
     Private iNumCols As Integer
     Private iCurRow As Integer
@@ -45,12 +46,7 @@ Public Class PalletData
         DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
         CountBad = 0
         CountGood = 0
-        'iCurRow = 1
-        'iCurCol = 0
-        'iNumRows = My.Settings.RowNum
-        'iNumCols = My.Settings.ColNum
 
-        number_of_Canisters = iNumCols * iNumRows - 1
         fweight = My.Settings.File_Directory & "\In Process"
         completed = My.Settings.File_Directory & "\Completed"
 
@@ -84,7 +80,6 @@ Public Class PalletData
         End If
 
     End Sub
-
 
     Public Sub firstweight(ByVal firstpallet As String)
         ' Looking for two things here.
@@ -120,40 +115,43 @@ Public Class PalletData
 
     End Sub
 
-    'Public Sub updaterowandcoumn()
-
-    '    iCurCol += 1
-    '    If iCurCol > iNumCols Then
-    '        iCurRow += 1
-    '        iCurCol = 1
-    '        If iCurRow > iNumRows Then
-    '            iCurRow = iNumRows
-    '            iCurCol = iNumCols
-    '        End If
-    '    End If
-
-    'End Sub
-
-
     Public Sub readfirstweight()
         Dim FNreadfirst As String
         FNreadfirst = fweight & "\" & currentfilename
         If File.Exists(FNreadfirst) Then
             Dim tmpstream As StreamReader = File.OpenText(FNreadfirst)
+            Dim Stemplines(0) As String ' temporary array holding all of the first weights.
+            Dim STempline() As String ' Temporary array holding the parsed first weight for an individual canister.
+            Dim x As Integer ' Counter Variable
+            Dim y As Integer ' counter variable
 
             batchid = tmpstream.ReadLine()
             tmpstream.ReadLine()
             sttimefirst = Convert.ToDateTime(tmpstream.ReadLine())
-            '       dfistweightdate = Convert.ToDateTime(tmpstream.ReadLine())
-
-            number_of_Canisters = -1
+            
+            ' Reading in all of the serial numbers and first weights.
+            number_of_Canisters = 0
             Do While tmpstream.Peek <> -1
+                ReDim Preserve Stemplines(number_of_Canisters)
+                Stemplines(number_of_Canisters) = tmpstream.ReadLine
                 number_of_Canisters += 1
-                ReDim Preserve FirstWeightReading(number_of_Canisters)
-                FirstWeightReading(number_of_Canisters) = tmpstream.ReadLine
-
-
             Loop
+
+            'Redimension both the temp and permanent storage arrays
+            iNumRows = UBound(Stemplines)
+            STempline = Stemplines(0).Split(",")
+            iNumCols = UBound(STempline)
+            ReDim FirstWeightReading(iNumRows, iNumCols)
+
+            'Copy reading data into the array.
+            For x = 0 To iNumRows
+                STempline = Stemplines(x).Split(",")
+                For y = 0 To iNumCols
+                    FirstWeightReading(x, y) = STempline(y)
+
+                Next
+
+            Next
 
 
             Sttimesecond = DateTime.Now
@@ -165,6 +163,23 @@ Public Class PalletData
         End If
 
     End Sub
+    Public Function PalletComplete()
+
+        Dim bpalletcomplete As Boolean
+        ' IF this is a first weight return false the pallet is not complete.  
+        'If this is a second weight ane the number of canisters in the pallet is greater than the current canister the pallet is not full
+        bpalletcomplete = True
+        If firstweightexists = False Then
+            bpalletcomplete = False
+        Else
+            If number_of_Canisters > canisternumber Then
+                bpalletcomplete = False
+            End If
+        End If
+
+        Return bpalletcomplete
+
+    End Function
 
     Public Property filename As String
 
@@ -214,7 +229,6 @@ Public Class PalletData
 
     End Property
 
-
     Public Property pallet As String ' Pallet Identification
 
         Get
@@ -253,7 +267,7 @@ Public Class PalletData
     Public ReadOnly Property currentfilepath As String
         Get
             If BFirstweightExists Then
-                Return Completed
+                Return completed
             Else
                 Return fweight
             End If
@@ -309,28 +323,38 @@ Public Class PalletData
         End Set
     End Property
 
-    'Property currow As Integer
-    '    Get
-    '        Return iCurRow
-    '    End Get
-    '    Set(value As Integer)
-    '        iCurRow = value
-    '    End Set
-    'End Property
-
-    'Property curcol As Integer
-    '    Get
-    '        Return iCurCol
-    '    End Get
-    '    Set(value As Integer)
-    '        iCurCol = value
-    '    End Set
-    'End Property
+    WriteOnly Property SerialNumber As String
+        Set(value As String)
+            CylinderSerialNumber = value
+        End Set
+    End Property
 
 
-    ReadOnly Property initialweight As Single
+    ReadOnly Property initialweight(ByVal serialnumber As String) As Single
         Get
-            Return CSng(FirstWeightReading(canisternumber))
+            'Set firstweight to a bad value
+            Dim init_weight As Single ' the return value
+            init_weight = -20
+
+            'Sort through the array of first weights
+
+            Dim x As Integer ' Counter Variable
+            Dim y As Integer ' counter variable
+
+            
+            
+            'Redimension both the temp and permanent storage arrays
+            iNumRows = UBound(FirstWeightReading, 1)
+          
+            'Copy reading data into the array.
+            For x = 0 To iNumRows
+                If FirstWeightReading(x, 0) = serialnumber Then
+                    init_weight = FirstWeightReading(x, 1)
+                    canisternumber += 1
+                End If
+            Next
+
+            Return init_weight
         End Get
     End Property
 
