@@ -35,7 +35,7 @@
             Case Else
 
                 ' what things do we want to check for?  Question for Pete
-                If Math.Abs(weightdifference) > My.Settings.WeightLoss Then
+                If Math.Abs(weightdifference) > My.Settings.SF6WeightCh Then
                     ddisposition = False
                     If dMySecondweight > dMyfirstweight Then
                         sDispReason = "Gained Weight"

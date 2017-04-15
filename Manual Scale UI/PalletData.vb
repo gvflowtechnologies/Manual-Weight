@@ -39,7 +39,7 @@ Public Class PalletData
     Private completed As String ' String with completed Data Path
 
     Public Sub New()
-        number_of_Canisters = 0
+        number_of_Canisters = My.Settings.Bag_Limit
         canisternumber = 0
         ' fweight = 
         DateScaleCalLast = My.Settings.LastCalDate

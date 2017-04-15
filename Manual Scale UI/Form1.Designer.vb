@@ -50,6 +50,11 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN = New System.Windows.Forms.Label()
         Me.Btn_StartPallet = New System.Windows.Forms.Button()
         Me.Setup = New System.Windows.Forms.TabPage()
+        Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.TB_BagCapacity = New System.Windows.Forms.TextBox()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.Sorter = New System.Windows.Forms.CheckBox()
         Me.LBL_Version = New System.Windows.Forms.Label()
         Me.CB_ViewRaw = New System.Windows.Forms.CheckBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
@@ -85,12 +90,16 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.LBL_C3F8Weight = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GB_Scale.SuspendLayout()
         Me.GBBinData.SuspendLayout()
         Me.Setup.SuspendLayout()
+        Me.GroupBox5.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -382,6 +391,8 @@ Partial Class Manual_Weight
         '
         'Setup
         '
+        Me.Setup.Controls.Add(Me.GroupBox5)
+        Me.Setup.Controls.Add(Me.GroupBox4)
         Me.Setup.Controls.Add(Me.LBL_Version)
         Me.Setup.Controls.Add(Me.CB_ViewRaw)
         Me.Setup.Controls.Add(Me.GroupBox3)
@@ -396,6 +407,53 @@ Partial Class Manual_Weight
         Me.Setup.TabIndex = 1
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
+        '
+        'GroupBox5
+        '
+        Me.GroupBox5.Controls.Add(Me.Label8)
+        Me.GroupBox5.Controls.Add(Me.TB_BagCapacity)
+        Me.GroupBox5.Location = New System.Drawing.Point(1058, 15)
+        Me.GroupBox5.Name = "GroupBox5"
+        Me.GroupBox5.Size = New System.Drawing.Size(197, 252)
+        Me.GroupBox5.TabIndex = 19
+        Me.GroupBox5.TabStop = False
+        Me.GroupBox5.Text = "Bag Limit"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(16, 45)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(70, 13)
+        Me.Label8.TabIndex = 1
+        Me.Label8.Text = "Bag Capacity"
+        '
+        'TB_BagCapacity
+        '
+        Me.TB_BagCapacity.Location = New System.Drawing.Point(95, 42)
+        Me.TB_BagCapacity.Name = "TB_BagCapacity"
+        Me.TB_BagCapacity.Size = New System.Drawing.Size(81, 20)
+        Me.TB_BagCapacity.TabIndex = 0
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.Sorter)
+        Me.GroupBox4.Location = New System.Drawing.Point(1276, 274)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(200, 82)
+        Me.GroupBox4.TabIndex = 18
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Sorter"
+        '
+        'Sorter
+        '
+        Me.Sorter.AutoSize = True
+        Me.Sorter.Location = New System.Drawing.Point(21, 48)
+        Me.Sorter.Name = "Sorter"
+        Me.Sorter.Size = New System.Drawing.Size(100, 17)
+        Me.Sorter.TabIndex = 0
+        Me.Sorter.Text = "Sorter Attached"
+        Me.Sorter.UseVisualStyleBackColor = True
         '
         'LBL_Version
         '
@@ -546,6 +604,8 @@ Partial Class Manual_Weight
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.LBL_C3F8Weight)
+        Me.GroupBox2.Controls.Add(Me.Label9)
         Me.GroupBox2.Controls.Add(Me.Btn_SerialPort)
         Me.GroupBox2.Controls.Add(Me.Lbl_MinWeight)
         Me.GroupBox2.Controls.Add(Me.Lbl_MaxWeight)
@@ -563,14 +623,14 @@ Partial Class Manual_Weight
         Me.GroupBox2.Controls.Add(Me.Btn_Tare)
         Me.GroupBox2.Location = New System.Drawing.Point(365, 15)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(368, 270)
+        Me.GroupBox2.Size = New System.Drawing.Size(368, 341)
         Me.GroupBox2.TabIndex = 11
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Scale Parameters"
         '
         'Btn_SerialPort
         '
-        Me.Btn_SerialPort.Location = New System.Drawing.Point(18, 236)
+        Me.Btn_SerialPort.Location = New System.Drawing.Point(18, 301)
         Me.Btn_SerialPort.Name = "Btn_SerialPort"
         Me.Btn_SerialPort.Size = New System.Drawing.Size(132, 23)
         Me.Btn_SerialPort.TabIndex = 24
@@ -581,7 +641,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_MinWeight.AutoSize = True
         Me.Lbl_MinWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_MinWeight.Location = New System.Drawing.Point(243, 186)
+        Me.Lbl_MinWeight.Location = New System.Drawing.Point(244, 214)
         Me.Lbl_MinWeight.Name = "Lbl_MinWeight"
         Me.Lbl_MinWeight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.Lbl_MinWeight.Size = New System.Drawing.Size(47, 15)
@@ -592,7 +652,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_MaxWeight.AutoSize = True
         Me.Lbl_MaxWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_MaxWeight.Location = New System.Drawing.Point(243, 156)
+        Me.Lbl_MaxWeight.Location = New System.Drawing.Point(244, 184)
         Me.Lbl_MaxWeight.Name = "Lbl_MaxWeight"
         Me.Lbl_MaxWeight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.Lbl_MaxWeight.Size = New System.Drawing.Size(47, 15)
@@ -633,7 +693,7 @@ Partial Class Manual_Weight
         'LB_SerialPorts
         '
         Me.LB_SerialPorts.FormattingEnabled = True
-        Me.LB_SerialPorts.Location = New System.Drawing.Point(175, 242)
+        Me.LB_SerialPorts.Location = New System.Drawing.Point(175, 307)
         Me.LB_SerialPorts.Name = "LB_SerialPorts"
         Me.LB_SerialPorts.Size = New System.Drawing.Size(173, 17)
         Me.LB_SerialPorts.TabIndex = 14
@@ -650,7 +710,7 @@ Partial Class Manual_Weight
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(173, 186)
+        Me.Label13.Location = New System.Drawing.Point(174, 214)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(67, 13)
         Me.Label13.TabIndex = 17
@@ -659,7 +719,7 @@ Partial Class Manual_Weight
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(172, 156)
+        Me.Label12.Location = New System.Drawing.Point(173, 184)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(70, 13)
         Me.Label12.TabIndex = 16
@@ -668,7 +728,7 @@ Partial Class Manual_Weight
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(173, 226)
+        Me.Label3.Location = New System.Drawing.Point(173, 291)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(189, 13)
         Me.Label3.TabIndex = 9
@@ -679,9 +739,9 @@ Partial Class Manual_Weight
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(124, 126)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(132, 13)
+        Me.Label11.Size = New System.Drawing.Size(129, 13)
         Me.Label11.TabIndex = 9
-        Me.Label11.Text = "Weight Loss Change (gm):"
+        Me.Label11.Text = "SF6 Weight Change (gm):"
         '
         'sLbl_retare
         '
@@ -739,6 +799,26 @@ Partial Class Manual_Weight
         '
         Me.ErrorProvider1.ContainerControl = Me
         '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(124, 157)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(135, 13)
+        Me.Label9.TabIndex = 25
+        Me.Label9.Text = "C3F8 Weight Change (gm):"
+        '
+        'LBL_C3F8Weight
+        '
+        Me.LBL_C3F8Weight.AutoSize = True
+        Me.LBL_C3F8Weight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LBL_C3F8Weight.Location = New System.Drawing.Point(244, 156)
+        Me.LBL_C3F8Weight.Name = "LBL_C3F8Weight"
+        Me.LBL_C3F8Weight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.LBL_C3F8Weight.Size = New System.Drawing.Size(47, 15)
+        Me.LBL_C3F8Weight.TabIndex = 26
+        Me.LBL_C3F8Weight.Text = "Label14"
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -760,6 +840,10 @@ Partial Class Manual_Weight
         Me.GBBinData.PerformLayout()
         Me.Setup.ResumeLayout(False)
         Me.Setup.PerformLayout()
+        Me.GroupBox5.ResumeLayout(False)
+        Me.GroupBox5.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
@@ -830,5 +914,12 @@ Partial Class Manual_Weight
     Friend WithEvents TB_SerialNumber As System.Windows.Forms.TextBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
+    Friend WithEvents Sorter As System.Windows.Forms.CheckBox
+    Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents TB_BagCapacity As System.Windows.Forms.TextBox
+    Friend WithEvents LBL_C3F8Weight As System.Windows.Forms.Label
+    Friend WithEvents Label9 As System.Windows.Forms.Label
 
 End Class

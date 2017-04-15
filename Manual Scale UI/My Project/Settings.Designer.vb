@@ -174,111 +174,136 @@ Namespace My
             End Set
         End Property
         
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.001")>  _
-        Public Property WeightLoss() As Single
+        <Global.System.Configuration.UserScopedSettingAttribute(), _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.001")> _
+        Public Property SF6WeightCh() As Single
             Get
-                Return CType(Me("WeightLoss"),Single)
+                Return CType(Me("SF6WeightCh"), Single)
             End Get
-            Set
-                Me("WeightLoss") = value
+            Set(value As Single)
+                Me("SF6WeightCh") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("2.8")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(), _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+         Global.System.Configuration.DefaultSettingValueAttribute("10")> _
         Public Property MaxWeight() As Single
             Get
-                Return CType(Me("MaxWeight"),Single)
+                Return CType(Me("MaxWeight"), Single)
             End Get
-            Set
+            Set(value As Single)
                 Me("MaxWeight") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("2.6")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(), _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+         Global.System.Configuration.DefaultSettingValueAttribute("2.6")> _
         Public Property MinWeight() As Single
             Get
-                Return CType(Me("MinWeight"),Single)
+                Return CType(Me("MinWeight"), Single)
             End Get
-            Set
+            Set(value As Single)
                 Me("MinWeight") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(), _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")> _
         Public Property TotalGood() As Integer
             Get
-                Return CType(Me("TotalGood"),Integer)
+                Return CType(Me("TotalGood"), Integer)
             End Get
-            Set
+            Set(value As Integer)
                 Me("TotalGood") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(), _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")> _
         Public Property TotalBad() As Integer
             Get
-                Return CType(Me("TotalBad"),Integer)
+                Return CType(Me("TotalBad"), Integer)
             End Get
-            Set
+            Set(value As Integer)
                 Me("TotalBad") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(), _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")> _
         Public Property scalecalfail() As Boolean
             Get
-                Return CType(Me("scalecalfail"),Boolean)
+                Return CType(Me("scalecalfail"), Boolean)
             End Get
-            Set
+            Set(value As Boolean)
                 Me("scalecalfail") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("19")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(), _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+         Global.System.Configuration.DefaultSettingValueAttribute("19")> _
         Public Property RowNum() As Integer
             Get
-                Return CType(Me("RowNum"),Integer)
+                Return CType(Me("RowNum"), Integer)
             End Get
-            Set
+            Set(value As Integer)
                 Me("RowNum") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("21")>  _
+
+        <Global.System.Configuration.UserScopedSettingAttribute(), _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+         Global.System.Configuration.DefaultSettingValueAttribute("21")> _
         Public Property ColNum() As Integer
             Get
-                Return CType(Me("ColNum"),Integer)
+                Return CType(Me("ColNum"), Integer)
             End Get
-            Set
+            Set(value As Integer)
                 Me("ColNum") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\SerializedCylinders."& _ 
-            "mdf;Integrated Security=True;Connect Timeout=30")>  _
-        Public ReadOnly Property SerializedCylindersConnectionString() As String
+
+        <Global.System.Configuration.UserScopedSettingAttribute(), _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")> _
+        Public Property Sorter_Attached() As Boolean
             Get
-                Return CType(Me("SerializedCylindersConnectionString"),String)
+                Return CType(Me("Sorter_Attached"), Boolean)
             End Get
+            Set(value As Boolean)
+                Me("Sorter_Attached") = value
+            End Set
+        End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(), _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+         Global.System.Configuration.DefaultSettingValueAttribute("300")> _
+        Public Property Bag_Limit() As Integer
+            Get
+                Return CType(Me("Bag_Limit"), Integer)
+            End Get
+            Set(value As Integer)
+                Me("Bag_Limit") = value
+            End Set
+        End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(), _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.1")> _
+        Public Property C3F8WeightCh() As Single
+            Get
+                Return CType(Me("C3F8WeightCh"), Single)
+            End Get
+            Set(value As Single)
+                Me("C3F8WeightCh") = value
+            End Set
         End Property
     End Class
 End Namespace
