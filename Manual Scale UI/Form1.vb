@@ -14,6 +14,12 @@ Public Class Manual_Weight
         prompting
         erroring
     End Enum
+    Structure GasType
+        Public SNStart As Int16
+        Public WeightLoss As Single
+        Public _Type As String
+    End Structure
+
 
     ' Constants
     Const sloginvalue As String = "AV_QAE"
@@ -23,7 +29,7 @@ Public Class Manual_Weight
     Private newdata As Datareceive
     ' Variables
     Dim manualstop As Boolean ' Flag indicating that a manual stop has been requested
-
+    Dim cyindergas As GasType
     Dim MDataset As PalletData
     Public sartorius As Scalemanagement
     Dim cylindersorter As CSorter
@@ -63,6 +69,8 @@ Public Class Manual_Weight
 
 
         Btn_StartPallet.Enabled = True
+        RB_FinalWeightq.Enabled = True
+        RB_FirstWeight.Enabled = True
         Btn_StopPallet.Enabled = False
 
 
@@ -102,10 +110,10 @@ Public Class Manual_Weight
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
 
-        'If checkdate() = False Then
-        '    Btn_StartPallet.Enabled = False
-        '    MsgBox("Calibration is Past Due, Please Update")
-        'End If
+        If checkdate() = False Then
+            Btn_StartPallet.Enabled = False
+            MsgBox("Calibration is Past Due, Please Update")
+        End If
         Dim v As String
 
         '     v = My.Application.Deployment.CurrentVersion.ToString
@@ -132,7 +140,10 @@ Public Class Manual_Weight
     End Sub
 
     Private Function checkdate() As Boolean
+        ' removed date checking on scale.  
+        'If we are adding back in will need to change retrun from true to past due.
         Dim pastdue As Boolean
+
         If Date.Compare(Date.Now, My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency)) < 0 Then
 
             pastdue = True
@@ -141,7 +152,7 @@ Public Class Manual_Weight
         End If
 
 
-        Return pastdue
+        Return True 'pastdue
     End Function
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
@@ -451,9 +462,30 @@ Public Class Manual_Weight
         manualstop = False
         If checkdate() = False Then
             Btn_StartPallet.Enabled = False
+            RB_FinalWeightq.Enabled = False
+            RB_FirstWeight.Enabled = False
+            RB_SF6.Enabled = False
+            RBC3F8.Enabled = False
             MsgBox("Calibration is Past Due, ReCal Required")
             Exit Sub
         End If
+
+        'Test for first vs second weight
+        If Not RB_FinalWeightq.Checked And Not RB_FirstWeight.Checked Then
+            MsgBox("Weighing Process Not Selected")
+            Exit Sub
+        End If
+        If Not RB_SF6.Checked And Not RBC3F8.Checked Then
+            MsgBox("Gas Type Not Selected")
+            Exit Sub
+        End If
+
+        ' Load gas properties based on selection.
+
+
+
+
+
 
         MDataset.RenewFileList()
 
@@ -511,6 +543,8 @@ Public Class Manual_Weight
         End If
 
         Btn_StartPallet.Enabled = False
+        RB_FinalWeightq.Enabled = False
+        RB_FirstWeight.Enabled = False
         Btn_StopPallet.Enabled = True
         teststate = Weighprocess.Scanning ' Start weighing Process
         Tmr_ScreenUpdate.Start()
@@ -600,6 +634,8 @@ Public Class Manual_Weight
 
         ' Toggle buttons
         Btn_StartPallet.Enabled = True
+        RB_FinalWeightq.Enabled = True
+        RB_FirstWeight.Enabled = True
         Btn_StopPallet.Enabled = False
         teststate = Weighprocess.idle
         If MDataset.firstweightexists = True Then
