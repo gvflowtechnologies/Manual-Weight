@@ -212,7 +212,7 @@ Public Class Manual_Weight
             Case Weighprocess.Scanning
                 If entering Then
                     entering = False
-                    ccylinder = New Cylinder
+                    ccylinder = New Cylinder()
                     scanned = False
                     Lbl_Instruction.Text = "Scan"
                     Lbl_Instruction.BackColor = Color.CornflowerBlue
@@ -378,31 +378,32 @@ Public Class Manual_Weight
             cylindersorter.Sort(1)
         End If
         ccylinder.DetermineDisposition()
-        If MDataset.firstweightexists = False Then
-            ' If this is a first weight accept all
 
-            ccylinder.Disposition = True
 
-            'write record to the file
-            writefirstweight()
-            Lbl_Instruction.Text = "Pallet"
+        If ccylinder.Disposition = True Then
+            Lbl_Instruction.Text = "Pass"
             Lbl_Instruction.BackColor = Color.LightGreen
-            LBL_Rationalle.Text = ""
+           
+        Else
+            If sorterattached Then
+                cylindersorter.Sort(2)
+            End If
+
+            tmrsort.Restart()
+            Lbl_Instruction.Text = "Fail"
+            Lbl_Instruction.BackColor = Color.Red
+            LBL_Rationalle.Text = ccylinder.DispReason
+        End If
+
+
+        If MDataset.firstweightexists = False Then
+
+            writefirstweight()
+      
         Else
 
             write_second_weight()
-            Lbl_Instruction.Text = "Pass"
-            Lbl_Instruction.BackColor = Color.LightGreen
-            If ccylinder.Disposition = False Then
-                If sorterattached Then
-                    cylindersorter.Sort(2)
-                End If
-
-                tmrsort.Restart()
-                Lbl_Instruction.Text = "Fail"
-                Lbl_Instruction.BackColor = Color.Red
-                LBL_Rationalle.Text = ccylinder.DispReason
-            End If
+           
         End If
 
         ' update the counters for disposition 
@@ -629,6 +630,8 @@ Public Class Manual_Weight
 
             Application.DoEvents()
             Thread.Sleep(10)
+
+
         Loop
         closewatch.Stop()
 

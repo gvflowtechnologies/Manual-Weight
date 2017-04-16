@@ -7,12 +7,22 @@
     Private myindex As Integer
     Private sDispReason As String
     Private sSN As String
+    Private BSecondPass As Boolean
+    Private sSN_StartTest As String
 
-    Sub New()
+    Sub New(ByVal SecondPass As Boolean, ByVal SerialNum As String, ByVal ssnstart As String)
 
+        BSecondPass = SecondPass
         ddisposition = False
+        dMyfirstweight = 0.0
+        dMySecondweight = 0.0
+        sSN = SerialNum
+        sSN_StartTest = ssnstart
 
     End Sub
+
+
+
 
     Sub dispose()
         Me.Finalize()
@@ -23,33 +33,56 @@
 
         Dim weightdifference As Double
         'Deterimine if the device is good or bad.
-        weightdifference = dMySecondweight - dMyfirstweight
 
-        Select dMySecondweight
-            Case Is > My.Settings.MaxWeight
-                ddisposition = False
-                sDispReason = "Too High"
-            Case Is < My.Settings.MinWeight
-                ddisposition = False
-                sDispReason = "Too Low"
-            Case Else
+        If sSN.Substring(0, 1) = sSN_StartTest Then
 
-                ' what things do we want to check for?  Question for Pete
-                If Math.Abs(weightdifference) > My.Settings.SF6WeightCh Then
-                    ddisposition = False
-                    If dMySecondweight > dMyfirstweight Then
-                        sDispReason = "Gained Weight"
-                    Else
-                        sDispReason = "Lost Weight"
-                    End If
+            If Not BSecondPass Then 'first pass criteria
+                Select Case dMyfirstweight
+                    Case Is > My.Settings.MaxWeight
+                        ddisposition = False
+                        sDispReason = "Too High"
+                    Case Is < My.Settings.MinWeight
+                        ddisposition = False
+                        sDispReason = "Too Low"
+                    Case Else
+                        ddisposition = True
+                End Select
 
 
-                Else
-                    ddisposition = True
-                    sDispReason = ""
-                End If
+            Else
+                weightdifference = dMySecondweight - dMyfirstweight
 
-        End Select
+                Select Case dMySecondweight
+                    Case Is > My.Settings.MaxWeight
+                        ddisposition = False
+                        sDispReason = "Too High"
+                    Case Is < My.Settings.MinWeight
+                        ddisposition = False
+                        sDispReason = "Too Low"
+                    Case Else
+
+                        ' what things do we want to check for?  Question for Pete
+                        If Math.Abs(weightdifference) > My.Settings.SF6WeightCh Then
+                            ddisposition = False
+                            If dMySecondweight > dMyfirstweight Then
+                                sDispReason = "Gained Weight"
+                            Else
+                                sDispReason = "Lost Weight"
+                            End If
+
+
+                        Else
+                            ddisposition = True
+                            sDispReason = ""
+                        End If
+
+                End Select
+            End If
+        Else
+            ddisposition = False
+            sDispReason = "Incorrect Serial Number"
+        End If
+
 
     End Sub
 
