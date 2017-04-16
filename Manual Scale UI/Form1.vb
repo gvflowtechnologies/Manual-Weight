@@ -377,7 +377,7 @@ Public Class Manual_Weight
         If sorterattached Then
             cylindersorter.Sort(1)
         End If
-
+        ccylinder.DetermineDisposition()
         If MDataset.firstweightexists = False Then
             ' If this is a first weight accept all
 
@@ -389,7 +389,7 @@ Public Class Manual_Weight
             Lbl_Instruction.BackColor = Color.LightGreen
             LBL_Rationalle.Text = ""
         Else
-            ccylinder.DetermineDisposition()
+
             write_second_weight()
             Lbl_Instruction.Text = "Pass"
             Lbl_Instruction.BackColor = Color.LightGreen
@@ -481,7 +481,14 @@ Public Class Manual_Weight
         End If
 
         ' Load gas properties based on selection.
+        If RB_SF6.Checked Then
+            cyindergas.SNStart = 1
 
+        Else
+            cyindergas.SNStart = 2
+
+
+        End If
 
 
 
@@ -1055,6 +1062,9 @@ Public Class Manual_Weight
             errorMessage = "No Serial Number Entered"
             Return False
         End If
+
+
+
         If SerialNumber.Length = 10 Then
             errorMessage = ""
             Return True
