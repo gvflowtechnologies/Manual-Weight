@@ -104,6 +104,7 @@ Public Class Manual_Weight
         Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
         Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
         Lbl_WeightLoss.Text = My.Settings.SF6WeightCh.ToString("N4")
+        LBL_C3F8Weight.Text = My.Settings.C3F8WeightCh.ToString("N4")
         Lbl_Instruction.Text = "Standby"
 
 
@@ -667,7 +668,8 @@ Public Class Manual_Weight
             ' write_Summary()
             '  write_history()
         End If
-
+        Lbl_BatchN.Text = ""
+        Lbl_BagNum.Text = ""
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
         MsgBox("Pallet Complete")
 
@@ -711,10 +713,6 @@ Public Class Manual_Weight
         swdataset.WriteLine(MDataset.pallet)
         swdataset.Write("Lot#,")
         swdataset.WriteLine(MDataset.batch)
-        swdataset.Write("Scale Calibration Date,")
-        swdataset.WriteLine(MDataset.Lscalecaldate)
-        swdataset.Write("Scale Calibration Due Date,")
-        swdataset.WriteLine(MDataset.NScaleCalDate)
         swdataset.WriteLine("Serial Number,1st Wt,2nd Wt,Disposition, Fail Code")
 
     End Sub
@@ -914,7 +912,7 @@ Public Class Manual_Weight
         supdatevalues("Enter SF6 Weight Change limit in grams", SF6WeighCh)
         supdatevalues("Enter C3F8 Weight Change limit in grams", C3F8WeightCh)
 
-        supdatevalues("Enter Maximum Accepatble Weight in grams", smaxweight)
+        supdatevalues("Enter Maximum Acceptable Weight in grams", smaxweight)
 
         supdatevalues("Enter Minimum Acceptable Weight in grams", sminweight)
 
@@ -922,7 +920,7 @@ Public Class Manual_Weight
         My.Settings.MaxWeight = smaxweight
         My.Settings.MinWeight = sminweight
         My.Settings.SF6WeightCh = SF6WeighCh
-        My.Settings.SF6WeightCh = C3F8WeightCh
+        My.Settings.C3F8WeightCh = C3F8WeightCh
         My.Settings.Save()
 
         Lbl_MaxWeight.Text = smaxweight.ToString("N4")
