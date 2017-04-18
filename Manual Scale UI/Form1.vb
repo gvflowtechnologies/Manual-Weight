@@ -461,7 +461,8 @@ Public Class Manual_Weight
     Private Sub Btn_StartPallet_Click(sender As Object, e As EventArgs) Handles Btn_StartPallet.Click
         Dim followup As MsgBoxResult
         Dim firstweight As Boolean
-
+        Lbl_BatchN.Text = ""
+        Lbl_BagNum.Text = ""
         manualstop = False
         If checkdate() = False Then
             Btn_StartPallet.Enabled = False
@@ -548,6 +549,11 @@ Public Class Manual_Weight
             'Read in existing file to get batch number
             MDataset.firstweight("_" & MDataset.pallet & "_", MDataset.batch)
             MDataset.readfirstweight()
+            If IsNothing(MDataset.filename) Then
+                MsgBox("Invalid Batch and Bag Combination Entered")
+                Exit Sub
+            End If
+
 
             ' and then write the file header.
             writefileheader2()
@@ -658,8 +664,8 @@ Public Class Manual_Weight
         Btn_StopPallet.Enabled = False
         teststate = Weighprocess.idle
         If MDataset.firstweightexists = True Then
-            write_Summary()
-            write_history()
+            ' write_Summary()
+            '  write_history()
         End If
 
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
@@ -724,57 +730,57 @@ Public Class Manual_Weight
 
     Private Sub write_Summary()
         ' Write summary data line and Close Stream
-        swdataset.WriteLine("Number of Good Cylinders, " & MDataset.numgood)
-        swdataset.WriteLine("Number of Bad Cylinders, " & MDataset.numbad)
+        '   swdataset.WriteLine("Number of Good Cylinders, " & MDataset.numgood)
+        '  swdataset.WriteLine("Number of Bad Cylinders, " & MDataset.numbad)
 
     End Sub
 
     Private Sub Write_History_Header()
         ' Write Log header only if file doe not already exist.
 
-        Dim Logfile As String
-        If My.Settings.Caldirectory = "" Then
-            My.Settings.Caldirectory = "c:\CalDirectory"
-            My.Settings.Save()
-        End If
+        'Dim Logfile As String
+        'If My.Settings.Caldirectory = "" Then
+        '    My.Settings.Caldirectory = "c:\CalDirectory"
+        '    My.Settings.Save()
+        'End If
 
-        Logfile = My.Settings.Caldirectory & "\AVWeightLogFile.csv"
+        'Logfile = My.Settings.Caldirectory & "\AVWeightLogFile.csv"
 
 
-        'Write
+        ''Write
 
-        If Not Directory.Exists(My.Settings.Caldirectory) Then
-            Directory.CreateDirectory(My.Settings.Caldirectory)
-        End If
+        'If Not Directory.Exists(My.Settings.Caldirectory) Then
+        '    Directory.CreateDirectory(My.Settings.Caldirectory)
+        'End If
 
-        If Not File.Exists(Logfile) Then
+        'If Not File.Exists(Logfile) Then
 
-            swlogdata = New StreamWriter(Logfile, False)
-            swlogdata.WriteLine("Altaviz Log File")
-            swlogdata.WriteLine("2nd weight time, 1st weight time, Lot#, Pallet ID, Calibration Date, Calibration Due, Pass, Fail")
+        '    swlogdata = New StreamWriter(Logfile, False)
+        '    swlogdata.WriteLine("Altaviz Log File")
+        '    swlogdata.WriteLine("2nd weight time, 1st weight time, Lot#, Pallet ID, Calibration Date, Calibration Due, Pass, Fail")
 
-        Else
-            swlogdata = New StreamWriter(Logfile, True)
+        'Else
+        '    swlogdata = New StreamWriter(Logfile, True)
 
-        End If
-
-    End Sub
-
-    Private Sub write_history()
-
-        If IsNothing(swlogdata) Then Write_History_Header()
-
-        swlogdata.Write(MDataset.timesecondwt.ToString & ", ")
-
-        swlogdata.Write(MDataset.timefirstwt.ToString & ", ")
-        swlogdata.Write(MDataset.batch & ", ")
-        swlogdata.Write(MDataset.pallet & ", ")
-        swlogdata.Write(MDataset.Lscalecaldate & ", ")
-        swlogdata.Write(MDataset.NScaleCalDate & ", ")
-        swlogdata.Write(MDataset.numgood & ", ")
-        swlogdata.WriteLine(MDataset.numbad)
+        'End If
 
     End Sub
+
+    'Private Sub write_history()
+
+    '    If IsNothing(swlogdata) Then Write_History_Header()
+
+    '    swlogdata.Write(MDataset.timesecondwt.ToString & ", ")
+
+    '    swlogdata.Write(MDataset.timefirstwt.ToString & ", ")
+    '    swlogdata.Write(MDataset.batch & ", ")
+    '    swlogdata.Write(MDataset.pallet & ", ")
+    '    swlogdata.Write(MDataset.Lscalecaldate & ", ")
+    '    swlogdata.Write(MDataset.NScaleCalDate & ", ")
+    '    swlogdata.Write(MDataset.numgood & ", ")
+    '    swlogdata.WriteLine(MDataset.numbad)
+
+    'End Sub
 
     Private Sub Btn_WeighFolders(sender As Object, e As EventArgs) Handles Btn_WeighFolder.Click
         caldata.SelectDataFolder()
