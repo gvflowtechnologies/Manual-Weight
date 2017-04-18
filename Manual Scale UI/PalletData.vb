@@ -37,6 +37,7 @@ Public Class PalletData
     Private Index_filename As Integer ' Index in array of filenames that contains the current file
     Private fweight As String ' String with fweight data path
     Private completed As String ' String with completed Data Path
+    Private Archived As String ' String with archive of first weights
 
     Public Sub New(ByVal firstweight As Boolean)
         number_of_Canisters = My.Settings.Bag_Limit
@@ -54,7 +55,7 @@ Public Class PalletData
         End If
         fweight = My.Settings.File_Directory & "\In Process"
         completed = My.Settings.File_Directory & "\Completed"
-
+        Archived = My.Settings.File_Directory & "\Archived"
     End Sub
 
     Public Sub RenewFileList()
@@ -155,6 +156,7 @@ Public Class PalletData
             Sttimesecond = DateTime.Now
             '            dseconddweightdate = DateTime.Now
             tmpstream.Dispose()
+            File.Copy(Path.Combine(fweight, currentfilename), Path.Combine(Archived, currentfilename))
             File.Delete(FNreadfirst)
 
 
