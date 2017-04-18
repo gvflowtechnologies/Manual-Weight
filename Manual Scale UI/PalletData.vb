@@ -38,7 +38,7 @@ Public Class PalletData
     Private fweight As String ' String with fweight data path
     Private completed As String ' String with completed Data Path
 
-    Public Sub New()
+    Public Sub New(ByVal firstweight As Boolean)
         number_of_Canisters = My.Settings.Bag_Limit
         canisternumber = 0
         ' fweight = 
@@ -46,7 +46,12 @@ Public Class PalletData
         DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
         CountBad = 0
         CountGood = 0
-
+        BFirstweightExists = firstweight
+        If BFirstweightExists Then
+            Sttimesecond = DateTime.Now
+        Else
+            sttimefirst = DateTime.Now
+        End If
         fweight = My.Settings.File_Directory & "\In Process"
         completed = My.Settings.File_Directory & "\Completed"
 
@@ -81,7 +86,7 @@ Public Class PalletData
 
     End Sub
 
-    Public Sub firstweight(ByVal firstpallet As String)
+    Public Sub firstweight(ByVal firstpallet As String, ByVal firstbatch As String)
         ' Looking for two things here.
         ' one set a flag if the fist file is found.
         ' It the first weight is found the flag Bfirstweigtexists is set to "True"
@@ -94,28 +99,21 @@ Public Class PalletData
         '  BFirstweightExists = 
         ' Looking through all files in the first weight directory.
         For Each filename In currentfirstweights
-            If BFirstweightExists = True Then
-                Sttimesecond = DateTime.Now
-                '                   dseconddweightdate = DateTime.Now
-                Exit Sub
+
+            If filename.Contains(firstpallet) And filename.Contains(firstbatch) Then
+
+                currentfilename = currentfirstweights(x)
             Else
 
-                If filename.Contains(firstpallet) Then
-                    BFirstweightExists = True
-                    currentfilename = currentfirstweights(x)
-                Else
-
-                    x += 1
-                End If
+                x += 1
             End If
         Next
 
-        sttimefirst = DateTime.Now
-        '        dfistweightdate = DateTime.Now
 
+  
     End Sub
 
-    Public Sub readfirstweight()
+    Public Sub readfirstweight() ' Reads all of the first weights for the batch.
         Dim FNreadfirst As String
         FNreadfirst = fweight & "\" & currentfilename
         If File.Exists(FNreadfirst) Then
@@ -128,7 +126,7 @@ Public Class PalletData
             batchid = tmpstream.ReadLine()
             tmpstream.ReadLine()
             sttimefirst = Convert.ToDateTime(tmpstream.ReadLine())
-            
+
             ' Reading in all of the serial numbers and first weights.
             number_of_Canisters = 0
             Do While tmpstream.Peek <> -1
@@ -220,7 +218,7 @@ Public Class PalletData
 
         End Set
     End Property
-    Public ReadOnly Property firstweightexists As Boolean ' Flag if first weight exists
+    Public ReadOnly Property firstweightexists As Boolean ' Flag is true if first weight exists
         Get
 
             Return BFirstweightExists

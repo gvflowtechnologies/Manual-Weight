@@ -29,7 +29,7 @@ Public Class Manual_Weight
     Private newdata As Datareceive
     ' Variables
     Dim manualstop As Boolean ' Flag indicating that a manual stop has been requested
-    Dim cyindergas As GasType
+    Dim cylindergas As GasType
     Dim MDataset As PalletData
     Public sartorius As Scalemanagement
     Dim cylindersorter As CSorter
@@ -47,6 +47,7 @@ Public Class Manual_Weight
     Dim tmrsort As Stopwatch
     Dim scanned As Boolean
     Dim cylindercollect As Collection
+
 
 
     ' Form open close stuff
@@ -212,13 +213,13 @@ Public Class Manual_Weight
             Case Weighprocess.Scanning
                 If entering Then
                     entering = False
-                    ccylinder = New Cylinder()
+                    ccylinder = New Cylinder(MDataset.firstweightexists, "", cylindergas.SNStart)
                     scanned = False
                     Lbl_Instruction.Text = "Scan"
                     Lbl_Instruction.BackColor = Color.CornflowerBlue
                     TB_SerialNumber.Text = ""
                     checkpalletcomplete()
-
+                    LBL_Rationalle.Text = ""
                 End If
 
 
@@ -374,16 +375,16 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub Disposition()
-        If sorterattached Then
-            cylindersorter.Sort(1)
-        End If
+
         ccylinder.DetermineDisposition()
 
 
         If ccylinder.Disposition = True Then
             Lbl_Instruction.Text = "Pass"
             Lbl_Instruction.BackColor = Color.LightGreen
-           
+            If sorterattached Then
+                cylindersorter.Sort(1)
+            End If
         Else
             If sorterattached Then
                 cylindersorter.Sort(2)
@@ -399,11 +400,11 @@ Public Class Manual_Weight
         If MDataset.firstweightexists = False Then
 
             writefirstweight()
-      
+
         Else
 
             write_second_weight()
-           
+
         End If
 
         ' update the counters for disposition 
@@ -445,21 +446,22 @@ Public Class Manual_Weight
 
         Else
             MDataset.numbad = MDataset.numbad + 1
-            If MDataset.firstweightexists = True Then
-                My.Settings.TotalBad = My.Settings.TotalBad + 1
-                My.Settings.Save()
-            End If
+            '  If MDataset.firstweightexists = True Then
+            My.Settings.TotalBad = My.Settings.TotalBad + 1
+            My.Settings.Save()
+            'End If
         End If
         Lbl_BadCount.Text = My.Settings.TotalBad
         Lbl_GoodCount.Text = My.Settings.TotalGood
+        Lbl_BagCount.Text = MDataset.numgood.ToString
 
 
     End Sub
 
     Private Sub Btn_StartPallet_Click(sender As Object, e As EventArgs) Handles Btn_StartPallet.Click
         Dim followup As MsgBoxResult
+        Dim firstweight As Boolean
 
-        MDataset = New PalletData
         manualstop = False
         If checkdate() = False Then
             Btn_StartPallet.Enabled = False
@@ -483,43 +485,48 @@ Public Class Manual_Weight
 
         ' Load gas properties based on selection.
         If RB_SF6.Checked Then
-            cyindergas.SNStart = 1
+            cylindergas.SNStart = 1
 
         Else
-            cyindergas.SNStart = 2
+            cylindergas.SNStart = 2
 
 
         End If
 
+        If RB_FinalWeightq.Checked Then
+            firstweight = True
+        Else
+            firstweight = False
+
+        End If
+
+        MDataset = New PalletData(firstweight)
+
+        
+            MDataset.RenewFileList()
+
+
+            Do
+                MDataset.pallet = InputBox("Enter Bag #", "Bag Number", , , )
+                If MDataset.pallet = "" Then Exit Sub
+                followup = MsgBox("You entered " & MDataset.pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet ID")
+
+                If followup = MsgBoxResult.Cancel Then
+                    MDataset.pallet = ""
+                    Exit Sub
+                End If
+            Loop Until followup = MsgBoxResult.Yes
 
 
 
 
-        MDataset.RenewFileList()
-
-        Do
-            MDataset.pallet = InputBox("Enter Pallet ID", "Pallet Identificaton", , , )
-            If MDataset.pallet = "" Then Exit Sub
-            followup = MsgBox("You entered " & MDataset.pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet ID")
-
-            If followup = MsgBoxResult.Cancel Then
-                MDataset.pallet = ""
-                Exit Sub
-            End If
-        Loop Until followup = MsgBoxResult.Yes
+            ' send pallet number and 
+            ' if pallet exists pull batch number   
 
 
 
+            ' send pallet number and 
 
-        ' send pallet number and 
-        ' if pallet exists pull batch number   
-
-        MDataset.firstweight("_" & MDataset.pallet & "_")
-
-        ' send pallet number and 
-        ' if pallet exists pull batch number   
-
-        If MDataset.firstweightexists = False Then
             Do
                 MDataset.batch = InputBox("Enter Batch ID", "Batch Identification")
                 If MDataset.batch = "" Then Exit Sub
@@ -533,34 +540,33 @@ Public Class Manual_Weight
             Lbl_BatchN.Text = MDataset.batch
 
 
-            WritefileHeader1()
 
-        Else
+
+            ' Else
+        If firstweight Then
             'Read in existing file to get batch number
-
+            MDataset.firstweight("_" & MDataset.pallet & "_", MDataset.batch)
             MDataset.readfirstweight()
-
-            'Set the batch value
-            Lbl_BatchN.Text = MDataset.batch
 
             ' and then write the file header.
             writefileheader2()
             'and set the cylinder index to 0
-
+        Else
+            WritefileHeader1()
 
         End If
 
-        Btn_StartPallet.Enabled = False
-        RB_FinalWeightq.Enabled = False
-        RB_FirstWeight.Enabled = False
-        Btn_StopPallet.Enabled = True
-        teststate = Weighprocess.Scanning ' Start weighing Process
-        Tmr_ScreenUpdate.Start()
-        tmrcycle.Start()
-        newcommport()
-        entering = True
-        TB_SerialNumber.CausesValidation = True
-        TB_SerialNumber.Select()
+            Btn_StartPallet.Enabled = False
+            RB_FinalWeightq.Enabled = False
+            RB_FirstWeight.Enabled = False
+            Btn_StopPallet.Enabled = True
+            teststate = Weighprocess.Scanning ' Start weighing Process
+            Tmr_ScreenUpdate.Start()
+            tmrcycle.Start()
+            newcommport()
+            entering = True
+            TB_SerialNumber.CausesValidation = True
+            TB_SerialNumber.Select()
 
     End Sub
 

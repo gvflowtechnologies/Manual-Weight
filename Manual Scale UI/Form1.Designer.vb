@@ -25,6 +25,12 @@ Partial Class Manual_Weight
         Me.components = New System.ComponentModel.Container()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
+        Me.GroupBox7 = New System.Windows.Forms.GroupBox()
+        Me.RBC3F8 = New System.Windows.Forms.RadioButton()
+        Me.RB_SF6 = New System.Windows.Forms.RadioButton()
+        Me.GroupBox6 = New System.Windows.Forms.GroupBox()
+        Me.RB_FinalWeightq = New System.Windows.Forms.RadioButton()
+        Me.RB_FirstWeight = New System.Windows.Forms.RadioButton()
         Me.TB_SerialNumber = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.LBL_Rationalle = New System.Windows.Forms.Label()
@@ -70,6 +76,8 @@ Partial Class Manual_Weight
         Me.Btn_ScaleCal = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.LBL_C3F8Weight = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.Btn_SerialPort = New System.Windows.Forms.Button()
         Me.Lbl_MinWeight = New System.Windows.Forms.Label()
         Me.Lbl_MaxWeight = New System.Windows.Forms.Label()
@@ -90,16 +98,13 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.LBL_C3F8Weight = New System.Windows.Forms.Label()
-        Me.GroupBox6 = New System.Windows.Forms.GroupBox()
-        Me.RB_FirstWeight = New System.Windows.Forms.RadioButton()
-        Me.RB_FinalWeightq = New System.Windows.Forms.RadioButton()
-        Me.GroupBox7 = New System.Windows.Forms.GroupBox()
-        Me.RB_SF6 = New System.Windows.Forms.RadioButton()
-        Me.RBC3F8 = New System.Windows.Forms.RadioButton()
+        Me.GroupBox8 = New System.Windows.Forms.GroupBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Lbl_BagCount = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
+        Me.GroupBox7.SuspendLayout()
+        Me.GroupBox6.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GB_Scale.SuspendLayout()
         Me.GBBinData.SuspendLayout()
@@ -109,8 +114,7 @@ Partial Class Manual_Weight
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox6.SuspendLayout()
-        Me.GroupBox7.SuspendLayout()
+        Me.GroupBox8.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -125,6 +129,7 @@ Partial Class Manual_Weight
         '
         'RunPage
         '
+        Me.RunPage.Controls.Add(Me.GroupBox8)
         Me.RunPage.Controls.Add(Me.GroupBox7)
         Me.RunPage.Controls.Add(Me.GroupBox6)
         Me.RunPage.Controls.Add(Me.TB_SerialNumber)
@@ -146,6 +151,72 @@ Partial Class Manual_Weight
         Me.RunPage.TabIndex = 0
         Me.RunPage.Text = "Weighing"
         Me.RunPage.UseVisualStyleBackColor = True
+        '
+        'GroupBox7
+        '
+        Me.GroupBox7.Controls.Add(Me.RBC3F8)
+        Me.GroupBox7.Controls.Add(Me.RB_SF6)
+        Me.GroupBox7.Location = New System.Drawing.Point(86, 100)
+        Me.GroupBox7.Name = "GroupBox7"
+        Me.GroupBox7.Size = New System.Drawing.Size(430, 72)
+        Me.GroupBox7.TabIndex = 15
+        Me.GroupBox7.TabStop = False
+        Me.GroupBox7.Text = "Gas Type"
+        '
+        'RBC3F8
+        '
+        Me.RBC3F8.AutoSize = True
+        Me.RBC3F8.Location = New System.Drawing.Point(243, 34)
+        Me.RBC3F8.Name = "RBC3F8"
+        Me.RBC3F8.Size = New System.Drawing.Size(79, 29)
+        Me.RBC3F8.TabIndex = 1
+        Me.RBC3F8.TabStop = True
+        Me.RBC3F8.Text = "C3F8"
+        Me.RBC3F8.UseVisualStyleBackColor = True
+        '
+        'RB_SF6
+        '
+        Me.RB_SF6.AutoSize = True
+        Me.RB_SF6.Location = New System.Drawing.Point(36, 34)
+        Me.RB_SF6.Name = "RB_SF6"
+        Me.RB_SF6.Size = New System.Drawing.Size(67, 29)
+        Me.RB_SF6.TabIndex = 0
+        Me.RB_SF6.TabStop = True
+        Me.RB_SF6.Text = "SF6"
+        Me.RB_SF6.UseVisualStyleBackColor = True
+        '
+        'GroupBox6
+        '
+        Me.GroupBox6.Controls.Add(Me.RB_FinalWeightq)
+        Me.GroupBox6.Controls.Add(Me.RB_FirstWeight)
+        Me.GroupBox6.Location = New System.Drawing.Point(86, 22)
+        Me.GroupBox6.Name = "GroupBox6"
+        Me.GroupBox6.Size = New System.Drawing.Size(430, 57)
+        Me.GroupBox6.TabIndex = 14
+        Me.GroupBox6.TabStop = False
+        Me.GroupBox6.Text = "Weighing Process"
+        '
+        'RB_FinalWeightq
+        '
+        Me.RB_FinalWeightq.AutoSize = True
+        Me.RB_FinalWeightq.Location = New System.Drawing.Point(243, 26)
+        Me.RB_FinalWeightq.Name = "RB_FinalWeightq"
+        Me.RB_FinalWeightq.Size = New System.Drawing.Size(139, 29)
+        Me.RB_FinalWeightq.TabIndex = 1
+        Me.RB_FinalWeightq.TabStop = True
+        Me.RB_FinalWeightq.Text = "Final Weight"
+        Me.RB_FinalWeightq.UseVisualStyleBackColor = True
+        '
+        'RB_FirstWeight
+        '
+        Me.RB_FirstWeight.AutoSize = True
+        Me.RB_FirstWeight.Location = New System.Drawing.Point(36, 22)
+        Me.RB_FirstWeight.Name = "RB_FirstWeight"
+        Me.RB_FirstWeight.Size = New System.Drawing.Size(134, 29)
+        Me.RB_FirstWeight.TabIndex = 0
+        Me.RB_FirstWeight.TabStop = True
+        Me.RB_FirstWeight.Text = "First Weight"
+        Me.RB_FirstWeight.UseVisualStyleBackColor = True
         '
         'TB_SerialNumber
         '
@@ -638,6 +709,26 @@ Partial Class Manual_Weight
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Scale Parameters"
         '
+        'LBL_C3F8Weight
+        '
+        Me.LBL_C3F8Weight.AutoSize = True
+        Me.LBL_C3F8Weight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.LBL_C3F8Weight.Location = New System.Drawing.Point(244, 156)
+        Me.LBL_C3F8Weight.Name = "LBL_C3F8Weight"
+        Me.LBL_C3F8Weight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.LBL_C3F8Weight.Size = New System.Drawing.Size(47, 15)
+        Me.LBL_C3F8Weight.TabIndex = 26
+        Me.LBL_C3F8Weight.Text = "Label14"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(124, 157)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(135, 13)
+        Me.Label9.TabIndex = 25
+        Me.Label9.Text = "C3F8 Weight Change (gm):"
+        '
         'Btn_SerialPort
         '
         Me.Btn_SerialPort.Location = New System.Drawing.Point(18, 301)
@@ -809,91 +900,35 @@ Partial Class Manual_Weight
         '
         Me.ErrorProvider1.ContainerControl = Me
         '
-        'Label9
+        'GroupBox8
         '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(124, 157)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(135, 13)
-        Me.Label9.TabIndex = 25
-        Me.Label9.Text = "C3F8 Weight Change (gm):"
+        Me.GroupBox8.Controls.Add(Me.Lbl_BagCount)
+        Me.GroupBox8.Controls.Add(Me.Label10)
+        Me.GroupBox8.Location = New System.Drawing.Point(1189, 209)
+        Me.GroupBox8.Name = "GroupBox8"
+        Me.GroupBox8.Size = New System.Drawing.Size(280, 136)
+        Me.GroupBox8.TabIndex = 16
+        Me.GroupBox8.TabStop = False
+        Me.GroupBox8.Text = "Bag Count"
         '
-        'LBL_C3F8Weight
+        'Label10
         '
-        Me.LBL_C3F8Weight.AutoSize = True
-        Me.LBL_C3F8Weight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBL_C3F8Weight.Location = New System.Drawing.Point(244, 156)
-        Me.LBL_C3F8Weight.Name = "LBL_C3F8Weight"
-        Me.LBL_C3F8Weight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.LBL_C3F8Weight.Size = New System.Drawing.Size(47, 15)
-        Me.LBL_C3F8Weight.TabIndex = 26
-        Me.LBL_C3F8Weight.Text = "Label14"
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(26, 63)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(105, 25)
+        Me.Label10.TabIndex = 0
+        Me.Label10.Text = "Bag Count"
         '
-        'GroupBox6
+        'Lbl_BagCount
         '
-        Me.GroupBox6.Controls.Add(Me.RB_FinalWeightq)
-        Me.GroupBox6.Controls.Add(Me.RB_FirstWeight)
-        Me.GroupBox6.Location = New System.Drawing.Point(86, 22)
-        Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(430, 57)
-        Me.GroupBox6.TabIndex = 14
-        Me.GroupBox6.TabStop = False
-        Me.GroupBox6.Text = "Weighing Process"
-        '
-        'RB_FirstWeight
-        '
-        Me.RB_FirstWeight.AutoSize = True
-        Me.RB_FirstWeight.Location = New System.Drawing.Point(36, 22)
-        Me.RB_FirstWeight.Name = "RB_FirstWeight"
-        Me.RB_FirstWeight.Size = New System.Drawing.Size(134, 29)
-        Me.RB_FirstWeight.TabIndex = 0
-        Me.RB_FirstWeight.TabStop = True
-        Me.RB_FirstWeight.Text = "First Weight"
-        Me.RB_FirstWeight.UseVisualStyleBackColor = True
-        '
-        'RB_FinalWeightq
-        '
-        Me.RB_FinalWeightq.AutoSize = True
-        Me.RB_FinalWeightq.Location = New System.Drawing.Point(243, 26)
-        Me.RB_FinalWeightq.Name = "RB_FinalWeightq"
-        Me.RB_FinalWeightq.Size = New System.Drawing.Size(139, 29)
-        Me.RB_FinalWeightq.TabIndex = 1
-        Me.RB_FinalWeightq.TabStop = True
-        Me.RB_FinalWeightq.Text = "Final Weight"
-        Me.RB_FinalWeightq.UseVisualStyleBackColor = True
-        '
-        'GroupBox7
-        '
-        Me.GroupBox7.Controls.Add(Me.RBC3F8)
-        Me.GroupBox7.Controls.Add(Me.RB_SF6)
-        Me.GroupBox7.Location = New System.Drawing.Point(86, 100)
-        Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(430, 72)
-        Me.GroupBox7.TabIndex = 15
-        Me.GroupBox7.TabStop = False
-        Me.GroupBox7.Text = "Gas Type"
-        '
-        'RB_SF6
-        '
-        Me.RB_SF6.AutoSize = True
-        Me.RB_SF6.Location = New System.Drawing.Point(36, 34)
-        Me.RB_SF6.Name = "RB_SF6"
-        Me.RB_SF6.Size = New System.Drawing.Size(67, 29)
-        Me.RB_SF6.TabIndex = 0
-        Me.RB_SF6.TabStop = True
-        Me.RB_SF6.Text = "SF6"
-        Me.RB_SF6.UseVisualStyleBackColor = True
-        '
-        'RBC3F8
-        '
-        Me.RBC3F8.AutoSize = True
-        Me.RBC3F8.Location = New System.Drawing.Point(243, 34)
-        Me.RBC3F8.Name = "RBC3F8"
-        Me.RBC3F8.Size = New System.Drawing.Size(79, 29)
-        Me.RBC3F8.TabIndex = 1
-        Me.RBC3F8.TabStop = True
-        Me.RBC3F8.Text = "C3F8"
-        Me.RBC3F8.UseVisualStyleBackColor = True
+        Me.Lbl_BagCount.AutoSize = True
+        Me.Lbl_BagCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_BagCount.Location = New System.Drawing.Point(143, 63)
+        Me.Lbl_BagCount.MinimumSize = New System.Drawing.Size(60, 27)
+        Me.Lbl_BagCount.Name = "Lbl_BagCount"
+        Me.Lbl_BagCount.Size = New System.Drawing.Size(60, 27)
+        Me.Lbl_BagCount.TabIndex = 1
         '
         'Manual_Weight
         '
@@ -908,6 +943,10 @@ Partial Class Manual_Weight
         Me.TabControl1.ResumeLayout(False)
         Me.RunPage.ResumeLayout(False)
         Me.RunPage.PerformLayout()
+        Me.GroupBox7.ResumeLayout(False)
+        Me.GroupBox7.PerformLayout()
+        Me.GroupBox6.ResumeLayout(False)
+        Me.GroupBox6.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GB_Scale.ResumeLayout(False)
@@ -925,10 +964,8 @@ Partial Class Manual_Weight
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox6.ResumeLayout(False)
-        Me.GroupBox6.PerformLayout()
-        Me.GroupBox7.ResumeLayout(False)
-        Me.GroupBox7.PerformLayout()
+        Me.GroupBox8.ResumeLayout(False)
+        Me.GroupBox8.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1007,5 +1044,8 @@ Partial Class Manual_Weight
     Friend WithEvents GroupBox7 As System.Windows.Forms.GroupBox
     Friend WithEvents RBC3F8 As System.Windows.Forms.RadioButton
     Friend WithEvents RB_SF6 As System.Windows.Forms.RadioButton
+    Friend WithEvents GroupBox8 As System.Windows.Forms.GroupBox
+    Friend WithEvents Lbl_BagCount As System.Windows.Forms.Label
+    Friend WithEvents Label10 As System.Windows.Forms.Label
 
 End Class
