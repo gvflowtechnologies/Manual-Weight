@@ -537,8 +537,9 @@ Public Class Manual_Weight
                     Exit Sub
                 End If
             Loop Until followup = MsgBoxResult.Yes
-            Lbl_BatchN.Text = MDataset.batch
 
+        Lbl_BatchN.Text = MDataset.batch
+        Lbl_BagNum.Text = MDataset.pallet
 
 
 
@@ -581,8 +582,10 @@ Public Class Manual_Weight
 
 
         If Not MDataset.firstweightexists Then 'If this is a first weight check for button press and exit if button was pressed.
-            If manualstop Then Closepallet()
-            Exit Sub
+            If manualstop Then
+                Closepallet()
+                Exit Sub
+            End If
         End If
 
         If MDataset.PalletComplete() Then 'If this wsa a second weight and the pallet is complete.  close the pallet.

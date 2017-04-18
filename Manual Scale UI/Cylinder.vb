@@ -33,56 +33,63 @@
 
         Dim weightdifference As Double
         'Deterimine if the device is good or bad.
-
-        If sSN.Substring(0, 1) = sSN_StartTest Then
-
-            If Not BSecondPass Then 'first pass criteria
-                Select Case dMyfirstweight
-                    Case Is > My.Settings.MaxWeight
-                        ddisposition = False
-                        sDispReason = "Too High"
-                    Case Is < My.Settings.MinWeight
-                        ddisposition = False
-                        sDispReason = "Too Low"
-                    Case Else
-                        ddisposition = True
-                End Select
-
-
-            Else
-                weightdifference = dMySecondweight - dMyfirstweight
-
-                Select Case dMySecondweight
-                    Case Is > My.Settings.MaxWeight
-                        ddisposition = False
-                        sDispReason = "Too High"
-                    Case Is < My.Settings.MinWeight
-                        ddisposition = False
-                        sDispReason = "Too Low"
-                    Case Else
-
-                        ' what things do we want to check for?  Question for Pete
-                        If Math.Abs(weightdifference) > My.Settings.SF6WeightCh Then
-                            ddisposition = False
-                            If dMySecondweight > dMyfirstweight Then
-                                sDispReason = "Gained Weight"
-                            Else
-                                sDispReason = "Lost Weight"
-                            End If
-
-
-                        Else
-                            ddisposition = True
-                            sDispReason = ""
-                        End If
-
-                End Select
-            End If
-        Else
+        If dMyfirstweight = -20 Then
             ddisposition = False
             sDispReason = "Incorrect Serial Number"
+            Exit Sub
         End If
 
+        If sSN.Substring(0, 1) <> sSN_StartTest Then
+            ddisposition = False
+            sDispReason = "Incorrect Serial Number"
+            Exit Sub
+        End If
+
+
+        If Not BSecondPass Then 'first pass criteria
+            Select Case dMyfirstweight
+                Case Is > My.Settings.MaxWeight
+                    ddisposition = False
+                    sDispReason = "Too High"
+                Case Is < My.Settings.MinWeight
+                    ddisposition = False
+                    sDispReason = "Too Low"
+                Case Else
+                    ddisposition = True
+            End Select
+
+
+        Else
+
+            weightdifference = dMySecondweight - dMyfirstweight
+
+            Select Case dMySecondweight
+                Case Is > My.Settings.MaxWeight
+                    ddisposition = False
+                    sDispReason = "Too High"
+                Case Is < My.Settings.MinWeight
+                    ddisposition = False
+                    sDispReason = "Too Low"
+                Case Else
+
+                    ' what things do we want to check for?  Question for Pete
+                    If Math.Abs(weightdifference) > My.Settings.SF6WeightCh Then
+                        ddisposition = False
+                        If dMySecondweight > dMyfirstweight Then
+                            sDispReason = "Gained Weight"
+                        Else
+                            sDispReason = "Lost Weight"
+                        End If
+
+
+                    Else
+                        ddisposition = True
+                        sDispReason = ""
+                    End If
+
+            End Select
+        End If
+  
 
     End Sub
 

@@ -101,6 +101,8 @@ Partial Class Manual_Weight
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Lbl_BagCount = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Lbl_BagNum = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -129,6 +131,8 @@ Partial Class Manual_Weight
         '
         'RunPage
         '
+        Me.RunPage.Controls.Add(Me.Lbl_BagNum)
+        Me.RunPage.Controls.Add(Me.Label16)
         Me.RunPage.Controls.Add(Me.GroupBox8)
         Me.RunPage.Controls.Add(Me.GroupBox7)
         Me.RunPage.Controls.Add(Me.GroupBox6)
@@ -220,7 +224,7 @@ Partial Class Manual_Weight
         '
         'TB_SerialNumber
         '
-        Me.TB_SerialNumber.Location = New System.Drawing.Point(169, 244)
+        Me.TB_SerialNumber.Location = New System.Drawing.Point(169, 288)
         Me.TB_SerialNumber.Name = "TB_SerialNumber"
         Me.TB_SerialNumber.Size = New System.Drawing.Size(227, 30)
         Me.TB_SerialNumber.TabIndex = 13
@@ -228,7 +232,7 @@ Partial Class Manual_Weight
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(24, 249)
+        Me.Label4.Location = New System.Drawing.Point(24, 293)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(142, 25)
         Me.Label4.TabIndex = 12
@@ -930,6 +934,25 @@ Partial Class Manual_Weight
         Me.Lbl_BagCount.Size = New System.Drawing.Size(60, 27)
         Me.Lbl_BagCount.TabIndex = 1
         '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(113, 253)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(53, 25)
+        Me.Label16.TabIndex = 17
+        Me.Label16.Text = "Bag:"
+        '
+        'Lbl_BagNum
+        '
+        Me.Lbl_BagNum.AutoSize = True
+        Me.Lbl_BagNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Lbl_BagNum.Location = New System.Drawing.Point(169, 253)
+        Me.Lbl_BagNum.MinimumSize = New System.Drawing.Size(50, 27)
+        Me.Lbl_BagNum.Name = "Lbl_BagNum"
+        Me.Lbl_BagNum.Size = New System.Drawing.Size(50, 27)
+        Me.Lbl_BagNum.TabIndex = 18
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1047,5 +1070,7 @@ Partial Class Manual_Weight
     Friend WithEvents GroupBox8 As System.Windows.Forms.GroupBox
     Friend WithEvents Lbl_BagCount As System.Windows.Forms.Label
     Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents Lbl_BagNum As System.Windows.Forms.Label
+    Friend WithEvents Label16 As System.Windows.Forms.Label
 
 End Class
