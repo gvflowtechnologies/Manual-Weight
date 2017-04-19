@@ -386,7 +386,9 @@ Public Class Manual_Weight
             If sorterattached Then
                 cylindersorter.Sort(1)
             End If
-            My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Asterisk)
+            For x = 0 To 3
+                My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Asterisk)
+            Next
         Else
             If sorterattached Then
                 cylindersorter.Sort(2)
@@ -396,7 +398,10 @@ Public Class Manual_Weight
             Lbl_Instruction.Text = "Fail"
             Lbl_Instruction.BackColor = Color.Red
             LBL_Rationalle.Text = ccylinder.DispReason
-            My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Question)
+            For x = 0 To 2
+                My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Question)
+            Next
+
 
         End If
 
