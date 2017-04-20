@@ -399,7 +399,7 @@ Public Class Manual_Weight
             Lbl_Instruction.BackColor = Color.Red
             LBL_Rationalle.Text = ccylinder.DispReason
             For x = 0 To 2
-                My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Question)
+                My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Exclamation)
             Next
 
 
@@ -678,7 +678,8 @@ Public Class Manual_Weight
         End If
         Lbl_BatchN.Text = ""
         Lbl_BagNum.Text = ""
-        swdataset.Close() ' Need to think if we close here or create a routine to handle closing
+        Lbl_Instruction.Text = ""
+        ' swdataset.Close() ' Need to think if we close here or create a routine to handle closing
         MsgBox("Pallet Complete")
 
     End Sub
@@ -690,19 +691,22 @@ Public Class Manual_Weight
 
         'Write
 
+        Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
+            swdataset.WriteLine(MDataset.batch)
+            swdataset.WriteLine(MDataset.pallet)
+            swdataset.WriteLine(MDataset.timefirstwt.ToString)
 
-        swdataset = New StreamWriter(Myfile, False)
-        swdataset.WriteLine(MDataset.batch)
-        swdataset.WriteLine(MDataset.pallet)
-        swdataset.WriteLine(MDataset.timefirstwt.ToString)
-        '       swdataset.WriteLine(MDataset.datefirstwt.ToString)
+        End Using
 
     End Sub
 
     Private Sub writefirstweight()
-        swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
-        swdataset.WriteLine(ccylinder.Firstweight.ToString)
-
+        Dim Myfile As String
+        Myfile = MDataset.currentfilepath & "\" & MDataset.filename
+        Using swdataset As StreamWriter = New StreamWriter(Myfile, True)
+            swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
+            swdataset.WriteLine(ccylinder.Firstweight.ToString)
+        End Using
     End Sub
 
     Private Sub writefileheader2() ' Write the header data for the Final data set
@@ -712,26 +716,29 @@ Public Class Manual_Weight
 
         'Write
 
-        swdataset = New StreamWriter(Myfile, False)
-        swdataset.Write("1st Weight Time,")
-        swdataset.WriteLine(MDataset.timefirstwt.ToString)
-        swdataset.Write("2nd Weight Time,")
-        swdataset.WriteLine(MDataset.timesecondwt.ToString)
-        swdataset.Write("Pallet ID,")
-        swdataset.WriteLine(MDataset.pallet)
-        swdataset.Write("Lot#,")
-        swdataset.WriteLine(MDataset.batch)
-        swdataset.WriteLine("Serial Number,1st Wt,2nd Wt,Disposition, Fail Code")
-
+        Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
+            swdataset.Write("1st Weight Time,")
+            swdataset.WriteLine(MDataset.timefirstwt.ToString)
+            swdataset.Write("2nd Weight Time,")
+            swdataset.WriteLine(MDataset.timesecondwt.ToString)
+            swdataset.Write("Pallet ID,")
+            swdataset.WriteLine(MDataset.pallet)
+            swdataset.Write("Lot#,")
+            swdataset.WriteLine(MDataset.batch)
+            swdataset.WriteLine("Serial Number,1st Wt,2nd Wt,Disposition, Fail Code")
+        End Using
     End Sub
 
     Private Sub write_second_weight()
-        swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
-        swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
-        swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
-        swdataset.Write(ccylinder.Disposition & ", ")
-        swdataset.WriteLine(ccylinder.DispReason)
-
+        Dim Myfile As String
+        Myfile = MDataset.currentfilepath & "\" & MDataset.filename
+        Using swdataset As StreamWriter = New StreamWriter(Myfile, True)
+            swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
+            swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
+            swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
+            swdataset.Write(ccylinder.Disposition & ", ")
+            swdataset.WriteLine(ccylinder.DispReason)
+        End Using
     End Sub
 
     Private Sub write_Summary()
@@ -741,52 +748,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Write_History_Header()
-        ' Write Log header only if file doe not already exist.
 
-        'Dim Logfile As String
-        'If My.Settings.Caldirectory = "" Then
-        '    My.Settings.Caldirectory = "c:\CalDirectory"
-        '    My.Settings.Save()
-        'End If
-
-        'Logfile = My.Settings.Caldirectory & "\AVWeightLogFile.csv"
-
-
-        ''Write
-
-        'If Not Directory.Exists(My.Settings.Caldirectory) Then
-        '    Directory.CreateDirectory(My.Settings.Caldirectory)
-        'End If
-
-        'If Not File.Exists(Logfile) Then
-
-        '    swlogdata = New StreamWriter(Logfile, False)
-        '    swlogdata.WriteLine("Altaviz Log File")
-        '    swlogdata.WriteLine("2nd weight time, 1st weight time, Lot#, Pallet ID, Calibration Date, Calibration Due, Pass, Fail")
-
-        'Else
-        '    swlogdata = New StreamWriter(Logfile, True)
-
-        'End If
-
-    End Sub
-
-    'Private Sub write_history()
-
-    '    If IsNothing(swlogdata) Then Write_History_Header()
-
-    '    swlogdata.Write(MDataset.timesecondwt.ToString & ", ")
-
-    '    swlogdata.Write(MDataset.timefirstwt.ToString & ", ")
-    '    swlogdata.Write(MDataset.batch & ", ")
-    '    swlogdata.Write(MDataset.pallet & ", ")
-    '    swlogdata.Write(MDataset.Lscalecaldate & ", ")
-    '    swlogdata.Write(MDataset.NScaleCalDate & ", ")
-    '    swlogdata.Write(MDataset.numgood & ", ")
-    '    swlogdata.WriteLine(MDataset.numbad)
-
-    'End Sub
 
     Private Sub Btn_WeighFolders(sender As Object, e As EventArgs) Handles Btn_WeighFolder.Click
         caldata.SelectDataFolder()

@@ -124,9 +124,15 @@ Public Class PalletData
             Dim x As Integer ' Counter Variable
             Dim y As Integer ' counter variable
 
-            batchid = tmpstream.ReadLine()
-            tmpstream.ReadLine()
-            sttimefirst = Convert.ToDateTime(tmpstream.ReadLine())
+            If tmpstream.Peek <> -1 Then
+                batchid = tmpstream.ReadLine()
+                tmpstream.ReadLine()
+                sttimefirst = Convert.ToDateTime(tmpstream.ReadLine())
+            Else
+                MsgBox("First Weight File is Empty", MsgBoxStyle.Critical)
+            End If
+
+
 
             ' Reading in all of the serial numbers and first weights.
             number_of_Canisters = 0
