@@ -64,6 +64,7 @@ Public Class Manual_Weight
             LB_SerialPorts.Items.Add(sp)
         Next
         LB_SerialPorts.SelectedIndex = -1
+        sorterattached = My.Settings.Sorter_Attached
         If sorterattached Then
             cylindersorter = New CSorter
         End If
@@ -93,7 +94,7 @@ Public Class Manual_Weight
         LB_SerialPorts.ScrollAlwaysVisible = True
 
 
-        sorterattached = My.Settings.Sorter_Attached
+
         If sorterattached Then
             Sorter.Checked = True
         Else
@@ -116,13 +117,14 @@ Public Class Manual_Weight
             Btn_StartPallet.Enabled = False
             MsgBox("Calibration is Past Due, Please Update")
         End If
+
         Dim v As String
-
-        '     v = My.Application.Deployment.CurrentVersion.ToString
-
-
+        If System.Diagnostics.Debugger.IsAttached = False Then
+            v = My.Application.Deployment.CurrentVersion.ToString
+        Else
+            v = "Unable to Determine Current Version"
+        End If
         LBL_Version.Text = "Version:" & v
-
 
     End Sub
 
@@ -679,7 +681,7 @@ Public Class Manual_Weight
         Lbl_BatchN.Text = ""
         Lbl_BagNum.Text = ""
         Lbl_Instruction.Text = ""
-        ' swdataset.Close() ' Need to think if we close here or create a routine to handle closing
+
         MsgBox("Pallet Complete")
 
     End Sub
@@ -740,15 +742,6 @@ Public Class Manual_Weight
             swdataset.WriteLine(ccylinder.DispReason)
         End Using
     End Sub
-
-    Private Sub write_Summary()
-        ' Write summary data line and Close Stream
-        '   swdataset.WriteLine("Number of Good Cylinders, " & MDataset.numgood)
-        '  swdataset.WriteLine("Number of Bad Cylinders, " & MDataset.numbad)
-
-    End Sub
-
-
 
     Private Sub Btn_WeighFolders(sender As Object, e As EventArgs) Handles Btn_WeighFolder.Click
         caldata.SelectDataFolder()
@@ -1104,6 +1097,11 @@ Public Class Manual_Weight
         If Sorter.Checked = True Then
 
             My.Settings.Sorter_Attached = True
+
+            If IsNothing(cylindersorter) Then
+                cylindersorter = New CSorter
+            End If
+
         Else
             My.Settings.Sorter_Attached = False
 

@@ -93,12 +93,10 @@ Public Class PalletData
         ' It the first weight is found the flag Bfirstweigtexists is set to "True"
         ' The second function is to set the time of either the first weight date and time or the second weight date and time.
 
-
         Dim filename As String
         Dim x As Integer
         x = 0
-        '  BFirstweightExists = 
-        ' Looking through all files in the first weight directory.
+ 
         For Each filename In currentfirstweights
 
             If filename.Contains(firstpallet) And filename.Contains(firstbatch) Then
@@ -110,8 +108,6 @@ Public Class PalletData
             End If
         Next
 
-
-  
     End Sub
 
     Public Sub readfirstweight() ' Reads all of the first weights for the batch.
@@ -132,8 +128,6 @@ Public Class PalletData
                 MsgBox("First Weight File is Empty", MsgBoxStyle.Critical)
             End If
 
-
-
             ' Reading in all of the serial numbers and first weights.
             number_of_Canisters = 0
             Do While tmpstream.Peek <> -1
@@ -151,20 +145,16 @@ Public Class PalletData
             'Copy reading data into the array.
             For x = 0 To iNumRows
                 STempline = Stemplines(x).Split(",")
+
                 For y = 0 To iNumCols
                     FirstWeightReading(x, y) = STempline(y)
-
                 Next
 
             Next
 
-
-            Sttimesecond = DateTime.Now
-            '            dseconddweightdate = DateTime.Now
             tmpstream.Dispose()
             File.Copy(Path.Combine(fweight, currentfilename), Path.Combine(Archived, currentfilename))
             File.Delete(FNreadfirst)
-
 
         End If
 
@@ -180,12 +170,14 @@ Public Class PalletData
             If number_of_Canisters > canisternumber Then
                 bpalletcomplete = False
             End If
+
         Else
+
             If number_of_Canisters > CountGood Then
                 bpalletcomplete = False
             End If
-        End If
 
+        End If
 
         Return bpalletcomplete
 

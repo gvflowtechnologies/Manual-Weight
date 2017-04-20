@@ -44,7 +44,7 @@ Public Class CSorter
 
         If Boardfound = False Then
             MsgBox("No USB-1208 found in system.  Please run InstaCal.", MsgBoxStyle.Critical, "No Board detected")
-            End
+            Exit Sub
         End If
 
 
