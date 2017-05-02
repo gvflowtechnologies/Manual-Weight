@@ -521,7 +521,7 @@ Public Class Manual_Weight
             Do
                 MDataset.pallet = InputBox("Enter Bag #", "Bag Number", , , )
                 If MDataset.pallet = "" Then Exit Sub
-                followup = MsgBox("You entered " & MDataset.pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet ID")
+            followup = MsgBox("You entered " & MDataset.pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Bag Number")
 
                 If followup = MsgBoxResult.Cancel Then
                     MDataset.pallet = ""
