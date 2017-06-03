@@ -615,7 +615,7 @@ Public Class Manual_Weight
             Tmr_ScreenUpdate.Stop()
 
             Dim userresponse As MsgBoxResult
-            userresponse = MsgBox("Data could be lost, Press OK to continue", MsgBoxStyle.OkCancel, "Manual Stop Requested, Pallet Not Complete")
+            userresponse = MsgBox("Data could be lost, Press OK to continue", MsgBoxStyle.OkCancel, "Manual Stop Requested, Bag Not Complete")
 
             Tmr_ScreenUpdate.Start()
 
@@ -640,7 +640,7 @@ Public Class Manual_Weight
         'updatedinstruction = Lbl_Instruction.Text
         'updatedinstruction = updatedinstruction & "Closing Pallet"
         Lbl_Instruction.BackColor = Color.White
-        Lbl_Instruction.Text = "Closing Pallet"
+        Lbl_Instruction.Text = "Finalizing Bag"
         ' Provide 15 seconds to get last sort.
 
         Dim closewatch As Stopwatch
@@ -682,7 +682,7 @@ Public Class Manual_Weight
         Lbl_BagNum.Text = ""
         Lbl_Instruction.Text = ""
 
-        MsgBox("Pallet Complete")
+        MsgBox("Bag Complete")
 
     End Sub
 
@@ -1041,7 +1041,6 @@ Public Class Manual_Weight
             errorMessage = "No Serial Number Entered"
             Return False
         End If
-
 
 
         If SerialNumber.Length = 10 Then
