@@ -151,6 +151,7 @@
     </Compile>
     <Compile Include="ScaleManagement.vb" />
     <Compile Include="Settings.vb" />
+    <Compile Include="SleepAPI CALL.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ChangePassword.resx">
