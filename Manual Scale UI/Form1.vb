@@ -574,10 +574,10 @@ Public Class Manual_Weight
 
 
             ' and then write the file header.
-            writefileheader2()
+            MDataset.writefileheader2()
             'and set the cylinder index to 0
         Else
-            WritefileHeader1()
+            MDataset.WritefileHeader1()
 
         End If
 
@@ -693,50 +693,19 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub WritefileHeader1() ' write the header to the firstweight data set.
-        ' Very simple file to hold first pass data.
-        Dim Myfile As String
-        Myfile = MDataset.currentfilepath & "\" & MDataset.filename
 
-        'Write
-
-        Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
-            swdataset.WriteLine(MDataset.batch)
-            swdataset.WriteLine(MDataset.pallet)
-            swdataset.WriteLine(MDataset.timefirstwt.ToString)
-
-        End Using
-
-    End Sub
 
     Private Sub writefirstweight()
         Dim Myfile As String
         Myfile = MDataset.currentfilepath & "\" & MDataset.filename
+
         Using swdataset As StreamWriter = New StreamWriter(Myfile, True)
             swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
             swdataset.WriteLine(ccylinder.Firstweight.ToString)
         End Using
     End Sub
 
-    Private Sub writefileheader2() ' Write the header data for the Final data set
 
-        Dim Myfile As String
-        Myfile = MDataset.currentfilepath & "\" & MDataset.filename
-
-        'Write
-
-        Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
-            swdataset.Write("1st Weight Time,")
-            swdataset.WriteLine(MDataset.timefirstwt.ToString)
-            swdataset.Write("2nd Weight Time,")
-            swdataset.WriteLine(MDataset.timesecondwt.ToString)
-            swdataset.Write("Pallet ID,")
-            swdataset.WriteLine(MDataset.pallet)
-            swdataset.Write("Lot#,")
-            swdataset.WriteLine(MDataset.batch)
-            swdataset.WriteLine("Serial Number,1st Wt,2nd Wt,Disposition, Fail Code")
-        End Using
-    End Sub
 
     Private Sub write_second_weight()
         Dim Myfile As String
@@ -1093,11 +1062,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
-
-
-
     Private Sub Sorter_CheckedChanged(sender As Object, e As EventArgs) Handles Sorter.CheckedChanged
 
         If Sorter.Checked = True Then
@@ -1119,9 +1083,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
-
     Private Sub BagCap_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_BagCapacity.Validating
         Dim errormsg As String = ""
         Dim Testresult As Boolean
@@ -1129,13 +1090,9 @@ Public Class Manual_Weight
         Testresult = Integer.TryParse(TB_BagCapacity.Text, bagcapacity)
 
         If Not Testresult Then
-
             errormsg = "Not a valid Integer"
             e.Cancel = True
-
             Me.ErrorProvider1.SetError(TB_BagCapacity, errormsg)
-
-
         End If
 
     End Sub
@@ -1144,5 +1101,69 @@ Public Class Manual_Weight
         ErrorProvider1.SetError(TB_BagCapacity, "")
         My.Settings.Bag_Limit = Integer.Parse(TB_BagCapacity.Text)
         My.Settings.Save()
+    End Sub
+
+    Private Function SN_Range(ByVal serialnumber As String, ByRef errorMessage As String) As Boolean
+        ' Is gas type selected?
+        ' Is the gas type an Integer
+        ' Is the first digit correct
+        Dim Testresult As Boolean
+        Dim I_SerialNumber As Int16
+
+        If Not RB_SF6.Checked And Not RBC3F8.Checked Then
+            errorMessage = "Gas Type Not Selected"
+            Return False
+        End If
+        Testresult = Integer.TryParse(serialnumber, I_SerialNumber)
+        If Not Testresult Then
+            errorMessage = "Not a Valid Integer"
+            Return False
+        End If
+        I_SerialNumber = Integer.Parse(serialnumber.Substring(0, 1))
+        If RB_SF6.Checked Then ' character should be one
+            If I_SerialNumber <> 1 Then
+                errorMessage = "First Character not Correct"
+                Return False
+            End If
+        Else
+
+            If I_SerialNumber <> 2 Then
+                errorMessage = "First Character not Correct"
+                Return False
+            End If
+
+        End If
+
+
+
+        Return True
+
+    End Function
+
+
+    Private Sub SN_RANGE_Start(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_SN_Start.Validating
+        '1. Gas Type needs to be set 
+        '2. serial number is an integer
+        Dim errormessage As String = ""
+
+        If Not SN_Range(TB_SN_Start.Text, errormessage) Then
+            e.Cancel = True
+            TB_SN_Start.Select(0, TB_SN_Start.Text.Length)
+            Me.ErrorProvider1.SetError(TB_SN_Start, errormessage)
+            Exit Sub
+        End If
+        '2. serial Number needs to have correct initial digit
+        '3. serial Number needs to be numeric and correct length
+        If Not ValidSerialNumber(TB_SN_Start.Text, errormessage) Then
+            e.Cancel = True
+            TB_SN_Start.Select(0, TB_SN_Start.Text.Length)
+            Me.ErrorProvider1.SetError(TB_SN_Start, errormessage)
+            Exit Sub
+        End If
+
+    End Sub
+
+    Private Sub SN_RANGE_Start_Valid(sender As Object, e As EventArgs) Handles TB_SN_Start.Validated
+
     End Sub
 End Class

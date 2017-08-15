@@ -159,6 +159,58 @@ Public Class PalletData
         End If
 
     End Sub
+
+    Public Sub WritefileHeader1() ' write the header to the firstweight data set.
+        ' Very simple file to hold first pass data.
+        Dim Myfile As String
+        Myfile = fweight & "\" & currentfilename
+
+        'Write
+
+        If Not File.Exists(Myfile) Then ' Only write header if the file does not exist.
+
+            Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
+                swdataset.WriteLine(batchid)
+                swdataset.WriteLine(palletid)
+                swdataset.WriteLine(sttimefirst)
+
+            End Using
+
+        End If
+    End Sub
+
+    Public Sub writefileheader2() ' Write the header data for the Final data set
+
+        Dim Myfile As String
+        Myfile = completed & "\" & currentfilename
+
+        'Write
+        If Not File.Exists(Myfile) Then
+            Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
+                swdataset.Write("1st Weight Time,")
+                swdataset.WriteLine(sttimefirst.ToString)
+                swdataset.Write("2nd Weight Time,")
+                swdataset.WriteLine(Sttimesecond.ToString)
+                swdataset.Write("Pallet ID,")
+                swdataset.WriteLine(palletid)
+                swdataset.Write("Lot#,")
+                swdataset.WriteLine(batchid)
+                swdataset.WriteLine("Serial Number,1st Wt,2nd Wt,Disposition, Fail Code")
+
+            End Using
+        End If
+    End Sub
+
+    Private Sub writefirstweight()
+        Dim Myfile As String
+        Myfile = currentfilepath & "\" & currentfilename
+
+        Using swdataset As StreamWriter = New StreamWriter(Myfile, True)
+            swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
+            swdataset.WriteLine(ccylinder.Firstweight.ToString)
+        End Using
+    End Sub
+
     Public Function PalletComplete()
 
         Dim bpalletcomplete As Boolean
@@ -343,11 +395,11 @@ Public Class PalletData
             Dim x As Integer ' Counter Variable
             Dim y As Integer ' counter variable
 
-            
-            
+
+
             'Redimension both the temp and permanent storage arrays
             iNumRows = UBound(FirstWeightReading, 1)
-          
+
             'Copy reading data into the array.
             For x = 0 To iNumRows
                 If FirstWeightReading(x, 0) = serialnumber Then

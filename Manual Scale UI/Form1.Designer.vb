@@ -25,6 +25,13 @@ Partial Class Manual_Weight
         Me.components = New System.ComponentModel.Container()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
+        Me.GroupBox9 = New System.Windows.Forms.GroupBox()
+        Me.TB_SN_Final = New System.Windows.Forms.TextBox()
+        Me.TB_SN_Start = New System.Windows.Forms.TextBox()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.Label17 = New System.Windows.Forms.Label()
         Me.LblRawStream = New System.Windows.Forms.Label()
         Me.Lbl_BagNum = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
@@ -105,6 +112,7 @@ Partial Class Manual_Weight
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
+        Me.GroupBox9.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
@@ -131,6 +139,9 @@ Partial Class Manual_Weight
         '
         'RunPage
         '
+        Me.RunPage.Controls.Add(Me.GroupBox9)
+        Me.RunPage.Controls.Add(Me.TextBox1)
+        Me.RunPage.Controls.Add(Me.Label17)
         Me.RunPage.Controls.Add(Me.LblRawStream)
         Me.RunPage.Controls.Add(Me.Lbl_BagNum)
         Me.RunPage.Controls.Add(Me.Label16)
@@ -157,6 +168,69 @@ Partial Class Manual_Weight
         Me.RunPage.Text = "Weighing"
         Me.RunPage.UseVisualStyleBackColor = True
         '
+        'GroupBox9
+        '
+        Me.GroupBox9.Controls.Add(Me.TB_SN_Final)
+        Me.GroupBox9.Controls.Add(Me.TB_SN_Start)
+        Me.GroupBox9.Controls.Add(Me.Label19)
+        Me.GroupBox9.Controls.Add(Me.Label18)
+        Me.GroupBox9.Location = New System.Drawing.Point(31, 150)
+        Me.GroupBox9.Name = "GroupBox9"
+        Me.GroupBox9.Size = New System.Drawing.Size(460, 57)
+        Me.GroupBox9.TabIndex = 21
+        Me.GroupBox9.TabStop = False
+        Me.GroupBox9.Text = "Serial Number Range"
+        '
+        'TB_SN_Final
+        '
+        Me.TB_SN_Final.Location = New System.Drawing.Point(296, 25)
+        Me.TB_SN_Final.Name = "TB_SN_Final"
+        Me.TB_SN_Final.Size = New System.Drawing.Size(155, 30)
+        Me.TB_SN_Final.TabIndex = 3
+        '
+        'TB_SN_Start
+        '
+        Me.TB_SN_Start.Location = New System.Drawing.Point(62, 25)
+        Me.TB_SN_Start.Name = "TB_SN_Start"
+        Me.TB_SN_Start.Size = New System.Drawing.Size(155, 30)
+        Me.TB_SN_Start.TabIndex = 2
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(241, 30)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(49, 25)
+        Me.Label19.TabIndex = 1
+        Me.Label19.Text = "Last"
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(7, 30)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(49, 25)
+        Me.Label18.TabIndex = 0
+        Me.Label18.Text = "First"
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(170, 260)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(100, 30)
+        Me.TextBox1.TabIndex = 20
+        Me.TextBox1.Text = "New Field"
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label17.Location = New System.Drawing.Point(60, 265)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(104, 25)
+        Me.Label17.TabIndex = 19
+        Me.Label17.Text = "New Field:"
+        '
         'LblRawStream
         '
         Me.LblRawStream.AutoSize = True
@@ -172,7 +246,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_BagNum.AutoSize = True
         Me.Lbl_BagNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_BagNum.Location = New System.Drawing.Point(169, 253)
+        Me.Lbl_BagNum.Location = New System.Drawing.Point(167, 300)
         Me.Lbl_BagNum.MinimumSize = New System.Drawing.Size(50, 27)
         Me.Lbl_BagNum.Name = "Lbl_BagNum"
         Me.Lbl_BagNum.Size = New System.Drawing.Size(50, 27)
@@ -181,7 +255,7 @@ Partial Class Manual_Weight
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(113, 253)
+        Me.Label16.Location = New System.Drawing.Point(111, 300)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(53, 25)
         Me.Label16.TabIndex = 17
@@ -221,9 +295,9 @@ Partial Class Manual_Weight
         '
         Me.GroupBox7.Controls.Add(Me.RBC3F8)
         Me.GroupBox7.Controls.Add(Me.RB_SF6)
-        Me.GroupBox7.Location = New System.Drawing.Point(29, 100)
+        Me.GroupBox7.Location = New System.Drawing.Point(29, 87)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(430, 72)
+        Me.GroupBox7.Size = New System.Drawing.Size(460, 57)
         Me.GroupBox7.TabIndex = 15
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Gas Type"
@@ -231,7 +305,7 @@ Partial Class Manual_Weight
         'RBC3F8
         '
         Me.RBC3F8.AutoSize = True
-        Me.RBC3F8.Location = New System.Drawing.Point(243, 34)
+        Me.RBC3F8.Location = New System.Drawing.Point(243, 22)
         Me.RBC3F8.Name = "RBC3F8"
         Me.RBC3F8.Size = New System.Drawing.Size(79, 29)
         Me.RBC3F8.TabIndex = 1
@@ -242,7 +316,7 @@ Partial Class Manual_Weight
         'RB_SF6
         '
         Me.RB_SF6.AutoSize = True
-        Me.RB_SF6.Location = New System.Drawing.Point(36, 34)
+        Me.RB_SF6.Location = New System.Drawing.Point(36, 22)
         Me.RB_SF6.Name = "RB_SF6"
         Me.RB_SF6.Size = New System.Drawing.Size(67, 29)
         Me.RB_SF6.TabIndex = 0
@@ -256,7 +330,7 @@ Partial Class Manual_Weight
         Me.GroupBox6.Controls.Add(Me.RB_FirstWeight)
         Me.GroupBox6.Location = New System.Drawing.Point(29, 22)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(430, 57)
+        Me.GroupBox6.Size = New System.Drawing.Size(460, 57)
         Me.GroupBox6.TabIndex = 14
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Weighing Process"
@@ -285,7 +359,7 @@ Partial Class Manual_Weight
         '
         'TB_SerialNumber
         '
-        Me.TB_SerialNumber.Location = New System.Drawing.Point(169, 288)
+        Me.TB_SerialNumber.Location = New System.Drawing.Point(167, 335)
         Me.TB_SerialNumber.Name = "TB_SerialNumber"
         Me.TB_SerialNumber.Size = New System.Drawing.Size(227, 30)
         Me.TB_SerialNumber.TabIndex = 13
@@ -293,7 +367,7 @@ Partial Class Manual_Weight
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(24, 293)
+        Me.Label4.Location = New System.Drawing.Point(22, 340)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(142, 25)
         Me.Label4.TabIndex = 12
@@ -390,7 +464,7 @@ Partial Class Manual_Weight
         '
         Me.sLbl_BN.AutoSize = True
         Me.sLbl_BN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sLbl_BN.Location = New System.Drawing.Point(98, 208)
+        Me.sLbl_BN.Location = New System.Drawing.Point(96, 225)
         Me.sLbl_BN.Name = "sLbl_BN"
         Me.sLbl_BN.Size = New System.Drawing.Size(68, 25)
         Me.sLbl_BN.TabIndex = 7
@@ -507,7 +581,7 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN.AutoSize = True
         Me.Lbl_BatchN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_BatchN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_BatchN.Location = New System.Drawing.Point(169, 208)
+        Me.Lbl_BatchN.Location = New System.Drawing.Point(167, 225)
         Me.Lbl_BatchN.MinimumSize = New System.Drawing.Size(300, 2)
         Me.Lbl_BatchN.Name = "Lbl_BatchN"
         Me.Lbl_BatchN.Size = New System.Drawing.Size(300, 27)
@@ -848,7 +922,7 @@ Partial Class Manual_Weight
         '
         Me.LB_SerialPorts.FormattingEnabled = True
         Me.LB_SerialPorts.Location = New System.Drawing.Point(175, 307)
-        Me.LB_SerialPorts.MinimumSize = New System.Drawing.Size(0, 22)
+        Me.LB_SerialPorts.MinimumSize = New System.Drawing.Size(4, 22)
         Me.LB_SerialPorts.Name = "LB_SerialPorts"
         Me.LB_SerialPorts.Size = New System.Drawing.Size(173, 17)
         Me.LB_SerialPorts.TabIndex = 14
@@ -967,6 +1041,8 @@ Partial Class Manual_Weight
         Me.TabControl1.ResumeLayout(False)
         Me.RunPage.ResumeLayout(False)
         Me.RunPage.PerformLayout()
+        Me.GroupBox9.ResumeLayout(False)
+        Me.GroupBox9.PerformLayout()
         Me.GroupBox8.ResumeLayout(False)
         Me.GroupBox8.PerformLayout()
         Me.GroupBox7.ResumeLayout(False)
@@ -1073,5 +1149,12 @@ Partial Class Manual_Weight
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents Lbl_BagNum As System.Windows.Forms.Label
     Friend WithEvents Label16 As System.Windows.Forms.Label
+    Friend WithEvents Label17 As System.Windows.Forms.Label
+    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents GroupBox9 As System.Windows.Forms.GroupBox
+    Friend WithEvents TB_SN_Final As System.Windows.Forms.TextBox
+    Friend WithEvents TB_SN_Start As System.Windows.Forms.TextBox
+    Friend WithEvents Label19 As System.Windows.Forms.Label
+    Friend WithEvents Label18 As System.Windows.Forms.Label
 
 End Class
