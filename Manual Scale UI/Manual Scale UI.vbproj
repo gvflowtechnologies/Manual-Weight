@@ -120,7 +120,6 @@
     <Compile Include="CSorter.vb" />
     <Compile Include="Cylinder.vb" />
     <Compile Include="Datareceive.vb" />
-    <Compile Include="File_and_Records.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
