@@ -3,7 +3,7 @@ Imports System.IO
 Imports System.IO.Ports
 Imports System.Threading
 Imports System.Windows.Forms
-
+Imports System.Runtime.InteropServices
 Imports System.String
 
 Public Class Manual_Weight
@@ -15,7 +15,11 @@ Public Class Manual_Weight
         prompting
         erroring
     End Enum
-
+    Public Enum EXECUTION_STATE As UInteger ' Define the API Execution states
+        ES_SYSTEM_REQUIRED = &H1
+        ES_DISPLAY_REQUIRED = &H2
+        ES_CONTINUOUS = &H80000000UI
+    End Enum
 
 
     Structure GasType
@@ -52,7 +56,8 @@ Public Class Manual_Weight
     Dim scanned As Boolean
     Dim cylindercollect As Collection
 
-   
+    Private Declare Function SetThreadExecutionState Lib "Kernel32" (ByVal esflags As EXECUTION_STATE) As EXECUTION_STATE
+
 
 
     ' Form open close stuff
@@ -73,7 +78,7 @@ Public Class Manual_Weight
         If sorterattached Then
             cylindersorter = New CSorter
         End If
-        SleepAPI_CALL.No_Sleep()
+        No_Sleep()
 
         Btn_StartPallet.Enabled = True
         RB_FinalWeightq.Enabled = True
@@ -132,14 +137,20 @@ Public Class Manual_Weight
         LBL_Version.Text = "Version:" & v
 
     End Sub
+    Private Function No_Sleep() As EXECUTION_STATE
+        Return SetThreadExecutionState(EXECUTION_STATE.ES_SYSTEM_REQUIRED Or EXECUTION_STATE.ES_DISPLAY_REQUIRED Or EXECUTION_STATE.ES_CONTINUOUS)
+    End Function
 
+    Private Function GOTOSLEEP() As EXECUTION_STATE
+        Return SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS)
+    End Function
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
         portclosing()
         If Not IsNothing(swdataset) Then swdataset.Close()
         If Not IsNothing(swlogdata) Then swlogdata.Close()
         If Not IsNothing(Calibration) Then Calibration.Close()
-        SleepAPI_CALL.GOTOSLEEP()
+        GOTOSLEEP()
     End Sub
 
     Private Sub SetupClick() Handles Setup.Enter
