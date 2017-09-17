@@ -1,7 +1,7 @@
 ﻿Option Explicit On
 Imports System.IO
 Imports mccdaq
-
+Imports System.Threading
 
 
 Public Class CSorter
@@ -18,6 +18,7 @@ Public Class CSorter
     ' 253 = Switch Closest to Solenoid is closed ("BAD")
     ' 254 = Switch Furthest from solenoid is closed ("Good")
     Dim sorttimeout As Stopwatch
+    Dim Droptimeout As Stopwatch ' Stopwatch to track if a cylinder has been dropped.
     Dim lastsort As Short ' tells what the last sort value was.
 
 
@@ -64,10 +65,45 @@ Public Class CSorter
         End If
         sorttimeout = New Stopwatch
         Sort(255)
-
-
+        Droptimeout = New Stopwatch
+        Droptimeout.Start()
     End Sub
+    ReadOnly Property dropped As Boolean
+        Get
+            Dim bdropvalue As Boolean
+            bdropvalue = False
+            mylocation()
+            If lastsort = 255 Then
+                bdropvalue = True
+                Return bdropvalue
+                Exit Property
+            End If
+            Droptimeout.Reset()
 
+            Do Until Droptimeout.ElapsedMilliseconds > 15000
+                mylocation()
+                If lastsort = 1 Then
+                    If ilocation = 253 Then
+                        bdropvalue = True
+                        Return bdropvalue
+                        Exit Property
+                    End If
+
+                ElseIf lastsort = 2 Then
+                    If ilocation = 254 Then
+                        bdropvalue = True
+                        Return bdropvalue
+                        Exit Property
+                    End If
+
+                End If
+                Thread.Sleep(5)
+            Loop
+
+            Return bdropvalue
+
+        End Get
+    End Property
     Sub Sort(ByVal position As Short)
         ' pushes or pulls the sort 
 
@@ -93,6 +129,8 @@ Public Class CSorter
     End Sub
 
     Private Sub mylocation()
+        'Putting an inifinte loop here with a time out of 15 seconds.
+
         sortererror = sorter.DIn(psortin, ilocation)
         If sortererror.Value <> MccDaq.ErrorInfo.ErrorCode.NoErrors Then
             daqhealthy = False
@@ -136,7 +174,7 @@ Public Class CSorter
                 Exit Property
             End If
 
-            If sorttimeout.ElapsedMilliseconds < 1000 Then
+            If sorttimeout.ElapsedMilliseconds < 15000 Then
                 Return True
                 Exit Property
             Else

@@ -183,22 +183,14 @@ Public Class Manual_Weight
         ' Load that data in.
 
         Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
-        If sorterattached Then
-            If cylindersorter.fired = False Then
-                Dim myresponse As MsgBoxResult
-                Tmr_ScreenUpdate.Stop()
-                myresponse = MsgBox("Sorter Fail", vbOKOnly, "Sorter is not Working")
-                Tmr_ScreenUpdate.Start()
-            End If
-            If cylindersorter.Location = 254 Then
-
-                If tmrsort.ElapsedMilliseconds > 15000 Then
-                    cylindersorter.Sort(255)
-                    tmrsort.Reset()
-                End If
-
-            End If
-        End If
+        'If sorterattached Then
+        '    If cylindersorter.Location = 254 Then
+        '        If tmrsort.ElapsedMilliseconds > 15000 Then
+        '            cylindersorter.Sort(255)
+        '            tmrsort.Reset()
+        '        End If
+        '    End If
+        'End If
 
 
         If CB_ViewRaw.Checked = True Then
@@ -222,7 +214,10 @@ Public Class Manual_Weight
                 If entering Then
                     entering = False
                     Lbl_Instruction.BackColor = Color.White
-
+                    If sorterattached Then
+                        cylindersorter.Sort(255)
+                        tmrsort.Reset()
+                    End If
                     'set label colors
                 End If
 
@@ -232,156 +227,159 @@ Public Class Manual_Weight
                 ' wait for start pallet buttonclick  when clickek
 
             Case Weighprocess.Scanning
-                If entering Then
-                    entering = False
-                    ccylinder = New Cylinder(MDataset.firstweightexists, "", cylindergas.SNStart)
-                    scanned = False
-                    Lbl_Instruction.Text = "Scan"
-                    Lbl_Instruction.BackColor = Color.CornflowerBlue
-                    TB_SerialNumber.Text = ""
-                    checkpalletcomplete()
-                    LBL_Rationalle.Text = ""
-                End If
-
-
-                ' Need code to detect scan filling in window.
-                If scanned = True Then
-                    entering = True
-                    teststate = Weighprocess.taring
-                    ' If this is a second weight get data from previous cycle.
-                    If MDataset.firstweightexists Then
-
-                        ccylinder.SerialNumber = TB_SerialNumber.Text
-                        ccylinder.Firstweight = MDataset.initialweight(ccylinder.SerialNumber)
+                    If entering Then
+                        entering = False
+                        ccylinder = New Cylinder(MDataset.firstweightexists, "", cylindergas.SNStart)
+                        scanned = False
+                        Lbl_Instruction.Text = "Scan"
+                        Lbl_Instruction.BackColor = Color.CornflowerBlue
+                        TB_SerialNumber.Text = ""
+                        checkpalletcomplete()
+                        LBL_Rationalle.Text = ""
                     End If
 
-                End If
+
+                    ' Need code to detect scan filling in window.
+                    If scanned = True Then
+                        entering = True
+                        teststate = Weighprocess.taring
+                        ' If this is a second weight get data from previous cycle.
+                        If MDataset.firstweightexists Then
+
+                            ccylinder.SerialNumber = TB_SerialNumber.Text
+                            ccylinder.Firstweight = MDataset.initialweight(ccylinder.SerialNumber)
+                        End If
+
+                    End If
 
 
             Case Weighprocess.taring
-                If entering Then
-                    entering = False
+                    If entering Then
+                        entering = False
 
-                    ' Setting up cylinder for second weight
+                        ' Setting up cylinder for second weight
 
-                    'set label colors
-                    Lbl_Instruction.Text = "Zeroing"
-                    Lbl_Instruction.BackColor = Color.Blue
+                        'set label colors
+                        Lbl_Instruction.Text = "Zeroing"
+                        Lbl_Instruction.BackColor = Color.Blue
 
-                End If
+                    End If
 
-                ' Check to see if something is on scale when it should not be and if it is, turn the background color red.
+                    ' Check to see if something is on scale when it should not be and if it is, turn the background color red.
 
-                If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
-                    Me.BackColor = Color.Red
-                Else
-                    Me.BackColor = SystemColors.Control
-                End If
-
-
-                ''Taring Section
-                '' check for scale health and stability
-
-                If sartorius.Stable Then
-                    Select Case Math.Abs(sartorius.CurrentReading)
-
-                        Case Is < My.Settings.TareLimit / 1000
-                            teststate = Weighprocess.weighing
-                            entering = True
+                    If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
+                        Me.BackColor = Color.Red
+                    Else
+                        Me.BackColor = SystemColors.Control
+                    End If
 
 
-                        Case Is > My.Settings.TareError / 1000
-                            Dim myresponse As MsgBoxResult
-                            Tmr_ScreenUpdate.Stop()
-                            myresponse = MsgBox("Tare Error, Retare Now?", vbYesNo, "Scale Tare Error")
-                            If myresponse = MsgBoxResult.Yes Then
+                    ''Taring Section
+                    '' check for scale health and stability
+
+                    If sartorius.Stable Then
+                        Select Case Math.Abs(sartorius.CurrentReading)
+
+                            Case Is < My.Settings.TareLimit / 1000
+                                teststate = Weighprocess.weighing
+                                entering = True
+
+                            Case Is > My.Settings.TareError / 1000
+                                Dim myresponse As MsgBoxResult
+                                Tmr_ScreenUpdate.Stop()
+                                myresponse = MsgBox("Tare Error, Retare Now?", vbYesNo, "Scale Tare Error")
+                                If myresponse = MsgBoxResult.Yes Then
+                                    updatetare()
+                                End If
+                                Tmr_ScreenUpdate.Start()
+
+                            Case Else
                                 updatetare()
-                            End If
-                            Tmr_ScreenUpdate.Start()
 
-                        Case Else
-                            updatetare()
-
-
-                    End Select
-
-                End If
-
-
+                        End Select
+                    End If
 
             Case Weighprocess.weighing
-                If entering Then
-                    entering = False
-                    'set label colors
+                    If entering Then
+                        entering = False
+                        'set label colors
 
-                    Lbl_Instruction.Text = "Place"
-                    Lbl_Instruction.BackColor = Color.Violet
+                        Lbl_Instruction.Text = "Place"
+                        Lbl_Instruction.BackColor = Color.Violet
 
-                End If
+                    End If
 
+                    If sartorius.Stable Then
+                        Select Case sartorius.CurrentReading
 
+                            Case Is > My.Settings.MinWeight - 2 * My.Settings.TareLimit
+                                If MDataset.firstweightexists = False Then
+                                    ' first weight reading
+                                    ccylinder.Firstweight = sartorius.CurrentReading
+                                Else
+                                    ' Second weight reading
+                                    ccylinder.Secondweight = sartorius.CurrentReading
 
-                If sartorius.Stable Then
-                    Select Case sartorius.CurrentReading
+                                End If
 
-                        Case Is > My.Settings.MinWeight - 2 * My.Settings.TareLimit
-                            If MDataset.firstweightexists = False Then
-                                ' first weight reading
-                                ccylinder.Firstweight = sartorius.CurrentReading
-                            Else
-                                ' Second weight reading
-                                ccylinder.Secondweight = sartorius.CurrentReading
+                                teststate = Weighprocess.prompting
 
-                            End If
+                                entering = True
+                                'Case    > My.Settings.TareLimit and < my.Settings.TareError
 
-                            teststate = Weighprocess.prompting
+                        End Select
 
-                            entering = True
-                            'Case    > My.Settings.TareLimit and < my.Settings.TareError
-
-
-
-                    End Select
-
-                Else
-                    '    '   teststate = weighprocess.erroring
-                End If
-
-
+                    Else
+                        '    '   teststate = weighprocess.erroring
+                    End If
 
             Case Weighprocess.prompting
-
-
                 If entering Then
                     entering = False
-
-
                     Disposition()
-
-
                     ' update canister number
                     If sorterattached Then
                         If ccylinder.Disposition = False Then
                             cylindersorter.Sort(2)
                         End If
                     End If
+                End If
 
+                    Tmr_ScreenUpdate.Stop()
+
+                If cylindersorter.dropped = False Then
+                    Dim login As String
+                    Dim count As Integer
+                    ' msg box stuff here.
+                    Do
+
+
+                        login = InputBox("Supervisor Approval Required", "Cylinder not put in sorter", "")
+                        If login <> My.Settings.Password Then
+                            MsgBox("You have " & (5 - count).ToString & " attempts remaining", MsgBoxStyle.OkOnly, "Login Incorrect")
+                            count += 1
+                            If count > 5 Then
+                                Closepallet()
+                                Exit Sub
+                            End If
+                        End If
+
+                    Loop Until login = My.Settings.Password
 
                 End If
 
-
-                If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
+                    'If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
                     teststate = Weighprocess.Scanning
                     entering = True
 
                     ccylinder.dispose()
-                End If
 
+                    Tmr_ScreenUpdate.Start()
 
             Case Weighprocess.erroring ' if we end up here stop processing
-                If entering Then
-                    entering = False
-                End If
+                    If entering Then
+                        entering = False
+                    End If
 
 
         End Select
@@ -524,7 +522,7 @@ Public Class Manual_Weight
         End If
 
         If RB_FinalWeightq.Checked Then
-            firstweight = True
+            firstweight = True ' We already have a first weight
         Else
             firstweight = False
 
@@ -533,7 +531,7 @@ Public Class Manual_Weight
         MDataset = New PalletData(firstweight)
 
 
-        MDataset.RenewFileList()
+        '  MDataset.RenewFileList()
 
 
         Do
@@ -582,14 +580,12 @@ Public Class Manual_Weight
                 MsgBox("Invalid Batch and Bag Combination Entered")
                 Exit Sub
             End If
-
-
+            MDataset.GetCurrentCount() ' Getting the current count
             ' and then write the file header.
             writefileheader2()
             'and set the cylinder index to 0
         Else
             WritefileHeader1()
-
         End If
 
         Btn_StartPallet.Enabled = False
@@ -710,23 +706,28 @@ Public Class Manual_Weight
         Myfile = MDataset.currentfilepath & "\" & MDataset.filename
 
         'Write
+        If Not File.Exists(Myfile) Then
+            Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
+                swdataset.WriteLine(MDataset.batch)
+                swdataset.WriteLine(MDataset.pallet)
+                swdataset.WriteLine(MDataset.timefirstwt.ToString)
 
-        Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
-            swdataset.WriteLine(MDataset.batch)
-            swdataset.WriteLine(MDataset.pallet)
-            swdataset.WriteLine(MDataset.timefirstwt.ToString)
-
-        End Using
+            End Using
+        End If
 
     End Sub
 
     Private Sub writefirstweight()
         Dim Myfile As String
         Myfile = MDataset.currentfilepath & "\" & MDataset.filename
+
+
         Using swdataset As StreamWriter = New StreamWriter(Myfile, True)
             swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
             swdataset.WriteLine(ccylinder.Firstweight.ToString)
         End Using
+
+
     End Sub
 
     Private Sub writefileheader2() ' Write the header data for the Final data set
@@ -734,19 +735,23 @@ Public Class Manual_Weight
         Dim Myfile As String
         Myfile = MDataset.currentfilepath & "\" & MDataset.filename
 
-        'Write
+        If Not File.Exists(Myfile) Then
+            'Write a new header only if the file does not exist.
 
-        Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
-            swdataset.Write("1st Weight Time,")
-            swdataset.WriteLine(MDataset.timefirstwt.ToString)
-            swdataset.Write("2nd Weight Time,")
-            swdataset.WriteLine(MDataset.timesecondwt.ToString)
-            swdataset.Write("Pallet ID,")
-            swdataset.WriteLine(MDataset.pallet)
-            swdataset.Write("Lot#,")
-            swdataset.WriteLine(MDataset.batch)
-            swdataset.WriteLine("Serial Number,1st Wt,2nd Wt,Disposition, Fail Code")
-        End Using
+            Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
+
+                swdataset.Write("1st Weight Time,")
+                swdataset.WriteLine(MDataset.timefirstwt.ToString)
+                swdataset.Write("2nd Weight Time,")
+                swdataset.WriteLine(MDataset.timesecondwt.ToString)
+                swdataset.Write("Bag ID,")
+                swdataset.WriteLine(MDataset.pallet)
+                swdataset.Write("Lot#,")
+                swdataset.WriteLine(MDataset.batch)
+                swdataset.WriteLine("Serial Number,1st Wt,2nd Wt,Disposition, Fail Code")
+            End Using
+        End If
+
     End Sub
 
     Private Sub write_second_weight()
@@ -1105,10 +1110,6 @@ Public Class Manual_Weight
     End Sub
 
 
-
-
-
-
     Private Sub Sorter_CheckedChanged(sender As Object, e As EventArgs) Handles Sorter.CheckedChanged
 
         If Sorter.Checked = True Then
@@ -1129,9 +1130,6 @@ Public Class Manual_Weight
 
 
     End Sub
-
-
-
 
     Private Sub BagCap_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_BagCapacity.Validating
         Dim errormsg As String = ""

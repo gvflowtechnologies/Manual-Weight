@@ -37,7 +37,7 @@ Public Class PalletData
     Private Index_filename As Integer ' Index in array of filenames that contains the current file
     Private fweight As String ' String with fweight data path
     Private completed As String ' String with completed Data Path
-    Private Archived As String ' String with archive of first weights
+    ' Private Archived As String ' String with archive of first weights
 
     Public Sub New(ByVal firstweight As Boolean)
         number_of_Canisters = My.Settings.Bag_Limit
@@ -47,7 +47,7 @@ Public Class PalletData
         DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
         CountBad = 0
         CountGood = 0
-        BFirstweightExists = firstweight
+        BFirstweightExists = firstweight ' Need to put something here to determine if we should put in time stamp
         If BFirstweightExists Then
             Sttimesecond = DateTime.Now
         Else
@@ -55,7 +55,10 @@ Public Class PalletData
         End If
         fweight = My.Settings.File_Directory & "\In Process"
         completed = My.Settings.File_Directory & "\Completed"
-        Archived = My.Settings.File_Directory & "\Archived"
+        '   Archived = My.Settings.File_Directory & "\Archived"
+
+        RenewFileList()
+
     End Sub
 
     Public Sub RenewFileList()
@@ -85,12 +88,12 @@ Public Class PalletData
 
         End If
 
+
+
     End Sub
 
     Public Sub firstweight(ByVal firstpallet As String, ByVal firstbatch As String)
-        ' Looking for two things here.
-        ' one set a flag if the fist file is found.
-        ' It the first weight is found the flag Bfirstweigtexists is set to "True"
+
         ' The second function is to set the time of either the first weight date and time or the second weight date and time.
 
         Dim filename As String
@@ -109,6 +112,33 @@ Public Class PalletData
         Next
 
     End Sub
+
+    Public Sub GetCurrentCount()
+        ' Create a file name
+        Dim FNsecondwt As String
+        FNsecondwt = completed & "\" & currentfilename
+        ' Check to see if file already exists
+
+
+        If File.Exists(FNsecondwt) Then
+            '   Dim tmpstream As StreamReader = File.OpenText(FNsecondwt)
+            Using tmpstream As StreamReader = New StreamReader(FNsecondwt)
+
+                ' cycle through the file
+                Do While tmpstream.Peek <> -1
+                    tmpstream.ReadLine()
+                    canisternum += 1
+
+                Loop
+            End Using
+            canisternum = canisternum - 5
+            'Count the number of cylinders already processed.
+
+        End If
+
+
+    End Sub
+
 
     Public Sub readfirstweight() ' Reads all of the first weights for the batch.
         Dim FNreadfirst As String
@@ -153,8 +183,8 @@ Public Class PalletData
             Next
 
             tmpstream.Dispose()
-            File.Copy(Path.Combine(fweight, currentfilename), Path.Combine(Archived, currentfilename))
-            File.Delete(FNreadfirst)
+            '         File.Copy(Path.Combine(fweight, currentfilename), Path.Combine(Archived, currentfilename))
+            '        File.Delete(FNreadfirst)
 
         End If
 
@@ -187,14 +217,14 @@ Public Class PalletData
 
         Get
             If Not BFirstweightExists Then
-                ' We need to build a new file name.  
+                ' We need to build a new file name for the first wieght only.
                 ' Also need to check that we do not 
 
                 'form trial name
                 Dim sbname As New StringBuilder()
                 Dim STfullname As String
-                Dim iaddpallet As Integer
-                iaddpallet = 0
+                '     Dim iaddpallet As Integer
+                '    iaddpallet = 0
 
                 sbname.Append(batch).Append("_")
                 sbname.Append(pallet).Append("_")
@@ -204,12 +234,12 @@ Public Class PalletData
 
                 STfullname = sbname.ToString
                 ' check for file in completed.
-                Do Until File.Exists(completed & "\" & STfullname & iaddpallet.ToString & ".csv") = False
+                'Do Until File.Exists(completed & "\" & STfullname & iaddpallet.ToString & ".csv") = False
 
-                    iaddpallet += 1
+                '    iaddpallet += 1
 
-                Loop
-                STfullname = STfullname & iaddpallet.ToString() & ".csv"
+                'Loop
+                'STfullname = STfullname & iaddpallet.ToString() & ".csv"
                 currentfilename = STfullname
                 '                Return STfullname
             End If
@@ -341,13 +371,13 @@ Public Class PalletData
             'Sort through the array of first weights
 
             Dim x As Integer ' Counter Variable
-            Dim y As Integer ' counter variable
 
-            
-            
+
+
+
             'Redimension both the temp and permanent storage arrays
             iNumRows = UBound(FirstWeightReading, 1)
-          
+
             'Copy reading data into the array.
             For x = 0 To iNumRows
                 If FirstWeightReading(x, 0) = serialnumber Then
