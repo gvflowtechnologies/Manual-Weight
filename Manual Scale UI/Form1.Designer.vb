@@ -172,7 +172,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_BagNum.AutoSize = True
         Me.Lbl_BagNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_BagNum.Location = New System.Drawing.Point(169, 253)
+        Me.Lbl_BagNum.Location = New System.Drawing.Point(169, 208)
         Me.Lbl_BagNum.MinimumSize = New System.Drawing.Size(50, 27)
         Me.Lbl_BagNum.Name = "Lbl_BagNum"
         Me.Lbl_BagNum.Size = New System.Drawing.Size(50, 27)
@@ -181,7 +181,7 @@ Partial Class Manual_Weight
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(113, 253)
+        Me.Label16.Location = New System.Drawing.Point(113, 208)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(53, 25)
         Me.Label16.TabIndex = 17
@@ -390,7 +390,7 @@ Partial Class Manual_Weight
         '
         Me.sLbl_BN.AutoSize = True
         Me.sLbl_BN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sLbl_BN.Location = New System.Drawing.Point(98, 208)
+        Me.sLbl_BN.Location = New System.Drawing.Point(98, 251)
         Me.sLbl_BN.Name = "sLbl_BN"
         Me.sLbl_BN.Size = New System.Drawing.Size(68, 25)
         Me.sLbl_BN.TabIndex = 7
@@ -507,7 +507,7 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN.AutoSize = True
         Me.Lbl_BatchN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Lbl_BatchN.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_BatchN.Location = New System.Drawing.Point(169, 208)
+        Me.Lbl_BatchN.Location = New System.Drawing.Point(169, 251)
         Me.Lbl_BatchN.MinimumSize = New System.Drawing.Size(300, 2)
         Me.Lbl_BatchN.Name = "Lbl_BatchN"
         Me.Lbl_BatchN.Size = New System.Drawing.Size(300, 27)
@@ -848,7 +848,7 @@ Partial Class Manual_Weight
         '
         Me.LB_SerialPorts.FormattingEnabled = True
         Me.LB_SerialPorts.Location = New System.Drawing.Point(175, 307)
-        Me.LB_SerialPorts.MinimumSize = New System.Drawing.Size(0, 22)
+        Me.LB_SerialPorts.MinimumSize = New System.Drawing.Size(4, 22)
         Me.LB_SerialPorts.Name = "LB_SerialPorts"
         Me.LB_SerialPorts.Size = New System.Drawing.Size(173, 17)
         Me.LB_SerialPorts.TabIndex = 14

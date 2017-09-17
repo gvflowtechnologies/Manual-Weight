@@ -147,6 +147,7 @@ Public Class Manual_Weight
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
         portclosing()
+        cylindersorter.Sort(255)
         If Not IsNothing(swdataset) Then swdataset.Close()
         If Not IsNothing(swlogdata) Then swlogdata.Close()
         If Not IsNothing(Calibration) Then Calibration.Close()
@@ -235,7 +236,9 @@ Public Class Manual_Weight
                         Lbl_Instruction.BackColor = Color.CornflowerBlue
                         TB_SerialNumber.Text = ""
                         checkpalletcomplete()
-                        LBL_Rationalle.Text = ""
+                    LBL_Rationalle.Text = ""
+                    cylindersorter.Sort(255)
+
                     End If
 
 
@@ -337,6 +340,7 @@ Public Class Manual_Weight
                 If entering Then
                     entering = False
                     Disposition()
+
                     ' update canister number
                     If sorterattached Then
                         If ccylinder.Disposition = False Then
@@ -350,10 +354,9 @@ Public Class Manual_Weight
                 If cylindersorter.dropped = False Then
                     Dim login As String
                     Dim count As Integer
+                    cylindersorter.Sort(255)
                     ' msg box stuff here.
                     Do
-
-
                         login = InputBox("Supervisor Approval Required", "Cylinder not put in sorter", "")
                         If login <> My.Settings.Password Then
                             MsgBox("You have " & (5 - count).ToString & " attempts remaining", MsgBoxStyle.OkOnly, "Login Incorrect")
@@ -610,7 +613,7 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub checkpalletcomplete()
-
+        ' Closepallet()
 
         If Not MDataset.firstweightexists Then 'If this is a first weight check for button press and exit if button was pressed.
             If manualstop Then
@@ -626,14 +629,14 @@ Public Class Manual_Weight
 
 
         If manualstop Then
-            Tmr_ScreenUpdate.Stop()
+            'Tmr_ScreenUpdate.Stop()
 
-            Dim userresponse As MsgBoxResult
-            userresponse = MsgBox("Data could be lost, Press OK to continue", MsgBoxStyle.OkCancel, "Manual Stop Requested, Bag Not Complete")
+            'Dim userresponse As MsgBoxResult
+            'userresponse = MsgBox("Data could be lost, Press OK to continue", MsgBoxStyle.OkCancel, "Manual Stop Requested, Bag Not Complete")
 
-            Tmr_ScreenUpdate.Start()
+            'Tmr_ScreenUpdate.Start()
 
-            If userresponse = MsgBoxResult.Cancel Then Exit Sub
+            'If userresponse = MsgBoxResult.Cancel Then Exit Sub
             Closepallet()
         End If
 
