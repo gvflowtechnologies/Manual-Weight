@@ -325,9 +325,9 @@ Public Class Manual_Weight
 
                                 End If
 
-                                teststate = Weighprocess.prompting
-
-                                entering = True
+                            teststate = Weighprocess.prompting
+                            entering = True
+                            Disposition()
                                 'Case    > My.Settings.TareLimit and < my.Settings.TareError
 
                         End Select
@@ -337,9 +337,9 @@ Public Class Manual_Weight
                     End If
 
             Case Weighprocess.prompting
+                'Tmr_ScreenUpdate.Stop()
                 If entering Then
                     entering = False
-                    Disposition()
 
                     ' update canister number
                     If sorterattached Then
@@ -348,9 +348,7 @@ Public Class Manual_Weight
                         End If
                     End If
                 End If
-
-                    Tmr_ScreenUpdate.Stop()
-
+                Tmr_ScreenUpdate.Stop()
                 If cylindersorter.dropped = False Then
                     Dim login As String
                     Dim count As Integer
@@ -372,23 +370,19 @@ Public Class Manual_Weight
                 End If
 
                     'If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
-                    teststate = Weighprocess.Scanning
-                    entering = True
-
-                    ccylinder.dispose()
-
-                    Tmr_ScreenUpdate.Start()
+                teststate = Weighprocess.Scanning
+                entering = True
+                ccylinder.dispose()
+                Tmr_ScreenUpdate.Start()
 
             Case Weighprocess.erroring ' if we end up here stop processing
                     If entering Then
                         entering = False
                     End If
-
+                Tmr_ScreenUpdate.Stop()
+                MsgBox("Shut Down Software", MsgBoxStyle.Critical, "Weighing Process Failure")
 
         End Select
-
-
-
 
     End Sub
 
