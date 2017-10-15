@@ -2101,8 +2101,4 @@ Public Class Manual_Weight
 
 
 
-
-    Private Sub GroupBox6_Enter(sender As Object, e As EventArgs) Handles GroupBox6.Enter
-
-    End Sub
 End Class
