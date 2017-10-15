@@ -26,6 +26,8 @@ Partial Class Manual_Weight
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Manual_Weight))
         Me.TC_MainControl = New System.Windows.Forms.TabControl()
         Me.RunPage = New System.Windows.Forms.TabPage()
+        Me.LblDropsScale = New System.Windows.Forms.Label()
+        Me.LblPallet = New System.Windows.Forms.Label()
         Me.BtnResume = New System.Windows.Forms.Button()
         Me.Btn_PauseRobot = New System.Windows.Forms.Button()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
@@ -44,8 +46,6 @@ Partial Class Manual_Weight
         Me.LblRawStream = New System.Windows.Forms.Label()
         Me.Lbl_CurrentScale = New System.Windows.Forms.Label()
         Me.GBBinData = New System.Windows.Forms.GroupBox()
-        Me.LblDropsScale = New System.Windows.Forms.Label()
-        Me.LblPallet = New System.Windows.Forms.Label()
         Me.Btn_ResetGood2 = New System.Windows.Forms.Button()
         Me.Lbl_GoodCount2 = New System.Windows.Forms.Label()
         Me.Label23 = New System.Windows.Forms.Label()
@@ -168,7 +168,6 @@ Partial Class Manual_Weight
         Me.Label64 = New System.Windows.Forms.Label()
         Me.Label65 = New System.Windows.Forms.Label()
         Me.Label66 = New System.Windows.Forms.Label()
-        Me.Btn_Updt_Pllt_R = New System.Windows.Forms.Button()
         Me.GroupBox6 = New System.Windows.Forms.GroupBox()
         Me.TB_OC_Z_L = New System.Windows.Forms.TextBox()
         Me.TB_OC_Y_L = New System.Windows.Forms.TextBox()
@@ -191,13 +190,13 @@ Partial Class Manual_Weight
         Me.Label35 = New System.Windows.Forms.Label()
         Me.Label34 = New System.Windows.Forms.Label()
         Me.Label28 = New System.Windows.Forms.Label()
-        Me.Btn_Updt_Pllt_L = New System.Windows.Forms.Button()
         Me.Label33 = New System.Windows.Forms.Label()
         Me.Label32 = New System.Windows.Forms.Label()
         Me.Label31 = New System.Windows.Forms.Label()
         Me.Label30 = New System.Windows.Forms.Label()
         Me.Label29 = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.Btn_Updt_Pllt_L = New System.Windows.Forms.Button()
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.TMR_door = New System.Windows.Forms.Timer(Me.components)
@@ -251,6 +250,26 @@ Partial Class Manual_Weight
         Me.RunPage.TabIndex = 0
         Me.RunPage.Text = "Weighing"
         Me.RunPage.UseVisualStyleBackColor = True
+        '
+        'LblDropsScale
+        '
+        Me.LblDropsScale.AutoSize = True
+        Me.LblDropsScale.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblDropsScale.Location = New System.Drawing.Point(1468, 358)
+        Me.LblDropsScale.Name = "LblDropsScale"
+        Me.LblDropsScale.Size = New System.Drawing.Size(45, 13)
+        Me.LblDropsScale.TabIndex = 12
+        Me.LblDropsScale.Text = "Label45"
+        '
+        'LblPallet
+        '
+        Me.LblPallet.AutoSize = True
+        Me.LblPallet.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblPallet.Location = New System.Drawing.Point(1404, 360)
+        Me.LblPallet.Name = "LblPallet"
+        Me.LblPallet.Size = New System.Drawing.Size(45, 13)
+        Me.LblPallet.TabIndex = 10
+        Me.LblPallet.Text = "Label27"
         '
         'BtnResume
         '
@@ -458,26 +477,6 @@ Partial Class Manual_Weight
         Me.GBBinData.TabIndex = 5
         Me.GBBinData.TabStop = False
         Me.GBBinData.Text = "Completed Count"
-        '
-        'LblDropsScale
-        '
-        Me.LblDropsScale.AutoSize = True
-        Me.LblDropsScale.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblDropsScale.Location = New System.Drawing.Point(1468, 358)
-        Me.LblDropsScale.Name = "LblDropsScale"
-        Me.LblDropsScale.Size = New System.Drawing.Size(45, 13)
-        Me.LblDropsScale.TabIndex = 12
-        Me.LblDropsScale.Text = "Label45"
-        '
-        'LblPallet
-        '
-        Me.LblPallet.AutoSize = True
-        Me.LblPallet.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblPallet.Location = New System.Drawing.Point(1404, 360)
-        Me.LblPallet.Name = "LblPallet"
-        Me.LblPallet.Size = New System.Drawing.Size(45, 13)
-        Me.LblPallet.TabIndex = 10
-        Me.LblPallet.Text = "Label27"
         '
         'Btn_ResetGood2
         '
@@ -1335,7 +1334,6 @@ Partial Class Manual_Weight
         '
         Me.TPPalletLayout.Controls.Add(Me.GroupBox8)
         Me.TPPalletLayout.Controls.Add(Me.GroupBox1)
-        Me.TPPalletLayout.Controls.Add(Me.GroupBox7)
         Me.TPPalletLayout.Controls.Add(Me.GroupBox6)
         Me.TPPalletLayout.Controls.Add(Me.Label33)
         Me.TPPalletLayout.Controls.Add(Me.Label32)
@@ -1343,6 +1341,8 @@ Partial Class Manual_Weight
         Me.TPPalletLayout.Controls.Add(Me.Label30)
         Me.TPPalletLayout.Controls.Add(Me.Label29)
         Me.TPPalletLayout.Controls.Add(Me.PictureBox1)
+        Me.TPPalletLayout.Controls.Add(Me.Btn_Updt_Pllt_L)
+        Me.TPPalletLayout.Controls.Add(Me.GroupBox7)
         Me.TPPalletLayout.Location = New System.Drawing.Point(4, 22)
         Me.TPPalletLayout.Name = "TPPalletLayout"
         Me.TPPalletLayout.Padding = New System.Windows.Forms.Padding(3)
@@ -1360,9 +1360,9 @@ Partial Class Manual_Weight
         Me.GroupBox8.Controls.Add(Me.Lbl_RLocationX)
         Me.GroupBox8.Controls.Add(Me.Label18)
         Me.GroupBox8.Controls.Add(Me.Lbl_RlocationY)
-        Me.GroupBox8.Location = New System.Drawing.Point(1026, 294)
+        Me.GroupBox8.Location = New System.Drawing.Point(1018, 294)
         Me.GroupBox8.Name = "GroupBox8"
-        Me.GroupBox8.Size = New System.Drawing.Size(472, 74)
+        Me.GroupBox8.Size = New System.Drawing.Size(492, 74)
         Me.GroupBox8.TabIndex = 25
         Me.GroupBox8.TabStop = False
         Me.GroupBox8.Text = "Robot Location"
@@ -1451,16 +1451,17 @@ Partial Class Manual_Weight
         Me.GroupBox1.Controls.Add(Me.Label16)
         Me.GroupBox1.Controls.Add(Me.Label17)
         Me.GroupBox1.Controls.Add(Me.BTN_TEACHScale)
-        Me.GroupBox1.Location = New System.Drawing.Point(6, 282)
+        Me.GroupBox1.Location = New System.Drawing.Point(1018, 202)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(498, 86)
+        Me.GroupBox1.Size = New System.Drawing.Size(495, 86)
         Me.GroupBox1.TabIndex = 24
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Scale Location"
         '
         'TB_Sz
         '
-        Me.TB_Sz.Location = New System.Drawing.Point(344, 29)
+        Me.TB_Sz.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_Sz.Location = New System.Drawing.Point(344, 23)
         Me.TB_Sz.Name = "TB_Sz"
         Me.TB_Sz.Size = New System.Drawing.Size(68, 20)
         Me.TB_Sz.TabIndex = 30
@@ -1468,7 +1469,8 @@ Partial Class Manual_Weight
         '
         'Tb_SY
         '
-        Me.Tb_SY.Location = New System.Drawing.Point(216, 29)
+        Me.Tb_SY.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_SY.Location = New System.Drawing.Point(216, 23)
         Me.Tb_SY.Name = "Tb_SY"
         Me.Tb_SY.Size = New System.Drawing.Size(68, 20)
         Me.Tb_SY.TabIndex = 29
@@ -1476,7 +1478,8 @@ Partial Class Manual_Weight
         '
         'Tb_S_X
         '
-        Me.Tb_S_X.Location = New System.Drawing.Point(67, 29)
+        Me.Tb_S_X.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tb_S_X.Location = New System.Drawing.Point(67, 23)
         Me.Tb_S_X.Name = "Tb_S_X"
         Me.Tb_S_X.Size = New System.Drawing.Size(68, 20)
         Me.Tb_S_X.TabIndex = 28
@@ -1485,30 +1488,30 @@ Partial Class Manual_Weight
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label10.Location = New System.Drawing.Point(286, 27)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(55, 20)
+        Me.Label10.Size = New System.Drawing.Size(36, 13)
         Me.Label10.TabIndex = 27
         Me.Label10.Text = "Z(mm)"
         '
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label16.Location = New System.Drawing.Point(151, 27)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(60, 20)
+        Me.Label16.Size = New System.Drawing.Size(39, 13)
         Me.Label16.TabIndex = 26
         Me.Label16.Text = "Y (mm)"
         '
         'Label17
         '
         Me.Label17.AutoSize = True
-        Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label17.Location = New System.Drawing.Point(6, 27)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(56, 20)
+        Me.Label17.Size = New System.Drawing.Size(37, 13)
         Me.Label17.TabIndex = 25
         Me.Label17.Text = "x (mm)"
         '
@@ -1544,215 +1547,214 @@ Partial Class Manual_Weight
         Me.GroupBox7.Controls.Add(Me.Label64)
         Me.GroupBox7.Controls.Add(Me.Label65)
         Me.GroupBox7.Controls.Add(Me.Label66)
-        Me.GroupBox7.Controls.Add(Me.Btn_Updt_Pllt_R)
         Me.GroupBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox7.Location = New System.Drawing.Point(1026, 6)
+        Me.GroupBox7.Location = New System.Drawing.Point(6, 170)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(472, 282)
+        Me.GroupBox7.Size = New System.Drawing.Size(498, 156)
         Me.GroupBox7.TabIndex = 23
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "RIGHT PALLET"
         '
         'TB_OC_Z_R
         '
-        Me.TB_OC_Z_R.Location = New System.Drawing.Point(344, 194)
+        Me.TB_OC_Z_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_OC_Z_R.Location = New System.Drawing.Point(344, 131)
         Me.TB_OC_Z_R.Name = "TB_OC_Z_R"
-        Me.TB_OC_Z_R.Size = New System.Drawing.Size(68, 26)
+        Me.TB_OC_Z_R.Size = New System.Drawing.Size(68, 20)
         Me.TB_OC_Z_R.TabIndex = 22
         Me.TB_OC_Z_R.Text = "-123.333"
         '
         'TB_OC_Y_R
         '
-        Me.TB_OC_Y_R.Location = New System.Drawing.Point(216, 194)
+        Me.TB_OC_Y_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_OC_Y_R.Location = New System.Drawing.Point(216, 131)
         Me.TB_OC_Y_R.Name = "TB_OC_Y_R"
-        Me.TB_OC_Y_R.Size = New System.Drawing.Size(68, 26)
+        Me.TB_OC_Y_R.Size = New System.Drawing.Size(68, 20)
         Me.TB_OC_Y_R.TabIndex = 21
         Me.TB_OC_Y_R.Text = "-123.333"
         '
         'TB_OC_X_R
         '
-        Me.TB_OC_X_R.Location = New System.Drawing.Point(67, 194)
+        Me.TB_OC_X_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_OC_X_R.Location = New System.Drawing.Point(67, 131)
         Me.TB_OC_X_R.Name = "TB_OC_X_R"
-        Me.TB_OC_X_R.Size = New System.Drawing.Size(68, 26)
+        Me.TB_OC_X_R.Size = New System.Drawing.Size(68, 20)
         Me.TB_OC_X_R.TabIndex = 20
         Me.TB_OC_X_R.Text = "-123.333"
         '
         'TB_IC_Z_R
         '
-        Me.TB_IC_Z_R.Location = New System.Drawing.Point(347, 118)
+        Me.TB_IC_Z_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_IC_Z_R.Location = New System.Drawing.Point(347, 87)
         Me.TB_IC_Z_R.Name = "TB_IC_Z_R"
-        Me.TB_IC_Z_R.Size = New System.Drawing.Size(68, 26)
+        Me.TB_IC_Z_R.Size = New System.Drawing.Size(68, 20)
         Me.TB_IC_Z_R.TabIndex = 19
         Me.TB_IC_Z_R.Text = "-123.333"
         '
         'TB_IC_Y_R
         '
-        Me.TB_IC_Y_R.Location = New System.Drawing.Point(212, 118)
+        Me.TB_IC_Y_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_IC_Y_R.Location = New System.Drawing.Point(212, 87)
         Me.TB_IC_Y_R.Name = "TB_IC_Y_R"
-        Me.TB_IC_Y_R.Size = New System.Drawing.Size(68, 26)
+        Me.TB_IC_Y_R.Size = New System.Drawing.Size(68, 20)
         Me.TB_IC_Y_R.TabIndex = 18
         Me.TB_IC_Y_R.Text = "-123.333"
         '
         'TB_IC_X_R
         '
-        Me.TB_IC_X_R.Location = New System.Drawing.Point(67, 118)
+        Me.TB_IC_X_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_IC_X_R.Location = New System.Drawing.Point(67, 87)
         Me.TB_IC_X_R.Name = "TB_IC_X_R"
-        Me.TB_IC_X_R.Size = New System.Drawing.Size(68, 26)
+        Me.TB_IC_X_R.Size = New System.Drawing.Size(68, 20)
         Me.TB_IC_X_R.TabIndex = 17
         Me.TB_IC_X_R.Text = "-123.333"
         '
         'TB_RC_Z_R
         '
-        Me.TB_RC_Z_R.Location = New System.Drawing.Point(344, 57)
+        Me.TB_RC_Z_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_RC_Z_R.Location = New System.Drawing.Point(344, 39)
         Me.TB_RC_Z_R.Name = "TB_RC_Z_R"
-        Me.TB_RC_Z_R.Size = New System.Drawing.Size(68, 26)
+        Me.TB_RC_Z_R.Size = New System.Drawing.Size(68, 20)
         Me.TB_RC_Z_R.TabIndex = 16
         Me.TB_RC_Z_R.Text = "123.333"
         '
         'TB_RC_Y_R
         '
-        Me.TB_RC_Y_R.Location = New System.Drawing.Point(216, 57)
+        Me.TB_RC_Y_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_RC_Y_R.Location = New System.Drawing.Point(216, 39)
         Me.TB_RC_Y_R.Name = "TB_RC_Y_R"
-        Me.TB_RC_Y_R.Size = New System.Drawing.Size(68, 26)
+        Me.TB_RC_Y_R.Size = New System.Drawing.Size(68, 20)
         Me.TB_RC_Y_R.TabIndex = 15
         Me.TB_RC_Y_R.Text = "123.333"
         '
         'TB_RC_X_R
         '
-        Me.TB_RC_X_R.Location = New System.Drawing.Point(67, 57)
+        Me.TB_RC_X_R.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_RC_X_R.Location = New System.Drawing.Point(67, 39)
         Me.TB_RC_X_R.Name = "TB_RC_X_R"
-        Me.TB_RC_X_R.Size = New System.Drawing.Size(68, 26)
+        Me.TB_RC_X_R.Size = New System.Drawing.Size(68, 20)
         Me.TB_RC_X_R.TabIndex = 14
         Me.TB_RC_X_R.Text = "-123.333"
         '
         'Label55
         '
         Me.Label55.AutoSize = True
-        Me.Label55.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label55.Location = New System.Drawing.Point(6, 171)
+        Me.Label55.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label55.Location = New System.Drawing.Point(6, 114)
         Me.Label55.Name = "Label55"
-        Me.Label55.Size = New System.Drawing.Size(181, 20)
+        Me.Label55.Size = New System.Drawing.Size(121, 13)
         Me.Label55.TabIndex = 13
         Me.Label55.Text = "Outside Corner Location"
         '
         'Label56
         '
         Me.Label56.AutoSize = True
-        Me.Label56.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label56.Location = New System.Drawing.Point(286, 197)
+        Me.Label56.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label56.Location = New System.Drawing.Point(286, 135)
         Me.Label56.Name = "Label56"
-        Me.Label56.Size = New System.Drawing.Size(55, 20)
+        Me.Label56.Size = New System.Drawing.Size(36, 13)
         Me.Label56.TabIndex = 12
         Me.Label56.Text = "Z(mm)"
         '
         'Label57
         '
         Me.Label57.AutoSize = True
-        Me.Label57.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label57.Location = New System.Drawing.Point(151, 197)
+        Me.Label57.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label57.Location = New System.Drawing.Point(151, 135)
         Me.Label57.Name = "Label57"
-        Me.Label57.Size = New System.Drawing.Size(60, 20)
+        Me.Label57.Size = New System.Drawing.Size(39, 13)
         Me.Label57.TabIndex = 11
         Me.Label57.Text = "Y (mm)"
         '
         'Label58
         '
         Me.Label58.AutoSize = True
-        Me.Label58.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label58.Location = New System.Drawing.Point(6, 197)
+        Me.Label58.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label58.Location = New System.Drawing.Point(6, 135)
         Me.Label58.Name = "Label58"
-        Me.Label58.Size = New System.Drawing.Size(56, 20)
+        Me.Label58.Size = New System.Drawing.Size(37, 13)
         Me.Label58.TabIndex = 10
         Me.Label58.Text = "x (mm)"
         '
         'Label59
         '
         Me.Label59.AutoSize = True
-        Me.Label59.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label59.Location = New System.Drawing.Point(286, 121)
+        Me.Label59.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label59.Location = New System.Drawing.Point(286, 91)
         Me.Label59.Name = "Label59"
-        Me.Label59.Size = New System.Drawing.Size(55, 20)
+        Me.Label59.Size = New System.Drawing.Size(36, 13)
         Me.Label59.TabIndex = 9
         Me.Label59.Text = "Z(mm)"
         '
         'Label60
         '
         Me.Label60.AutoSize = True
-        Me.Label60.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label60.Location = New System.Drawing.Point(151, 121)
+        Me.Label60.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label60.Location = New System.Drawing.Point(151, 91)
         Me.Label60.Name = "Label60"
-        Me.Label60.Size = New System.Drawing.Size(60, 20)
+        Me.Label60.Size = New System.Drawing.Size(39, 13)
         Me.Label60.TabIndex = 8
         Me.Label60.Text = "Y (mm)"
         '
         'Label61
         '
         Me.Label61.AutoSize = True
-        Me.Label61.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label61.Location = New System.Drawing.Point(6, 121)
+        Me.Label61.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label61.Location = New System.Drawing.Point(6, 91)
         Me.Label61.Name = "Label61"
-        Me.Label61.Size = New System.Drawing.Size(56, 20)
+        Me.Label61.Size = New System.Drawing.Size(37, 13)
         Me.Label61.TabIndex = 7
         Me.Label61.Text = "x (mm)"
         '
         'Label62
         '
         Me.Label62.AutoSize = True
-        Me.Label62.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label62.Location = New System.Drawing.Point(6, 95)
+        Me.Label62.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label62.Location = New System.Drawing.Point(6, 70)
         Me.Label62.Name = "Label62"
-        Me.Label62.Size = New System.Drawing.Size(169, 20)
+        Me.Label62.Size = New System.Drawing.Size(113, 13)
         Me.Label62.TabIndex = 6
         Me.Label62.Text = "Inside Corner Location"
         '
         'Label63
         '
         Me.Label63.AutoSize = True
-        Me.Label63.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label63.Location = New System.Drawing.Point(286, 60)
+        Me.Label63.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label63.Location = New System.Drawing.Point(286, 43)
         Me.Label63.Name = "Label63"
-        Me.Label63.Size = New System.Drawing.Size(55, 20)
+        Me.Label63.Size = New System.Drawing.Size(36, 13)
         Me.Label63.TabIndex = 5
         Me.Label63.Text = "Z(mm)"
         '
         'Label64
         '
         Me.Label64.AutoSize = True
-        Me.Label64.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label64.Location = New System.Drawing.Point(151, 60)
+        Me.Label64.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label64.Location = New System.Drawing.Point(151, 43)
         Me.Label64.Name = "Label64"
-        Me.Label64.Size = New System.Drawing.Size(60, 20)
+        Me.Label64.Size = New System.Drawing.Size(39, 13)
         Me.Label64.TabIndex = 4
         Me.Label64.Text = "Y (mm)"
         '
         'Label65
         '
         Me.Label65.AutoSize = True
-        Me.Label65.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label65.Location = New System.Drawing.Point(6, 60)
+        Me.Label65.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label65.Location = New System.Drawing.Point(6, 43)
         Me.Label65.Name = "Label65"
-        Me.Label65.Size = New System.Drawing.Size(56, 20)
+        Me.Label65.Size = New System.Drawing.Size(37, 13)
         Me.Label65.TabIndex = 3
         Me.Label65.Text = "x (mm)"
         '
         'Label66
         '
         Me.Label66.AutoSize = True
-        Me.Label66.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label66.Location = New System.Drawing.Point(6, 34)
+        Me.Label66.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label66.Location = New System.Drawing.Point(3, 22)
         Me.Label66.Name = "Label66"
-        Me.Label66.Size = New System.Drawing.Size(161, 20)
+        Me.Label66.Size = New System.Drawing.Size(108, 13)
         Me.Label66.TabIndex = 2
         Me.Label66.Text = "Rear Corner Location"
-        '
-        'Btn_Updt_Pllt_R
-        '
-        Me.Btn_Updt_Pllt_R.Location = New System.Drawing.Point(31, 240)
-        Me.Btn_Updt_Pllt_R.Name = "Btn_Updt_Pllt_R"
-        Me.Btn_Updt_Pllt_R.Size = New System.Drawing.Size(299, 30)
-        Me.Btn_Updt_Pllt_R.TabIndex = 1
-        Me.Btn_Updt_Pllt_R.Text = "Update Pallet Data"
-        Me.Btn_Updt_Pllt_R.UseVisualStyleBackColor = True
         '
         'GroupBox6
         '
@@ -1777,215 +1779,214 @@ Partial Class Manual_Weight
         Me.GroupBox6.Controls.Add(Me.Label35)
         Me.GroupBox6.Controls.Add(Me.Label34)
         Me.GroupBox6.Controls.Add(Me.Label28)
-        Me.GroupBox6.Controls.Add(Me.Btn_Updt_Pllt_L)
         Me.GroupBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox6.Location = New System.Drawing.Point(6, 6)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Size = New System.Drawing.Size(498, 270)
+        Me.GroupBox6.Size = New System.Drawing.Size(498, 163)
         Me.GroupBox6.TabIndex = 8
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "LEFT PALLET"
         '
         'TB_OC_Z_L
         '
-        Me.TB_OC_Z_L.Location = New System.Drawing.Point(344, 181)
+        Me.TB_OC_Z_L.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_OC_Z_L.Location = New System.Drawing.Point(344, 123)
         Me.TB_OC_Z_L.Name = "TB_OC_Z_L"
-        Me.TB_OC_Z_L.Size = New System.Drawing.Size(68, 26)
+        Me.TB_OC_Z_L.Size = New System.Drawing.Size(68, 20)
         Me.TB_OC_Z_L.TabIndex = 22
         Me.TB_OC_Z_L.Text = "-123.333"
         '
         'TB_OC_Y_L
         '
-        Me.TB_OC_Y_L.Location = New System.Drawing.Point(216, 181)
+        Me.TB_OC_Y_L.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_OC_Y_L.Location = New System.Drawing.Point(216, 123)
         Me.TB_OC_Y_L.Name = "TB_OC_Y_L"
-        Me.TB_OC_Y_L.Size = New System.Drawing.Size(68, 26)
+        Me.TB_OC_Y_L.Size = New System.Drawing.Size(68, 20)
         Me.TB_OC_Y_L.TabIndex = 21
         Me.TB_OC_Y_L.Text = "-123.333"
         '
         'TB_OC_X_L
         '
-        Me.TB_OC_X_L.Location = New System.Drawing.Point(67, 181)
+        Me.TB_OC_X_L.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_OC_X_L.Location = New System.Drawing.Point(52, 123)
         Me.TB_OC_X_L.Name = "TB_OC_X_L"
-        Me.TB_OC_X_L.Size = New System.Drawing.Size(68, 26)
+        Me.TB_OC_X_L.Size = New System.Drawing.Size(68, 20)
         Me.TB_OC_X_L.TabIndex = 20
         Me.TB_OC_X_L.Text = "-123.333"
         '
         'TB_IC_Z_L
         '
-        Me.TB_IC_Z_L.Location = New System.Drawing.Point(347, 118)
+        Me.TB_IC_Z_L.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_IC_Z_L.Location = New System.Drawing.Point(347, 76)
         Me.TB_IC_Z_L.Name = "TB_IC_Z_L"
-        Me.TB_IC_Z_L.Size = New System.Drawing.Size(68, 26)
+        Me.TB_IC_Z_L.Size = New System.Drawing.Size(68, 20)
         Me.TB_IC_Z_L.TabIndex = 19
         Me.TB_IC_Z_L.Text = "-123.333"
         '
         'TB_IC_Y_L
         '
-        Me.TB_IC_Y_L.Location = New System.Drawing.Point(212, 118)
+        Me.TB_IC_Y_L.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_IC_Y_L.Location = New System.Drawing.Point(212, 76)
         Me.TB_IC_Y_L.Name = "TB_IC_Y_L"
-        Me.TB_IC_Y_L.Size = New System.Drawing.Size(68, 26)
+        Me.TB_IC_Y_L.Size = New System.Drawing.Size(68, 20)
         Me.TB_IC_Y_L.TabIndex = 18
         Me.TB_IC_Y_L.Text = "-123.333"
         '
         'TB_IC_X_L
         '
-        Me.TB_IC_X_L.Location = New System.Drawing.Point(67, 118)
+        Me.TB_IC_X_L.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_IC_X_L.Location = New System.Drawing.Point(60, 76)
         Me.TB_IC_X_L.Name = "TB_IC_X_L"
-        Me.TB_IC_X_L.Size = New System.Drawing.Size(68, 26)
+        Me.TB_IC_X_L.Size = New System.Drawing.Size(68, 20)
         Me.TB_IC_X_L.TabIndex = 17
         Me.TB_IC_X_L.Text = "-123.333"
         '
         'TB_RC_Z_L
         '
-        Me.TB_RC_Z_L.Location = New System.Drawing.Point(344, 57)
+        Me.TB_RC_Z_L.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_RC_Z_L.Location = New System.Drawing.Point(344, 31)
         Me.TB_RC_Z_L.Name = "TB_RC_Z_L"
-        Me.TB_RC_Z_L.Size = New System.Drawing.Size(68, 26)
+        Me.TB_RC_Z_L.Size = New System.Drawing.Size(68, 20)
         Me.TB_RC_Z_L.TabIndex = 16
         Me.TB_RC_Z_L.Text = "123.333"
         '
         'TB_RC_Y_L
         '
-        Me.TB_RC_Y_L.Location = New System.Drawing.Point(216, 57)
+        Me.TB_RC_Y_L.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_RC_Y_L.Location = New System.Drawing.Point(216, 31)
         Me.TB_RC_Y_L.Name = "TB_RC_Y_L"
-        Me.TB_RC_Y_L.Size = New System.Drawing.Size(68, 26)
+        Me.TB_RC_Y_L.Size = New System.Drawing.Size(68, 20)
         Me.TB_RC_Y_L.TabIndex = 15
         Me.TB_RC_Y_L.Text = "123.333"
         '
         'TB_RC_X_L
         '
-        Me.TB_RC_X_L.Location = New System.Drawing.Point(67, 57)
+        Me.TB_RC_X_L.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_RC_X_L.Location = New System.Drawing.Point(52, 31)
         Me.TB_RC_X_L.Name = "TB_RC_X_L"
-        Me.TB_RC_X_L.Size = New System.Drawing.Size(68, 26)
+        Me.TB_RC_X_L.Size = New System.Drawing.Size(68, 20)
         Me.TB_RC_X_L.TabIndex = 14
         Me.TB_RC_X_L.Text = "-123.333"
         '
         'Label44
         '
         Me.Label44.AutoSize = True
-        Me.Label44.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label44.Location = New System.Drawing.Point(6, 158)
+        Me.Label44.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label44.Location = New System.Drawing.Point(7, 109)
         Me.Label44.Name = "Label44"
-        Me.Label44.Size = New System.Drawing.Size(181, 20)
+        Me.Label44.Size = New System.Drawing.Size(121, 13)
         Me.Label44.TabIndex = 13
         Me.Label44.Text = "Outside Corner Location"
         '
         'Label41
         '
         Me.Label41.AutoSize = True
-        Me.Label41.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label41.Location = New System.Drawing.Point(286, 184)
+        Me.Label41.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label41.Location = New System.Drawing.Point(286, 127)
         Me.Label41.Name = "Label41"
-        Me.Label41.Size = New System.Drawing.Size(55, 20)
+        Me.Label41.Size = New System.Drawing.Size(36, 13)
         Me.Label41.TabIndex = 12
         Me.Label41.Text = "Z(mm)"
         '
         'Label42
         '
         Me.Label42.AutoSize = True
-        Me.Label42.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label42.Location = New System.Drawing.Point(151, 184)
+        Me.Label42.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label42.Location = New System.Drawing.Point(151, 127)
         Me.Label42.Name = "Label42"
-        Me.Label42.Size = New System.Drawing.Size(60, 20)
+        Me.Label42.Size = New System.Drawing.Size(39, 13)
         Me.Label42.TabIndex = 11
         Me.Label42.Text = "Y (mm)"
         '
         'Label43
         '
         Me.Label43.AutoSize = True
-        Me.Label43.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label43.Location = New System.Drawing.Point(6, 184)
+        Me.Label43.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label43.Location = New System.Drawing.Point(7, 127)
         Me.Label43.Name = "Label43"
-        Me.Label43.Size = New System.Drawing.Size(56, 20)
+        Me.Label43.Size = New System.Drawing.Size(37, 13)
         Me.Label43.TabIndex = 10
         Me.Label43.Text = "x (mm)"
         '
         'Label38
         '
         Me.Label38.AutoSize = True
-        Me.Label38.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label38.Location = New System.Drawing.Point(286, 121)
+        Me.Label38.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label38.Location = New System.Drawing.Point(286, 80)
         Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(55, 20)
+        Me.Label38.Size = New System.Drawing.Size(36, 13)
         Me.Label38.TabIndex = 9
         Me.Label38.Text = "Z(mm)"
         '
         'Label39
         '
         Me.Label39.AutoSize = True
-        Me.Label39.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label39.Location = New System.Drawing.Point(151, 121)
+        Me.Label39.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label39.Location = New System.Drawing.Point(151, 80)
         Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(60, 20)
+        Me.Label39.Size = New System.Drawing.Size(39, 13)
         Me.Label39.TabIndex = 8
         Me.Label39.Text = "Y (mm)"
         '
         'Label40
         '
         Me.Label40.AutoSize = True
-        Me.Label40.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label40.Location = New System.Drawing.Point(6, 121)
+        Me.Label40.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label40.Location = New System.Drawing.Point(7, 80)
         Me.Label40.Name = "Label40"
-        Me.Label40.Size = New System.Drawing.Size(56, 20)
+        Me.Label40.Size = New System.Drawing.Size(37, 13)
         Me.Label40.TabIndex = 7
         Me.Label40.Text = "x (mm)"
         '
         'Label37
         '
         Me.Label37.AutoSize = True
-        Me.Label37.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label37.Location = New System.Drawing.Point(6, 95)
+        Me.Label37.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label37.Location = New System.Drawing.Point(7, 62)
         Me.Label37.Name = "Label37"
-        Me.Label37.Size = New System.Drawing.Size(169, 20)
+        Me.Label37.Size = New System.Drawing.Size(113, 13)
         Me.Label37.TabIndex = 6
         Me.Label37.Text = "Inside Corner Location"
         '
         'Label36
         '
         Me.Label36.AutoSize = True
-        Me.Label36.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label36.Location = New System.Drawing.Point(286, 60)
+        Me.Label36.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label36.Location = New System.Drawing.Point(286, 35)
         Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(55, 20)
+        Me.Label36.Size = New System.Drawing.Size(36, 13)
         Me.Label36.TabIndex = 5
         Me.Label36.Text = "Z(mm)"
         '
         'Label35
         '
         Me.Label35.AutoSize = True
-        Me.Label35.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label35.Location = New System.Drawing.Point(151, 60)
+        Me.Label35.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label35.Location = New System.Drawing.Point(151, 35)
         Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(60, 20)
+        Me.Label35.Size = New System.Drawing.Size(39, 13)
         Me.Label35.TabIndex = 4
         Me.Label35.Text = "Y (mm)"
         '
         'Label34
         '
         Me.Label34.AutoSize = True
-        Me.Label34.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label34.Location = New System.Drawing.Point(6, 60)
+        Me.Label34.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label34.Location = New System.Drawing.Point(6, 35)
         Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(56, 20)
+        Me.Label34.Size = New System.Drawing.Size(37, 13)
         Me.Label34.TabIndex = 3
         Me.Label34.Text = "x (mm)"
         '
         'Label28
         '
         Me.Label28.AutoSize = True
-        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(6, 34)
+        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label28.Location = New System.Drawing.Point(6, 15)
         Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(161, 20)
+        Me.Label28.Size = New System.Drawing.Size(108, 13)
         Me.Label28.TabIndex = 2
         Me.Label28.Text = "Rear Corner Location"
-        '
-        'Btn_Updt_Pllt_L
-        '
-        Me.Btn_Updt_Pllt_L.Location = New System.Drawing.Point(10, 224)
-        Me.Btn_Updt_Pllt_L.Name = "Btn_Updt_Pllt_L"
-        Me.Btn_Updt_Pllt_L.Size = New System.Drawing.Size(256, 30)
-        Me.Btn_Updt_Pllt_L.TabIndex = 1
-        Me.Btn_Updt_Pllt_L.Text = "Update Pallet Data"
-        Me.Btn_Updt_Pllt_L.UseVisualStyleBackColor = True
         '
         'Label33
         '
@@ -2045,6 +2046,15 @@ Partial Class Manual_Weight
         Me.PictureBox1.Size = New System.Drawing.Size(499, 388)
         Me.PictureBox1.TabIndex = 0
         Me.PictureBox1.TabStop = False
+        '
+        'Btn_Updt_Pllt_L
+        '
+        Me.Btn_Updt_Pllt_L.Location = New System.Drawing.Point(15, 331)
+        Me.Btn_Updt_Pllt_L.Name = "Btn_Updt_Pllt_L"
+        Me.Btn_Updt_Pllt_L.Size = New System.Drawing.Size(256, 30)
+        Me.Btn_Updt_Pllt_L.TabIndex = 1
+        Me.Btn_Updt_Pllt_L.Text = "Update Pallet Data"
+        Me.Btn_Updt_Pllt_L.UseVisualStyleBackColor = True
         '
         'Tmr_ScreenUpdate
         '
@@ -2222,7 +2232,6 @@ Partial Class Manual_Weight
     Friend WithEvents Label64 As System.Windows.Forms.Label
     Friend WithEvents Label65 As System.Windows.Forms.Label
     Friend WithEvents Label66 As System.Windows.Forms.Label
-    Friend WithEvents Btn_Updt_Pllt_R As System.Windows.Forms.Button
     Friend WithEvents TB_OC_Z_L As System.Windows.Forms.TextBox
     Friend WithEvents TB_OC_Y_L As System.Windows.Forms.TextBox
     Friend WithEvents TB_OC_X_L As System.Windows.Forms.TextBox
