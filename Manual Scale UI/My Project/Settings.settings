@@ -140,5 +140,32 @@
     <Setting Name="MoveD" Type="System.Single" Scope="User">
       <Value Profile="(Default)">4000</Value>
     </Setting>
+    <Setting Name="GB1X" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">128.9</Value>
+    </Setting>
+    <Setting Name="GB1Y" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">338.3</Value>
+    </Setting>
+    <Setting Name="GB1Z" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">-109</Value>
+    </Setting>
+    <Setting Name="GB2X" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">145</Value>
+    </Setting>
+    <Setting Name="GB2Y" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">338.3</Value>
+    </Setting>
+    <Setting Name="GB2Z" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">-109</Value>
+    </Setting>
+    <Setting Name="BBX" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">-116.8</Value>
+    </Setting>
+    <Setting Name="BBY" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">345</Value>
+    </Setting>
+    <Setting Name="BBZ" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">-109</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

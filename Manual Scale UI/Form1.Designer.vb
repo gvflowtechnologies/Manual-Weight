@@ -131,29 +131,29 @@ Partial Class Manual_Weight
         Me.Btn_WeighFolder = New System.Windows.Forms.Button()
         Me.TPPalletLayout = New System.Windows.Forms.TabPage()
         Me.GroupBox11 = New System.Windows.Forms.GroupBox()
-        Me.TextBox7 = New System.Windows.Forms.TextBox()
-        Me.TextBox8 = New System.Windows.Forms.TextBox()
-        Me.TextBox9 = New System.Windows.Forms.TextBox()
+        Me.TB_GB1_Z = New System.Windows.Forms.TextBox()
+        Me.TB_GB1_Y = New System.Windows.Forms.TextBox()
+        Me.TB_GB1_X = New System.Windows.Forms.TextBox()
         Me.Label73 = New System.Windows.Forms.Label()
         Me.Label74 = New System.Windows.Forms.Label()
         Me.Label75 = New System.Windows.Forms.Label()
-        Me.Button4 = New System.Windows.Forms.Button()
+        Me.BTN_Loc_GBIN1 = New System.Windows.Forms.Button()
         Me.GroupBox10 = New System.Windows.Forms.GroupBox()
-        Me.TextBox4 = New System.Windows.Forms.TextBox()
-        Me.TextBox5 = New System.Windows.Forms.TextBox()
-        Me.TextBox6 = New System.Windows.Forms.TextBox()
+        Me.TB_GB2_Z = New System.Windows.Forms.TextBox()
+        Me.TB_GB2_Y = New System.Windows.Forms.TextBox()
+        Me.TB_GB2_X = New System.Windows.Forms.TextBox()
         Me.Label70 = New System.Windows.Forms.Label()
         Me.Label71 = New System.Windows.Forms.Label()
         Me.Label72 = New System.Windows.Forms.Label()
-        Me.Button3 = New System.Windows.Forms.Button()
+        Me.BTN_Loc_GBIN2 = New System.Windows.Forms.Button()
         Me.GroupBox9 = New System.Windows.Forms.GroupBox()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.TB_BB_Z = New System.Windows.Forms.TextBox()
+        Me.TB_BB_Y = New System.Windows.Forms.TextBox()
+        Me.TB_BB_X = New System.Windows.Forms.TextBox()
         Me.Label26 = New System.Windows.Forms.Label()
         Me.Label46 = New System.Windows.Forms.Label()
         Me.Label69 = New System.Windows.Forms.Label()
-        Me.Button2 = New System.Windows.Forms.Button()
+        Me.BTN_Loc_BBIN = New System.Windows.Forms.Button()
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Label22 = New System.Windows.Forms.Label()
@@ -1383,13 +1383,13 @@ Partial Class Manual_Weight
         '
         'GroupBox11
         '
-        Me.GroupBox11.Controls.Add(Me.TextBox7)
-        Me.GroupBox11.Controls.Add(Me.TextBox8)
-        Me.GroupBox11.Controls.Add(Me.TextBox9)
+        Me.GroupBox11.Controls.Add(Me.TB_GB1_Z)
+        Me.GroupBox11.Controls.Add(Me.TB_GB1_Y)
+        Me.GroupBox11.Controls.Add(Me.TB_GB1_X)
         Me.GroupBox11.Controls.Add(Me.Label73)
         Me.GroupBox11.Controls.Add(Me.Label74)
         Me.GroupBox11.Controls.Add(Me.Label75)
-        Me.GroupBox11.Controls.Add(Me.Button4)
+        Me.GroupBox11.Controls.Add(Me.BTN_Loc_GBIN1)
         Me.GroupBox11.Location = New System.Drawing.Point(1018, 6)
         Me.GroupBox11.Name = "GroupBox11"
         Me.GroupBox11.Size = New System.Drawing.Size(495, 55)
@@ -1397,32 +1397,32 @@ Partial Class Manual_Weight
         Me.GroupBox11.TabStop = False
         Me.GroupBox11.Text = "Location Good Bin I"
         '
-        'TextBox7
+        'TB_GB1_Z
         '
-        Me.TextBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox7.Location = New System.Drawing.Point(344, 23)
-        Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.Size = New System.Drawing.Size(68, 20)
-        Me.TextBox7.TabIndex = 30
-        Me.TextBox7.Text = "-123.333"
+        Me.TB_GB1_Z.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_GB1_Z.Location = New System.Drawing.Point(344, 23)
+        Me.TB_GB1_Z.Name = "TB_GB1_Z"
+        Me.TB_GB1_Z.Size = New System.Drawing.Size(68, 20)
+        Me.TB_GB1_Z.TabIndex = 30
+        Me.TB_GB1_Z.Text = "-123.333"
         '
-        'TextBox8
+        'TB_GB1_Y
         '
-        Me.TextBox8.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox8.Location = New System.Drawing.Point(216, 23)
-        Me.TextBox8.Name = "TextBox8"
-        Me.TextBox8.Size = New System.Drawing.Size(68, 20)
-        Me.TextBox8.TabIndex = 29
-        Me.TextBox8.Text = "-123.333"
+        Me.TB_GB1_Y.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_GB1_Y.Location = New System.Drawing.Point(216, 23)
+        Me.TB_GB1_Y.Name = "TB_GB1_Y"
+        Me.TB_GB1_Y.Size = New System.Drawing.Size(68, 20)
+        Me.TB_GB1_Y.TabIndex = 29
+        Me.TB_GB1_Y.Text = "-123.333"
         '
-        'TextBox9
+        'TB_GB1_X
         '
-        Me.TextBox9.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox9.Location = New System.Drawing.Point(67, 23)
-        Me.TextBox9.Name = "TextBox9"
-        Me.TextBox9.Size = New System.Drawing.Size(68, 20)
-        Me.TextBox9.TabIndex = 28
-        Me.TextBox9.Text = "-123.333"
+        Me.TB_GB1_X.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_GB1_X.Location = New System.Drawing.Point(67, 23)
+        Me.TB_GB1_X.Name = "TB_GB1_X"
+        Me.TB_GB1_X.Size = New System.Drawing.Size(68, 20)
+        Me.TB_GB1_X.TabIndex = 28
+        Me.TB_GB1_X.Text = "-123.333"
         '
         'Label73
         '
@@ -1454,24 +1454,24 @@ Partial Class Manual_Weight
         Me.Label75.TabIndex = 25
         Me.Label75.Text = "x (mm)"
         '
-        'Button4
+        'BTN_Loc_GBIN1
         '
-        Me.Button4.Location = New System.Drawing.Point(414, 12)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(78, 39)
-        Me.Button4.TabIndex = 24
-        Me.Button4.Text = "Update Location"
-        Me.Button4.UseVisualStyleBackColor = True
+        Me.BTN_Loc_GBIN1.Location = New System.Drawing.Point(414, 12)
+        Me.BTN_Loc_GBIN1.Name = "BTN_Loc_GBIN1"
+        Me.BTN_Loc_GBIN1.Size = New System.Drawing.Size(78, 39)
+        Me.BTN_Loc_GBIN1.TabIndex = 24
+        Me.BTN_Loc_GBIN1.Text = "Update Location"
+        Me.BTN_Loc_GBIN1.UseVisualStyleBackColor = True
         '
         'GroupBox10
         '
-        Me.GroupBox10.Controls.Add(Me.TextBox4)
-        Me.GroupBox10.Controls.Add(Me.TextBox5)
-        Me.GroupBox10.Controls.Add(Me.TextBox6)
+        Me.GroupBox10.Controls.Add(Me.TB_GB2_Z)
+        Me.GroupBox10.Controls.Add(Me.TB_GB2_Y)
+        Me.GroupBox10.Controls.Add(Me.TB_GB2_X)
         Me.GroupBox10.Controls.Add(Me.Label70)
         Me.GroupBox10.Controls.Add(Me.Label71)
         Me.GroupBox10.Controls.Add(Me.Label72)
-        Me.GroupBox10.Controls.Add(Me.Button3)
+        Me.GroupBox10.Controls.Add(Me.BTN_Loc_GBIN2)
         Me.GroupBox10.Location = New System.Drawing.Point(1018, 78)
         Me.GroupBox10.Name = "GroupBox10"
         Me.GroupBox10.Size = New System.Drawing.Size(495, 55)
@@ -1479,32 +1479,32 @@ Partial Class Manual_Weight
         Me.GroupBox10.TabStop = False
         Me.GroupBox10.Text = "Location Good Bin II"
         '
-        'TextBox4
+        'TB_GB2_Z
         '
-        Me.TextBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox4.Location = New System.Drawing.Point(344, 23)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(68, 20)
-        Me.TextBox4.TabIndex = 30
-        Me.TextBox4.Text = "-123.333"
+        Me.TB_GB2_Z.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_GB2_Z.Location = New System.Drawing.Point(344, 23)
+        Me.TB_GB2_Z.Name = "TB_GB2_Z"
+        Me.TB_GB2_Z.Size = New System.Drawing.Size(68, 20)
+        Me.TB_GB2_Z.TabIndex = 30
+        Me.TB_GB2_Z.Text = "-123.333"
         '
-        'TextBox5
+        'TB_GB2_Y
         '
-        Me.TextBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox5.Location = New System.Drawing.Point(216, 23)
-        Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(68, 20)
-        Me.TextBox5.TabIndex = 29
-        Me.TextBox5.Text = "-123.333"
+        Me.TB_GB2_Y.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_GB2_Y.Location = New System.Drawing.Point(216, 23)
+        Me.TB_GB2_Y.Name = "TB_GB2_Y"
+        Me.TB_GB2_Y.Size = New System.Drawing.Size(68, 20)
+        Me.TB_GB2_Y.TabIndex = 29
+        Me.TB_GB2_Y.Text = "-123.333"
         '
-        'TextBox6
+        'TB_GB2_X
         '
-        Me.TextBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox6.Location = New System.Drawing.Point(67, 23)
-        Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(68, 20)
-        Me.TextBox6.TabIndex = 28
-        Me.TextBox6.Text = "-123.333"
+        Me.TB_GB2_X.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_GB2_X.Location = New System.Drawing.Point(67, 23)
+        Me.TB_GB2_X.Name = "TB_GB2_X"
+        Me.TB_GB2_X.Size = New System.Drawing.Size(68, 20)
+        Me.TB_GB2_X.TabIndex = 28
+        Me.TB_GB2_X.Text = "-123.333"
         '
         'Label70
         '
@@ -1536,24 +1536,24 @@ Partial Class Manual_Weight
         Me.Label72.TabIndex = 25
         Me.Label72.Text = "x (mm)"
         '
-        'Button3
+        'BTN_Loc_GBIN2
         '
-        Me.Button3.Location = New System.Drawing.Point(414, 12)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(78, 39)
-        Me.Button3.TabIndex = 24
-        Me.Button3.Text = "Update Location"
-        Me.Button3.UseVisualStyleBackColor = True
+        Me.BTN_Loc_GBIN2.Location = New System.Drawing.Point(414, 12)
+        Me.BTN_Loc_GBIN2.Name = "BTN_Loc_GBIN2"
+        Me.BTN_Loc_GBIN2.Size = New System.Drawing.Size(78, 39)
+        Me.BTN_Loc_GBIN2.TabIndex = 24
+        Me.BTN_Loc_GBIN2.Text = "Update Location"
+        Me.BTN_Loc_GBIN2.UseVisualStyleBackColor = True
         '
         'GroupBox9
         '
-        Me.GroupBox9.Controls.Add(Me.TextBox1)
-        Me.GroupBox9.Controls.Add(Me.TextBox2)
-        Me.GroupBox9.Controls.Add(Me.TextBox3)
+        Me.GroupBox9.Controls.Add(Me.TB_BB_Z)
+        Me.GroupBox9.Controls.Add(Me.TB_BB_Y)
+        Me.GroupBox9.Controls.Add(Me.TB_BB_X)
         Me.GroupBox9.Controls.Add(Me.Label26)
         Me.GroupBox9.Controls.Add(Me.Label46)
         Me.GroupBox9.Controls.Add(Me.Label69)
-        Me.GroupBox9.Controls.Add(Me.Button2)
+        Me.GroupBox9.Controls.Add(Me.BTN_Loc_BBIN)
         Me.GroupBox9.Location = New System.Drawing.Point(1021, 150)
         Me.GroupBox9.Name = "GroupBox9"
         Me.GroupBox9.Size = New System.Drawing.Size(495, 55)
@@ -1561,32 +1561,32 @@ Partial Class Manual_Weight
         Me.GroupBox9.TabStop = False
         Me.GroupBox9.Text = "Location Bad Bin"
         '
-        'TextBox1
+        'TB_BB_Z
         '
-        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(344, 23)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(68, 20)
-        Me.TextBox1.TabIndex = 30
-        Me.TextBox1.Text = "-123.333"
+        Me.TB_BB_Z.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_BB_Z.Location = New System.Drawing.Point(344, 23)
+        Me.TB_BB_Z.Name = "TB_BB_Z"
+        Me.TB_BB_Z.Size = New System.Drawing.Size(68, 20)
+        Me.TB_BB_Z.TabIndex = 30
+        Me.TB_BB_Z.Text = "-123.333"
         '
-        'TextBox2
+        'TB_BB_Y
         '
-        Me.TextBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox2.Location = New System.Drawing.Point(216, 23)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(68, 20)
-        Me.TextBox2.TabIndex = 29
-        Me.TextBox2.Text = "-123.333"
+        Me.TB_BB_Y.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_BB_Y.Location = New System.Drawing.Point(216, 23)
+        Me.TB_BB_Y.Name = "TB_BB_Y"
+        Me.TB_BB_Y.Size = New System.Drawing.Size(68, 20)
+        Me.TB_BB_Y.TabIndex = 29
+        Me.TB_BB_Y.Text = "-123.333"
         '
-        'TextBox3
+        'TB_BB_X
         '
-        Me.TextBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox3.Location = New System.Drawing.Point(67, 23)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(68, 20)
-        Me.TextBox3.TabIndex = 28
-        Me.TextBox3.Text = "-123.333"
+        Me.TB_BB_X.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TB_BB_X.Location = New System.Drawing.Point(67, 23)
+        Me.TB_BB_X.Name = "TB_BB_X"
+        Me.TB_BB_X.Size = New System.Drawing.Size(68, 20)
+        Me.TB_BB_X.TabIndex = 28
+        Me.TB_BB_X.Text = "-123.333"
         '
         'Label26
         '
@@ -1618,14 +1618,14 @@ Partial Class Manual_Weight
         Me.Label69.TabIndex = 25
         Me.Label69.Text = "x (mm)"
         '
-        'Button2
+        'BTN_Loc_BBIN
         '
-        Me.Button2.Location = New System.Drawing.Point(414, 12)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(78, 39)
-        Me.Button2.TabIndex = 24
-        Me.Button2.Text = "Update Location"
-        Me.Button2.UseVisualStyleBackColor = True
+        Me.BTN_Loc_BBIN.Location = New System.Drawing.Point(414, 12)
+        Me.BTN_Loc_BBIN.Name = "BTN_Loc_BBIN"
+        Me.BTN_Loc_BBIN.Size = New System.Drawing.Size(78, 39)
+        Me.BTN_Loc_BBIN.TabIndex = 24
+        Me.BTN_Loc_BBIN.Text = "Update Location"
+        Me.BTN_Loc_BBIN.UseVisualStyleBackColor = True
         '
         'GroupBox8
         '
@@ -2574,28 +2574,28 @@ Partial Class Manual_Weight
     Friend WithEvents Label54 As System.Windows.Forms.Label
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
     Friend WithEvents GroupBox11 As System.Windows.Forms.GroupBox
-    Friend WithEvents TextBox7 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox8 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox9 As System.Windows.Forms.TextBox
+    Friend WithEvents TB_GB1_Z As System.Windows.Forms.TextBox
+    Friend WithEvents TB_GB1_Y As System.Windows.Forms.TextBox
+    Friend WithEvents TB_GB1_X As System.Windows.Forms.TextBox
     Friend WithEvents Label73 As System.Windows.Forms.Label
     Friend WithEvents Label74 As System.Windows.Forms.Label
     Friend WithEvents Label75 As System.Windows.Forms.Label
-    Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents BTN_Loc_GBIN1 As System.Windows.Forms.Button
     Friend WithEvents GroupBox10 As System.Windows.Forms.GroupBox
-    Friend WithEvents TextBox4 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox5 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox6 As System.Windows.Forms.TextBox
+    Friend WithEvents TB_GB2_Z As System.Windows.Forms.TextBox
+    Friend WithEvents TB_GB2_Y As System.Windows.Forms.TextBox
+    Friend WithEvents TB_GB2_X As System.Windows.Forms.TextBox
     Friend WithEvents Label70 As System.Windows.Forms.Label
     Friend WithEvents Label71 As System.Windows.Forms.Label
     Friend WithEvents Label72 As System.Windows.Forms.Label
-    Friend WithEvents Button3 As System.Windows.Forms.Button
+    Friend WithEvents BTN_Loc_GBIN2 As System.Windows.Forms.Button
     Friend WithEvents GroupBox9 As System.Windows.Forms.GroupBox
-    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
+    Friend WithEvents TB_BB_Z As System.Windows.Forms.TextBox
+    Friend WithEvents TB_BB_Y As System.Windows.Forms.TextBox
+    Friend WithEvents TB_BB_X As System.Windows.Forms.TextBox
     Friend WithEvents Label26 As System.Windows.Forms.Label
     Friend WithEvents Label46 As System.Windows.Forms.Label
     Friend WithEvents Label69 As System.Windows.Forms.Label
-    Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents BTN_Loc_BBIN As System.Windows.Forms.Button
 
 End Class

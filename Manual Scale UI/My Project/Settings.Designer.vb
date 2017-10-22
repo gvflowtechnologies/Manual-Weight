@@ -605,6 +605,114 @@ Namespace My
                 Me("MoveD") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("128.9")>  _
+        Public Property GB1X() As Single
+            Get
+                Return CType(Me("GB1X"),Single)
+            End Get
+            Set
+                Me("GB1X") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("338.3")>  _
+        Public Property GB1Y() As Single
+            Get
+                Return CType(Me("GB1Y"),Single)
+            End Get
+            Set
+                Me("GB1Y") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("-109")>  _
+        Public Property GB1Z() As Single
+            Get
+                Return CType(Me("GB1Z"),Single)
+            End Get
+            Set
+                Me("GB1Z") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("145")>  _
+        Public Property GB2X() As Single
+            Get
+                Return CType(Me("GB2X"),Single)
+            End Get
+            Set
+                Me("GB2X") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("338.3")>  _
+        Public Property GB2Y() As Single
+            Get
+                Return CType(Me("GB2Y"),Single)
+            End Get
+            Set
+                Me("GB2Y") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("-109")>  _
+        Public Property GB2Z() As Single
+            Get
+                Return CType(Me("GB2Z"),Single)
+            End Get
+            Set
+                Me("GB2Z") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("-116.8")>  _
+        Public Property BBX() As Single
+            Get
+                Return CType(Me("BBX"),Single)
+            End Get
+            Set
+                Me("BBX") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("345")>  _
+        Public Property BBY() As Single
+            Get
+                Return CType(Me("BBY"),Single)
+            End Get
+            Set
+                Me("BBY") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("-109")>  _
+        Public Property BBZ() As Single
+            Get
+                Return CType(Me("BBZ"),Single)
+            End Get
+            Set
+                Me("BBZ") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

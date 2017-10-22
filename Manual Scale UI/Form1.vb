@@ -56,13 +56,16 @@ Public Class Manual_Weight
     Const descendstep As Single = 0.2 ' Step size in mm that the robot drops.
 
     'X,Y,Z Locations on system for component locations in mm
-    Const Good1x As Single = 128.9
-    Const Good1Y As Single = 338.3
-    Const Good2x As Single = 145.0
-    Const Good2y As Single = 338.3
-    Const BadX As Single = -116.8
-    Const BadY As Single = 345.0
-    Const DisopositionZ As Single = -109
+    Dim Good1x As Single
+    Dim Good1Y As Single
+    Dim Good1Z As Single
+    Dim Good2x As Single
+    Dim Good2y As Single
+    Dim Good2Z As Single
+    Dim BadX As Single
+    Dim BadY As Single
+    Dim BadZ As Single
+
 
     Private teachingpoint As Boolean
     ' Speed Settings
@@ -167,8 +170,10 @@ Public Class Manual_Weight
 
         UpdateSettings.updatetarelimits()
         UpdateSettings.palletcorners()
+        UpdateSettings.BINLocations()
         UpdateSettings.updateweights()
         UpdateSettings.updatetotals()
+
 
 
         teststate = Weighprocess.idle ' Start us out in an idle condition.
@@ -712,6 +717,21 @@ Public Class Manual_Weight
         scalex = My.Settings.scalex
         scaley = My.Settings.scaley
         scalez = My.Settings.scalez
+
+
+        Good1x = My.Settings.GB1X
+        Good1Y = My.Settings.GB1Y
+        Good1Z = My.Settings.GB1Z
+
+        Good2x = My.Settings.GB2X
+        Good2y = My.Settings.GB2Y
+        Good2Z = My.Settings.GB2Z
+
+        BadX = My.Settings.BBX
+        BadY = My.Settings.BBY
+        BadZ = My.Settings.BBZ
+
+
     End Sub
 
     Sub fixedlocations(ByVal angle As RCAPINet.SpelHand)
@@ -721,9 +741,9 @@ Public Class Manual_Weight
         Scara.SetPoint(WeighingPoint, scalex, scaley, scalez + WeightZ, 0, 0, angle)
         Scara.SetPoint(postweighpick, scalex, scaley, scalez + postweighpickZ, 0, 0, angle)
         Scara.SetPoint(tarepoint, scalex, scaley, scalez + tareheight, 0, 0, angle)
-        Scara.SetPoint(badpoint, BadX, BadY, DisopositionZ, 0, 0, angle)
-        Scara.SetPoint(goodpoint1, Good1x, Good1Y, DisopositionZ, 0, 0, angle)
-        Scara.SetPoint(goodpoint2, Good2x, Good2y, DisopositionZ, 0, 0, angle)
+        Scara.SetPoint(badpoint, BadX, BadY, BadZ, 0, 0, angle)
+        Scara.SetPoint(goodpoint1, Good1x, Good1Y, Good1Z, 0, 0, angle)
+        Scara.SetPoint(goodpoint2, Good2x, Good2y, Good2Z, 0, 0, angle)
         If angle = RCAPINet.SpelHand.Lefty Then
             Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
         Else
@@ -2095,10 +2115,21 @@ Public Class Manual_Weight
 
 
 
+    Private Sub BTN_Loc_GBIN1_Click(sender As Object, e As EventArgs) Handles BTN_Loc_GBIN1.Click
+        UpdateSettings.BINLocations()
+        UpdateSettings.BINLoctionsout()
 
+    End Sub
 
+    Private Sub BTN_Loc_GBIN2_Click(sender As Object, e As EventArgs) Handles BTN_Loc_GBIN2.Click
+        UpdateSettings.BINLocations()
+        UpdateSettings.BINLoctionsout()
 
+    End Sub
 
+    Private Sub BTN_Loc_BBIN_Click(sender As Object, e As EventArgs) Handles BTN_Loc_BBIN.Click
+        UpdateSettings.BINLocations()
+        UpdateSettings.BINLoctionsout()
 
-
+    End Sub
 End Class
