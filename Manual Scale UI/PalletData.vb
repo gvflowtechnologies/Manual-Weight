@@ -232,7 +232,7 @@ Public Class PalletData
                 sbname.Append(DateTime.Now.Day).Append("_")
                 sbname.Append(DateTime.Now.Year).Append("_")
 
-                STfullname = sbname.ToString
+                STfullname = sbname.ToString & ".csv"
                 ' check for file in completed.
                 'Do Until File.Exists(completed & "\" & STfullname & iaddpallet.ToString & ".csv") = False
 
