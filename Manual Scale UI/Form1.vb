@@ -239,8 +239,6 @@ Public Class Manual_Weight
         Scara.Stop()
         Scara.Dispose()
         portclosing()
-        If Not IsNothing(swdataset) Then swdataset.Close()
-        If Not IsNothing(swlogdata) Then swlogdata.Close()
         If Not IsNothing(Calibration) Then Calibration.Close()
         If Not IsNothing(ChangePassword) Then ChangePassword.Close()
         TMR_door.Enabled = False
@@ -830,10 +828,10 @@ Public Class Manual_Weight
         ' If second first weight does not exis then write the first weight.
         ' Otherwise right the second weight.
         If currentpallet.firstweightexists = False Then
-            writefirstweight()
+            writefirstweight(currentpallet)
         Else
             If ccylinder.present Then
-                write_second_weight()
+                write_second_weight(currentpallet)
             End If
         End If
         ' update the counters for disposition 
@@ -963,6 +961,11 @@ Public Class Manual_Weight
             WritefileHeader1(pallet)
         End If
     End Sub
+    Private Function S_CFileName(curpallet As PalletData)
+        Dim Myfile As String
+        Myfile = curpallet.currentfilepath & "\" & curpallet.filename
+        Return Myfile
+    End Function
 
     Private Sub WritefileHeader1(ByVal curpallet As PalletData) ' write the header to the firstweight data set.
         ' Very simple file to hold first pass data.
@@ -971,17 +974,28 @@ Public Class Manual_Weight
 
         'Write
 
-        swdataset = New StreamWriter(Myfile, False)
-        swdataset.WriteLine(curpallet.batch)
-        swdataset.WriteLine(curpallet.pallet)
-        swdataset.WriteLine(curpallet.timefirstwt.ToString)
-        swdataset.Flush()
+        If Not File.Exists(Myfile) Then
+
+            Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
+                swdataset.WriteLine(curpallet.batch)
+                swdataset.WriteLine(curpallet.pallet)
+                swdataset.WriteLine(curpallet.timefirstwt.ToString)
+
+            End Using
+
+        End If
 
     End Sub
 
-    Private Sub writefirstweight()
-        swdataset.WriteLine(ccylinder.Firstweight.ToString)
-        swdataset.Flush()
+    Private Sub writefirstweight(ByVal curpallet As PalletData)
+        Dim Myfile As String
+        Myfile = curpallet.currentfilepath & "\" & curpallet.filename
+
+        Using swdataset As StreamWriter = New StreamWriter(Myfile, True)
+            swdataset.WriteLine(ccylinder.Firstweight.ToString)
+
+        End Using
+
     End Sub
 
     Private Sub writefileheader2(ByVal currpallet As PalletData) ' Write the header data for the Final data set
@@ -989,33 +1003,42 @@ Public Class Manual_Weight
         Dim Myfile As String
         Myfile = currpallet.currentfilepath & "\" & currpallet.filename
 
-        'Write
+        If Not File.Exists(Myfile) Then
 
-        swdataset = New StreamWriter(Myfile, False)
-        swdataset.Write("1st Weight Time,")
-        swdataset.WriteLine(currpallet.timefirstwt.ToString)
-        swdataset.Write("2nd Weight Time,")
-        swdataset.WriteLine(currpallet.timesecondwt.ToString)
-        swdataset.Write("Pallet ID,")
-        swdataset.WriteLine(currpallet.pallet)
-        swdataset.Write("Lot#,")
-        swdataset.WriteLine(currpallet.batch)
-        swdataset.Write("Scale Calibration Date,")
-        swdataset.WriteLine(sartorius.Lscalecaldate)
-        swdataset.Write("Scale Calibration Due Date,")
-        swdataset.WriteLine(sartorius.NScaleCalDate)
-        swdataset.WriteLine("Index,1st Wt,2nd Wt,Disposition, Fail Code")
-        swdataset.Flush()
+            Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
+
+                swdataset.Write("1st Weight Time,")
+                swdataset.WriteLine(currpallet.timefirstwt.ToString)
+                swdataset.Write("2nd Weight Time,")
+                swdataset.WriteLine(currpallet.timesecondwt.ToString)
+                swdataset.Write("Pallet ID,")
+                swdataset.WriteLine(currpallet.pallet)
+                swdataset.Write("Lot#,")
+                swdataset.WriteLine(currpallet.batch)
+                swdataset.Write("Scale Calibration Date,")
+                swdataset.WriteLine(sartorius.Lscalecaldate)
+                swdataset.Write("Scale Calibration Due Date,")
+                swdataset.WriteLine(sartorius.NScaleCalDate)
+                swdataset.WriteLine("Index,1st Wt,2nd Wt,Disposition, Fail Code")
+
+            End Using
+
+        End If
+
     End Sub
 
-    Private Sub write_second_weight()
+    Private Sub write_second_weight(ByVal curpallet As PalletData)
+        Dim Myfile As String
+        Myfile = curpallet.currentfilepath & "\" & curpallet.filename
+
         If ccylinder.present Then ' only write data for cylinders that are present.
-            swdataset.Write(ccylinder.CylIndex.ToString & ", ")
-            swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
-            swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
-            swdataset.Write(ccylinder.Disposition & ", ")
-            swdataset.WriteLine(ccylinder.DispReason)
-            swdataset.Flush()
+            Using swdataset As StreamWriter = New StreamWriter(Myfile, True)
+                swdataset.Write(ccylinder.CylIndex.ToString & ", ")
+                swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
+                swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
+                swdataset.Write(ccylinder.Disposition & ", ")
+                swdataset.WriteLine(ccylinder.DispReason)
+            End Using
         End If
     End Sub
 
@@ -1044,35 +1067,39 @@ Public Class Manual_Weight
             Directory.CreateDirectory(My.Settings.Caldirectory)
         End If
 
-        If Not File.Exists(Logfile) Then
 
-            swlogdata = New StreamWriter(Logfile, False)
+        Using swlogdata As StreamWriter = New StreamWriter(Logfile, False)
+
             swlogdata.WriteLine("Altaviz Log File")
             swlogdata.WriteLine("2nd weight time, 1st weight time, Lot#, Pallet ID, Calibration Date, Calibration Due, Pass, Fail")
+        End Using
 
-        Else
-            swlogdata = New StreamWriter(Logfile, True)
 
-        End If
-        swlogdata.AutoFlush = True
+
+
     End Sub
 
     Private Sub write_history(ByRef currpallet As PalletData)
+        Dim Logfile As String
 
-        If IsNothing(swlogdata) Then Write_History_Header()
+        Logfile = My.Settings.Caldirectory & "\AVWeightLogFile.csv"
 
-        swlogdata.Write(currpallet.timesecondwt.ToString & ", ")
+        If Not File.Exists(Logfile) Then Write_History_Header()
 
-        swlogdata.Write(currpallet.timefirstwt.ToString & ", ")
-        swlogdata.Write(currpallet.batch & ", ")
-        swlogdata.Write(currpallet.pallet & ", ")
-        swlogdata.Write(sartorius.Lscalecaldate & ", ")
-        swlogdata.Write(sartorius.NScaleCalDate & ", ")
-        swlogdata.Write(currpallet.numgood & ", ")
-        swlogdata.WriteLine(currpallet.numbad)
+        Logfile = My.Settings.Caldirectory & "\AVWeightLogFile.csv"
 
+        Using swlogdata As StreamWriter = New StreamWriter(Logfile, True)
 
+            swlogdata.Write(currpallet.timesecondwt.ToString & ", ")
+            swlogdata.Write(currpallet.timefirstwt.ToString & ", ")
+            swlogdata.Write(currpallet.batch & ", ")
+            swlogdata.Write(currpallet.pallet & ", ")
+            swlogdata.Write(sartorius.Lscalecaldate & ", ")
+            swlogdata.Write(sartorius.NScaleCalDate & ", ")
+            swlogdata.Write(currpallet.numgood & ", ")
+            swlogdata.WriteLine(currpallet.numbad)
 
+        End Using
 
     End Sub
 #End Region
@@ -1661,9 +1688,9 @@ Public Class Manual_Weight
         ' 5 Update Display
         Bin_Number.empty()
 
-        
+
         gbinfull = False
-        
+
         ' Reset counters
         If Bin_Number Is Goodbin1 Then
             My.Settings.TotalGood1 = Bin_Number.Count
