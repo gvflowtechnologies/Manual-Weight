@@ -28,6 +28,12 @@ Public Class Manual_Weight
         Bad
     End Enum
 
+    Public Enum EXECUTION_STATE As UInteger ' Define the API Execution states
+        ES_SYSTEM_REQUIRED = &H1
+        ES_DISPLAY_REQUIRED = &H2
+        ES_CONTINUOUS = &H80000000UI
+    End Enum
+
 
 
     ' Constants
