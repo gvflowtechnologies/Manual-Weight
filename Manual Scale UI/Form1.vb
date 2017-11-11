@@ -128,6 +128,9 @@ Public Class Manual_Weight
     Const CSTFlowLogin As String = "G.Voss" ' constant to allow access to speed controls on robot
     Delegate Sub scaledata(ByVal sdata As String) 'Delegate for 
 
+    Private Declare Function SetThreadExecutionState Lib "Kernel32" (ByVal esflags As EXECUTION_STATE) As EXECUTION_STATE
+
+
     ' Form open close stuff
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -165,7 +168,7 @@ Public Class Manual_Weight
         Lbl_CurrentGoodL.Text = "0"
 
         LB_SerialPorts.ScrollAlwaysVisible = True
-
+        No_sleep()
         ' Update all pallet corners to settings value
 
         UpdateSettings.updatetarelimits()
@@ -202,6 +205,14 @@ Public Class Manual_Weight
         Scara.MotorsOn = False
 
     End Sub
+
+    Private Function No_Sleep() As EXECUTION_STATE
+        Return SetThreadExecutionState(EXECUTION_STATE.ES_SYSTEM_REQUIRED Or EXECUTION_STATE.ES_DISPLAY_REQUIRED Or EXECUTION_STATE.ES_CONTINUOUS)
+    End Function
+    Private Function GOTOSLEEP() As EXECUTION_STATE
+        Return SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS)
+    End Function
+
 
     Private Sub manual_WeightShown(sender As Object, e As EventArgs) Handles MyBase.Shown
         TMR_door = New Windows.Forms.Timer
