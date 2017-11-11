@@ -245,6 +245,7 @@ Public Class Manual_Weight
         If Not IsNothing(ChangePassword) Then ChangePassword.Close()
         TMR_door.Enabled = False
         TMR_door.Dispose()
+        GOTOSLEEP()
 
     End Sub
 
