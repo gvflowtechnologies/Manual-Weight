@@ -969,14 +969,11 @@ Public Class Manual_Weight
 
     Private Sub WritefileHeader1(ByVal curpallet As PalletData) ' write the header to the firstweight data set.
         ' Very simple file to hold first pass data.
-        Dim Myfile As String
-        Myfile = curpallet.currentfilepath & "\" & curpallet.filename
 
-        'Write
 
-        If Not File.Exists(Myfile) Then
+        If Not File.Exists(curpallet.S_FullFileName) Then
 
-            Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
+            Using swdataset As StreamWriter = New StreamWriter(curpallet.S_FullFileName, False)
                 swdataset.WriteLine(curpallet.batch)
                 swdataset.WriteLine(curpallet.pallet)
                 swdataset.WriteLine(curpallet.timefirstwt.ToString)
@@ -988,10 +985,9 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub writefirstweight(ByVal curpallet As PalletData)
-        Dim Myfile As String
-        Myfile = curpallet.currentfilepath & "\" & curpallet.filename
 
-        Using swdataset As StreamWriter = New StreamWriter(Myfile, True)
+
+        Using swdataset As StreamWriter = New StreamWriter(curpallet.S_FullFileName, True)
             swdataset.WriteLine(ccylinder.Firstweight.ToString)
 
         End Using
@@ -1000,12 +996,11 @@ Public Class Manual_Weight
 
     Private Sub writefileheader2(ByVal currpallet As PalletData) ' Write the header data for the Final data set
 
-        Dim Myfile As String
-        Myfile = currpallet.currentfilepath & "\" & currpallet.filename
+    
 
-        If Not File.Exists(Myfile) Then
+        If Not File.Exists(currpallet.S_FullFileName) Then
 
-            Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
+            Using swdataset As StreamWriter = New StreamWriter(currpallet.S_FullFileName, False)
 
                 swdataset.Write("1st Weight Time,")
                 swdataset.WriteLine(currpallet.timefirstwt.ToString)
@@ -1028,11 +1023,10 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub write_second_weight(ByVal curpallet As PalletData)
-        Dim Myfile As String
-        Myfile = curpallet.currentfilepath & "\" & curpallet.filename
+  
 
         If ccylinder.present Then ' only write data for cylinders that are present.
-            Using swdataset As StreamWriter = New StreamWriter(Myfile, True)
+            Using swdataset As StreamWriter = New StreamWriter(curpallet.S_FullFileName, True)
                 swdataset.Write(ccylinder.CylIndex.ToString & ", ")
                 swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
                 swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
@@ -1044,9 +1038,12 @@ Public Class Manual_Weight
 
     Private Sub write_Summary(ByRef currpallet As PalletData)
         ' Write summary data line and Close Stream
-        swdataset.WriteLine("Number of Good Cylinders, " & currpallet.numgood)
-        swdataset.WriteLine("Number of Bad Cylinders, " & currpallet.numbad)
-        swdataset.Flush()
+
+        Using swdataset As StreamWriter = New StreamWriter(currpallet.S_FullFileName, True)
+            swdataset.WriteLine("Number of Good Cylinders, " & currpallet.numgood)
+            swdataset.WriteLine("Number of Bad Cylinders, " & currpallet.numbad)
+        End Using
+
     End Sub
 
     Private Sub Write_History_Header()

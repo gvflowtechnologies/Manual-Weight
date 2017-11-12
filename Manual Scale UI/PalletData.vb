@@ -307,6 +307,23 @@ Public Class PalletData
 
         End Set
     End Property
+
+    ReadOnly Property S_FullFileName As String
+        Get
+            Dim myfile As String
+            Dim mypath As String
+            Dim fullname As String
+            mypath = currentfilepath
+            myfile = filename
+
+            fullname = mypath & "\" & myfile
+
+            Return fullname
+
+        End Get
+    End Property
+
+
     Public ReadOnly Property firstweightexists As Boolean ' True if first weight exists
         Get
 
