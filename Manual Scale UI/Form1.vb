@@ -942,9 +942,7 @@ Public Class Manual_Weight
         If curpallet.firstweightexists = True Then
             write_Summary(curpallet)
             write_history(curpallet)
-            swlogdata.Close()
-            If swlogdata IsNot Nothing Then swlogdata.Dispose()
-            swlogdata = Nothing
+
         End If
 
         swdataset.Close() ' Need to think if we close here or create a routine to handle closing
@@ -961,11 +959,7 @@ Public Class Manual_Weight
             WritefileHeader1(pallet)
         End If
     End Sub
-    Private Function S_CFileName(curpallet As PalletData)
-        Dim Myfile As String
-        Myfile = curpallet.currentfilepath & "\" & curpallet.filename
-        Return Myfile
-    End Function
+ 
 
     Private Sub WritefileHeader1(ByVal curpallet As PalletData) ' write the header to the firstweight data set.
         ' Very simple file to hold first pass data.

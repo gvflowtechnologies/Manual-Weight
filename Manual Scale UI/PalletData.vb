@@ -313,8 +313,8 @@ Public Class PalletData
             Dim myfile As String
             Dim mypath As String
             Dim fullname As String
-            mypath = currentfilepath
-            myfile = filename
+            mypath = currentfilepath()
+            myfile = filename()
 
             fullname = mypath & "\" & myfile
 
