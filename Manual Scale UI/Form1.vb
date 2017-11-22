@@ -96,8 +96,8 @@ Public Class Manual_Weight
     Const weightimeout As Integer = 30000 ' Timeout in milliseconds for any weighing operation.  
 
     'Variables
-    Public WithEvents mycom As SerialPort 'Serial port for communicating with the scale
-    Private newdata As Datareceive
+    '  Public WithEvents mycom As SerialPort 'Serial port for communicating with the scale
+    ' Private newdata As Datareceive
 
     ' SCALE LOCATIONS
     Dim scalex As Single
@@ -144,7 +144,6 @@ Public Class Manual_Weight
         Goodbin1 = New BinClass(My.Settings.TotalGood1)
         Goodbin2 = New BinClass(My.Settings.TotalGood2)
 
-        newdata = New Datareceive
         tmrcycle = New Stopwatch
         sartorius = New Scalemanagement
         tmrsort = New Stopwatch
@@ -228,7 +227,7 @@ Public Class Manual_Weight
             .Enabled = False ' Enabled
             .Start() ' Started
         End With
-        newcommport()
+    
         Tmr_ScreenUpdate.Start()
     End Sub
 
@@ -238,7 +237,7 @@ Public Class Manual_Weight
         Scara.Off(TipBlowOff)
         Scara.Stop()
         Scara.Dispose()
-        portclosing()
+
         If Not IsNothing(Calibration) Then Calibration.Close()
         If Not IsNothing(ChangePassword) Then ChangePassword.Close()
         TMR_door.Enabled = False
@@ -1449,7 +1448,7 @@ Public Class Manual_Weight
         Calibration.Lbl_OPID.Text = ""
         Calibration.lbl_CalValasReturned.Text = ""
 
-        If mycom.IsOpen Then portclosing()
+
         Calibration.Hide()
         Me.Show()
 
@@ -1554,77 +1553,6 @@ Public Class Manual_Weight
             End If
 
         End While
-
-    End Sub
-
-    Private Sub portclosing()
-        If IsNothing(mycom) Then Exit Sub
-
-        If mycom.IsOpen = True Then
-            mycom.ReceivedBytesThreshold = 500
-            Thread.Sleep(10)
-            Do Until mycom.BytesToRead < 10
-                Application.DoEvents()
-                mycom.DiscardInBuffer()
-            Loop
-            mycom.DtrEnable = False
-            mycom.Close()
-
-            Do Until mycom.IsOpen = False
-                Application.DoEvents()
-                Thread.Sleep(15)
-            Loop
-        End If
-
-    End Sub
-
-    Private Sub newcommport()
-        ' Creates a serial port object if one does not already exist.
-        ' Creates a handler to handle data received so that the program responds to data inputs from scale
-        ' instead of polling.
-
-        If IsNothing(mycom) Then
-            mycom = New SerialPort
-
-            AddHandler mycom.DataReceived, AddressOf mycom_Datareceived ' handler for data received event
-
-            With mycom
-                .PortName = My.Settings.SerialPort ' gets port name from static data set
-                .BaudRate = 9600
-                .Parity = Parity.Odd
-                .StopBits = StopBits.One
-                .Handshake = Handshake.None  ' Need to think here
-                .DataBits = 7
-                .ReceivedBytesThreshold = 14 ' one byte short of a complete messsage string of 16 asci characters   
-                .WriteTimeout = 500
-                .WriteBufferSize = 500
-            End With
-        End If
-        If (Not mycom.IsOpen) Then
-            Try
-
-                mycom.Open()
-                mycom.DiscardInBuffer()
-
-            Catch ex As Exception
-                MessageBox.Show(ex.Message)
-            End Try
-
-        End If
-
-    End Sub
-
-    Private Sub mycom_Datareceived(ByVal sendor As Object, ByVal e As SerialDataReceivedEventArgs) Handles mycom.DataReceived
-        ' Handles data when it comes in on serial port.
-        ' This event fires whenever the amount of data on the serial port is greater than the setlimit
-        ' Create a string for the data stream from the scale
-
-        Dim sweight As String
-        sweight = mycom.ReadLine
-        ' Create a thread to handle processing of string.
-        updateweight = New scaledata(AddressOf newdata.newweightdata)
-        Me.BeginInvoke(updateweight, sweight)
-        Application.DoEvents()
 
     End Sub
 
