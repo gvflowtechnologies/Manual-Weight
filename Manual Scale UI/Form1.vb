@@ -99,6 +99,9 @@ Public Class Manual_Weight
     '  Public WithEvents mycom As SerialPort 'Serial port for communicating with the scale
     ' Private newdata As Datareceive
 
+    Public MettlerWMF As Scale_Control
+
+
     ' SCALE LOCATIONS
     Dim scalex As Single
     Dim scaley As Single
@@ -107,7 +110,7 @@ Public Class Manual_Weight
 
     Dim LeftPallet As PalletData 'pallet object pallets on the left hand side of the robot
     Dim RightPallet As PalletData 'Pallet object for pallets on the right hand side of the robot
-    Public sartorius As Scalemanagement ' Scale object
+    '   Public sartorius As Scalemanagement ' Scale object
     Dim ccylinder As Cylinder ' Cylinder object
     Dim Goodbin1 As BinClass ' First Good Bin
     Dim Goodbin2 As BinClass  ' Second good bin
@@ -145,7 +148,8 @@ Public Class Manual_Weight
         Goodbin2 = New BinClass(My.Settings.TotalGood2)
 
         tmrcycle = New Stopwatch
-        sartorius = New Scalemanagement
+        MettlerWMF = New Scale_Control
+
         tmrsort = New Stopwatch
         pauserequest = False
         teachingpoint = False
@@ -279,7 +283,7 @@ Public Class Manual_Weight
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
 
 
-        Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
+        Lbl_CurrentScale.Text = MettlerWMF.CurrentReading.ToString
 
         If CB_ViewRaw.Checked = True Then
             LblRawStream.Visible = True
@@ -287,11 +291,11 @@ Public Class Manual_Weight
             LblRawStream.Visible = False
         End If
 
-        LblRawStream.Text = sartorius.RAWSTRING
+        LblRawStream.Text = MettlerWMF.RAWSTRING 'sartorius.RAWSTRING
 
-        If sartorius.ishealthy = False Then
+        If MettlerWMF.ishealthy = False Then
             Tmr_ScreenUpdate.Stop()
-            MsgBox(sartorius.errormessage, vbOKOnly, "System Error")
+            MsgBox(MettlerWMF.errormessage, vbOKOnly, "System Error")
             MsgBox("Please Shut Down System and Serivce Scale", vbOKOnly, "System Error")
         End If
 
@@ -305,8 +309,8 @@ Public Class Manual_Weight
 
                 ''Taring Section
                 '' check for scale health and stability
-                If sartorius.Stable Then
-                    Select Case Math.Abs(sartorius.CurrentReading)
+                If MettlerWMF.Stable Then
+                    Select Case Math.Abs(MettlerWMF.CurrentReading)
 
                         Case Is < My.Settings.TareLimit / 1000
                             ' Added in a little time to keep in sync with process pallet
@@ -333,13 +337,13 @@ Public Class Manual_Weight
 
             Case Weighprocess.weighing
 
-                If sartorius.Stable And sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
+                If MettlerWMF.Stable And MettlerWMF.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
                     If ccylinder.FirstWeightExists Then
                         ' Second weight reading
-                        ccylinder.Secondweight = sartorius.CurrentReading
+                        ccylinder.Secondweight = MettlerWMF.CurrentReading
                     Else
                         ' first weight reading
-                        ccylinder.Firstweight = sartorius.CurrentReading
+                        ccylinder.Firstweight = MettlerWMF.CurrentReading
                     End If
                     teststate = Weighprocess.prompting
 
@@ -1002,9 +1006,9 @@ Public Class Manual_Weight
                 swdataset.Write("Lot#,")
                 swdataset.WriteLine(currpallet.batch)
                 swdataset.Write("Scale Calibration Date,")
-                swdataset.WriteLine(sartorius.Lscalecaldate)
+                swdataset.WriteLine(MettlerWMF.Lscalecaldate)
                 swdataset.Write("Scale Calibration Due Date,")
-                swdataset.WriteLine(sartorius.NScaleCalDate)
+                swdataset.WriteLine(MettlerWMF.NScaleCalDate)
                 swdataset.WriteLine("Index,1st Wt,2nd Wt,Disposition, Fail Code")
 
             End Using
@@ -1082,8 +1086,8 @@ Public Class Manual_Weight
             swlogdata.Write(currpallet.timefirstwt.ToString & ", ")
             swlogdata.Write(currpallet.batch & ", ")
             swlogdata.Write(currpallet.pallet & ", ")
-            swlogdata.Write(sartorius.Lscalecaldate & ", ")
-            swlogdata.Write(sartorius.NScaleCalDate & ", ")
+            swlogdata.Write(MettlerWMF.Lscalecaldate & ", ")
+            swlogdata.Write(MettlerWMF.NScaleCalDate & ", ")
             swlogdata.Write(currpallet.numgood & ", ")
             swlogdata.WriteLine(currpallet.numbad)
 
@@ -1227,7 +1231,7 @@ Public Class Manual_Weight
         MsgBox("Check Around Scale and Remove any Foreign Materials", MsgBoxStyle.OkOnly, "Check Scale Area")
 
         ' 1. Tare Scale
-        Do Until sartorius.ScaleEmpty ' Add value for scale weight less than tare error
+        Do Until MettlerWMF.ScaleEmpty ' Add value for scale weight less than tare error
 
             If cancelclicked Then
                 CancelCalibration()
@@ -1558,13 +1562,13 @@ Public Class Manual_Weight
 
     Private Sub updatetare()
         'Retares the scale.  Opens up a commport if necessary.
-        newcommport()
-        mycom.Write("T" & ControlChars.CrLf)
+        MettlerWMF.zero()
+
     End Sub
     Public Sub startcal()
         ' Sends the command charaters required to start calibration of the sartorius scale.
         ' Calibration method is primarily set and controlled by sartorius.
-        mycom.Write("W" & ControlChars.CrLf)
+        MettlerWMF.calibrate()
 
 
     End Sub
