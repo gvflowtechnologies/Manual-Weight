@@ -150,6 +150,7 @@ Public Class Manual_Weight
         tmrcycle = New Stopwatch
         MettlerWMF = New Scale_Control
 
+
         tmrsort = New Stopwatch
         pauserequest = False
         teachingpoint = False
@@ -241,7 +242,7 @@ Public Class Manual_Weight
         Scara.Off(TipBlowOff)
         Scara.Stop()
         Scara.Dispose()
-
+        MettlerWMF.close()
         If Not IsNothing(Calibration) Then Calibration.Close()
         If Not IsNothing(ChangePassword) Then ChangePassword.Close()
         TMR_door.Enabled = False
@@ -291,7 +292,7 @@ Public Class Manual_Weight
             LblRawStream.Visible = False
         End If
 
-        LblRawStream.Text = MettlerWMF.RAWSTRING 'sartorius.RAWSTRING
+        LblRawStream.Text = MettlerWMF.RAWSTRING
 
         If MettlerWMF.ishealthy = False Then
             Tmr_ScreenUpdate.Stop()
@@ -385,7 +386,7 @@ Public Class Manual_Weight
 
         ActivePallet.inprocess = PalletData.status.processing
         ' Make sure commport is open
-        newcommport()
+        MettlerWMF.start()
 
         'if motors are not on then turn them on.
         If Not Scara.MotorsOn Then Scara.MotorsOn = True
@@ -1439,7 +1440,7 @@ Public Class Manual_Weight
             Btn_WeighLeft.Enabled = True
         End If
 
-
+        MettlerWMF.start()
         Calibration.Hide()
         Calibration.Enabled = False
         Me.Show()
@@ -1717,7 +1718,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Btn_WeighLeft_Click(sender As Object, e As EventArgs) Handles Btn_WeighLeft.Click
+    Private Sub Btn_WeighLeft_Click(sender As Object, e As EventArgs)
         ' Setting up a new pallet to be run in the lefthand location
         checkcal()
         If calfail Then Exit Sub

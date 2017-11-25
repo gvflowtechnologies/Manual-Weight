@@ -32,8 +32,8 @@ Public Class Calibration
 
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        Label1.Text = Manual_Weight.sartorius.RAWSTRING
-        Label5.Text = Manual_Weight.sartorius.calibrating
+        Label1.Text = Manual_Weight.MettlerWMF.RAWSTRING
+        Label5.Text = Manual_Weight.MettlerWMF.calibrating
     End Sub
 
  
