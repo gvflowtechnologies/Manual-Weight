@@ -14,28 +14,44 @@ Public Class Scale_Control
 
     Enum calprocess
         Complete
-
-        Active
+        Started
+        PreWeight
+        Calibrate
+        PostWeight
+        Zero
         Aborted
+        GettingInternalWeight
     End Enum
 
     Private DateScaleCalLast As Date ' Date of last scale calibration.
     Private DateScaleCalNext As Date ' Date of next scale calibratin.
     Private scalestopped As Boolean ' Flag that the scale should be stopped
+    Private calincome As Double ' First Weight in Calibration.  As Received
+    Private calout As Double ' Second Weight in calibration process.  As returned.
+
+
     Dim tmrlasttime As Stopwatch
     Dim Bstable As Boolean
     Dim dweightreading As Double
     Dim Bishealthy As Boolean 'Internal Healthy Tag
-    Const stabconst As String = "S " 'Was " G"
-    Const errid As String = "Error"
-
+    
     Private SRAWDATA As String
     Dim serrormessage As String
     Dim bincal As calprocess 'Indicating in the calibration procedure
     Dim calstring As String ' Comparision String for caltesting
+
+    Const stabconst As String = "S " 'Was " G"
+    Const errid As String = "Error"
     Const CalEnter As String = "C3 B"
     Const CalExit As String = "C3 A"
     Const calabort As String = "C3 I"
+    Const RequestInternalWt As String = "M19"
+
+    Const STestWeight As String = "TST3 A"
+    Const SReturnInternalWt As String = "M19 A"
+    Dim InternalCalWeight As Double ' = 200.0
+
+
     Dim reading As Boolean 'Flag to indicate ready for reading
 
     'Global TCPIP Variables.
@@ -65,18 +81,14 @@ Public Class Scale_Control
         calstring = ""
         bincal = calprocess.Complete
         Bstable = False
+        InternalCalWeight = 0.0
+        calincome = 0.0
+        calout = 0.0
 
         DateScaleCalLast = My.Settings.LastCalDate
         DateScaleCalNext = DateScaleCalLast.AddMonths(My.Settings.CalFrequency)
     End Sub
 
-    Sub FirstTime()
-        'Setup the IP address and port if the scale is using default settings.
-
-
-
-
-    End Sub
 
     Sub start()
         'start the weighing process and keep on going.
@@ -88,9 +100,13 @@ Public Class Scale_Control
         scalestopped = False
         ScaleData.BeginRead(databuffer, 0, 255, evtDataArrival, Nothing)
         Cancel_Reset()
+
         Connect("UPD 5")
         Connect("SIR")
         scaletest = False
+        calincome = 0.0
+        calout = 0.0
+
     End Sub
 
     Sub Cancel_Reset() ' Does a reset at startup.  Keep in final cut.
@@ -98,27 +114,17 @@ Public Class Scale_Control
 
     End Sub
 
-    Sub Cancel_Current() ' Not Sure we will need this command.  Basically stops scale.
-        '  Connect("C")
-        Connect("S")
-        '   ScaleData.Close()
-        ' ScaleData.Read(databuffer, 0, 255)
-        scalestopped = True
-
-    End Sub
-
-
-
     Sub calibrate() ' After Calibration is comlete.
-        Connect("S") ' Stops scale from sending data.
-        Connect("C3")
+
+        bincal = calprocess.Started
         '  bincal = calprocess.Entering
         scalestopped = False
         '     ScaleData.BeginRead(databuffer, 0, 255, evtDataArrival, Nothing)
     End Sub
 
     Public Sub ScaleDataStream(ByVal dr As IAsyncResult)
-        '  Dim bytes As Int32 = mettlerdata.Read(D, 0, Data.Length)
+
+
         Dim sb As New StringBuilder
         Dim numberofbytes As Integer
         Dim responsedata As String
@@ -176,53 +182,56 @@ Public Class Scale_Control
         ' Parses the data string from the scale when it comes in on serial port. 
         ' Getting Stability and weight reading.
         ' Not parsing for error codes
-        Dim position As Integer
-        Dim isdata As Integer
-        If reading <> "" Then
-            SRAWDATA = reading
-            Bishealthy = errorcheck(SRAWDATA, serrormessage)
+        '  Dim position As Integer
+        ' Dim isdata As Integer
+        If reading = "" Then Exit Sub
+        SRAWDATA = reading
+        Bishealthy = errorcheck(SRAWDATA, serrormessage)
 
-            If Not Bishealthy Then Exit Sub ' Do not go here if scale is reorting an error.
-            isdata = Datacheck(reading) ' Check reading to determine if this is a scale reading or an error code
-            If isdata = 2 Then
-                calcheck(SRAWDATA) ' check for cal string
-                ' check string for critical error code.
-            Else ' This packet has data
-                reading = reading.Substring(2, reading.Length - 2) '
-                Bstable = reading.Contains(stabconst)
-                reading = reading.Substring(1)
-                reading = reading.Trim()
-                position = reading.IndexOf(" ")
-                Try
-                    If position <> -1 Then reading = reading.Remove(position)
-                    dweightreading = CDbl(reading) * isdata
-                Catch ex As Exception
-                End Try
-            End If
+        If Not Bishealthy Then Exit Sub ' Do not go here if scale is reorting an error.
 
+        If bincal <> calprocess.Complete Then
+            calcheck(SRAWDATA) ' check for cal string
+            Exit Sub
         End If
+
+
+        ' This packet has data
+        dweightreading = ConvertWeight(reading, Bstable)
+
     End Sub
-    Private Function Datacheck(ByVal rawstring As String) As Integer
-        ' Checks string looking for  a "+" sign at the beginning of the string.
-        ' If the data string has a "+" sign, the packet contains valid data.
-        Dim testchar As String
-        Dim outvalue As Integer
-        outvalue = 3
-        If rawstring <> "" Then
-            testchar = rawstring.Substring(2, 1)
-            Select Case testchar
-                Case Is = "S"
-                    outvalue = 1
-                    rawstring = rawstring.Trim(CChar("S"))
-                Case Is = "D"
-                    outvalue = 1
-                    rawstring = rawstring.Trim(CChar("S"))
-                Case Else
-                    outvalue = 2
-            End Select
+
+    Function ConvertWeight(ByVal Stest As String, ByRef stableconstant As Boolean, Optional ByVal CalValue As String = "S S S D") As Double
+        Dim position As Integer
+        Dim Dinternalwt As Double
+        Dinternalwt = -400 ' Putting in a dummy weight to catch errors.  check for -400 will tell you if the reading was in error.
+        Stest = Stest.Replace("""", "")
+        If CalValue <> "S S S D" Then
+            Stest = Stest.Substring(CalValue.Length, Stest.Length - CalValue.Length) '
+            Stest = Stest.Trim()
+            position = Stest.IndexOf(" ")
+            Try
+                If position <> -1 Then Stest = Stest.Remove(position)
+                Dinternalwt = CDbl(Stest)
+            Catch ex As Exception
+            End Try
+            Return Dinternalwt
+            Exit Function
         End If
-        Return outvalue
+        Stest = Stest.Substring(2, Stest.Length - 2) '
+        Bstable = Stest.Contains(stabconst)
+        Stest = Stest.Substring(1)
+        Stest = Stest.Trim()
+        position = Stest.IndexOf(" ")
+        Try
+            If position <> -1 Then Stest = Stest.Remove(position)
+            Dinternalwt = CDbl(Stest)
+        Catch ex As Exception
+        End Try
+        Return Dinternalwt
     End Function
+
+
     Sub zero()
         Connect("Z")
     End Sub
@@ -284,24 +293,55 @@ Public Class Scale_Control
         ' are we in cal?  If no check to see if we should be, If yes, check to see if we should not be.
         ' Need to stay in cal until finish string is sent
         'teststring = teststring.Trim
+
+        Select Case bincal
+
+            Case calprocess.PostWeight
+                If teststring.Contains(STestWeight) Then
+                    calout = InternalCalWeight + ConvertWeight(teststring, Bstable, STestWeight)
+                    bincal = calprocess.Complete
+                    Connect("SIR")
+                End If
+            Case calprocess.Calibrate
+                If teststring.Contains("C3 A") Then
+                    bincal = calprocess.PostWeight
+                    Connect("TST3")
+                End If
+            Case calprocess.PreWeight
+                If teststring.Contains(STestWeight) Then
+                    calincome = InternalCalWeight + ConvertWeight(teststring, Bstable, STestWeight)
+                    bincal = calprocess.Calibrate
+                    Connect("C3")
+                End If
+
+            Case calprocess.Zero
+                If teststring.Contains(RequestInternalWt) Then
+                    InternalCalWeight = ConvertWeight(teststring, Bstable, SReturnInternalWt)
+                    bincal = calprocess.PreWeight
+                    Connect("TST3")
+                End If
+
+            Case calprocess.GettingInternalWeight
+                If teststring.Contains("Z A") Then
+                    bincal = calprocess.Zero
+                    Connect(RequestInternalWt)
+                End If
+
+            Case calprocess.Started
+                Connect("S")
+                bincal = calprocess.GettingInternalWeight
+                zero()
+
+        End Select
+
+
+
         If teststring.Contains(calabort) = True Then
             bincal = calprocess.Aborted
             Exit Sub
         End If
 
-        Select Case bincal
-            Case calprocess.Complete
-                If teststring.Contains(CalEnter) = True Then
-                    bincal = calprocess.Active
-                End If
-
-             
-            Case calprocess.Active
-                If teststring.Contains(CalExit) = True Then
-                    bincal = calprocess.Complete
-                End If
-
-        End Select
+       
     End Sub
 
     ReadOnly Property calibrating As calprocess ' Calibration Process.
@@ -371,6 +411,21 @@ Public Class Scale_Control
             Else
                 Return False
             End If
+        End Get
+    End Property
+    Public ReadOnly Property CalAsReceived As Double
+        Get
+            Return calincome
+        End Get
+    End Property
+    Public ReadOnly Property CalAsReturned As Double
+        Get
+            Return calout
+        End Get
+    End Property
+    Public ReadOnly Property internalweight As Double
+        Get
+            Return internalcalweight
         End Get
     End Property
 End Class

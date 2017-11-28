@@ -112,13 +112,11 @@ Partial Class Manual_Weight
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.Lbl_TareFrequency = New System.Windows.Forms.Label()
         Me.Btn_Tare_Frequency = New System.Windows.Forms.Button()
-        Me.Btn_SerialPort = New System.Windows.Forms.Button()
         Me.Lbl_MinWeight = New System.Windows.Forms.Label()
         Me.Lbl_MaxWeight = New System.Windows.Forms.Label()
         Me.Lbl_WeightLoss = New System.Windows.Forms.Label()
         Me.Lbl_TareError = New System.Windows.Forms.Label()
         Me.Lbl_RetareLimit = New System.Windows.Forms.Label()
-        Me.LB_SerialPorts = New System.Windows.Forms.ListBox()
         Me.Btn_UpdateWeight = New System.Windows.Forms.Button()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
@@ -1154,13 +1152,11 @@ Partial Class Manual_Weight
         '
         Me.GroupBox2.Controls.Add(Me.Lbl_TareFrequency)
         Me.GroupBox2.Controls.Add(Me.Btn_Tare_Frequency)
-        Me.GroupBox2.Controls.Add(Me.Btn_SerialPort)
         Me.GroupBox2.Controls.Add(Me.Lbl_MinWeight)
         Me.GroupBox2.Controls.Add(Me.Lbl_MaxWeight)
         Me.GroupBox2.Controls.Add(Me.Lbl_WeightLoss)
         Me.GroupBox2.Controls.Add(Me.Lbl_TareError)
         Me.GroupBox2.Controls.Add(Me.Lbl_RetareLimit)
-        Me.GroupBox2.Controls.Add(Me.LB_SerialPorts)
         Me.GroupBox2.Controls.Add(Me.Btn_UpdateWeight)
         Me.GroupBox2.Controls.Add(Me.Label13)
         Me.GroupBox2.Controls.Add(Me.Label12)
@@ -1193,15 +1189,6 @@ Partial Class Manual_Weight
         Me.Btn_Tare_Frequency.TabIndex = 25
         Me.Btn_Tare_Frequency.Text = "Tare Frequency"
         Me.Btn_Tare_Frequency.UseVisualStyleBackColor = True
-        '
-        'Btn_SerialPort
-        '
-        Me.Btn_SerialPort.Location = New System.Drawing.Point(18, 236)
-        Me.Btn_SerialPort.Name = "Btn_SerialPort"
-        Me.Btn_SerialPort.Size = New System.Drawing.Size(132, 23)
-        Me.Btn_SerialPort.TabIndex = 24
-        Me.Btn_SerialPort.Text = "Update Serial Port"
-        Me.Btn_SerialPort.UseVisualStyleBackColor = True
         '
         'Lbl_MinWeight
         '
@@ -1255,14 +1242,6 @@ Partial Class Manual_Weight
         Me.Lbl_RetareLimit.Size = New System.Drawing.Size(47, 15)
         Me.Lbl_RetareLimit.TabIndex = 16
         Me.Lbl_RetareLimit.Text = "Label14"
-        '
-        'LB_SerialPorts
-        '
-        Me.LB_SerialPorts.FormattingEnabled = True
-        Me.LB_SerialPorts.Location = New System.Drawing.Point(175, 242)
-        Me.LB_SerialPorts.Name = "LB_SerialPorts"
-        Me.LB_SerialPorts.Size = New System.Drawing.Size(173, 17)
-        Me.LB_SerialPorts.TabIndex = 14
         '
         'Btn_UpdateWeight
         '
@@ -2438,7 +2417,6 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_NextCal As System.Windows.Forms.Label
     Friend WithEvents Lbl_LastCal As System.Windows.Forms.Label
     Friend WithEvents Lbl_CalFolder As System.Windows.Forms.Label
-    Friend WithEvents LB_SerialPorts As System.Windows.Forms.ListBox
     Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
     Friend WithEvents Btn_UpdatePallet As System.Windows.Forms.Button
     Friend WithEvents Label9 As System.Windows.Forms.Label
@@ -2453,7 +2431,6 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_MaxWeight As System.Windows.Forms.Label
     Friend WithEvents Lbl_WeightLoss As System.Windows.Forms.Label
     Friend WithEvents Lbl_TareError As System.Windows.Forms.Label
-    Friend WithEvents Btn_SerialPort As System.Windows.Forms.Button
     Friend WithEvents CB_ViewRaw As System.Windows.Forms.CheckBox
     Friend WithEvents LblRawStream As System.Windows.Forms.Label
     Friend WithEvents LBL_Version As System.Windows.Forms.Label

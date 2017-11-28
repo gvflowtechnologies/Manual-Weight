@@ -139,6 +139,7 @@ Module UpdateSettings
             '.TB_MoveA.Text = My.Settings.MoveA.ToString
             '.TB_MoveD.Text = My.Settings.MoveD.ToString
             '.TB_MoveS.Text = My.Settings.MoveS.ToString
+
         End With
 
     End Sub

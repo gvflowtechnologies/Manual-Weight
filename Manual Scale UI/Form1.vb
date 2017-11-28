@@ -155,10 +155,7 @@ Public Class Manual_Weight
         pauserequest = False
         teachingpoint = False
         TFLOWlog = False
-        For Each sp As String In My.Computer.Ports.SerialPortNames
-            LB_SerialPorts.Items.Add(sp)
-        Next
-        LB_SerialPorts.SelectedIndex = -1
+        
 
         ' Update Pallet Status lables
         Lbl_PalletStatus_L.Text = "STATUS: IDLE"
@@ -177,7 +174,6 @@ Public Class Manual_Weight
         Lbl_CurrentBadL.Text = "0"
         Lbl_CurrentGoodL.Text = "0"
 
-        LB_SerialPorts.ScrollAlwaysVisible = True
         No_sleep()
         ' Update all pallet corners to settings value
 
@@ -219,10 +215,10 @@ Public Class Manual_Weight
     Private Function No_Sleep() As EXECUTION_STATE
         Return SetThreadExecutionState(EXECUTION_STATE.ES_SYSTEM_REQUIRED Or EXECUTION_STATE.ES_DISPLAY_REQUIRED Or EXECUTION_STATE.ES_CONTINUOUS)
     End Function
+
     Private Function GOTOSLEEP() As EXECUTION_STATE
         Return SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS)
     End Function
-
 
     Private Sub manual_WeightShown(sender As Object, e As EventArgs) Handles MyBase.Shown
         TMR_door = New Windows.Forms.Timer
@@ -259,7 +255,6 @@ Public Class Manual_Weight
             GB_RobotSpeed.Visible = True
         End If
     End Sub
-
 
     Private Sub palletclick() Handles TPPalletLayout.Enter
         ' Allows access only to Authorized personnel    
@@ -679,6 +674,7 @@ Public Class Manual_Weight
         CheckNextPallet()
 
     End Sub
+
     Sub TurnoffRobot()
         Scara.Jump(pausepoint)
         If Scara.MotorsOn Then Scara.MotorsOn = False ' When done turn off motors
@@ -730,7 +726,6 @@ Public Class Manual_Weight
         Scara.Off(TipBlowOff)
 
     End Sub
-
 
     Sub FIXEDPOINTS()
         'FIXED POINTS.  WORLD CORDINATES WITHOUT ROBOT SIDE.
@@ -912,7 +907,6 @@ Public Class Manual_Weight
         Lbl_GoodCount2.Text = Goodbin2.Count
     End Sub
 
-
     Sub checkcal()
         ' Checks calibration dates and disables buttons if past due or in error.
 
@@ -961,7 +955,6 @@ Public Class Manual_Weight
             WritefileHeader1(pallet)
         End If
     End Sub
- 
 
     Private Sub WritefileHeader1(ByVal curpallet As PalletData) ' write the header to the firstweight data set.
         ' Very simple file to hold first pass data.
@@ -982,17 +975,13 @@ Public Class Manual_Weight
 
     Private Sub writefirstweight(ByVal curpallet As PalletData)
 
-
         Using swdataset As StreamWriter = New StreamWriter(curpallet.S_FullFileName, True)
             swdataset.WriteLine(ccylinder.Firstweight.ToString)
-
         End Using
 
     End Sub
 
     Private Sub writefileheader2(ByVal currpallet As PalletData) ' Write the header data for the Final data set
-
-    
 
         If Not File.Exists(currpallet.S_FullFileName) Then
 
@@ -1020,7 +1009,6 @@ Public Class Manual_Weight
 
     Private Sub write_second_weight(ByVal curpallet As PalletData)
   
-
         If ccylinder.present Then ' only write data for cylinders that are present.
             Using swdataset As StreamWriter = New StreamWriter(curpallet.S_FullFileName, True)
                 swdataset.Write(ccylinder.CylIndex.ToString & ", ")
@@ -1030,6 +1018,7 @@ Public Class Manual_Weight
                 swdataset.WriteLine(ccylinder.DispReason)
             End Using
         End If
+
     End Sub
 
     Private Sub write_Summary(ByRef currpallet As PalletData)
@@ -1052,7 +1041,6 @@ Public Class Manual_Weight
         End If
 
         Logfile = My.Settings.Caldirectory & "\AVWeightLogFile.csv"
-
 
         'Write
 
@@ -1208,17 +1196,16 @@ Public Class Manual_Weight
         Calibration.Enabled = True
         Calibration.Show()
         Me.Hide()
-        Dim CalID As String = ""
-        Dim calweight As String = ""
+        Dim CalID As String = "Mettler WMF Internal WT = "
         Dim Operatorid As String = ""
-        Dim calfinal As String = ""
 
         Dim followup As MsgBoxResult
 
         Const ccaldata As String = "Updating Calibration Data"
         Const titles As String = "Calibration Sequence"
 
-        newcommport() 'open up commport to start communicting with the scal
+        MettlerWMF.start()
+
         teststate = Weighprocess.idle
         Tmr_ScreenUpdate.Enabled = False
         Calibration.PB_Calprogress.Value = 0
@@ -1246,9 +1233,7 @@ Public Class Manual_Weight
 
         updatetare()
         ''****************************************************
-        '****************************************
-
-
+        '*****************************************************
         ' 2 Get Data Input
         Dim notnumbers As Boolean
 
@@ -1272,28 +1257,21 @@ Public Class Manual_Weight
         ' Update Progress Bar
         Calibration.PB_Calprogress.PerformStep()
 
-        Do
-            CalID = InputBox("Enter Calibration Standard ID", ccaldata)
-            If CalID = "" Then
-                CancelCalibration()
-                Exit Sub
-            End If
-            Calibration.Lbl_CalStd.Text = CalID
-            followup = MsgBox("You entered " & CalID & ", is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Entry")
-            If followup = MsgBoxResult.Cancel Then
-                CalID = ""
-                CancelCalibration()
-                Exit Sub
-            End If
-        Loop Until followup = MsgBoxResult.Yes
-        Calibration.PB_Calprogress.PerformStep()
-
-        ' 3 Get As Received Weight
-        Calibration.Lbl_CalPrompts.Text = "Place Calibration Weight on Scale"
+        Calibration.Lbl_CalPrompts.Text = "Performing Internal Calibration"
         Calibration.Lbl_CalPrompts.BackColor = Color.Green
 
-        MsgBox("Place calibration weight " & CalID & " on Scale and then press OK", MsgBoxStyle.OkOnly)
-        '*****************************************
+        MettlerWMF.calibrate()
+
+        Do
+            Application.DoEvents()
+            Threading.Thread.Sleep(1)
+
+        Loop Until MettlerWMF.calibrating = Scale_Control.calprocess.PreWeight
+
+        CalID = CalID & MettlerWMF.internalweight.ToString
+        Calibration.Lbl_CalStd.Text = CalID
+        Calibration.PB_Calprogress.PerformStep()
+
 
         Do ' Add value for scale weight less than 1.0 grams
             If cancelclicked Then
@@ -1303,103 +1281,44 @@ Public Class Manual_Weight
 
             Application.DoEvents()
             Threading.Thread.Sleep(1)
-        Loop Until sartorius.Stable And Not sartorius.ScaleEmpty
+        Loop Until MettlerWMF.calibrating = Scale_Control.calprocess.Calibrate
 
+        Calibration.Lbl_CalValASRECEIVED.Text = MettlerWMF.CalAsReceived.ToString
         Calibration.PB_Calprogress.PerformStep()
-        calweight = sartorius.CurrentReading
-        Calibration.Lbl_CalValASRECEIVED.Text = calweight
-
-        sartorius.calibrating = Scalemanagement.calprocess.Complete
-        MsgBox("Remove calibration weight " & CalID & " on Scale and then press OK", MsgBoxStyle.OkOnly)
-        Calibration.Lbl_CalPrompts.Text = "Remove all weight from scale"
-        Calibration.Lbl_CalPrompts.BackColor = Color.Red
 
 
-        ' 4. Tare Scale again
-        Do Until sartorius.ScaleEmpty ' Add value for scale weight less than tare error
-
+        Do
             If cancelclicked Then
                 CancelCalibration()
-                Exit Sub
+                Exit Sub   ' change to exit sub when lie
             End If
 
             Application.DoEvents()
             Threading.Thread.Sleep(1)
+        Loop Until MettlerWMF.calibrating = Scale_Control.calprocess.PostWeight
 
-        Loop
+        Calibration.PB_Calprogress.PerformStep()
 
+
+        Do
+            If cancelclicked Then
+                CancelCalibration()
+                Exit Sub   ' change to exit sub when lie
+            End If
+
+            Application.DoEvents()
+            Threading.Thread.Sleep(1)
+        Loop Until MettlerWMF.calibrating = Scale_Control.calprocess.Complete
+
+        Calibration.lbl_CalValasReturned.Text = MettlerWMF.CalAsReturned.ToString
+        Calibration.PB_Calprogress.PerformStep()
 
         updatetare()
 
 
 
-        Do ' Add value for scale weight less than 1.0 grams
-
-            If cancelclicked Then
-                CancelCalibration()
-                Exit Sub   ' change to exit sub when lie
-            End If
-
-            Application.DoEvents()
-            Threading.Thread.Sleep(1)
-        Loop Until sartorius.ScaleEmpty
-
-        Calibration.PB_Calprogress.PerformStep()
-
-        '5. send calibration string
-
-        startcal()
-
-        Do ' Add value for scale weight less than 1.0 grams
-
-            If cancelclicked Then
-                CancelCalibration()
-
-                Exit Sub   ' change to exit sub when lie
-            End If
-            If sartorius.ishealthy = False Then
-                MsgBox("!! Calibration Parameter Not Met !!", MsgBoxStyle.OkOnly)
-                MsgBox("!! Unplug Scale, Replugin Scale, and then Retry Calibration", MsgBoxStyle.OkOnly)
-                My.Settings.scalecalfail = True
-                My.Settings.Save()
-
-                CancelCalibration()
-                Exit Sub   ' change to exit sub when lie
-
-            End If
-            Application.DoEvents()
-            Thread.Sleep(1)
-        Loop Until sartorius.calibrating = Scalemanagement.calprocess.Active
-
-        Calibration.PB_Calprogress.PerformStep()
-        Calibration.Lbl_CalPrompts.Text = "Place Calibration Weight on Scale"
+        Calibration.Lbl_CalPrompts.Text = "Calibration Complete"
         Calibration.Lbl_CalPrompts.BackColor = Color.Green
-        MsgBox("Place calibration weight " & CalID & " on Scale and then press OK", MsgBoxStyle.OkOnly)
-        Do
-            If cancelclicked Then
-                CancelCalibration()
-                Exit Sub   ' change to exit sub when lie
-            End If
-
-            If sartorius.ishealthy = False Then
-                MsgBox("!! Calibration Parameter Not Met !!", MsgBoxStyle.OkOnly)
-                MsgBox("!! Unplug Scale, Replugin Scale, and then Retry Calibration", MsgBoxStyle.OkOnly)
-                CancelCalibration()
-                My.Settings.scalecalfail = True
-                My.Settings.Save()
-                Exit Sub   ' change to exit sub when lie
-
-            End If
-            Application.DoEvents()
-            Thread.Sleep(1)
-
-        Loop Until sartorius.calibrating = Scalemanagement.calprocess.Complete
-        Calibration.PB_Calprogress.PerformStep()
-        calfinal = sartorius.CurrentReading
-        Calibration.lbl_CalValasReturned.Text = calfinal
-
-        Calibration.Lbl_CalPrompts.Text = "Calibrating Complete-Remove Weight"
-        Calibration.Lbl_CalPrompts.BackColor = Color.GreenYellow
 
 
         followup = MsgBox("The current calbration frequency is: " & My.Settings.CalFrequency & " Months.  Do you want to change calibration frequency", MsgBoxStyle.YesNo, "Change Calibration Frequency?")
@@ -1433,14 +1352,13 @@ Public Class Manual_Weight
         Lbl_LastCal.Text = My.Settings.LastCalDate.ToString("d")
         Lbl_NextCal.Text = My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString("d")
 
-        caldata.Writecalrecord(CalID, calweight, calfinal, Operatorid)
+        caldata.Writecalrecord(CalID, MettlerWMF.CalAsReceived.ToString, MettlerWMF.CalAsReturned.ToString, Operatorid)
 
         If checkdate() = True Then
             Btn_WeighRight.Enabled = True
             Btn_WeighLeft.Enabled = True
         End If
 
-        MettlerWMF.start()
         Calibration.Hide()
         Calibration.Enabled = False
         Me.Show()
@@ -1457,17 +1375,6 @@ Public Class Manual_Weight
         Calibration.Hide()
         Me.Show()
 
-    End Sub
-
-    Private Sub Btn_SerialPort_Click(sender As Object, e As EventArgs) Handles Btn_SerialPort.Click
-
-        If LB_SerialPorts.SelectedIndex = -1 Then
-            MsgBox("No serial port is selected")
-        Else
-            My.Settings.SerialPort = LB_SerialPorts.SelectedItem.ToString
-            My.Settings.Save()
-
-        End If
 
     End Sub
 
@@ -1566,13 +1473,6 @@ Public Class Manual_Weight
         MettlerWMF.zero()
 
     End Sub
-    Public Sub startcal()
-        ' Sends the command charaters required to start calibration of the sartorius scale.
-        ' Calibration method is primarily set and controlled by sartorius.
-        MettlerWMF.calibrate()
-
-
-    End Sub
 
     Private Sub Btn_ManualTare_Click(sender As Object, e As EventArgs) Handles Btn_ManualTare.Click
         updatetare()
@@ -1587,20 +1487,17 @@ Public Class Manual_Weight
 
     End Sub
 
-
     Private Sub Btn_ResetGood1_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood1.Click
-
 
         goodbinreset(Goodbin1)
 
     End Sub
 
-
-
     Private Sub Btn_ResetGood2_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood2.Click
         goodbinreset(Goodbin2)
 
     End Sub
+
     Private Sub goodbinreset(ByRef Bin_Number As BinClass)
         ' Resettin cumulative good counter
         ' 1. Empty Count
@@ -1630,8 +1527,6 @@ Public Class Manual_Weight
 
 
     End Sub
-
-
 
     Sub DoorPause()
         ' Check if door is open, if the door is open then pause the robot if not already paused.
@@ -1718,8 +1613,9 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Btn_WeighLeft_Click(sender As Object, e As EventArgs)
+    Private Sub Btn_WeighLeft_Click(sender As Object, e As EventArgs) Handles Btn_WeighLeft.Click
         ' Setting up a new pallet to be run in the lefthand location
+
         checkcal()
         If calfail Then Exit Sub
 
@@ -2067,21 +1963,6 @@ Public Class Manual_Weight
         My.Settings.Save()
     End Sub
 
-    'Private Sub turnondrops()
-    '    Label46.Visible = True
-    '    Label26.Visible = True
-    '    LblDropsScale.Visible = True
-    '    LblPallet.Visible = True
-    'End Sub
-    'Private Sub turnoffdrops()
-    '    Label46.Visible = False
-    '    Label26.Visible = False
-    '    LblDropsScale.Visible = False
-    '    LblPallet.Visible = False
-    'End Sub
-
-
-
     Private Sub BTN_Loc_GBIN1_Click(sender As Object, e As EventArgs) Handles BTN_Loc_GBIN1.Click
         UpdateSettings.BINLocations()
         UpdateSettings.BINLoctionsout()
@@ -2099,4 +1980,7 @@ Public Class Manual_Weight
         UpdateSettings.BINLoctionsout()
 
     End Sub
+
+
+
 End Class

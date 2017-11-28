@@ -159,7 +159,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Scale Control.vb" />
-    <Compile Include="ScaleManagement.vb" />
     <Compile Include="Settings.vb" />
     <Compile Include="UpdateSettings.vb" />
   </ItemGroup>

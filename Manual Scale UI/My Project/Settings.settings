@@ -167,5 +167,8 @@
     <Setting Name="BBZ" Type="System.Single" Scope="User">
       <Value Profile="(Default)">-109</Value>
     </Setting>
+    <Setting Name="Ethernet_IP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.0.55</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

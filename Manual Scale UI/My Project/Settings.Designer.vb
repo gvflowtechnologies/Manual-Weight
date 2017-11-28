@@ -713,6 +713,18 @@ Namespace My
                 Me("BBZ") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("192.168.0.55")>  _
+        Public Property Ethernet_IP() As String
+            Get
+                Return CType(Me("Ethernet_IP"),String)
+            End Get
+            Set
+                Me("Ethernet_IP") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
