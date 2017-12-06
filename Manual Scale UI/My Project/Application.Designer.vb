@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.Robot_Scale.Manual_Weight
+            Me.MainForm = Global.Robot_Scale_MT.Manual_Weight
         End Sub
     End Class
 End Namespace

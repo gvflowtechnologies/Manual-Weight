@@ -58,7 +58,7 @@ Public Class Scale_Control
     Dim ScaleClient As TcpClient
     Dim ScaleData As NetworkStream
     Dim databuffer(256) As Byte
-    Dim ScaleIP As String = "192.168.0.55"
+    Dim ScaleIP As String = "10.1.1.3"
     Dim ScalePort As Integer = 80
 
     Dim scaletest As Boolean ' test variable to stop stream

@@ -126,7 +126,7 @@ Public Class Manual_Weight
     Dim partstuck As Boolean ' Part is stuck in Robot
     Dim TFLOWlog As Boolean ' Login indicating Tflow Account
     Dim Elocation As EjectLocation 'Part Eject Location
-    Dim updateweight As scaledata
+    '  Dim updateweight As scaledata
     Dim teststate As Weighprocess
 
     Dim gbinfull As Boolean ' Flag to tell that both bins are full
@@ -135,7 +135,7 @@ Public Class Manual_Weight
     Dim tmrsort As Stopwatch
     Dim Picked As Boolean ' Was canister picked or not True if picked
     Const CSTFlowLogin As String = "G.Voss" ' constant to allow access to speed controls on robot
-    Delegate Sub scaledata(ByVal sdata As String) 'Delegate for 
+    ' Delegate Sub scaledata(ByVal sdata As String) 'Delegate for 
 
     Private Declare Function SetThreadExecutionState Lib "Kernel32" (ByVal esflags As EXECUTION_STATE) As EXECUTION_STATE
 

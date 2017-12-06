@@ -6,9 +6,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{598A2A09-64F5-4BDF-B0D8-895EDAEDA404}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>Robot_Scale.My.MyApplication</StartupObject>
-    <RootNamespace>Robot_Scale</RootNamespace>
-    <AssemblyName>Robot_Scale</AssemblyName>
+    <StartupObject>Robot_Scale_MT.My.MyApplication</StartupObject>
+    <RootNamespace>Robot_Scale_MT</RootNamespace>
+    <AssemblyName>Robot_Scale_MT</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -26,8 +26,8 @@
     <ProductName>Robot Scale Operation</ProductName>
     <PublisherName>Techniflow</PublisherName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>5</ApplicationRevision>
-    <ApplicationVersion>2.6.2.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>2.7.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -40,7 +40,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Robot_Scale.xml</DocumentationFile>
+    <DocumentationFile>Robot_Scale_MT.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -50,7 +50,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Robot_Scale.xml</DocumentationFile>
+    <DocumentationFile>Robot_Scale_MT.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -66,10 +66,10 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>C1D407DF8EA0F5D889A56D122244CD9DC57FDFCD</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>A214EF47B5E5941A5681AE3138D47D18D15BB177</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Manual Scale UI_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Manual Scale UI_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -181,6 +181,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Manual Scale UI_1_TemporaryKey.pfx" />
     <None Include="Manual Scale UI_TemporaryKey.pfx" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
