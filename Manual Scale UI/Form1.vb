@@ -155,7 +155,7 @@ Public Class Manual_Weight
         pauserequest = False
         teachingpoint = False
         TFLOWlog = False
-        
+
 
         ' Update Pallet Status lables
         Lbl_PalletStatus_L.Text = "STATUS: IDLE"
@@ -228,7 +228,7 @@ Public Class Manual_Weight
             .Enabled = False ' Enabled
             .Start() ' Started
         End With
-    
+
         Tmr_ScreenUpdate.Start()
     End Sub
 
@@ -1008,7 +1008,7 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub write_second_weight(ByVal curpallet As PalletData)
-  
+
         If ccylinder.present Then ' only write data for cylinders that are present.
             Using swdataset As StreamWriter = New StreamWriter(curpallet.S_FullFileName, True)
                 swdataset.Write(ccylinder.CylIndex.ToString & ", ")
