@@ -18,7 +18,7 @@ Module Epson_SPEL
         Try
             With Scara
                 .Initialize()
-                .Connect(5)
+                .Connect(1) '5
                 .Project = "C:\EpsonRC70\Projects\vbcontrol\vbcontrol.sprj"
                 .TLSet(1, -16.01, -0.303, 0, 0, 0, 0)
                 .Reset()
@@ -138,6 +138,7 @@ Module Epson_SPEL
         If values(2) > -65 Then
             With Scara
                 '  .AsyncMode = True
+                MsgBox("x = " & values(0) & ", Y = " & values(1) & ", Z = " & values(2) & ", U = " & values(3), vbOKOnly, "I think this is the robot position")
                 .LimZ(values(2) + 1)
                 .SetPoint(incjump, values(0), values(1), -70, values(3))
                 .Jump(incjump)

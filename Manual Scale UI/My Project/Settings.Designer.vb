@@ -92,7 +92,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("2015-12-31")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2017-12-01")>  _
         Public Property LastCalDate() As Date
             Get
                 Return CType(Me("LastCalDate"),Date)
@@ -735,7 +735,7 @@ Namespace My
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute()>  _
     Friend Module MySettingsProperty
         
-        <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")> _
+        <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
         Friend ReadOnly Property Settings() As Global.Robot_Scale_MT.My.MySettings
             Get
                 Return Global.Robot_Scale_MT.My.MySettings.Default
