@@ -60,6 +60,7 @@ Public Class Manual_Weight
     Const Vactesttime As Integer = 100
     Const EjectTryLimit As Integer = 3 ' Number of times that the robot will try to eject a part
     Const descendstep As Single = 0.2 ' Step size in mm that the robot drops.
+    Const laserproximity As Integer = 8
 
     'X,Y,Z Locations on system for component locations in mm
     Dim Good1x As Single
@@ -153,7 +154,7 @@ Public Class Manual_Weight
 
         tmrsort = New Stopwatch
         pauserequest = False
-        teachingpoint = False
+        teachingpoint = True
         TFLOWlog = False
 
 
@@ -225,7 +226,7 @@ Public Class Manual_Weight
         Thread.Sleep(500)
         With TMR_door
             .Interval = 200 ' Fire 5 times per second
-            .Enabled = False ' Enabled
+            .Enabled = True  ' Enabled
             .Start() ' Started
         End With
 
@@ -492,10 +493,10 @@ Public Class Manual_Weight
                     Scara.Jump(1)
 
                     If pauserequest = True Then Controlled_Pause()
-                    Scara.WaitSw(8, True, 0.5)
+                    Scara.WaitSw(laserproximity, True, 0.5)
 
 
-                    If Not Scara.Sw(8) Then
+                    If Not Scara.Sw(laserproximity) Then
                         ccylinder.present = False
                     End If
 
@@ -1931,7 +1932,7 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub RunPage_Click(sender As Object, e As EventArgs) Handles RunPage.Enter
-        teachingpoint = False
+        teachingpoint = True
         'TFLOWlog = False
         If TFLOWlog Then
             '     turnondrops()
