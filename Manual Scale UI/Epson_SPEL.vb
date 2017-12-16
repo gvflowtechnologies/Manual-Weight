@@ -7,6 +7,7 @@ Module Epson_SPEL
     Public WithEvents Scara As RCAPINet.Spel
 
     Const incjump As Integer = 66
+    Const Heightlimt As Integer = -65
     Public pointpallet01 As SpelPoint
     Public pointpallet02 As SpelPoint
     Public pointpallet03 As SpelPoint
@@ -18,7 +19,7 @@ Module Epson_SPEL
         Try
             With Scara
                 .Initialize()
-                .Connect(1) '5
+                .Connect(5)
                 .Project = "C:\EpsonRC70\Projects\vbcontrol\vbcontrol.sprj"
                 .TLSet(1, -16.01, -0.303, 0, 0, 0, 0)
                 .Reset()
@@ -42,7 +43,7 @@ Module Epson_SPEL
         'Settings for running the robot.
         With Scara
             .Tool(1)
-            .LimZ(-65)
+            .LimZ(Heightlimt)
             .Speed(Manual_Weight.speed) '60 is production
             .Accel(Manual_Weight.accel, Manual_Weight.decel)
             .PowerHigh = True
@@ -128,22 +129,21 @@ Module Epson_SPEL
         values = Scara.GetRobotPos(SpelRobotPosType.World, 0, 1, 0)
 
         Do While values(2) > -30
-            values = Scara.GetRobotPos(SpelRobotPosType.World, 0, 0, 0)
+            values = Scara.GetRobotPos(SpelRobotPosType.World, 0, 1, 0)
             If values(2) > -35 Then
                 If Scara.MotorsOn = True Then Scara.MotorsOn = False
                 MsgBox("Move robot acutator down and then press ok", MsgBoxStyle.Critical, "Robot acuator out of range")
                 Scara.MotorsOn = True
             End If
         Loop
-        If values(2) > -65 Then
+        If values(2) > Heightlimt Then
             With Scara
-                '  .AsyncMode = True
-                '      MsgBox("x = " & values(0) & ", Y = " & values(1) & ", Z = " & values(2) & ", U = " & values(3), vbOKOnly, "I think this is the robot position")
+
                 .LimZ(values(2) + 1)
                 .SetPoint(incjump, values(0), values(1), -70, values(3))
                 .Jump(incjump)
-                .LimZ(-65)
-                '    .WaitCommandComplete()
+                .LimZ(Heightlimt)
+
             End With
         End If
 
