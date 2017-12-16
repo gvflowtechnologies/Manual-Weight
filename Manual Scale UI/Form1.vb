@@ -145,14 +145,14 @@ Public Class Manual_Weight
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Epson_SPEL.InitApp() ' Start Robot
+
         Goodbin1 = New BinClass(My.Settings.TotalGood1)
         Goodbin2 = New BinClass(My.Settings.TotalGood2)
 
         tmrcycle = New Stopwatch
         MettlerWMF = New Scale_Control
-
-
         tmrsort = New Stopwatch
+
         pauserequest = False
         teachingpoint = True
         TFLOWlog = False
@@ -184,8 +184,6 @@ Public Class Manual_Weight
         UpdateSettings.updateweights()
         UpdateSettings.updatetotals()
 
-
-
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
         '   turnoffdrops() ' turn off display of drops.
@@ -196,17 +194,16 @@ Public Class Manual_Weight
         If System.Diagnostics.Debugger.IsAttached = False Then
             v = My.Application.Deployment.CurrentVersion.ToString
         Else
-
             v = "Unable to Determine Current Version"
         End If
+
         LBL_Version.Text = "Version:" & v
 
         BtnResume.Enabled = False
         Btn_PauseRobot.Enabled = False
+
         Scara.MotorsOn = True
         Epson_SPEL.settings()
-
-        Scara.AsyncMode = False
         Scara.SetPoint(pausepoint, 0, 150, -70, 90, 0, RCAPINet.SpelHand.Righty)
         Scara.Jump(pausepoint)
         Scara.MotorsOn = False
@@ -230,7 +227,9 @@ Public Class Manual_Weight
             .Start() ' Started
         End With
 
+
         Tmr_ScreenUpdate.Start()
+
     End Sub
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
@@ -1541,8 +1540,8 @@ Public Class Manual_Weight
 
                 Btn_PauseRobot.Enabled = False
 
-
                 Scara.Pause()
+
                 TMR_door.Stop()
 
                 '  Scara.Here(pausereturn)
@@ -1570,9 +1569,9 @@ Public Class Manual_Weight
     Private Sub TMR_door_Tick(sender As Object, e As EventArgs) Handles TMR_door.Tick
         ' Timer object to detect if the door is opened.
         DoorPause()
-        If teachingpoint Then
-            teachrobotpoint()
-        End If
+        '  If teachingpoint Then
+        teachrobotpoint()
+        'End If
     End Sub
 
     Private Sub Btn_Updt_Pllt_L_Click(sender As Object, e As EventArgs) Handles Btn_Updt_Pllt_L.Click
