@@ -1964,21 +1964,22 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub BTN_Loc_GBIN1_Click(sender As Object, e As EventArgs) Handles BTN_Loc_GBIN1.Click
-        UpdateSettings.BINLocations()
+
         UpdateSettings.BINLoctionsout()
+        UpdateSettings.BINLocations()
 
     End Sub
 
     Private Sub BTN_Loc_GBIN2_Click(sender As Object, e As EventArgs) Handles BTN_Loc_GBIN2.Click
-        UpdateSettings.BINLocations()
-        UpdateSettings.BINLoctionsout()
 
+        UpdateSettings.BINLoctionsout()
+        UpdateSettings.BINLocations()
     End Sub
 
     Private Sub BTN_Loc_BBIN_Click(sender As Object, e As EventArgs) Handles BTN_Loc_BBIN.Click
-        UpdateSettings.BINLocations()
-        UpdateSettings.BINLoctionsout()
 
+        UpdateSettings.BINLoctionsout()
+        UpdateSettings.BINLocations()
     End Sub
 
 

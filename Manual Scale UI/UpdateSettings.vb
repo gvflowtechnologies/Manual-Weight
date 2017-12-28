@@ -77,13 +77,13 @@ Module UpdateSettings
         Manual_Weight.TB_GB1_Y.Text = My.Settings.GB1Y.ToString("N3")
         Manual_Weight.TB_GB1_Z.Text = My.Settings.GB1Z.ToString("N3")
 
-        Manual_Weight.TB_GB1_Z.Text = My.Settings.GB1Z.ToString("N3")
-        Manual_Weight.TB_GB1_Z.Text = My.Settings.GB1Z.ToString("N3")
-        Manual_Weight.TB_GB1_Z.Text = My.Settings.GB1Z.ToString("N3")
+        Manual_Weight.TB_GB2_X.Text = My.Settings.GB2X.ToString("N3")
+        Manual_Weight.TB_GB2_Y.Text = My.Settings.GB2Y.ToString("N3")
+        Manual_Weight.TB_GB2_Z.Text = My.Settings.GB2Z.ToString("N3")
 
-        Manual_Weight.TB_GB1_Z.Text = My.Settings.GB1Z.ToString("N3")
-        Manual_Weight.TB_GB1_Z.Text = My.Settings.GB1Z.ToString("N3")
-        Manual_Weight.TB_GB1_Z.Text = My.Settings.GB1Z.ToString("N3")
+        Manual_Weight.TB_BB_X.Text = My.Settings.BBX.ToString("N3")
+        Manual_Weight.TB_BB_Y.Text = My.Settings.BBY.ToString("N3")
+        Manual_Weight.TB_BB_Z.Text = My.Settings.BBZ.ToString("N3")
 
     End Sub
 
