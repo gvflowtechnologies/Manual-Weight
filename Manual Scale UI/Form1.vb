@@ -791,7 +791,7 @@ Public Class Manual_Weight
             Loop
             LblDropsScale.Text = descend / descendstep
 
-            Scara.Delay(100)
+            Scara.Delay(Vactesttime)
 
             Scara.SetPoint(postweighpick, scalex, scaley, scalez + pickcheck, 0, 0, handdirec)
             Scara.Move(postweighpick)
@@ -803,7 +803,7 @@ Public Class Manual_Weight
             End If
             If X = PickTryLimit - 1 Then
                 Scara.Jump(pausepoint)
-                MsgBox("TAKE CANISTER OFF OF SCALE", MsgBoxStyle.Critical, "FAILED TO PICK SCALE OFF OF CANISTER")
+                MsgBox("TAKE CANISTER OFF OF SCALE", MsgBoxStyle.Critical, "FAILED TO PICK CANISTER OFF OF THE SCALE")
             End If
 
         Next

@@ -21,7 +21,6 @@ Module Epson_SPEL
                 .Initialize()
                 .Connect(5)
                 .Project = "C:\EpsonRC70\Projects\vbcontrol\vbcontrol.sprj"
-                .TLSet(1, -16.01, -0.303, 0, 0, 0, 0)
                 .Reset()
             End With
 
@@ -51,9 +50,6 @@ Module Epson_SPEL
             .AccelS(Manual_Weight.saccel, Manual_Weight.sdecel)
 
         End With
-        ' Dim VALUES() As Single
-
-        '    VALUES = Scara.GetRobotPos(RCAPINet.SpelRobotPosType.World, 0, 1, 0)
 
         RobotHeightOutOfRange()
 
@@ -98,11 +94,11 @@ Module Epson_SPEL
 
 
         Try
-            With Scara
-                .Initialize()
-                .TLSet(1, -16.01, -0.303, 0, 0, 0, 0)
+            Scara.initialize()
+            'With Scara
+            '    .Initialize()
 
-            End With
+            'End With
 
         Catch EX As RCAPINet.SpelException
             MessageBox.Show(EX.Message)
