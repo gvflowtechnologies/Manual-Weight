@@ -32,6 +32,7 @@
     Sub DetermineDisposition()
 
         Dim weightdifference As Double
+        Dim weightlimit As Double
         'Deterimine if the device is good or bad.
         If dMyfirstweight = -20 Then
             ddisposition = False
@@ -62,6 +63,13 @@
         Else
 
             weightdifference = dMySecondweight - dMyfirstweight
+            ' Add test on gas type to determing the weight limit paramater
+            If sSN_StartTest = 1 Then
+                weightlimit = My.Settings.SF6WeightCh
+            Else
+                weightlimit = My.Settings.C3F8WeightCh
+            End If
+
 
             Select Case dMySecondweight
                 Case Is > My.Settings.MaxWeight
@@ -73,7 +81,7 @@
                 Case Else
 
                     ' what things do we want to check for?  Question for Pete
-                    If Math.Abs(weightdifference) > My.Settings.SF6WeightCh Then
+                    If Math.Abs(weightdifference) > weightlimit Then
                         ddisposition = False
                         If dMySecondweight > dMyfirstweight Then
                             sDispReason = "Gained Weight"

@@ -23,7 +23,7 @@ Public Class Manual_Weight
 
 
     Structure GasType
-        Public SNStart As Int16
+        Public SNStart As String
         Public WeightLoss As Single
         Public _Type As String
     End Structure
@@ -1151,4 +1151,6 @@ Public Class Manual_Weight
         My.Settings.Bag_Limit = Integer.Parse(TB_BagCapacity.Text)
         My.Settings.Save()
     End Sub
+
+
 End Class
