@@ -92,14 +92,14 @@ Public Class PalletData
 
     End Sub
 
-    Public Sub firstweight(ByVal firstpallet As String, ByVal firstbatch As String)
+    Public Sub Firstweight(ByVal firstpallet As String, ByVal firstbatch As String)
 
         ' The second function is to set the time of either the first weight date and time or the second weight date and time.
 
         Dim filename As String
         Dim x As Integer
         x = 0
- 
+
         For Each filename In currentfirstweights
 
             If filename.Contains(firstpallet) And filename.Contains(firstbatch) Then
@@ -127,11 +127,11 @@ Public Class PalletData
                 ' cycle through the file
                 Do While tmpstream.Peek <> -1
                     tmpstream.ReadLine()
-                    canisternum += 1
+                    Canisternum += 1
 
                 Loop
             End Using
-            canisternum = canisternum - 5
+            Canisternum -= 5
             'Count the number of cylinders already processed.
 
         End If
@@ -140,7 +140,7 @@ Public Class PalletData
     End Sub
 
 
-    Public Sub readfirstweight() ' Reads all of the first weights for the batch.
+    Public Sub Readfirstweight() ' Reads all of the first weights for the batch.
         Dim FNreadfirst As String
         FNreadfirst = fweight & "\" & currentfilename
         If File.Exists(FNreadfirst) Then
@@ -213,7 +213,7 @@ Public Class PalletData
 
     End Function
 
-    Public Property filename As String
+    Public Property Filename As String
 
         Get
             If Not BFirstweightExists Then
@@ -226,8 +226,8 @@ Public Class PalletData
                 '     Dim iaddpallet As Integer
                 '    iaddpallet = 0
 
-                sbname.Append(batch).Append("_")
-                sbname.Append(pallet).Append("_")
+                sbname.Append(Batch).Append("_")
+                sbname.Append(Pallet).Append("_")
                 sbname.Append(DateTime.Now.Month).Append("_")
                 sbname.Append(DateTime.Now.Day).Append("_")
                 sbname.Append(DateTime.Now.Year).Append("_")
@@ -252,7 +252,7 @@ Public Class PalletData
 
         End Set
     End Property
-    Public ReadOnly Property firstweightexists As Boolean ' Flag is true if first weight exists
+    Public ReadOnly Property Firstweightexists As Boolean ' Flag is true if first weight exists
         Get
 
             Return BFirstweightExists
@@ -261,7 +261,7 @@ Public Class PalletData
 
     End Property
 
-    Public Property pallet As String ' Pallet Identification
+    Public Property Pallet As String ' Pallet Identification
 
         Get
             Return Me.palletid
@@ -273,7 +273,7 @@ Public Class PalletData
         End Set
     End Property
 
-    Public Property batch As String ' Batch Identification
+    Public Property Batch As String ' Batch Identification
         Get
             Return Me.batchid
         End Get
@@ -283,7 +283,7 @@ Public Class PalletData
         End Set
     End Property
 
-    Public Property timefirstwt As Date
+    Public Property Timefirstwt As Date
         Get
             Return sttimefirst
         End Get
@@ -291,12 +291,12 @@ Public Class PalletData
 
         End Set
     End Property
-    Public ReadOnly Property timesecondwt As Date
+    Public ReadOnly Property Timesecondwt As Date
         Get
             Return Sttimesecond
         End Get
     End Property
-    Public ReadOnly Property currentfilepath As String
+    Public ReadOnly Property Currentfilepath As String
         Get
             If BFirstweightExists Then
                 Return completed
@@ -318,15 +318,14 @@ Public Class PalletData
         End Get
     End Property
 
-    ReadOnly Property palletcount As Integer 'Number of canisters in a pallet
+    Public ReadOnly Property Palletcount As Integer 'Number of canisters in a pallet
         Get
             Return number_of_Canisters
         End Get
 
     End Property
 
-
-    Property canisternum As Integer 'Current index number of canister being weighed
+    Public Property Canisternum As Integer 'Current index number of canister being weighed
         Set(value As Integer)
 
             canisternumber = value
@@ -337,7 +336,7 @@ Public Class PalletData
         End Get
     End Property
 
-    Property numgood As Integer ' Number of good devices in a pallet
+    Public Property Numgood As Integer ' Number of good devices in a pallet
         Get
             Return CountGood
         End Get
@@ -346,7 +345,7 @@ Public Class PalletData
         End Set
     End Property
 
-    Property numbad As Integer ' Number of bad devices in a pallet
+    Public Property Numbad As Integer ' Number of bad devices in a pallet
         Get
             Return CountBad
         End Get
@@ -355,14 +354,13 @@ Public Class PalletData
         End Set
     End Property
 
-    WriteOnly Property SerialNumber As String
+    Public WriteOnly Property SerialNumber As String
         Set(value As String)
             CylinderSerialNumber = value
         End Set
     End Property
 
-
-    ReadOnly Property initialweight(ByVal serialnumber As String) As Single
+    Public ReadOnly Property Initialweight(ByVal serialnumber As String) As Single
         Get
             'Set firstweight to a bad value
             Dim init_weight As Single ' the return value
@@ -390,12 +388,13 @@ Public Class PalletData
         End Get
     End Property
 
-    WriteOnly Property firstweightpath As String 'Datapath of first weight
+    Public WriteOnly Property Firstweightpath As String 'Datapath of first weight
         Set(value As String)
             fweight = value
         End Set
     End Property
-    WriteOnly Property finalweightpath As String ' datapath of second weight
+
+    Public WriteOnly Property Finalweightpath As String ' datapath of second weight
         Set(value As String)
             completed = value
         End Set

@@ -1,4 +1,6 @@
-﻿Public Class Cylinder
+﻿
+Option Explicit On
+Public Class Cylinder
 
 
     Private dMyfirstweight As Double
@@ -10,7 +12,7 @@
     Private BSecondPass As Boolean
     Private sSN_StartTest As String
 
-    Sub New(ByVal SecondPass As Boolean, ByVal SerialNum As String, ByVal ssnstart As String)
+    Public Sub New(ByVal SecondPass As Boolean, ByVal SerialNum As String, ByVal ssnstart As String)
 
         BSecondPass = SecondPass
         ddisposition = False
@@ -21,15 +23,11 @@
 
     End Sub
 
-
-
-
-    Sub dispose()
+    Public Sub Dispose()
         Me.Finalize()
     End Sub
 
-
-    Sub DetermineDisposition()
+    Public Sub DetermineDisposition()
 
         Dim weightdifference As Double
         Dim weightlimit As Double
@@ -97,11 +95,11 @@
 
             End Select
         End If
-  
+
 
     End Sub
 
-    Property CylIndex As Integer
+    Public Property CylIndex As Integer
         Get
             Return myindex
         End Get
@@ -110,9 +108,7 @@
         End Set
     End Property
 
-
-
-    Property Firstweight As Double
+    Public Property Firstweight As Double
         Get
             Return dMyfirstweight
         End Get
@@ -121,7 +117,7 @@
         End Set
     End Property
 
-    Property Secondweight As Double
+    Public Property Secondweight As Double
         Get
             Return dMySecondweight
         End Get
@@ -130,7 +126,7 @@
         End Set
     End Property
 
-    Property Disposition As Boolean
+    Public Property Disposition As Boolean
         Get
             Return ddisposition
         End Get
@@ -139,13 +135,13 @@
         End Set
     End Property
 
-    ReadOnly Property DispReason As String
+    Public ReadOnly Property DispReason As String
         Get
             Return sDispReason
         End Get
     End Property
 
-    Property SerialNumber As String
+    Public Property SerialNumber As String
         Get
             Return sSN
         End Get

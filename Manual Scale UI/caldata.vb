@@ -1,11 +1,11 @@
 ﻿Option Explicit On
 Imports System.IO
 
-Module caldata
+Friend Module caldata
     ' Calibration data file and writing 
 
     Public cancelclicked As Boolean
-    Dim swlogcaldata As StreamWriter
+    Private swlogcaldata As StreamWriter
 
 
     Public Sub WritecalfileHeader()
@@ -55,7 +55,7 @@ Module caldata
         
     End Sub
 
-    Sub selectcalfolder()
+    Public Sub selectcalfolder()
         ' Selects, creates if necessary, and saves folder location for calibration data.
 
         Dim calfolder As String = ""
@@ -102,7 +102,7 @@ Module caldata
 
     End Sub
 
-    Sub SelectDataFolder()
+    Public Sub SelectDataFolder()
         Dim DataFolder As String = ""
         Dim scompleteddata As String = ""
         Dim sfweigtdata As String = ""

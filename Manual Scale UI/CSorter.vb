@@ -5,26 +5,26 @@ Imports System.Threading
 
 
 Public Class CSorter
-
-    Dim sorter As MccDaq.MccBoard = New MccDaq.MccBoard()   'Creates a New Daq Board
-    Dim sortererror As MccDaq.ErrorInfo ' create new error handler for handling daq errors.
-    Const Psortout As MccDaq.DigitalPortType = MccDaq.DigitalPortType.FirstPortB
-    Const psortin As MccDaq.DigitalPortType = MccDaq.DigitalPortType.FirstPortA
-    Const dsortin As MccDaq.DigitalPortDirection = DigitalPortDirection.DigitalIn
-    Const dsortout As MccDaq.DigitalPortDirection = DigitalPortDirection.DigitalOut
-    Dim daqhealthy As Boolean ' true means no problem.  False means problem
-    Dim daqmessage As String
-    Dim ilocation As Short ' Location of slide 255 = no switches closed
+    Private sorter As MccDaq.MccBoard = New MccDaq.MccBoard()   'Creates a New Daq Board
+    Private sortererror As MccDaq.ErrorInfo ' create new error handler for handling daq errors.
+    Private Const Psortout As MccDaq.DigitalPortType = MccDaq.DigitalPortType.FirstPortB
+    Private Const psortin As MccDaq.DigitalPortType = MccDaq.DigitalPortType.FirstPortA
+    Private Const dsortin As MccDaq.DigitalPortDirection = DigitalPortDirection.DigitalIn
+    Private Const dsortout As MccDaq.DigitalPortDirection = DigitalPortDirection.DigitalOut
+    Private daqhealthy As Boolean ' true means no problem.  False means problem
+    Private daqmessage As String
+    Private ilocation As Short ' Location of slide 255 = no switches closed
     ' 253 = Switch Closest to Solenoid is closed ("BAD")
     ' 254 = Switch Furthest from solenoid is closed ("Good")
-    Dim sorttimeout As Stopwatch
-    Dim Droptimeout As Stopwatch ' Stopwatch to track if a cylinder has been dropped.
-    Dim lastsort As Short ' tells what the last sort value was.
+    Private sorttimeout As Stopwatch
+    Private Droptimeout As Stopwatch ' Stopwatch to track if a cylinder has been dropped.
+    Private lastsort As Short ' tells what the last sort value was.
 
 
 
 
-    Sub New()
+
+    Public Sub New()
 
 
         Dim BoardNum As Integer
@@ -68,13 +68,14 @@ Public Class CSorter
         Droptimeout = New Stopwatch
         Droptimeout.Start()
     End Sub
-    ReadOnly Property dropped As Boolean
+
+    Public ReadOnly Property Dropped As Boolean
         Get
             Dim bdropvalue As Boolean
             Dim timeout As Integer
-            timeout = 0
+
             bdropvalue = False
-            mylocation()
+            Mylocation()
             If lastsort = 255 Then
                 bdropvalue = True
                 Return bdropvalue
@@ -86,7 +87,7 @@ Public Class CSorter
 
             Do Until Droptimeout.ElapsedMilliseconds > 15000
                 timeout = Droptimeout.ElapsedMilliseconds
-                mylocation()
+                Mylocation()
 
                 If lastsort = 1 Then
                     If ilocation = 253 Then
@@ -110,7 +111,8 @@ Public Class CSorter
 
         End Get
     End Property
-    Sub Sort(ByVal position As Short)
+
+    Public Sub Sort(ByVal position As Short)
         ' pushes or pulls the sort 
 
         ' 255 turns off all lights 
@@ -134,7 +136,7 @@ Public Class CSorter
         End If
     End Sub
 
-    Private Sub mylocation()
+    Private Sub Mylocation()
         'Putting an inifinte loop here with a time out of 15 seconds.
 
         sortererror = sorter.DIn(psortin, ilocation)
@@ -145,7 +147,7 @@ Public Class CSorter
 
     End Sub
 
-    ReadOnly Property Location As Short
+    Public ReadOnly Property Location As Short
         ' Property is true when the sort with 
         ' 255 = no switches closed
         ' 253 = Switch Closest to Solenoid is closed ("BAD")
@@ -154,27 +156,28 @@ Public Class CSorter
 
         Get
 
-            mylocation()
+            Mylocation()
 
             Return ilocation
 
         End Get
     End Property
 
-    ReadOnly Property errorprop As Boolean
+    Public ReadOnly Property Errorprop As Boolean
         Get
             Return daqhealthy
         End Get
     End Property
-    ReadOnly Property errormsg As String
+
+    Public ReadOnly Property Errormsg As String
         Get
             Return daqmessage
         End Get
     End Property
 
-    ReadOnly Property fired As Boolean
+    Public ReadOnly Property Fired As Boolean
         Get
-            mylocation()
+            Mylocation()
             If lastsort = 255 Then
                 Return True
                 Exit Property
