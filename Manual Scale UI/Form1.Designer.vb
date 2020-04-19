@@ -55,8 +55,6 @@ Partial Class Manual_Weight
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Lbl_BadCount = New System.Windows.Forms.Label()
         Me.Lbl_GoodCount = New System.Windows.Forms.Label()
-        Me.Btn_ResetBad = New System.Windows.Forms.Button()
-        Me.Btn_ResetGood = New System.Windows.Forms.Button()
         Me.Btn_StopPallet = New System.Windows.Forms.Button()
         Me.Lbl_BatchN = New System.Windows.Forms.Label()
         Me.Btn_StartPallet = New System.Windows.Forms.Button()
@@ -424,8 +422,6 @@ Partial Class Manual_Weight
         Me.GBBinData.Controls.Add(Me.Label14)
         Me.GBBinData.Controls.Add(Me.Lbl_BadCount)
         Me.GBBinData.Controls.Add(Me.Lbl_GoodCount)
-        Me.GBBinData.Controls.Add(Me.Btn_ResetBad)
-        Me.GBBinData.Controls.Add(Me.Btn_ResetGood)
         Me.GBBinData.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GBBinData.Location = New System.Drawing.Point(927, 22)
         Me.GBBinData.Name = "GBBinData"
@@ -473,24 +469,6 @@ Partial Class Manual_Weight
         Me.Lbl_GoodCount.Size = New System.Drawing.Size(124, 27)
         Me.Lbl_GoodCount.TabIndex = 2
         Me.Lbl_GoodCount.Text = "GoodCount"
-        '
-        'Btn_ResetBad
-        '
-        Me.Btn_ResetBad.Location = New System.Drawing.Point(26, 119)
-        Me.Btn_ResetBad.Name = "Btn_ResetBad"
-        Me.Btn_ResetBad.Size = New System.Drawing.Size(86, 40)
-        Me.Btn_ResetBad.TabIndex = 1
-        Me.Btn_ResetBad.Text = "Reset Bad Count"
-        Me.Btn_ResetBad.UseVisualStyleBackColor = True
-        '
-        'Btn_ResetGood
-        '
-        Me.Btn_ResetGood.Location = New System.Drawing.Point(162, 119)
-        Me.Btn_ResetGood.Name = "Btn_ResetGood"
-        Me.Btn_ResetGood.Size = New System.Drawing.Size(96, 40)
-        Me.Btn_ResetGood.TabIndex = 0
-        Me.Btn_ResetGood.Text = "Reset Good Count"
-        Me.Btn_ResetGood.UseVisualStyleBackColor = True
         '
         'Btn_StopPallet
         '
@@ -1002,8 +980,6 @@ Partial Class Manual_Weight
     Friend WithEvents GBBinData As System.Windows.Forms.GroupBox
     Friend WithEvents Lbl_BadCount As System.Windows.Forms.Label
     Friend WithEvents Lbl_GoodCount As System.Windows.Forms.Label
-    Friend WithEvents Btn_ResetBad As System.Windows.Forms.Button
-    Friend WithEvents Btn_ResetGood As System.Windows.Forms.Button
     Friend WithEvents sLbl_BN As System.Windows.Forms.Label
     Friend WithEvents GB_Scale As System.Windows.Forms.GroupBox
     Friend WithEvents Lbl_CurrentScale As System.Windows.Forms.Label
