@@ -55,6 +55,8 @@ Public Class Manual_Weight
     Private scanned As Boolean
     Private cylindercollect As Collection
 
+    Private DataFileName As String
+
     Private Declare Function SetThreadExecutionState Lib "Kernel32" (ByVal esflags As EXECUTION_STATE) As EXECUTION_STATE
 
 
@@ -183,14 +185,6 @@ Public Class Manual_Weight
         ' Load that data in.
 
         Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
-        'If sorterattached Then
-        '    If cylindersorter.Location = 254 Then
-        '        If tmrsort.ElapsedMilliseconds > 15000 Then
-        '            cylindersorter.Sort(255)
-        '            tmrsort.Reset()
-        '        End If
-        '    End If
-        'End If
 
 
         If CB_ViewRaw.Checked = True Then
@@ -487,6 +481,8 @@ Public Class Manual_Weight
         Lbl_BatchN.Text = ""
         Lbl_BagNum.Text = ""
         manualstop = False
+
+        ' Test if calibration is past due.
         If Checkdate() = False Then
             Btn_StartPallet.Enabled = False
             RB_FinalWeightq.Enabled = False
@@ -514,7 +510,6 @@ Public Class Manual_Weight
         Else
             cylindergas.SNStart = 2
 
-
         End If
 
         If RB_FinalWeightq.Checked Then
@@ -541,15 +536,6 @@ Public Class Manual_Weight
             End If
         Loop Until followup = MsgBoxResult.Yes
 
-
-
-
-        ' send pallet number and 
-        ' if pallet exists pull batch number   
-
-
-
-        ' send pallet number and 
 
         Do
             MDataset.Batch = InputBox("Enter Batch ID", "Batch Identification")
@@ -655,11 +641,11 @@ Public Class Manual_Weight
 
         Dim closewatch As Stopwatch
 
-        If IsNothing(closewatch) Then
+        If Not IsNothing(closewatch) Then
+            closewatch.Restart()
+        Else
             closewatch = New Stopwatch
             closewatch.Start()
-        Else
-            closewatch.Restart()
         End If
 
         Do Until closewatch.ElapsedMilliseconds > 15000
@@ -696,14 +682,15 @@ Public Class Manual_Weight
 
     End Sub
 
+#Region "File Writing"
     Private Sub WritefileHeader1() ' write the header to the firstweight data set.
         ' Very simple file to hold first pass data.
-        Dim Myfile As String
-        Myfile = MDataset.Currentfilepath & "\" & MDataset.Filename
+
+        DataFileName = MDataset.Currentfilepath & "\" & MDataset.Filename
 
         'Write
-        If Not File.Exists(Myfile) Then
-            Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
+        If Not File.Exists(DataFileName) Then
+            Using swdataset As StreamWriter = New StreamWriter(DataFileName, False)
                 swdataset.WriteLine(MDataset.Batch)
                 swdataset.WriteLine(MDataset.Pallet)
                 swdataset.WriteLine(MDataset.Timefirstwt.ToString)
@@ -714,11 +701,8 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub Writefirstweight()
-        Dim Myfile As String
-        Myfile = MDataset.Currentfilepath & "\" & MDataset.Filename
 
-
-        Using swdataset As StreamWriter = New StreamWriter(Myfile, True)
+        Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
             swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
             swdataset.WriteLine(ccylinder.Firstweight.ToString)
         End Using
@@ -728,13 +712,12 @@ Public Class Manual_Weight
 
     Private Sub Writefileheader2() ' Write the header data for the Final data set
 
-        Dim Myfile As String
-        Myfile = MDataset.Currentfilepath & "\" & MDataset.Filename
+        DataFileName = MDataset.Currentfilepath & "\" & MDataset.Filename
 
-        If Not File.Exists(Myfile) Then
+        If Not File.Exists(DataFileName) Then
             'Write a new header only if the file does not exist.
 
-            Using swdataset As StreamWriter = New StreamWriter(Myfile, False)
+            Using swdataset As StreamWriter = New StreamWriter(DataFileName, False)
 
                 swdataset.Write("1st Weight Time,")
                 swdataset.WriteLine(MDataset.Timefirstwt.ToString)
@@ -751,9 +734,8 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub Write_second_weight()
-        Dim Myfile As String
-        Myfile = MDataset.Currentfilepath & "\" & MDataset.Filename
-        Using swdataset As StreamWriter = New StreamWriter(Myfile, True)
+
+        Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
             swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
             swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
             swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
@@ -761,6 +743,8 @@ Public Class Manual_Weight
             swdataset.WriteLine(ccylinder.DispReason)
         End Using
     End Sub
+#End Region
+
 
     Private Sub Btn_WeighFolders(sender As Object, e As EventArgs) Handles Btn_WeighFolder.Click
         caldata.SelectDataFolder()
@@ -932,6 +916,7 @@ Public Class Manual_Weight
 
 
     End Sub
+#Region "Communication"
 
     Private Sub Portclosing()
         If IsNothing(Mycom) Then Exit Sub
@@ -1031,7 +1016,7 @@ Public Class Manual_Weight
         '     Thread.Sleep(1)
 
     End Sub
-
+#End Region
     Private Sub Btn_ManualTare_Click(sender As Object, e As EventArgs) Handles Btn_ManualTare.Click
         Updatetare()
     End Sub
@@ -1052,6 +1037,8 @@ Public Class Manual_Weight
         Lbl_GoodCount.Text = My.Settings.TotalGood
 
     End Sub
+
+#Region "Input Validation"
 
     Private Function ValidSerialNumber(ByVal SerialNumber As String, ByRef errorMessage As String) As Boolean
         ' Function to check the serial number entered is 10 charaters long
@@ -1149,6 +1136,6 @@ Public Class Manual_Weight
         My.Settings.Bag_Limit = Integer.Parse(TB_BagCapacity.Text)
         My.Settings.Save()
     End Sub
-
+#End Region
 
 End Class
