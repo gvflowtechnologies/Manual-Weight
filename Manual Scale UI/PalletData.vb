@@ -10,7 +10,7 @@ Public Class PalletData
     Private palletid As String ' current active pallet
     Private batchid As String ' current active pallet
     Private currentfilename As String ' Current Active File.
-    Private BFirstweightExists As Boolean
+    Private ReadOnly BFirstweightExists As Boolean
     Private sttimefirst As Date ' time stamp of first weight
     Private Sttimesecond As Date ' time stamp of second weight
     Private DateScaleCalLast As Date ' Date of last scale calibration.
@@ -34,7 +34,7 @@ Public Class PalletData
    
     Private currentfirstweights() As String ' Array of short file names of first pallets in the system
     Private Currentfirstpallets() As String ' Array of first pallets in the system
-    Private Index_filename As Integer ' Index in array of filenames that contains the current file
+    Private ReadOnly Index_filename As Integer ' Index in array of filenames that contains the current file
     Private fweight As String ' String with fweight data path
     Private completed As String ' String with completed Data Path
     ' Private Archived As String ' String with archive of first weights

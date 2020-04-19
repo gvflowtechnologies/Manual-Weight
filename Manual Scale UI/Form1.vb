@@ -184,15 +184,6 @@ Public Class Manual_Weight
         ' Load that data in.
 
         Lbl_CurrentScale.Text = sartorius.CurrentReading.ToString
-        'If sorterattached Then
-        '    If cylindersorter.Location = 254 Then
-        '        If tmrsort.ElapsedMilliseconds > 15000 Then
-        '            cylindersorter.Sort(255)
-        '            tmrsort.Reset()
-        '        End If
-        '    End If
-        'End If
-
 
         If CB_ViewRaw.Checked = True Then
             LblRawStream.Visible = True
@@ -219,13 +210,10 @@ Public Class Manual_Weight
                         cylindersorter.Sort(255)
                         tmrsort.Reset()
                     End If
-                    'set label colors
+
                 End If
 
-                'teststate = Weighprocess.Scanning
-                'entering = True
 
-                ' wait for start pallet buttonclick  when clickek
 
             Case Weighprocess.Scanning
                 If entering Then
@@ -328,12 +316,12 @@ Public Class Manual_Weight
                             teststate = Weighprocess.prompting
                             entering = True
                             Disposition()
-                            'Case    > My.Settings.TareLimit and < my.Settings.TareError
+
 
                     End Select
 
                 Else
-                    '    '   teststate = weighprocess.erroring
+
                 End If
 
             Case Weighprocess.prompting
@@ -366,7 +354,20 @@ Public Class Manual_Weight
                         End If
 
                     Loop Until login = My.Settings.Password
+                Else
 
+                    If MDataset.Firstweightexists = False Then
+
+                        Writefirstweight()
+
+                    Else
+
+                        Write_second_weight()
+
+                    End If
+
+                    ' update the counters for disposition 
+                    Updatecounts()
                 End If
 
                 'If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
@@ -386,9 +387,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Updatetare() ' UPDATED TO METTLER STRING
-        Mycom.Write("Z" & ControlChars.CrLf)
-    End Sub
+
 
     Private Sub Disposition()
 
@@ -421,18 +420,6 @@ Public Class Manual_Weight
         End If
 
 
-        If MDataset.Firstweightexists = False Then
-
-            Writefirstweight()
-
-        Else
-
-            Write_second_weight()
-
-        End If
-
-        ' update the counters for disposition 
-        Updatecounts()
 
         'set label colors
 
@@ -790,6 +777,7 @@ Public Class Manual_Weight
 
     End Sub
 
+#Region "Button Click Handling"
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         ChangePassword.Enabled = True
         ChangePassword.Show()
@@ -894,26 +882,16 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Supdatevalues(ByVal sprompt As String, ByRef Sdata As Single)
-        Dim inerror As Boolean = True
-
-        While inerror = True
-            Dim sinputstring As String = InputBox(sprompt, , Sdata.ToString("N4"))
-
-
-            If IsNumeric(sinputstring) Then
-                inerror = False
-                Sdata = CSng(sinputstring)
-
-            Else
-                MsgBox("Numbers Only Please")
-            End If
-
-        End While
-
-
-
+    Private Sub Btn_ManualTare_Click(sender As Object, e As EventArgs) Handles Btn_ManualTare.Click
+        Updatetare()
     End Sub
+
+#End Region
+
+
+
+
+
 #Region "Communication"
     Private Sub Portclosing()
         If IsNothing(Mycom) Then Exit Sub
@@ -935,7 +913,9 @@ Public Class Manual_Weight
         End If
 
     End Sub
-
+    Private Sub Updatetare() ' UPDATED TO METTLER STRING
+        Mycom.Write("Z" & ControlChars.CrLf)
+    End Sub
     Private Sub Newcommport()
 
         Dim myportnames() As String
@@ -1016,9 +996,7 @@ Public Class Manual_Weight
 #End Region
 
 
-    Private Sub Btn_ManualTare_Click(sender As Object, e As EventArgs) Handles Btn_ManualTare.Click
-        Updatetare()
-    End Sub
+
 
     Private Sub ResetBad()
         ' Resetting cumulative counter
@@ -1036,7 +1014,28 @@ Public Class Manual_Weight
         Lbl_GoodCount.Text = My.Settings.TotalGood
 
     End Sub
+
 #Region "Input Validation"
+
+    Private Sub Supdatevalues(ByVal sprompt As String, ByRef Sdata As Single)
+        Dim inerror As Boolean = True
+
+        While inerror = True
+            Dim sinputstring As String = InputBox(sprompt, , Sdata.ToString("N4"))
+
+
+            If IsNumeric(sinputstring) Then
+                inerror = False
+                Sdata = CSng(sinputstring)
+
+            Else
+                MsgBox("Numbers Only Please")
+            End If
+
+        End While
+
+
+    End Sub
     Private Function ValidSerialNumber(ByVal SerialNumber As String, ByRef errorMessage As String) As Boolean
         ' Function to check the serial number entered is 10 charaters long
 

@@ -72,7 +72,7 @@ Public Class CSorter
     Public ReadOnly Property Dropped As Boolean
         Get
             Dim bdropvalue As Boolean
-            Dim timeout As Integer
+            ' Dim timeout As Integer
 
             bdropvalue = False
             Mylocation()
@@ -86,7 +86,7 @@ Public Class CSorter
 
 
             Do Until Droptimeout.ElapsedMilliseconds > 15000
-                timeout = Droptimeout.ElapsedMilliseconds
+                '    timeout = Droptimeout.ElapsedMilliseconds
                 Mylocation()
 
                 If lastsort = 1 Then
