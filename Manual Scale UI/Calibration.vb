@@ -1,7 +1,7 @@
 ﻿Option Explicit On
 
 Public Class Calibration
-    Dim updatetimer As Timer
+
     Private Sub Btn_Escape_Click(sender As Object, e As EventArgs) Handles Btn_Escape.Click
 
 
@@ -33,6 +33,6 @@ Public Class Calibration
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         Label1.Text = Manual_Weight.sartorius.RAWSTRING
-        Label5.Text = Manual_Weight.sartorius.calibrating
+        Label5.Text = Manual_Weight.sartorius.Calibrating
     End Sub
 End Class

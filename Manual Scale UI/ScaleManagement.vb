@@ -5,37 +5,37 @@ Imports System.Threading
 
 
 Public Class Scalemanagement
-    Enum calprocess
+    Public Enum Calprocess
 
         Complete
         Entering
         Active
     End Enum
 
-    Dim WithEvents mycom As SerialPort
-    Dim incoming As String
-    Dim tmrlasttime As Stopwatch
-    Dim Bstable As Boolean
-    Dim dweightreading As Double
-    Dim Bishealthy As Boolean 'Internal Healthy Tag
-    Const stabconst As String = " S "
-    Const errid As String = "Err"
+    Private WithEvents Mycom As SerialPort
+    Private incoming As String
+    Private ReadOnly tmrlasttime As Stopwatch
+    Private Bstable As Boolean
+    Private dweightreading As Double
+    Private Bishealthy As Boolean 'Internal Healthy Tag
+    Private Const stabconst As String = " S "
+    Private Const errid As String = "Err"
     Private Delegate Sub updateproperty(ByVal currweight As Double)
     Private updateweight As updateproperty
-    Dim bcalrequest As Boolean 'calibration requested
+    Private bcalrequest As Boolean 'calibration requested
     Private SRAWDATA As String
-    Dim serrormessage As String
-    Dim bincal As calprocess 'Indicating in the calibration procedure
-    Dim calstring As String ' Comparision String for caltesting
-    Const CalEnter As String = "Usr"
-    Const CalExit As String = "end"
+    Private serrormessage As String
+    Private bincal As Calprocess 'Indicating in the calibration procedure
+    Private ReadOnly calstring As String ' Comparision String for caltesting
+    Private Const CalEnter As String = "Usr"
+    Private Const CalExit As String = "end"
 
-    Sub New()
+    Public Sub New()
         ' Creates a new serial port 
         ' Gets port name from static data
         Bishealthy = True
         calstring = ""
-        bincal = calprocess.Complete
+        bincal = Calprocess.Complete
         Bstable = False
         bcalrequest = False
 
@@ -47,8 +47,7 @@ Public Class Scalemanagement
 
     End Sub
 
-
-    Sub ParseData(ByVal reading As String)
+    Public Sub ParseData(ByVal reading As String)
 
 
         ' Parses the data string from the scale when it comes in on serial port.  
@@ -69,13 +68,13 @@ Public Class Scalemanagement
         ' Check to see if the stability character is present
         ' 
         isdata = Datacheck(reading)
-                '' if reading is real 
+        '' if reading is real 
 
         '' Parse number out of string
         '' and set weight
         If isdata = 2 Then
-            calcheck(SRAWDATA) ' check for cal string
-            errorcheck(SRAWDATA) ' check string for critical error code.
+            Calcheck(SRAWDATA) ' check for cal string
+            Errorcheck(SRAWDATA) ' check string for critical error code.
 
         Else
             Bstable = reading.Contains(stabconst)
@@ -112,8 +111,7 @@ Public Class Scalemanagement
 
     End Function
 
-
-    Sub errorcheck(ByVal datain As String) ' Checking to create a boolean for critical error
+    Public Sub Errorcheck(ByVal datain As String) ' Checking to create a boolean for critical error
 
         Dim listin As String
         Dim cutstring As Integer
@@ -155,7 +153,7 @@ Public Class Scalemanagement
 
     End Sub
 
-    Sub calcheck(ByVal teststring As String)
+    Public Sub Calcheck(ByVal teststring As String)
         ' Trim String to mininum
         ' are we in cal?  If no check to see if we should be, If yes, check to see if we should not be.
 
@@ -164,24 +162,24 @@ Public Class Scalemanagement
 
         Select Case bincal
 
-            Case calprocess.Complete
+            Case Calprocess.Complete
                 If teststring.Contains(CalEnter) = True Then
-                    bincal = calprocess.Entering
+                    bincal = Calprocess.Entering
                 End If
 
-            Case calprocess.Entering
+            Case Calprocess.Entering
                 If teststring.Contains(CalEnter) = False Then
-                    bincal = calprocess.Active
+                    bincal = Calprocess.Active
                 End If
-            Case calprocess.Active
+            Case Calprocess.Active
                 If teststring.Contains(CalExit) = True Then
-                    bincal = calprocess.Complete
+                    bincal = Calprocess.Complete
                 End If
         End Select
 
     End Sub
 
-    Property CalRequest As Boolean
+    Public Property CalRequest As Boolean
         Get
             SyncLock Me
                 Return bcalrequest
@@ -195,13 +193,13 @@ Public Class Scalemanagement
 
     End Property
 
-    Property calibrating As calprocess
+    Public Property Calibrating As Calprocess
         Get
             SyncLock Me
                 Return bincal
             End SyncLock 'Return True
         End Get
-        Set(value As calprocess)
+        Set(value As Calprocess)
             bincal = value
         End Set
     End Property
@@ -218,7 +216,7 @@ Public Class Scalemanagement
     '    End Get
     'End Property
 
-    ReadOnly Property CurrentReading As Double
+    Public ReadOnly Property CurrentReading As Double
         ' Represents last stable reading
         Get
             SyncLock Me
@@ -228,20 +226,21 @@ Public Class Scalemanagement
         End Get
     End Property
 
-    ReadOnly Property Stable As Boolean
+    Public ReadOnly Property Stable As Boolean
         'Is the scale reading stable or not  True means the reading is stable.
         Get
             Return Bstable
         End Get
     End Property
-    ReadOnly Property RAWSTRING As String
+
+    Public ReadOnly Property RAWSTRING As String
         Get
             Return SRAWDATA
         End Get
     End Property
 
 
-    Public Property ishealthy As Boolean
+    Public Property Ishealthy As Boolean
         Get
 
             Return Bishealthy
@@ -251,7 +250,7 @@ Public Class Scalemanagement
 
         End Set
     End Property
-    Public Property errormessage As String
+    Public Property Errormessage As String
         Get
             Return serrormessage
 

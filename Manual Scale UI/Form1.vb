@@ -59,7 +59,7 @@ Public Class Manual_Weight
     Private Declare Function SetThreadExecutionState Lib "Kernel32" (ByVal esflags As EXECUTION_STATE) As EXECUTION_STATE
 
 
-#Region "Form Open and Close operations"
+
     ' Form open close stuff
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         newdata = New Datareceive
@@ -177,8 +177,6 @@ Public Class Manual_Weight
 
         Return True 'pastdue
     End Function
-#End Region
-
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
 
@@ -204,9 +202,9 @@ Public Class Manual_Weight
 
         LblRawStream.Text = sartorius.RAWSTRING
 
-        If sartorius.Ishealthy = False Then
+        If sartorius.ishealthy = False Then
             Tmr_ScreenUpdate.Stop()
-            MsgBox(sartorius.Errormessage, vbOKOnly, "System Error")
+            MsgBox(sartorius.errormessage, vbOKOnly, "System Error")
             MsgBox("Please Shut Down System and Serivce Scale", vbOKOnly, "System Error")
         End If
 
@@ -546,6 +544,14 @@ Public Class Manual_Weight
 
 
 
+
+        ' send pallet number and 
+        ' if pallet exists pull batch number   
+
+
+
+        ' send pallet number and 
+
         Do
             MDataset.batch = InputBox("Enter Batch ID", "Batch Identification")
             If MDataset.batch = "" Then Exit Sub
@@ -618,9 +624,26 @@ Public Class Manual_Weight
 
 
         If manualstop Then
-            Closepallet()
+            'Tmr_ScreenUpdate.Stop()
 
+            'Dim userresponse As MsgBoxResult
+            'userresponse = MsgBox("Data could be lost, Press OK to continue", MsgBoxStyle.OkCancel, "Manual Stop Requested, Bag Not Complete")
+
+            'Tmr_ScreenUpdate.Start()
+
+            'If userresponse = MsgBoxResult.Cancel Then Exit Sub
+            Closepallet()
         End If
+
+
+
+
+
+
+
+        ' closing a pallet if second weight
+
+        ' update instructions
 
     End Sub
 
@@ -634,9 +657,7 @@ Public Class Manual_Weight
 
         Dim closewatch As Stopwatch
 
-#Disable Warning BC42104 ' Variable is used before it has been assigned a value
         If IsNothing(closewatch) Then
-#Enable Warning BC42104 ' Variable is used before it has been assigned a value
             closewatch = New Stopwatch
             closewatch.Start()
         Else
