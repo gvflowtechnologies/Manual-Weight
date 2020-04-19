@@ -228,113 +228,113 @@ Public Class Manual_Weight
                 ' wait for start pallet buttonclick  when clickek
 
             Case Weighprocess.Scanning
-                    If entering Then
-                        entering = False
-                        ccylinder = New Cylinder(MDataset.firstweightexists, "", cylindergas.SNStart)
-                        scanned = False
-                        Lbl_Instruction.Text = "Scan"
-                        Lbl_Instruction.BackColor = Color.CornflowerBlue
-                        TB_SerialNumber.Text = ""
-                        checkpalletcomplete()
+                If entering Then
+                    entering = False
+                    ccylinder = New Cylinder(MDataset.firstweightexists, "", cylindergas.SNStart)
+                    scanned = False
+                    Lbl_Instruction.Text = "Scan"
+                    Lbl_Instruction.BackColor = Color.CornflowerBlue
+                    TB_SerialNumber.Text = ""
+                    checkpalletcomplete()
                     LBL_Rationalle.Text = ""
                     cylindersorter.Sort(255)
 
+                End If
+
+
+                ' Need code to detect scan filling in window.
+                If scanned = True Then
+                    entering = True
+                    teststate = Weighprocess.taring
+                    ' If this is a second weight get data from previous cycle.
+                    If MDataset.firstweightexists Then
+
+                        ccylinder.SerialNumber = TB_SerialNumber.Text
+                        ccylinder.Firstweight = MDataset.initialweight(ccylinder.SerialNumber)
                     End If
 
-
-                    ' Need code to detect scan filling in window.
-                    If scanned = True Then
-                        entering = True
-                        teststate = Weighprocess.taring
-                        ' If this is a second weight get data from previous cycle.
-                        If MDataset.firstweightexists Then
-
-                            ccylinder.SerialNumber = TB_SerialNumber.Text
-                            ccylinder.Firstweight = MDataset.initialweight(ccylinder.SerialNumber)
-                        End If
-
-                    End If
+                End If
 
 
             Case Weighprocess.taring
-                    If entering Then
-                        entering = False
+                If entering Then
+                    entering = False
 
-                        ' Setting up cylinder for second weight
+                    ' Setting up cylinder for second weight
 
-                        'set label colors
-                        Lbl_Instruction.Text = "Zeroing"
-                        Lbl_Instruction.BackColor = Color.Blue
+                    'set label colors
+                    Lbl_Instruction.Text = "Zeroing"
+                    Lbl_Instruction.BackColor = Color.Blue
 
-                    End If
+                End If
 
-                    ' Check to see if something is on scale when it should not be and if it is, turn the background color red.
+                ' Check to see if something is on scale when it should not be and if it is, turn the background color red.
 
-                    If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
-                        Me.BackColor = Color.Red
-                    Else
-                        Me.BackColor = SystemColors.Control
-                    End If
+                If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
+                    Me.BackColor = Color.Red
+                Else
+                    Me.BackColor = SystemColors.Control
+                End If
 
 
-                    ''Taring Section
-                    '' check for scale health and stability
+                ''Taring Section
+                '' check for scale health and stability
 
-                    If sartorius.Stable Then
-                        Select Case Math.Abs(sartorius.CurrentReading)
+                If sartorius.Stable Then
+                    Select Case Math.Abs(sartorius.CurrentReading)
 
-                            Case Is < My.Settings.TareLimit / 1000
-                                teststate = Weighprocess.weighing
-                                entering = True
+                        Case Is < My.Settings.TareLimit / 1000
+                            teststate = Weighprocess.weighing
+                            entering = True
 
-                            Case Is > My.Settings.TareError / 1000
-                                Dim myresponse As MsgBoxResult
-                                Tmr_ScreenUpdate.Stop()
-                                myresponse = MsgBox("Tare Error, Retare Now?", vbYesNo, "Scale Tare Error")
-                                If myresponse = MsgBoxResult.Yes Then
-                                    updatetare()
-                                End If
-                                Tmr_ScreenUpdate.Start()
-
-                            Case Else
+                        Case Is > My.Settings.TareError / 1000
+                            Dim myresponse As MsgBoxResult
+                            Tmr_ScreenUpdate.Stop()
+                            myresponse = MsgBox("Tare Error, Retare Now?", vbYesNo, "Scale Tare Error")
+                            If myresponse = MsgBoxResult.Yes Then
                                 updatetare()
+                            End If
+                            Tmr_ScreenUpdate.Start()
 
-                        End Select
-                    End If
+                        Case Else
+                            updatetare()
+
+                    End Select
+                End If
 
             Case Weighprocess.weighing
-                    If entering Then
-                        entering = False
-                        'set label colors
+                If entering Then
+                    entering = False
+                    'set label colors
 
-                        Lbl_Instruction.Text = "Place"
-                        Lbl_Instruction.BackColor = Color.Violet
+                    Lbl_Instruction.Text = "Place"
+                    Lbl_Instruction.BackColor = Color.Violet
 
-                    End If
+                End If
 
-                    If sartorius.Stable Then
-                        Select Case sartorius.CurrentReading
+                If sartorius.Stable Then
+                    Select Case sartorius.CurrentReading
 
-                            Case Is > My.Settings.MinWeight - 2 * My.Settings.TareLimit
-                                If MDataset.firstweightexists = False Then
-                                    ' first weight reading
-                                    ccylinder.Firstweight = sartorius.CurrentReading
-                                Else
-                                    ' Second weight reading
-                                    ccylinder.Secondweight = sartorius.CurrentReading
+                        Case Is > My.Settings.MinWeight - 2 * My.Settings.TareLimit
+                            If MDataset.firstweightexists = False Then
+                                ' first weight reading
+                                ccylinder.Firstweight = sartorius.CurrentReading
+                            Else
+                                ' Second weight reading
+                                ccylinder.Secondweight = sartorius.CurrentReading
 
-                                End If
+                            End If
 
                             teststate = Weighprocess.prompting
                             entering = True
                             Disposition()
-                                'Case    > My.Settings.TareLimit and < my.Settings.TareError
+                            'Case    > My.Settings.TareLimit and < my.Settings.TareError
 
-                        End Select
+                    End Select
 
-                    Else
-                        '    '   teststate = weighprocess.erroring
-                    End If
+                Else
+                    '    '   teststate = weighprocess.erroring
+                End If
 
             Case Weighprocess.prompting
                 'Tmr_ScreenUpdate.Stop()
@@ -369,16 +369,16 @@ Public Class Manual_Weight
 
                 End If
 
-                    'If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
+                'If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
                 teststate = Weighprocess.Scanning
                 entering = True
                 ccylinder.dispose()
                 Tmr_ScreenUpdate.Start()
 
             Case Weighprocess.erroring ' if we end up here stop processing
-                    If entering Then
-                        entering = False
-                    End If
+                If entering Then
+                    entering = False
+                End If
                 Tmr_ScreenUpdate.Stop()
                 MsgBox("Shut Down Software", MsgBoxStyle.Critical, "Weighing Process Failure")
 
@@ -584,7 +584,8 @@ Public Class Manual_Weight
         Else
             WritefileHeader1()
         End If
-
+        ResetGood()
+        ResetBad()
         Btn_StartPallet.Enabled = False
         RB_FinalWeightq.Enabled = False
         RB_FirstWeight.Enabled = False
@@ -1037,7 +1038,7 @@ Public Class Manual_Weight
         updatetare()
     End Sub
 
-    Private Sub Btn_ResetBad_Click(sender As Object, e As EventArgs) Handles Btn_ResetBad.Click
+    Private Sub ResetBad()
         ' Resetting cumulative counter
 
         My.Settings.TotalBad = 0
@@ -1046,7 +1047,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Btn_ResetGood_Click(sender As Object, e As EventArgs) Handles Btn_ResetGood.Click
+    Private Sub ResetGood()
         ' Resettin cumulative good counter
         My.Settings.TotalGood = 0
         My.Settings.Save()
