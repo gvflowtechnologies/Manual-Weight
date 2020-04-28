@@ -368,6 +368,7 @@ Public Class Manual_Weight
 
                     ' update the counters for disposition 
                     Updatecounts()
+
                 End If
 
                 'If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
@@ -688,6 +689,15 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub Writefirstweight()
+
+        Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
+            swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
+            swdataset.WriteLine(ccylinder.Firstweight.ToString)
+        End Using
+
+
+    End Sub
+    Private Sub Write_Totals_FirstWT()
 
         Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
             swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
