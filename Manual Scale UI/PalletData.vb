@@ -131,7 +131,7 @@ Public Class PalletData
 
                 Loop
             End Using
-            Canisternum -= 5
+            Canisternum -= 5 ' Subtract for the header file.
             'Count the number of cylinders already processed.
 
         End If

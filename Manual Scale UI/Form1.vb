@@ -662,6 +662,8 @@ Public Class Manual_Weight
         If MDataset.Firstweightexists = True Then
             ' write_Summary()
             '  write_history()
+        Else
+            Write_Totals_FirstWT()
         End If
         Lbl_BatchN.Text = ""
         Lbl_BagNum.Text = ""
@@ -700,8 +702,21 @@ Public Class Manual_Weight
     Private Sub Write_Totals_FirstWT()
 
         Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
-            swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
-            swdataset.WriteLine(ccylinder.Firstweight.ToString)
+            swdataset.WriteLine("END_OF_DATA")
+            swdataset.WriteLine("First Weight")
+            swdataset.WriteLine("Good, " & My.Settings.TotalGood.ToString)
+            swdataset.WriteLine("Bad, " & My.Settings.TotalBad.ToString)
+        End Using
+
+
+    End Sub
+    Private Sub Write_Totals_SecondWT()
+
+        Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
+            swdataset.WriteLine("END_OF_DATA")
+            swdataset.WriteLine("SecondWeight")
+            swdataset.WriteLine("Good, " & My.Settings.TotalGood.ToString)
+            swdataset.WriteLine("Bad, " & My.Settings.TotalBad.ToString)
         End Using
 
 
