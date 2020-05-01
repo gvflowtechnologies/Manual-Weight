@@ -362,9 +362,14 @@ Public Class Manual_Weight
 
                     Loop Until login = My.Settings.Password
                 Else
+                    ' *****
+                    '********
+                    '*********
+                    'Need to rethink how we wirte to a file.
 
                     If MDataset.Firstweightexists = False Then
-                        Writefirstweight()
+                        MDataset.AddCylinder(ccylinder)
+                        '   Writefirstweight()
                     Else
                         Write_second_weight()
                     End If

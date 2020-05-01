@@ -222,7 +222,7 @@ Public Class PalletData
     End Function
 
     Public Sub AddCylinder(ByVal Currentcylinder As Cylinder)
-
+        CylinderList.Add(Currentcylinder)
 
     End Sub
 
