@@ -56,7 +56,15 @@ Public Class PalletData
         fweight = My.Settings.File_Directory & "\In Process"
         completed = My.Settings.File_Directory & "\Completed"
         '   Archived = My.Settings.File_Directory & "\Archived"
-        CylinderList = New List(Of Cylinder)
+
+        If CylinderList Is Nothing Then
+            CylinderList = New List(Of Cylinder)
+        Else
+            CylinderList.Clear()
+        End If
+
+
+
         RenewFileList()
 
     End Sub
