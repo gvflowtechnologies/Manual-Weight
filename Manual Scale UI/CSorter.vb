@@ -5,6 +5,13 @@ Imports System.Threading
 
 
 Public Class CSorter
+
+    Public Enum SorterState As short
+        Pass = 1
+        Fail = 2
+        Off = 255
+    End Enum
+    Private SoterPostion As SorterState
     Private sorter As MccDaq.MccBoard = New MccDaq.MccBoard()   'Creates a New Daq Board
     Private sortererror As MccDaq.ErrorInfo ' create new error handler for handling daq errors.
     Private Const Psortout As MccDaq.DigitalPortType = MccDaq.DigitalPortType.FirstPortB
@@ -112,7 +119,7 @@ Public Class CSorter
         End Get
     End Property
 
-    Public Sub Sort(ByVal position As Short)
+    Public Sub Sort(ByVal position As SorterState)
         ' pushes or pulls the sort 
 
         ' 255 turns off all lights 

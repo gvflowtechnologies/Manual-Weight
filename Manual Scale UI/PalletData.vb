@@ -24,7 +24,7 @@ Public Class PalletData
     Private iNumCols As Integer
     Private iCurRow As Integer
     Private iCurCol As Integer
-
+    Private CylinderList As List(Of Cylinder)
     Private number_of_Canisters As Integer ' number of canisters in pallet
     Private canisternumber As Integer ' Currrent Canister weighed
 
@@ -56,7 +56,7 @@ Public Class PalletData
         fweight = My.Settings.File_Directory & "\In Process"
         completed = My.Settings.File_Directory & "\Completed"
         '   Archived = My.Settings.File_Directory & "\Archived"
-
+        CylinderList = New List(Of Cylinder)
         RenewFileList()
 
     End Sub
@@ -213,6 +213,26 @@ Public Class PalletData
 
     End Function
 
+    Public Sub AddCylinder(ByVal Currentcylinder As Cylinder)
+
+
+    End Sub
+
+
+    Public ReadOnly Property TotalGoodFirstwt As String
+        Get
+            '  Return TotalGoodFirstwt
+        End Get
+    End Property
+
+    Public ReadOnly Property TotalBadFirstWt As String
+
+        Get
+            ' Return TotalBadFirstWt
+        End Get
+
+    End Property
+
     Public Property Filename As String
 
         Get
@@ -359,6 +379,8 @@ Public Class PalletData
             CylinderSerialNumber = value
         End Set
     End Property
+
+
 
     Public ReadOnly Property Initialweight(ByVal serialnumber As String) As Single
         Get
