@@ -227,7 +227,7 @@ Public Class PalletData
     End Sub
 
     Public Function SN_Does_Not_Exist(ByVal SerialNumber As String) As Boolean
-        'Looks through all of the Cylinders.  IF a duplicate is foun.
+        'Looks through all of the Cylinders.  IF a duplicate is found return fasle.
         'Indicate duplicate was found
         'Set Weight of the cylinder already in the system to -20
 

@@ -241,10 +241,15 @@ Public Class Manual_Weight
                     If MDataset.Firstweightexists Then
                         ccylinder.SerialNumber = TB_SerialNumber.Text
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
+                    Else 'If this is a first weight, check for a duplicate serial number
+                        If Not MDataset.SN_Does_Not_Exist(TB_SerialNumber.Text) Then ' Serial number does not exist
+                            ccylinder.Firstweight = -20
+                            Disposition()
+                            teststate = Weighprocess.prompting
+                        End If
+
                     End If
-
                 End If
-
 
             Case Weighprocess.taring
                 If entering Then
