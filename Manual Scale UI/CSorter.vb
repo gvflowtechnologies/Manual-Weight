@@ -11,7 +11,7 @@ Public Class CSorter
         Fail = 2
         Off = 255
     End Enum
-    Private SoterPostion As SorterState
+    ' Private SoterPostion As SorterState
     Private sorter As MccDaq.MccBoard = New MccDaq.MccBoard()   'Creates a New Daq Board
     Private sortererror As MccDaq.ErrorInfo ' create new error handler for handling daq errors.
     Private Const Psortout As MccDaq.DigitalPortType = MccDaq.DigitalPortType.FirstPortB
