@@ -697,6 +697,7 @@ Public Class Manual_Weight
     Private Sub Writefirstweight()
 
         Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
+
             swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
             swdataset.WriteLine(ccylinder.Firstweight.ToString)
         End Using
@@ -706,6 +707,12 @@ Public Class Manual_Weight
     Private Sub Write_Totals_FirstWT()
 
         Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
+
+            For Each cyl In MDataset.CylinderList
+                swdataset.Write(cyl.SerialNumber.ToString & ", ")
+                swdataset.WriteLine(cyl.Firstweight.ToString)
+            Next
+
             swdataset.WriteLine("END_OF_DATA, ")
             swdataset.WriteLine("First Weight, ")
             swdataset.WriteLine("Good, " & My.Settings.TotalGood.ToString)

@@ -24,7 +24,7 @@ Public Class PalletData
     Private iNumCols As Integer
     Private iCurRow As Integer
     Private iCurCol As Integer
-    Private CylinderList As List(Of Cylinder)
+    Public CylinderList As List(Of Cylinder)
     Private number_of_Canisters As Integer ' number of canisters in pallet
     Private canisternumber As Integer ' Currrent Canister weighed
 
