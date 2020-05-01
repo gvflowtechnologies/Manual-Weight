@@ -169,8 +169,11 @@ Public Class PalletData
             ' Reading in all of the serial numbers and first weights.
             number_of_Canisters = 0
             Do While tmpstream.Peek <> -1
+                Dim CurrentString As String
+                CurrentString = tmpstream.ReadLine
+                If CurrentString.StartsWith("END_OF_DATA") Then Exit Do
                 ReDim Preserve Stemplines(number_of_Canisters)
-                Stemplines(number_of_Canisters) = tmpstream.ReadLine
+                Stemplines(number_of_Canisters) = CurrentString
                 number_of_Canisters += 1
             Loop
 
