@@ -664,7 +664,7 @@ Public Class Manual_Weight
         Btn_StopPallet.Enabled = False
         teststate = Weighprocess.idle
         If MDataset.Firstweightexists = True Then
-            ' write_Summary()
+            Write_Totals_SecondWT()
             '  write_history()
         Else
             Write_Totals_FirstWT()
@@ -712,7 +712,6 @@ Public Class Manual_Weight
                 swdataset.Write(cyl.SerialNumber.ToString & ", ")
                 swdataset.WriteLine(cyl.Firstweight.ToString)
             Next
-
             swdataset.WriteLine("END_OF_DATA, ")
             swdataset.WriteLine("First Weight, ")
             swdataset.WriteLine("Good, " & My.Settings.TotalGood.ToString)
