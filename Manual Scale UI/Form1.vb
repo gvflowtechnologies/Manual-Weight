@@ -237,8 +237,8 @@ Public Class Manual_Weight
                     entering = True
                     teststate = Weighprocess.taring
                     ' If this is a second weight get data from previous cycle.
-                    If MDataset.Firstweightexists Then
 
+                    If MDataset.Firstweightexists Then
                         ccylinder.SerialNumber = TB_SerialNumber.Text
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
                     End If
@@ -359,13 +359,9 @@ Public Class Manual_Weight
                 Else
 
                     If MDataset.Firstweightexists = False Then
-
                         Writefirstweight()
-
                     Else
-
                         Write_second_weight()
-
                     End If
 
                     ' update the counters for disposition 
@@ -422,10 +418,7 @@ Public Class Manual_Weight
 
         End If
 
-
-
         'set label colors
-
 
         Lbl_Weighing.BackColor = Color.Transparent
 
@@ -443,7 +436,6 @@ Public Class Manual_Weight
 
 
         Lbl_Remove.BackColor = Color.Gold
-
 
     End Sub
 
@@ -1108,10 +1100,7 @@ Public Class Manual_Weight
         If e.KeyCode = Keys.Return Then
             Lbl_BatchN.Select()
             TB_SerialNumber.Select()
-
-
         End If
-
 
     End Sub
 
