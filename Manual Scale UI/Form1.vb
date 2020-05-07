@@ -878,37 +878,9 @@ Public Class Manual_Weight
 
             My.Settings.SerialPort = LB_SerialPorts.SelectedItem.ToString
             My.Settings.Save()
-            If IsNothing(Mycom) Then
-                Mycom = New SerialPort
-                AddHandler Mycom.DataReceived, AddressOf Mycom_Datareceived ' handler for data received event
-            End If
-            With Mycom
-                .PortName = My.Settings.SerialPort ' gets port name from static data set
-                .BaudRate = 9600
-                .Parity = Parity.None
-                .StopBits = StopBits.One
-                .Handshake = Handshake.None  ' Need to think here
-                .DataBits = 8
-                .ReceivedBytesThreshold = 14 ' one byte short of a complete messsage string of 16 asci characters   
-                .WriteTimeout = 500
-                .WriteBufferSize = 500
 
-            End With
+            MsgBox("Port name Changed to " & My.Settings.SerialPort)
 
-            If (Not Mycom.IsOpen) Then
-
-                Try
-                    Mycom.Open()
-
-                    Mycom.DiscardInBuffer()
-
-                Catch ex As Exception
-                    MessageBox.Show(ex.Message)
-                End Try
-                MsgBox("Connected to " & My.Settings.SerialPort)
-            End If
-
-            If Mycom.IsOpen Then Portclosing()
         End If
 
 
