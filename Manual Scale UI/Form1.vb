@@ -654,7 +654,7 @@ Public Class Manual_Weight
 
         Tmr_ScreenUpdate.Stop()
         If sorterattached Then
-            cylindersorter.Sort(CSorter.SorterState.Pass) '1)
+            cylindersorter.Sort(CSorter.SorterState.Off) '1)
         End If
 
         ' Toggle buttons
@@ -998,7 +998,9 @@ Public Class Manual_Weight
                 Mycom.DiscardInBuffer()
 
             Catch ex As Exception
+                MessageBox.Show("Communication Port " & My.Settings.SerialPort & " is inaccessable via software")
                 MessageBox.Show(ex.Message)
+
             End Try
 
 
