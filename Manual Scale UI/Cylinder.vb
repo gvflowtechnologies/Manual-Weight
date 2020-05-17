@@ -2,7 +2,7 @@
 Option Explicit On
 Public Class Cylinder
 
-
+    Private dALLO2Weight As Double
     Private dMyfirstweight As Double
     Private dMySecondweight As Double
     Private ddisposition As Boolean 'True = pass, False = Fail
@@ -107,6 +107,16 @@ Public Class Cylinder
             myindex = value
         End Set
     End Property
+
+    Public Property AllO2_WT As Double
+        Get
+            Return dALLO2Weight
+        End Get
+        Set(value As Double)
+            dALLO2Weight = value
+        End Set
+    End Property
+
 
     Public Property Firstweight As Double
         Get

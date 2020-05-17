@@ -35,8 +35,8 @@ Public Class Manual_Weight
     Public WithEvents Mycom As SerialPort 'Serial port for communicating with the scale
     Private newdata As Datareceive
     ' Variables
-
-
+    Public ALLO2FileName As String
+    Private UseALLO2 As Boolean ' Flag to indicate if are using Using Allo2 data.  Normally false
     Private manualstop As Boolean ' Flag indicating that a manual stop has been requested
     Private cylindergas As GasType
     Private MDataset As PalletData
@@ -448,7 +448,37 @@ Public Class Manual_Weight
         Lbl_Remove.BackColor = Color.Gold
 
     End Sub
+    Private Function ALLO2_DataFile() As Boolean
+        ' Returns a Flag of true if a file is found and you wnat to use one.
 
+        Dim DataFileFound As Boolean
+        DataFileFound = False
+        Dim DoWeSelectFile As MsgBoxResult
+        ' Do we want to select a file.
+        DoWeSelectFile = MsgBox("Do you have ALLO2file to input?", MsgBoxStyle.YesNo, "Confrim File Selection")
+        If DoWeSelectFile = MsgBoxResult.No Then
+            DataFileFound = True 'We did not find a file, but we decided we did not need one.
+            Return DataFileFound
+            Exit Function
+        End If
+
+        ' If we want to find a file, what is the file name.
+        Dim fd As OpenFileDialog = New OpenFileDialog()
+
+        fd.Title = "Open File Dialog"
+        fd.InitialDirectory = "C:\"
+        fd.Filter = "All files (*.*)|*.*|All files (*.*)|*.*"
+        fd.FilterIndex = 2
+        fd.RestoreDirectory = True
+
+        If fd.ShowDialog() = DialogResult.OK Then
+            ALLO2FileName = fd.FileName
+            DataFileFound = True
+            UseALLO2 = True
+        End If
+        Return DataFileFound
+
+    End Function
     Private Sub Updatecounts()
         ' updating both the pallet and static counters
 
@@ -480,6 +510,7 @@ Public Class Manual_Weight
         Lbl_BatchN.Text = ""
         Lbl_BagNum.Text = ""
         manualstop = False
+        UseALLO2 = False
         If Checkdate() = False Then
             Btn_StartPallet.Enabled = False
             RB_FinalWeightq.Enabled = False
@@ -506,8 +537,6 @@ Public Class Manual_Weight
 
         Else
             cylindergas.SNStart = 2
-
-
         End If
 
         If RB_FinalWeightq.Checked Then
@@ -521,9 +550,19 @@ Public Class Manual_Weight
             MDataset.Dispose()
         End If
 
+        If Not ALLO2_DataFile() Then 'Try and Select an ALLO2 File
+            MsgBox("AllO2 File Selection Failed")
+            Exit Sub
+        End If
+
 
 
         MDataset = New PalletData(firstweight)
+        If UseALLO2 Then
+            'We located a file and we want to use a file.  Process it here.
+
+
+        End If
 
 
         '  MDataset.RenewFileList()
