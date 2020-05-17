@@ -65,7 +65,6 @@ Public Class PalletData
         End If
 
 
-
         RenewFileList()
 
     End Sub
@@ -435,8 +434,6 @@ Public Class PalletData
             CylinderSerialNumber = value
         End Set
     End Property
-
-
 
     Public ReadOnly Property Initialweight(ByVal serialnumber As String) As Single
         Get

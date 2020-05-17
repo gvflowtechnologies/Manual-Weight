@@ -473,8 +473,12 @@ Public Class Manual_Weight
 
         If fd.ShowDialog() = DialogResult.OK Then
             ALLO2FileName = fd.FileName
-            DataFileFound = True
-            UseALLO2 = True
+
+            If File.Exists(ALLO2FileName) Then
+                DataFileFound = True
+                UseALLO2 = True
+            End If
+
         End If
         Return DataFileFound
 
@@ -550,12 +554,13 @@ Public Class Manual_Weight
             MDataset.Dispose()
         End If
 
-        If Not ALLO2_DataFile() Then 'Try and Select an ALLO2 File
-            MsgBox("AllO2 File Selection Failed")
-            Exit Sub
+        If Not firstweight Then ' Only Look for ALLO2_WT on the first pass through the data.
+            If Not ALLO2_DataFile() Then 'Try and Select an ALLO2 File
+                MsgBox("AllO2 File Selection Failed")
+                Exit Sub
+            End If
+
         End If
-
-
 
         MDataset = New PalletData(firstweight)
         If UseALLO2 Then
@@ -742,9 +747,9 @@ Public Class Manual_Weight
     Private Sub Writefirstweight()
 
         Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
-
             swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
-            swdataset.WriteLine(ccylinder.Firstweight.ToString)
+            swdataset.Write(ccylinder.Firstweight.ToString & ", ")
+            swdataset.WriteLine(ccylinder.AllO2_WT.ToString)
         End Using
 
 
@@ -755,7 +760,8 @@ Public Class Manual_Weight
 
             For Each cyl In MDataset.CylinderList
                 swdataset.Write(cyl.SerialNumber.ToString & ", ")
-                swdataset.WriteLine(cyl.Firstweight.ToString)
+                swdataset.Write(ccylinder.Firstweight.ToString & ", ")
+                swdataset.WriteLine(ccylinder.AllO2_WT.ToString)
             Next
             swdataset.WriteLine("END_OF_DATA, ")
             swdataset.WriteLine("First Weight, ")
@@ -795,7 +801,7 @@ Public Class Manual_Weight
                 swdataset.WriteLine(MDataset.Pallet)
                 swdataset.Write("Lot#,")
                 swdataset.WriteLine(MDataset.Batch)
-                swdataset.WriteLine("Serial Number,1st Wt,2nd Wt,Disposition, Fail Code")
+                swdataset.WriteLine("Serial Number, ALLO2WT, 1st Wt, 2nd Wt, Disposition, Fail Code")
             End Using
         End If
 
@@ -804,6 +810,7 @@ Public Class Manual_Weight
     Private Sub Write_second_weight()
         Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
             swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
+            swdataset.Write(ccylinder.AllO2_WT.ToString("N4") & ", ")
             swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
             swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
             swdataset.Write(ccylinder.Disposition & ", ")
