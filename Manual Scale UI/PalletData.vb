@@ -6,7 +6,7 @@ Imports System.Text
 
 
 Public Class PalletData
-
+    Implements IDisposable
     Private palletid As String ' current active pallet
     Private batchid As String ' current active pallet
     Private currentfilename As String ' Current Active File.
@@ -27,11 +27,12 @@ Public Class PalletData
     Public CylinderList As List(Of Cylinder)
     Private number_of_Canisters As Integer ' number of canisters in pallet
     Private canisternumber As Integer ' Currrent Canister weighed
+    Private disposed As Boolean
 
     '************************
     ' File Handling  
     '************************
-   
+
     Private currentfirstweights() As String ' Array of short file names of first pallets in the system
     Private Currentfirstpallets() As String ' Array of first pallets in the system
     Private ReadOnly Index_filename As Integer ' Index in array of filenames that contains the current file
@@ -68,6 +69,30 @@ Public Class PalletData
         RenewFileList()
 
     End Sub
+
+    Public Sub Dispose() Implements IDisposable.Dispose
+        Dispose(True)
+        Me.Finalize()
+    End Sub
+
+    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
+        If Not Me.disposed Then
+
+            If disposing Then
+                ' Free other state (managed objects).
+            End If
+            ' Free your own state (unmanaged objects).
+            ' Set large fields to null.
+        End If
+        Me.disposed = True
+    End Sub
+    'Protected Overrides Sub Finalize()
+    '    ' Do not change this code.
+    '    ' Put cleanup code in
+    '    ' Dispose(ByVal disposing As Boolean) above.
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
 
     Public Sub RenewFileList()
         currentfilename = Nothing

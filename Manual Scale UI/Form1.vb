@@ -517,6 +517,12 @@ Public Class Manual_Weight
 
         End If
 
+        If MDataset IsNot Nothing Then
+            MDataset.Dispose()
+        End If
+
+
+
         MDataset = New PalletData(firstweight)
 
 
