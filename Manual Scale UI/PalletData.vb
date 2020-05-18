@@ -171,6 +171,21 @@ Public Class PalletData
 
     End Sub
 
+    Public Sub ReadAllO2Data(ByVal ALLO2_File_Name As String)
+        'Routine for reading in ALLo2 data into an list. Create an list of cylinders
+        ' Or a list of type ALLO2 Need to capture the S/N and the Tare Wt.
+        ' When readign first weight add the tare wt.
+    End Sub
+
+    Public Function ADDALLO2WttoCylinder(ByVal SerialNumber As String) As Double
+        'Input a serial Number and return the tare wt.
+        Dim Allo2TareWt As Double
+
+
+
+        Return ALLO2TareWt
+    End Function
+
 
     Public Sub Readfirstweight() ' Reads all of the first weights for the batch.
         Dim FNreadfirst As String

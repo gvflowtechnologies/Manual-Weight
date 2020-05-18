@@ -242,6 +242,9 @@ Public Class Manual_Weight
                         ccylinder.SerialNumber = TB_SerialNumber.Text
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
                     Else 'If this is a first weight, check for a duplicate serial number
+
+                        ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Here is where we add the ALLo2wt
+
                         If Not MDataset.SN_Does_Not_Exist(TB_SerialNumber.Text) Then ' Serial number does not exist
                             ccylinder.Firstweight = -20
                             Disposition()
@@ -554,6 +557,8 @@ Public Class Manual_Weight
             MDataset.Dispose()
         End If
 
+        ALLO2FileName = ""
+
         If Not firstweight Then ' Only Look for ALLO2_WT on the first pass through the data.
             If Not ALLO2_DataFile() Then 'Try and Select an ALLO2 File
                 MsgBox("AllO2 File Selection Failed")
@@ -565,10 +570,9 @@ Public Class Manual_Weight
         MDataset = New PalletData(firstweight)
         If UseALLO2 Then
             'We located a file and we want to use a file.  Process it here.
-
+            MDataset.ReadAllO2Data(ALLO2FileName)
 
         End If
-
 
         '  MDataset.RenewFileList()
 
