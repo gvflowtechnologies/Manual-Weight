@@ -239,7 +239,7 @@ Public Class Manual_Weight
                     ' If this is a second weight get data from previous cycle.
 
                     If MDataset.Firstweightexists Then
-                        ccylinder.SerialNumber = TB_SerialNumber.Text
+                        '  ccylinder.SerialNumber = TB_SerialNumber.Text
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
                     Else 'If this is a first weight, check for a duplicate serial number
 
