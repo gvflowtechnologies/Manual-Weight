@@ -40,6 +40,12 @@ Public Class PalletData
     Private completed As String ' String with completed Data Path
     ' Private Archived As String ' String with archive of first weights
 
+    '************************
+    ' ALL O2 File Handling
+    '************************
+    Dim ALLO2Index As Integer
+    Private ALLO2WeightReading(,) As String ' Array holding the first weights and serial numbers,  Serial Number is in column 0, wt in column 1
+
     Public Sub New(ByVal firstweight As Boolean)
         number_of_Canisters = My.Settings.Bag_Limit
         canisternumber = 0
@@ -183,44 +189,48 @@ Public Class PalletData
             Dim x As Integer ' Counter Variable
             Dim y As Integer ' counter variable
 
+
             If tmpstream.Peek <> -1 Then
                 'Read the header information and strip out.
-
-
+                Dim sZ As String
+                For i = 1 To 9
+                    sZ = tmpstream.ReadLine()
+                Next
             Else
                 MsgBox("ALLO2 Data File is Empty", MsgBoxStyle.Critical)
             End If
 
-            ' Reading in all of the serial numbers and ALLO2 Weights.
-            number_of_Canisters = 0
+            ' Reading in all of the serial numbers and .
+            ALLO2Index = 0
             Do While tmpstream.Peek <> -1
                 Dim CurrentString As String
                 CurrentString = tmpstream.ReadLine
-                If CurrentString.StartsWith("END_OF_DATA") Then Exit Do
-                ReDim Preserve Stemplines(number_of_Canisters)
-                Stemplines(number_of_Canisters) = CurrentString
-                number_of_Canisters += 1
+                ReDim Preserve Stemplines(ALLO2Index)
+                Stemplines(ALLO2Index) = CurrentString
+                ALLO2Index += 1
             Loop
 
             'Redimension both the temp and permanent storage arrays
             iNumRows = UBound(Stemplines)
             STempline = Stemplines(0).Split(",")
             iNumCols = UBound(STempline)
-            ReDim FirstWeightReading(iNumRows, iNumCols)
+            ReDim ALLO2WeightReading(iNumRows, 1)
 
             'Copy reading data into the array.
             For x = 0 To iNumRows
                 STempline = Stemplines(x).Split(",")
 
-                For y = 0 To iNumCols
-                    FirstWeightReading(x, y) = STempline(y)
+                For y = 0 To iNumCols 'Populate ALLo2 weight from file into table
+
+                    ALLO2WeightReading(x, 0) = STempline(4) 'Serial Number is column 4
+                    ALLO2WeightReading(x, 1) = STempline(6) ' Tare weight is in column 6
+
                 Next
 
             Next
 
             tmpstream.Dispose()
-            '         File.Copy(Path.Combine(fweight, currentfilename), Path.Combine(Archived, currentfilename))
-            '        File.Delete(FNreadfirst)
+
 
         End If
 
