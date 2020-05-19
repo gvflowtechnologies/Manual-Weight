@@ -216,7 +216,7 @@ Public Class PalletData
             iNumCols = UBound(STempline)
             ReDim ALLO2WeightReading(iNumRows, 1)
 
-            'Copy reading data into the array.
+            'Copy data read into a 2D array.
             For x = 0 To iNumRows
                 STempline = Stemplines(x).Split(",")
 
@@ -237,13 +237,29 @@ Public Class PalletData
 
     End Sub
 
-    Public Function ADDALLO2WttoCylinder(ByVal SerialNumber As String) As Double
+    Public Function ADDALLO2WttoCylinder(ByVal SerialNumber As String) As Single
         'Input a serial Number and return the tare wt.
-        Dim Allo2TareWt As Double
+        Dim Allo2TareWt As Single
 
+        Allo2TareWt = -30 'Set dummy ALL02 Weight to a bad number
 
+        'Sort through the array of first weights
 
-        Return ALLO2TareWt
+        Dim x As Integer ' Counter Variable
+
+        'Redimension both the temp and permanent storage arrays
+        iNumRows = UBound(ALLO2WeightReading, 1)
+
+        'Copy reading data into the array.
+        For x = 0 To iNumRows
+            If ALLO2WeightReading(x, 0) = SerialNumber Then
+                Allo2TareWt = ALLO2WeightReading(x, 1)
+                ' canisternumber += 1
+                Exit For
+            End If
+        Next
+
+        Return Allo2TareWt
     End Function
 
 
@@ -329,7 +345,7 @@ Public Class PalletData
     End Sub
 
     Public Function SN_Does_Not_Exist(ByVal SerialNumber As String) As Boolean
-        'Looks through all of the Cylinders.  IF a duplicate is found return fasle.
+        'Looks through all of the Cylinders.  IF a duplicate is found return false.
         'Indicate duplicate was found
         'Set Weight of the cylinder already in the system to -20
 
@@ -531,6 +547,7 @@ Public Class PalletData
                 If FirstWeightReading(x, 0) = serialnumber Then
                     init_weight = FirstWeightReading(x, 1)
                     canisternumber += 1
+                    Exit For
                 End If
             Next
 
@@ -538,17 +555,17 @@ Public Class PalletData
         End Get
     End Property
 
-    Public WriteOnly Property Firstweightpath As String 'Datapath of first weight
-        Set(value As String)
-            fweight = value
-        End Set
-    End Property
+    'Public WriteOnly Property Firstweightpath As String 'Datapath of first weight
+    '    Set(value As String)
+    '        fweight = value
+    '    End Set
+    'End Property
 
-    Public WriteOnly Property Finalweightpath As String ' datapath of second weight
-        Set(value As String)
-            completed = value
-        End Set
-    End Property
+    'Public WriteOnly Property Finalweightpath As String ' datapath of second weight
+    '    Set(value As String)
+    '        completed = value
+    '    End Set
+    'End Property
 
 
 
