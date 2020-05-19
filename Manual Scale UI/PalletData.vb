@@ -231,9 +231,7 @@ Public Class PalletData
 
             tmpstream.Dispose()
 
-
         End If
-
 
     End Sub
 
