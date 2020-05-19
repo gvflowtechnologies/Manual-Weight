@@ -241,6 +241,7 @@ Public Class Manual_Weight
                     If MDataset.Firstweightexists Then
                         '  ccylinder.SerialNumber = TB_SerialNumber.Text
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
+                        ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber)
                     Else 'If this is a first weight, check for a duplicate serial number
 
                         ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Here is where we add the ALLo2wt
@@ -458,21 +459,22 @@ Public Class Manual_Weight
         DataFileFound = False
         Dim DoWeSelectFile As MsgBoxResult
         ' Do we want to select a file.
-        DoWeSelectFile = MsgBox("Do you have ALLO2file to input?", MsgBoxStyle.YesNo, "Confrim File Selection")
-        If DoWeSelectFile = MsgBoxResult.No Then
-            DataFileFound = True 'We did not find a file, but we decided we did not need one.
-            Return DataFileFound
-            Exit Function
-        End If
+        'DoWeSelectFile = MsgBox("Do you have ALLO2file to input?", MsgBoxStyle.YesNo, "Confrim File Selection")
+        'If DoWeSelectFile = MsgBoxResult.No Then
+        '    DataFileFound = True 'We did not find a file, but we decided we did not need one.
+        '    Return DataFileFound
+        '    Exit Function
+        'End If
 
         ' If we want to find a file, what is the file name.
-        Dim fd As OpenFileDialog = New OpenFileDialog()
-
-        fd.Title = "Open File Dialog"
-        fd.InitialDirectory = "C:\"
-        fd.Filter = "All files (*.*)|*.*|All files (*.*)|*.*"
-        fd.FilterIndex = 2
-        fd.RestoreDirectory = True
+        Dim fd As OpenFileDialog = New OpenFileDialog With
+         {
+            .Title = "Open File Dialog",
+            .InitialDirectory = "C:\",
+            .Filter = "All files (*.*)|*.*|All files (*.*)|*.*",
+            .FilterIndex = 2,
+            .RestoreDirectory = True
+        }
 
         If fd.ShowDialog() = DialogResult.OK Then
             ALLO2FileName = fd.FileName

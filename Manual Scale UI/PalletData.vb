@@ -10,7 +10,7 @@ Public Class PalletData
     Private palletid As String ' current active pallet
     Private batchid As String ' current active pallet
     Private currentfilename As String ' Current Active File.
-    Private ReadOnly BFirstweightExists As Boolean
+    Private ReadOnly BFirstweightExists As Boolean ' Thie is the first or second time through Second Time = True, First Time = False
     Private sttimefirst As Date ' time stamp of first weight
     Private Sttimesecond As Date ' time stamp of second weight
     Private DateScaleCalLast As Date ' Date of last scale calibration.
@@ -175,6 +175,56 @@ Public Class PalletData
         'Routine for reading in ALLo2 data into an list. Create an list of cylinders
         ' Or a list of type ALLO2 Need to capture the S/N and the Tare Wt.
         ' When readign first weight add the tare wt.
+
+        If File.Exists(ALLO2_File_Name) Then
+            Dim tmpstream As StreamReader = File.OpenText(ALLO2_File_Name)
+            Dim Stemplines(0) As String ' temporary array holding all of the first weights.
+            Dim STempline() As String ' Temporary array holding the parsed first weight for an individual canister.
+            Dim x As Integer ' Counter Variable
+            Dim y As Integer ' counter variable
+
+            If tmpstream.Peek <> -1 Then
+                'Read the header information and strip out.
+
+
+            Else
+                MsgBox("ALLO2 Data File is Empty", MsgBoxStyle.Critical)
+            End If
+
+            ' Reading in all of the serial numbers and ALLO2 Weights.
+            number_of_Canisters = 0
+            Do While tmpstream.Peek <> -1
+                Dim CurrentString As String
+                CurrentString = tmpstream.ReadLine
+                If CurrentString.StartsWith("END_OF_DATA") Then Exit Do
+                ReDim Preserve Stemplines(number_of_Canisters)
+                Stemplines(number_of_Canisters) = CurrentString
+                number_of_Canisters += 1
+            Loop
+
+            'Redimension both the temp and permanent storage arrays
+            iNumRows = UBound(Stemplines)
+            STempline = Stemplines(0).Split(",")
+            iNumCols = UBound(STempline)
+            ReDim FirstWeightReading(iNumRows, iNumCols)
+
+            'Copy reading data into the array.
+            For x = 0 To iNumRows
+                STempline = Stemplines(x).Split(",")
+
+                For y = 0 To iNumCols
+                    FirstWeightReading(x, y) = STempline(y)
+                Next
+
+            Next
+
+            tmpstream.Dispose()
+            '         File.Copy(Path.Combine(fweight, currentfilename), Path.Combine(Archived, currentfilename))
+            '        File.Delete(FNreadfirst)
+
+        End If
+
+
     End Sub
 
     Public Function ADDALLO2WttoCylinder(ByVal SerialNumber As String) As Double
