@@ -12,6 +12,7 @@ Public Class Cylinder
     Private BSecondPass As Boolean
     Private sSN_StartTest As String
 
+
     Public Sub New(ByVal SecondPass As Boolean, ByVal SerialNum As String, ByVal ssnstart As String)
 
         BSecondPass = SecondPass
@@ -31,7 +32,12 @@ Public Class Cylinder
 
         Dim weightdifference As Double
         Dim weightlimit As Double
+
         'Deterimine if the device is good or bad.
+
+
+
+
         If dMyfirstweight = -20 Then
             ddisposition = False
             sDispReason = "Incorrect Serial Number"
@@ -53,6 +59,12 @@ Public Class Cylinder
                 Case Is < My.Settings.MinWeight
                     ddisposition = False
                     sDispReason = "Too Low"
+                Case Is > dALLO2Weight + My.Settings.MaxNetWt
+                    ddisposition = False
+                    sDispReason = "Net Wt Too High"
+                Case Is < dALLO2Weight + My.Settings.MinNetWt
+                    ddisposition = False
+                    sDispReason = "Net Wt Too Low"
                 Case Else
                     ddisposition = True
             End Select
@@ -76,9 +88,15 @@ Public Class Cylinder
                 Case Is < My.Settings.MinWeight
                     ddisposition = False
                     sDispReason = "Too Low"
+                Case Is > dALLO2Weight + My.Settings.MaxNetWt
+                    ddisposition = False
+                    sDispReason = "Net Wt Too High"
+                Case Is < dALLO2Weight + My.Settings.MinNetWt
+                    ddisposition = False
+                    sDispReason = "Net Wt Too Low"
                 Case Else
 
-                    ' what things do we want to check for?  Question for Pete
+                    ' what things do we want to check for
                     If Math.Abs(weightdifference) > weightlimit Then
                         ddisposition = False
                         If dMySecondweight > dMyfirstweight Then

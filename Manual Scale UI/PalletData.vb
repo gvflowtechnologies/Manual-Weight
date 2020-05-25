@@ -560,7 +560,7 @@ Public Class PalletData
         Get
             Dim ALL02wt As Single
             Dim x As Integer ' Counter Variable
-
+            ALL02wt = -30
             'Redimension both the temp and permanent storage arrays
             iNumRows = UBound(FirstWeightReading, 2)
 
