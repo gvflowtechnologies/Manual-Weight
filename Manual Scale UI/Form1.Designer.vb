@@ -59,6 +59,11 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN = New System.Windows.Forms.Label()
         Me.Btn_StartPallet = New System.Windows.Forms.Button()
         Me.Setup = New System.Windows.Forms.TabPage()
+        Me.GroupBox9 = New System.Windows.Forms.GroupBox()
+        Me.TB_MaxNetWt = New System.Windows.Forms.TextBox()
+        Me.TB_MinNetWt = New System.Windows.Forms.TextBox()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.Label17 = New System.Windows.Forms.Label()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.TB_BagCapacity = New System.Windows.Forms.TextBox()
@@ -110,6 +115,7 @@ Partial Class Manual_Weight
         Me.GB_Scale.SuspendLayout()
         Me.GBBinData.SuspendLayout()
         Me.Setup.SuspendLayout()
+        Me.GroupBox9.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -503,6 +509,7 @@ Partial Class Manual_Weight
         '
         'Setup
         '
+        Me.Setup.Controls.Add(Me.GroupBox9)
         Me.Setup.Controls.Add(Me.GroupBox5)
         Me.Setup.Controls.Add(Me.GroupBox4)
         Me.Setup.Controls.Add(Me.LBL_Version)
@@ -520,13 +527,58 @@ Partial Class Manual_Weight
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
         '
+        'GroupBox9
+        '
+        Me.GroupBox9.Controls.Add(Me.TB_MaxNetWt)
+        Me.GroupBox9.Controls.Add(Me.TB_MinNetWt)
+        Me.GroupBox9.Controls.Add(Me.Label18)
+        Me.GroupBox9.Controls.Add(Me.Label17)
+        Me.GroupBox9.Location = New System.Drawing.Point(727, 114)
+        Me.GroupBox9.Name = "GroupBox9"
+        Me.GroupBox9.Size = New System.Drawing.Size(200, 156)
+        Me.GroupBox9.TabIndex = 20
+        Me.GroupBox9.TabStop = False
+        Me.GroupBox9.Text = "ALL02 Comparison"
+        '
+        'TB_MaxNetWt
+        '
+        Me.TB_MaxNetWt.Location = New System.Drawing.Point(94, 108)
+        Me.TB_MaxNetWt.Name = "TB_MaxNetWt"
+        Me.TB_MaxNetWt.Size = New System.Drawing.Size(82, 20)
+        Me.TB_MaxNetWt.TabIndex = 3
+        '
+        'TB_MinNetWt
+        '
+        Me.TB_MinNetWt.Location = New System.Drawing.Point(94, 56)
+        Me.TB_MinNetWt.Name = "TB_MinNetWt"
+        Me.TB_MinNetWt.Size = New System.Drawing.Size(82, 20)
+        Me.TB_MinNetWt.TabIndex = 2
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(6, 113)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(87, 13)
+        Me.Label18.TabIndex = 1
+        Me.Label18.Text = "Max Net Wt (gm)"
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Location = New System.Drawing.Point(6, 58)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(84, 13)
+        Me.Label17.TabIndex = 0
+        Me.Label17.Text = "Min Net Wt (gm)"
+        '
         'GroupBox5
         '
         Me.GroupBox5.Controls.Add(Me.Label8)
         Me.GroupBox5.Controls.Add(Me.TB_BagCapacity)
         Me.GroupBox5.Location = New System.Drawing.Point(727, 15)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(197, 252)
+        Me.GroupBox5.Size = New System.Drawing.Size(200, 92)
         Me.GroupBox5.TabIndex = 19
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Bag Limit"
@@ -959,6 +1011,8 @@ Partial Class Manual_Weight
         Me.GBBinData.PerformLayout()
         Me.Setup.ResumeLayout(False)
         Me.Setup.PerformLayout()
+        Me.GroupBox9.ResumeLayout(False)
+        Me.GroupBox9.PerformLayout()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
         Me.GroupBox4.ResumeLayout(False)
@@ -1049,5 +1103,9 @@ Partial Class Manual_Weight
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents Lbl_BagNum As System.Windows.Forms.Label
     Friend WithEvents Label16 As System.Windows.Forms.Label
-
+    Friend WithEvents GroupBox9 As GroupBox
+    Friend WithEvents TB_MaxNetWt As TextBox
+    Friend WithEvents TB_MinNetWt As TextBox
+    Friend WithEvents Label18 As Label
+    Friend WithEvents Label17 As Label
 End Class

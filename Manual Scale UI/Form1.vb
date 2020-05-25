@@ -102,9 +102,15 @@ Public Class Manual_Weight
         Lbl_LastCal.Text = My.Settings.LastCalDate.ToString("d")
         Lbl_NextCal.Text = My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString("d")
         Lbl_CalInt.Text = My.Settings.CalFrequency.ToString
+        TB_MinNetWt.Text = My.Settings.MinNetWt.ToString("N4")
+        TB_MaxNetWt.Text = My.Settings.MaxNetWt.ToString("N4")
+        Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
+        Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
+        Lbl_WeightLoss.Text = My.Settings.SF6WeightCh.ToString("N4")
+        LBL_C3F8Weight.Text = My.Settings.C3F8WeightCh.ToString("N4")
+        Lbl_Instruction.Text = "Standby"
 
         LB_SerialPorts.ScrollAlwaysVisible = True
-
 
 
         If sorterattached Then
@@ -112,14 +118,6 @@ Public Class Manual_Weight
         Else
             Sorter.Checked = False
         End If
-
-
-        Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
-        Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
-        Lbl_WeightLoss.Text = My.Settings.SF6WeightCh.ToString("N4")
-        LBL_C3F8Weight.Text = My.Settings.C3F8WeightCh.ToString("N4")
-        Lbl_Instruction.Text = "Standby"
-
 
 
         teststate = Weighprocess.idle ' Start us out in an idle condition.
@@ -1217,7 +1215,7 @@ Public Class Manual_Weight
 
         If Not Testresult Then
 
-            Dim errormsg As String = "Not a valid Integer"
+            Dim errormsg As String = "Not a valid integer"
             e.Cancel = True
 
             Me.ErrorProvider1.SetError(TB_BagCapacity, errormsg)
@@ -1232,6 +1230,76 @@ Public Class Manual_Weight
         My.Settings.Bag_Limit = Integer.Parse(TB_BagCapacity.Text)
         My.Settings.Save()
     End Sub
+
+    Private Sub TB_MinNetWt_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_MinNetWt.Validating
+
+        Dim Testresult As Boolean
+        Dim MinWt As Single
+        Testresult = Single.TryParse(TB_MinNetWt.Text, MinWt)
+
+        If Not Testresult Then
+
+            Dim errormsg As String = "Not a valid number"
+            e.Cancel = True
+            Me.ErrorProvider1.SetError(TB_MinNetWt, errormsg)
+        End If
+
+        If MinWt < 0 Then
+
+            Dim errormsg As String = "Min Wt is less than zero"
+            e.Cancel = True
+            Me.ErrorProvider1.SetError(TB_MinNetWt, errormsg)
+
+        End If
+
+        If MinWt >= My.Settings.MaxNetWt Then
+
+            Dim errormsg As String = "Min Wt Greater than Max Wt"
+            e.Cancel = True
+            Me.ErrorProvider1.SetError(TB_MinNetWt, errormsg)
+
+        End If
+
+    End Sub
+
+
+    Private Sub TB_MinNetWt_Validated(sender As Object, e As EventArgs) Handles TB_MinNetWt.Validated
+        ErrorProvider1.SetError(TB_MinNetWt, "")
+        My.Settings.MinNetWt = Single.Parse(TB_MinNetWt.Text)
+        My.Settings.Save()
+
+    End Sub
+
+    Private Sub TB_MaxNetWt_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_MaxNetWt.Validating
+
+        Dim Testresult As Boolean
+        Dim MaxWt As Single
+        Testresult = Single.TryParse(TB_MinNetWt.Text, MaxWt)
+
+        If Not Testresult Then
+
+            Dim errormsg As String = "Not a valid number"
+            e.Cancel = True
+            Me.ErrorProvider1.SetError(TB_MaxNetWt, errormsg)
+
+        End If
+
+        If MaxWt <= My.Settings.MinNetWt Then
+
+            Dim errormsg As String = "Max Wt Less than Min Wt"
+            e.Cancel = True
+            Me.ErrorProvider1.SetError(TB_MaxNetWt, errormsg)
+
+        End If
+
+    End Sub
+
+    Private Sub TB_MaxNetWt_Validated(sender As Object, e As EventArgs) Handles TB_MaxNetWt.Validated
+        ErrorProvider1.SetError(TB_MaxNetWt, "")
+        My.Settings.MaxNetWt = Single.Parse(TB_MaxNetWt.Text)
+        My.Settings.Save()
+    End Sub
+
 #End Region
 
 End Class
