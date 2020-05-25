@@ -455,7 +455,7 @@ Public Class Manual_Weight
 
         Dim DataFileFound As Boolean
         DataFileFound = False
-        Dim DoWeSelectFile As MsgBoxResult
+        'Dim DoWeSelectFile As MsgBoxResult
         ' Do we want to select a file.
         'DoWeSelectFile = MsgBox("Do you have ALLO2file to input?", MsgBoxStyle.YesNo, "Confrim File Selection")
         'If DoWeSelectFile = MsgBoxResult.No Then

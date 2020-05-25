@@ -366,19 +366,6 @@ Public Class PalletData
         Return CylinderDoesNotExist
     End Function
 
-    Public ReadOnly Property TotalGoodFirstwt As String
-        Get
-            '  Return TotalGoodFirstwt
-        End Get
-    End Property
-
-    Public ReadOnly Property TotalBadFirstWt As String
-
-        Get
-            ' Return TotalBadFirstWt
-        End Get
-
-    End Property
 
     Public Property Filename As String
 
