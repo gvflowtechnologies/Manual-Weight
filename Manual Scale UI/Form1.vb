@@ -231,25 +231,25 @@ Public Class Manual_Weight
 
 
                 ' Need code to detect scan filling in window.
-                If scanned = True Then
+                If scanned = True Then 'Cylinder is now Scanned
                     entering = True
                     teststate = Weighprocess.taring
-                    ' If this is a second weight get data from previous cycle.
 
-                    If MDataset.Firstweightexists Then
+
+                    If MDataset.Firstweightexists Then ' If this is a second weight get data from previous cycle.
                         '  ccylinder.SerialNumber = TB_SerialNumber.Text
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
-                        ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
+                        ccylinder.AllO2_WT = MDataset.All02Wt2nd_Pass(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
                     Else 'If this is a first weight, check for a duplicate serial number
 
                         ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
 
-                        If Not MDataset.SN_Does_Not_Exist(ccylinder.SerialNumber) Then 'TB_SerialNumber.Text) Then ' Serial number is a duplicate
+                        If Not MDataset.SN_Does_Not_Exist(ccylinder.SerialNumber) Then  ' Serial number is a duplicate
                             ccylinder.Firstweight = -20
                             Disposition()
                             teststate = Weighprocess.prompting
                         End If
-                        ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
+                        ' ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
                     End If
                 End If
 

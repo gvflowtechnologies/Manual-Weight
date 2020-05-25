@@ -15,7 +15,7 @@ Public Class PalletData
     Private Sttimesecond As Date ' time stamp of second weight
     Private DateScaleCalLast As Date ' Date of last scale calibration.
     Private DateScaleCalNext As Date ' Date of next scale calibratin.
-    Private FirstWeightReading(,) As String ' Array holding the first weights and serial numbers.
+    Private FirstWeightReading(,) As String ' Array holding the serial numbers, First Weights, and ALL02 Weights.
 
     Private CountBad As Integer    ' Number of bad parts in pallet
     Private CountGood As Integer ' Number of good parts in pallet
@@ -259,6 +259,9 @@ Public Class PalletData
 
         Return Allo2TareWt
     End Function
+
+
+
 
 
     Public Sub Readfirstweight() ' Reads all of the first weights for the batch.
@@ -552,6 +555,28 @@ Public Class PalletData
             Return init_weight
         End Get
     End Property
+
+    Public ReadOnly Property All02Wt2nd_Pass(ByVal serialnumber As String) As Single
+        Get
+            Dim ALL02wt As Single
+            Dim x As Integer ' Counter Variable
+
+            'Redimension both the temp and permanent storage arrays
+            iNumRows = UBound(FirstWeightReading, 2)
+
+            'Copy reading data into the array.
+            For x = 0 To iNumRows
+                If FirstWeightReading(x, 0) = serialnumber Then
+                    ALL02wt = FirstWeightReading(x, 2)
+                    Exit For
+                End If
+            Next
+
+            Return ALL02wt
+
+        End Get
+    End Property
+
 
     'Public WriteOnly Property Firstweightpath As String 'Datapath of first weight
     '    Set(value As String)
