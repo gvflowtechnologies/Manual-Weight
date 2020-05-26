@@ -59,12 +59,12 @@ Public Class Cylinder
                 Case Is < My.Settings.MinWeight
                     ddisposition = False
                     sDispReason = "Too Low"
-                Case Is > dALLO2Weight + My.Settings.MaxNetWt
-                    ddisposition = False
-                    sDispReason = "Net Wt Too High"
-                Case Is < dALLO2Weight + My.Settings.MinNetWt
-                    ddisposition = False
-                    sDispReason = "Net Wt Too Low"
+                    'Case Is > dALLO2Weight + My.Settings.MaxNetWt
+                    '    ddisposition = False
+                    '    sDispReason = "Net Wt Too High"
+                    'Case Is < dALLO2Weight + My.Settings.MinNetWt
+                    '    ddisposition = False
+                    '    sDispReason = "Net Wt Too Low"
                 Case Else
                     ddisposition = True
             End Select
@@ -88,12 +88,12 @@ Public Class Cylinder
                 Case Is < My.Settings.MinWeight
                     ddisposition = False
                     sDispReason = "Too Low"
-                Case Is > dALLO2Weight + My.Settings.MaxNetWt
-                    ddisposition = False
-                    sDispReason = "Net Wt Too High"
-                Case Is < dALLO2Weight + My.Settings.MinNetWt
-                    ddisposition = False
-                    sDispReason = "Net Wt Too Low"
+                    'Case Is > dALLO2Weight + My.Settings.MaxNetWt
+                    '    ddisposition = False
+                    '    sDispReason = "Net Wt Too High"
+                    'Case Is < dALLO2Weight + My.Settings.MinNetWt
+                    '    ddisposition = False
+                    '    sDispReason = "Net Wt Too Low"
                 Case Else
 
                     ' what things do we want to check for
@@ -111,7 +111,21 @@ Public Class Cylinder
                         sDispReason = ""
                     End If
 
+                    If ddisposition = True Then ' Look at net weights from fist reading.
+                        If dMyfirstweight > dALLO2Weight + My.Settings.MaxNetWt Then
+                            ddisposition = False
+                            sDispReason = "Net Wt Too High"
+                        End If
+                        If dMyfirstweight < dALLO2Weight + My.Settings.MinNetWt Then
+                            ddisposition = False
+                            sDispReason = "Net Wt Too Low"
+                        End If
+                    End If
+
             End Select
+
+
+
         End If
 
 

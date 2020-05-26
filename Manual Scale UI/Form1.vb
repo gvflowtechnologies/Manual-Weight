@@ -137,6 +137,7 @@ Public Class Manual_Weight
         LBL_Version.Text = "Version:" & v
 
     End Sub
+
     Private Function No_Sleep() As EXECUTION_STATE
         Return SetThreadExecutionState(EXECUTION_STATE.ES_SYSTEM_REQUIRED Or EXECUTION_STATE.ES_DISPLAY_REQUIRED Or EXECUTION_STATE.ES_CONTINUOUS)
     End Function
