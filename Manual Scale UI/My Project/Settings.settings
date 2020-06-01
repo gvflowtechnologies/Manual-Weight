@@ -71,5 +71,11 @@
     <Setting Name="SF6MaxNetWt" Type="System.Single" Scope="User">
       <Value Profile="(Default)">350</Value>
     </Setting>
+    <Setting Name="C3F8MinNetWt" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">300</Value>
+    </Setting>
+    <Setting Name="C3F8MaxNetWt" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">350</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

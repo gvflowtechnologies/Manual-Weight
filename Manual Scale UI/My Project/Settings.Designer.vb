@@ -329,6 +329,30 @@ Namespace My
                 Me("SF6MaxNetWt") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("300")>  _
+        Public Property C3F8MinNetWt() As Single
+            Get
+                Return CType(Me("C3F8MinNetWt"),Single)
+            End Get
+            Set
+                Me("C3F8MinNetWt") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("350")>  _
+        Public Property C3F8MaxNetWt() As Single
+            Get
+                Return CType(Me("C3F8MaxNetWt"),Single)
+            End Get
+            Set
+                Me("C3F8MaxNetWt") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

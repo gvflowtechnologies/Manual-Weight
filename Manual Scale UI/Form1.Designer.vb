@@ -60,8 +60,8 @@ Partial Class Manual_Weight
         Me.Btn_StartPallet = New System.Windows.Forms.Button()
         Me.Setup = New System.Windows.Forms.TabPage()
         Me.GroupBox9 = New System.Windows.Forms.GroupBox()
-        Me.TB_MaxNetWt = New System.Windows.Forms.TextBox()
-        Me.TB_MinNetWt = New System.Windows.Forms.TextBox()
+        Me.TB_SF6_MaxNetWt = New System.Windows.Forms.TextBox()
+        Me.TB_SF6_MinNetWt = New System.Windows.Forms.TextBox()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
@@ -106,6 +106,10 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.TB_CsF8_MinNetWt = New System.Windows.Forms.TextBox()
+        Me.TB_C3F8_MaxNetWt = New System.Windows.Forms.TextBox()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
@@ -529,8 +533,12 @@ Partial Class Manual_Weight
         '
         'GroupBox9
         '
-        Me.GroupBox9.Controls.Add(Me.TB_MaxNetWt)
-        Me.GroupBox9.Controls.Add(Me.TB_MinNetWt)
+        Me.GroupBox9.Controls.Add(Me.TB_C3F8_MaxNetWt)
+        Me.GroupBox9.Controls.Add(Me.TB_CsF8_MinNetWt)
+        Me.GroupBox9.Controls.Add(Me.Label20)
+        Me.GroupBox9.Controls.Add(Me.Label19)
+        Me.GroupBox9.Controls.Add(Me.TB_SF6_MaxNetWt)
+        Me.GroupBox9.Controls.Add(Me.TB_SF6_MinNetWt)
         Me.GroupBox9.Controls.Add(Me.Label18)
         Me.GroupBox9.Controls.Add(Me.Label17)
         Me.GroupBox9.Location = New System.Drawing.Point(727, 114)
@@ -540,37 +548,37 @@ Partial Class Manual_Weight
         Me.GroupBox9.TabStop = False
         Me.GroupBox9.Text = "ALL02 Comparison"
         '
-        'TB_MaxNetWt
+        'TB_SF6_MaxNetWt
         '
-        Me.TB_MaxNetWt.Location = New System.Drawing.Point(94, 51)
-        Me.TB_MaxNetWt.Name = "TB_MaxNetWt"
-        Me.TB_MaxNetWt.Size = New System.Drawing.Size(82, 20)
-        Me.TB_MaxNetWt.TabIndex = 3
+        Me.TB_SF6_MaxNetWt.Location = New System.Drawing.Point(126, 53)
+        Me.TB_SF6_MaxNetWt.Name = "TB_SF6_MaxNetWt"
+        Me.TB_SF6_MaxNetWt.Size = New System.Drawing.Size(50, 20)
+        Me.TB_SF6_MaxNetWt.TabIndex = 3
         '
-        'TB_MinNetWt
+        'TB_SF6_MinNetWt
         '
-        Me.TB_MinNetWt.Location = New System.Drawing.Point(94, 25)
-        Me.TB_MinNetWt.Name = "TB_MinNetWt"
-        Me.TB_MinNetWt.Size = New System.Drawing.Size(82, 20)
-        Me.TB_MinNetWt.TabIndex = 2
+        Me.TB_SF6_MinNetWt.Location = New System.Drawing.Point(126, 24)
+        Me.TB_SF6_MinNetWt.Name = "TB_SF6_MinNetWt"
+        Me.TB_SF6_MinNetWt.Size = New System.Drawing.Size(50, 20)
+        Me.TB_SF6_MinNetWt.TabIndex = 2
         '
         'Label18
         '
         Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(6, 56)
+        Me.Label18.Location = New System.Drawing.Point(9, 56)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(87, 13)
+        Me.Label18.Size = New System.Drawing.Size(112, 13)
         Me.Label18.TabIndex = 1
-        Me.Label18.Text = "Max Net Wt (gm)"
+        Me.Label18.Text = "SF6 Max Net Wt (mg):"
         '
         'Label17
         '
         Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(6, 27)
+        Me.Label17.Location = New System.Drawing.Point(12, 27)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(84, 13)
+        Me.Label17.Size = New System.Drawing.Size(109, 13)
         Me.Label17.TabIndex = 0
-        Me.Label17.Text = "Min Net Wt (gm)"
+        Me.Label17.Text = "SF6 Min Net Wt (mg):"
         '
         'GroupBox5
         '
@@ -984,6 +992,38 @@ Partial Class Manual_Weight
         '
         Me.ErrorProvider1.ContainerControl = Me
         '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(6, 99)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(115, 13)
+        Me.Label19.TabIndex = 4
+        Me.Label19.Text = "C3F8 Min Net Wt (mg):"
+        '
+        'Label20
+        '
+        Me.Label20.AutoSize = True
+        Me.Label20.Location = New System.Drawing.Point(3, 129)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(118, 13)
+        Me.Label20.TabIndex = 5
+        Me.Label20.Text = "C3F8 Max Net Wt (mg):"
+        '
+        'TB_CsF8_MinNetWt
+        '
+        Me.TB_CsF8_MinNetWt.Location = New System.Drawing.Point(126, 96)
+        Me.TB_CsF8_MinNetWt.Name = "TB_CsF8_MinNetWt"
+        Me.TB_CsF8_MinNetWt.Size = New System.Drawing.Size(50, 20)
+        Me.TB_CsF8_MinNetWt.TabIndex = 6
+        '
+        'TB_C3F8_MaxNetWt
+        '
+        Me.TB_C3F8_MaxNetWt.Location = New System.Drawing.Point(126, 126)
+        Me.TB_C3F8_MaxNetWt.Name = "TB_C3F8_MaxNetWt"
+        Me.TB_C3F8_MaxNetWt.Size = New System.Drawing.Size(50, 20)
+        Me.TB_C3F8_MaxNetWt.TabIndex = 7
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1104,8 +1144,12 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_BagNum As System.Windows.Forms.Label
     Friend WithEvents Label16 As System.Windows.Forms.Label
     Friend WithEvents GroupBox9 As GroupBox
-    Friend WithEvents TB_MaxNetWt As TextBox
-    Friend WithEvents TB_MinNetWt As TextBox
+    Friend WithEvents TB_SF6_MaxNetWt As TextBox
+    Friend WithEvents TB_SF6_MinNetWt As TextBox
     Friend WithEvents Label18 As Label
     Friend WithEvents Label17 As Label
+    Friend WithEvents TB_C3F8_MaxNetWt As TextBox
+    Friend WithEvents TB_CsF8_MinNetWt As TextBox
+    Friend WithEvents Label20 As Label
+    Friend WithEvents Label19 As Label
 End Class

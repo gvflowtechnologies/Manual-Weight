@@ -102,8 +102,11 @@ Public Class Manual_Weight
         Lbl_LastCal.Text = My.Settings.LastCalDate.ToString("d")
         Lbl_NextCal.Text = My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString("d")
         Lbl_CalInt.Text = My.Settings.CalFrequency.ToString
-        TB_MinNetWt.Text = My.Settings.SF6MinNetWt.ToString("N4")
-        TB_MaxNetWt.Text = My.Settings.SF6MaxNetWt.ToString("N4")
+        TB_SF6_MinNetWt.Text = My.Settings.SF6MinNetWt.ToString("N1")
+        TB_SF6_MaxNetWt.Text = My.Settings.SF6MaxNetWt.ToString("N1")
+        TB_CsF8_MinNetWt.Text = My.Settings.C3F8MinNetWt.ToString("N1")
+        TB_C3F8_MaxNetWt.Text = My.Settings.C3F8MaxNetWt.ToString("N1")
+
         Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
         Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
         Lbl_WeightLoss.Text = My.Settings.SF6WeightCh.ToString("N4")
@@ -1232,24 +1235,24 @@ Public Class Manual_Weight
         My.Settings.Save()
     End Sub
 
-    Private Sub TB_MinNetWt_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_MinNetWt.Validating
+    Private Sub TB_MinNetWt_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_SF6_MinNetWt.Validating
 
         Dim Testresult As Boolean
         Dim MinWt As Single
-        Testresult = Single.TryParse(TB_MinNetWt.Text, MinWt)
+        Testresult = Single.TryParse(TB_SF6_MinNetWt.Text, MinWt)
 
         If Not Testresult Then
 
             Dim errormsg As String = "Not a valid number"
             e.Cancel = True
-            Me.ErrorProvider1.SetError(TB_MinNetWt, errormsg)
+            Me.ErrorProvider1.SetError(TB_SF6_MinNetWt, errormsg)
         End If
 
         If MinWt < 0 Then
 
             Dim errormsg As String = "Min Wt is less than zero"
             e.Cancel = True
-            Me.ErrorProvider1.SetError(TB_MinNetWt, errormsg)
+            Me.ErrorProvider1.SetError(TB_SF6_MinNetWt, errormsg)
 
         End If
 
@@ -1257,31 +1260,31 @@ Public Class Manual_Weight
 
             Dim errormsg As String = "Min Wt Greater than Max Wt"
             e.Cancel = True
-            Me.ErrorProvider1.SetError(TB_MinNetWt, errormsg)
+            Me.ErrorProvider1.SetError(TB_SF6_MinNetWt, errormsg)
 
         End If
 
     End Sub
 
 
-    Private Sub TB_MinNetWt_Validated(sender As Object, e As EventArgs) Handles TB_MinNetWt.Validated
-        ErrorProvider1.SetError(TB_MinNetWt, "")
-        My.Settings.SF6MinNetWt = Single.Parse(TB_MinNetWt.Text)
+    Private Sub TB_MinNetWt_Validated(sender As Object, e As EventArgs) Handles TB_SF6_MinNetWt.Validated
+        ErrorProvider1.SetError(TB_SF6_MinNetWt, "")
+        My.Settings.SF6MinNetWt = Single.Parse(TB_SF6_MinNetWt.Text)
         My.Settings.Save()
 
     End Sub
 
-    Private Sub TB_MaxNetWt_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_MaxNetWt.Validating
+    Private Sub TB_MaxNetWt_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_SF6_MaxNetWt.Validating
 
         Dim Testresult As Boolean
         Dim MaxWt As Single
-        Testresult = Single.TryParse(TB_MaxNetWt.Text, MaxWt)
+        Testresult = Single.TryParse(TB_SF6_MaxNetWt.Text, MaxWt)
 
         If Not Testresult Then
 
             Dim errormsg As String = "Not a valid number"
             e.Cancel = True
-            Me.ErrorProvider1.SetError(TB_MaxNetWt, errormsg)
+            Me.ErrorProvider1.SetError(TB_SF6_MaxNetWt, errormsg)
 
         End If
 
@@ -1289,19 +1292,35 @@ Public Class Manual_Weight
 
             Dim errormsg As String = "Max Wt Less than Min Wt"
             e.Cancel = True
-            Me.ErrorProvider1.SetError(TB_MaxNetWt, errormsg)
+            Me.ErrorProvider1.SetError(TB_SF6_MaxNetWt, errormsg)
 
         End If
 
     End Sub
 
-    Private Sub TB_MaxNetWt_Validated(sender As Object, e As EventArgs) Handles TB_MaxNetWt.Validated
-        ErrorProvider1.SetError(TB_MaxNetWt, "")
-        My.Settings.SF6MaxNetWt = Single.Parse(TB_MaxNetWt.Text)
+    Private Sub TB_MaxNetWt_Validated(sender As Object, e As EventArgs) Handles TB_SF6_MaxNetWt.Validated
+        ErrorProvider1.SetError(TB_SF6_MaxNetWt, "")
+        My.Settings.SF6MaxNetWt = Single.Parse(TB_SF6_MaxNetWt.Text)
         My.Settings.Save()
     End Sub
 
+    Private Sub TB_CsF8_MinNetWt_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_CsF8_MinNetWt.Validating
 
+    End Sub
+
+    Private Sub TB_CsF8_MinNetWt_Validated(sender As Object, e As EventArgs) Handles TB_CsF8_MinNetWt.Validated
+
+    End Sub
+
+
+
+    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating
+
+    End Sub
+
+    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As EventArgs) Handles TB_C3F8_MaxNetWt.Validated
+
+    End Sub
 
 
 
