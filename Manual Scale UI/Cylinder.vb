@@ -112,11 +112,11 @@ Public Class Cylinder
                     End If
 
                     If ddisposition = True Then ' Look at net weights from fist reading.
-                        If dMyfirstweight > dALLO2Weight + My.Settings.MaxNetWt Then
+                        If dMyfirstweight > dALLO2Weight + My.Settings.SF6MaxNetWt Then
                             ddisposition = False
                             sDispReason = "Net Wt Too High"
                         End If
-                        If dMyfirstweight < dALLO2Weight + My.Settings.MinNetWt Then
+                        If dMyfirstweight < dALLO2Weight + My.Settings.SF6MinNetWt Then
                             ddisposition = False
                             sDispReason = "Net Wt Too Low"
                         End If

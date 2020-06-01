@@ -542,14 +542,14 @@ Partial Class Manual_Weight
         '
         'TB_MaxNetWt
         '
-        Me.TB_MaxNetWt.Location = New System.Drawing.Point(94, 108)
+        Me.TB_MaxNetWt.Location = New System.Drawing.Point(94, 51)
         Me.TB_MaxNetWt.Name = "TB_MaxNetWt"
         Me.TB_MaxNetWt.Size = New System.Drawing.Size(82, 20)
         Me.TB_MaxNetWt.TabIndex = 3
         '
         'TB_MinNetWt
         '
-        Me.TB_MinNetWt.Location = New System.Drawing.Point(94, 56)
+        Me.TB_MinNetWt.Location = New System.Drawing.Point(94, 25)
         Me.TB_MinNetWt.Name = "TB_MinNetWt"
         Me.TB_MinNetWt.Size = New System.Drawing.Size(82, 20)
         Me.TB_MinNetWt.TabIndex = 2
@@ -557,7 +557,7 @@ Partial Class Manual_Weight
         'Label18
         '
         Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(6, 113)
+        Me.Label18.Location = New System.Drawing.Point(6, 56)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(87, 13)
         Me.Label18.TabIndex = 1
@@ -566,7 +566,7 @@ Partial Class Manual_Weight
         'Label17
         '
         Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(6, 58)
+        Me.Label17.Location = New System.Drawing.Point(6, 27)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(84, 13)
         Me.Label17.TabIndex = 0

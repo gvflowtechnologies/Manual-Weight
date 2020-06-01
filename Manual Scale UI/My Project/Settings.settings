@@ -65,11 +65,11 @@
     <Setting Name="C3F8WeightCh" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0.1</Value>
     </Setting>
-    <Setting Name="MinNetWt" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0</Value>
+    <Setting Name="SF6MinNetWt" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">300</Value>
     </Setting>
-    <Setting Name="MaxNetWt" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">5000</Value>
+    <Setting Name="SF6MaxNetWt" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">350</Value>
     </Setting>
   </Settings>
 </SettingsFile>

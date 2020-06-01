@@ -102,8 +102,8 @@ Public Class Manual_Weight
         Lbl_LastCal.Text = My.Settings.LastCalDate.ToString("d")
         Lbl_NextCal.Text = My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString("d")
         Lbl_CalInt.Text = My.Settings.CalFrequency.ToString
-        TB_MinNetWt.Text = My.Settings.MinNetWt.ToString("N4")
-        TB_MaxNetWt.Text = My.Settings.MaxNetWt.ToString("N4")
+        TB_MinNetWt.Text = My.Settings.SF6MinNetWt.ToString("N4")
+        TB_MaxNetWt.Text = My.Settings.SF6MaxNetWt.ToString("N4")
         Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
         Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
         Lbl_WeightLoss.Text = My.Settings.SF6WeightCh.ToString("N4")
@@ -1253,7 +1253,7 @@ Public Class Manual_Weight
 
         End If
 
-        If MinWt >= My.Settings.MaxNetWt Then
+        If MinWt >= My.Settings.SF6MaxNetWt Then
 
             Dim errormsg As String = "Min Wt Greater than Max Wt"
             e.Cancel = True
@@ -1266,7 +1266,7 @@ Public Class Manual_Weight
 
     Private Sub TB_MinNetWt_Validated(sender As Object, e As EventArgs) Handles TB_MinNetWt.Validated
         ErrorProvider1.SetError(TB_MinNetWt, "")
-        My.Settings.MinNetWt = Single.Parse(TB_MinNetWt.Text)
+        My.Settings.SF6MinNetWt = Single.Parse(TB_MinNetWt.Text)
         My.Settings.Save()
 
     End Sub
@@ -1275,7 +1275,7 @@ Public Class Manual_Weight
 
         Dim Testresult As Boolean
         Dim MaxWt As Single
-        Testresult = Single.TryParse(TB_MinNetWt.Text, MaxWt)
+        Testresult = Single.TryParse(TB_MaxNetWt.Text, MaxWt)
 
         If Not Testresult Then
 
@@ -1285,7 +1285,7 @@ Public Class Manual_Weight
 
         End If
 
-        If MaxWt <= My.Settings.MinNetWt Then
+        If MaxWt <= My.Settings.SF6MinNetWt Then
 
             Dim errormsg As String = "Max Wt Less than Min Wt"
             e.Cancel = True
@@ -1297,9 +1297,13 @@ Public Class Manual_Weight
 
     Private Sub TB_MaxNetWt_Validated(sender As Object, e As EventArgs) Handles TB_MaxNetWt.Validated
         ErrorProvider1.SetError(TB_MaxNetWt, "")
-        My.Settings.MaxNetWt = Single.Parse(TB_MaxNetWt.Text)
+        My.Settings.SF6MaxNetWt = Single.Parse(TB_MaxNetWt.Text)
         My.Settings.Save()
     End Sub
+
+
+
+
 
 #End Region
 
