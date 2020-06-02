@@ -32,6 +32,8 @@ Public Class Cylinder
 
         Dim weightdifference As Double
         Dim weightlimit As Double
+        Dim minweight As Double
+        Dim maxweight As Double
 
         'Deterimine if the device is good or bad.
 
@@ -76,8 +78,14 @@ Public Class Cylinder
             ' Add test on gas type to determing the weight limit paramater
             If sSN_StartTest = 1 Then
                 weightlimit = My.Settings.SF6WeightCh
+                minweight = My.Settings.SF6MinNetWt / 1000
+                maxweight = My.Settings.SF6MaxNetWt / 1000
+
             Else
                 weightlimit = My.Settings.C3F8WeightCh
+                minweight = My.Settings.C3F8MinNetWt / 1000
+                maxweight = My.Settings.C3F8MaxNetWt / 1000
+
             End If
 
 
@@ -112,11 +120,11 @@ Public Class Cylinder
                     End If
 
                     If ddisposition = True Then ' Look at net weights from fist reading.
-                        If dMyfirstweight > dALLO2Weight + My.Settings.SF6MaxNetWt Then
+                        If dMyfirstweight > dALLO2Weight + maxweight Then
                             ddisposition = False
                             sDispReason = "Net Wt Too High"
                         End If
-                        If dMyfirstweight < dALLO2Weight + My.Settings.SF6MinNetWt Then
+                        If dMyfirstweight < dALLO2Weight + minweight Then
                             ddisposition = False
                             sDispReason = "Net Wt Too Low"
                         End If
@@ -145,7 +153,7 @@ Public Class Cylinder
             Return dALLO2Weight
         End Get
         Set(value As Double)
-            dALLO2Weight = value
+            dALLO2Weight = value / 1000
         End Set
     End Property
 
