@@ -471,7 +471,7 @@ Public Class Manual_Weight
         ' If we want to find a file, what is the file name.
         Dim fd As OpenFileDialog = New OpenFileDialog With
          {
-            .Title = "Open File Dialog",
+            .Title = "Open ALL02 File",
             .InitialDirectory = "C:\",
             .Filter = "All files (*.*)|*.*|All files (*.*)|*.*",
             .FilterIndex = 2,
@@ -522,6 +522,9 @@ Public Class Manual_Weight
         Lbl_BagNum.Text = ""
         manualstop = False
         UseALLO2 = False
+
+        Portclosing()
+
         If Checkdate() = False Then
             Btn_StartPallet.Enabled = False
             RB_FinalWeightq.Enabled = False
@@ -1013,6 +1016,8 @@ Public Class Manual_Weight
                 Application.DoEvents()
                 Thread.Sleep(15)
             Loop
+
+            Mycom.Dispose()
         End If
 
     End Sub
@@ -1025,6 +1030,8 @@ Public Class Manual_Weight
         '   myportnames = SerialPort.GetPortNames
         If IsNothing(Mycom) Then
             Mycom = New SerialPort
+
+
 
 
             AddHandler Mycom.DataReceived, AddressOf Mycom_Datareceived ' handler for data received event
@@ -1060,7 +1067,7 @@ Public Class Manual_Weight
             Catch ex As Exception
                 MessageBox.Show("Communication Port " & My.Settings.SerialPort & " is inaccessable via software")
                 MessageBox.Show(ex.Message)
-
+                Mycom.Close()
             End Try
 
 
@@ -1345,7 +1352,7 @@ Public Class Manual_Weight
 
 
 
-    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating
+    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating, TB_C3F8_MaxNetWt.Validated
         Dim Testresult As Boolean
         Dim MaxWt As Single
         Testresult = Single.TryParse(TB_C3F8_MaxNetWt.Text, MaxWt)
