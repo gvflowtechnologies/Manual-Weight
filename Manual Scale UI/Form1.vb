@@ -1043,20 +1043,19 @@ Public Class Manual_Weight
             '1 Stop Bit
             '            No Handshake
 
-
-            With Mycom
-                .PortName = My.Settings.SerialPort ' gets port name from static data set
-                .BaudRate = 9600
-                .Parity = Parity.None
-                .StopBits = StopBits.One
-                .Handshake = Handshake.None  ' Need to think here
-                .DataBits = 8
-                .ReceivedBytesThreshold = 14 ' one byte short of a complete messsage string of 16 asci characters   
-                .WriteTimeout = 500
-                .WriteBufferSize = 500
-
-            End With
         End If
+        With Mycom
+            .PortName = My.Settings.SerialPort ' gets port name from static data set
+            .BaudRate = 9600
+            .Parity = Parity.None
+            .StopBits = StopBits.One
+            .Handshake = Handshake.None  ' Need to think here
+            .DataBits = 8
+            .ReceivedBytesThreshold = 14 ' one byte short of a complete messsage string of 16 asci characters   
+            .WriteTimeout = 500
+            .WriteBufferSize = 500
+        End With
+
         If (Not Mycom.IsOpen) Then
 
             Try
