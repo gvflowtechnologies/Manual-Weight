@@ -119,7 +119,7 @@ Public Class CSorter
         End Get
     End Property
 
-    Public Sub Sort(ByVal position As SorterState)
+    Public Sub Sort(ByVal position As Short)
         ' pushes or pulls the sort 
 
         ' 255 turns off all lights 

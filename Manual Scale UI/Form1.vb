@@ -151,7 +151,7 @@ Public Class Manual_Weight
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
         Portclosing()
-        cylindersorter.Sort(CSorter.SorterState.Off) '255)
+        cylindersorter.Sort(255)
         If Not IsNothing(swdataset) Then swdataset.Close()
         If Not IsNothing(swlogdata) Then swlogdata.Close()
         If Not IsNothing(Calibration) Then Calibration.Close()
@@ -211,7 +211,7 @@ Public Class Manual_Weight
                     entering = False
                     Lbl_Instruction.BackColor = Color.White
                     If sorterattached Then
-                        cylindersorter.Sort(CSorter.SorterState.Off) '255)
+                        cylindersorter.Sort(255)
                         tmrsort.Reset()
                     End If
 
@@ -229,7 +229,7 @@ Public Class Manual_Weight
                     TB_SerialNumber.Text = ""
                     Checkpalletcomplete()
                     LBL_Rationalle.Text = ""
-                    cylindersorter.Sort(CSorter.SorterState.Off) '255)
+                    cylindersorter.Sort(255)
 
                 End If
 
@@ -345,7 +345,7 @@ Public Class Manual_Weight
                     ' update canister number
                     If sorterattached Then
                         If ccylinder.Disposition = False Then
-                            cylindersorter.Sort(CSorter.SorterState.Fail) '2)
+                            cylindersorter.Sort(2)
                         End If
                     End If
                 End If
@@ -353,7 +353,7 @@ Public Class Manual_Weight
                 If cylindersorter.Dropped = False Then
                     Dim login As String
                     Dim count As Integer
-                    cylindersorter.Sort(CSorter.SorterState.Off) '255)
+                    cylindersorter.Sort(255)
                     ' msg box stuff here.
                     Do
                         login = InputBox("Supervisor Approval Required", "Cylinder not put in sorter", "")
@@ -413,14 +413,14 @@ Public Class Manual_Weight
             Lbl_Instruction.Text = "Pass"
             Lbl_Instruction.BackColor = Color.LightGreen
             If sorterattached Then
-                cylindersorter.Sort(CSorter.SorterState.Pass) '1)
+                cylindersorter.Sort(1)
             End If
             For x = 0 To 3
                 My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Asterisk)
             Next
         Else
             If sorterattached Then
-                cylindersorter.Sort(CSorter.SorterState.Fail) '2)
+                cylindersorter.Sort(2) 'CSorter.SorterState.Fail
             End If
 
             tmrsort.Restart()
@@ -715,7 +715,7 @@ Public Class Manual_Weight
 
         Tmr_ScreenUpdate.Stop()
         If sorterattached Then
-            cylindersorter.Sort(CSorter.SorterState.Off) '1)
+            cylindersorter.Sort(255)
         End If
 
         ' Toggle buttons
@@ -1030,9 +1030,6 @@ Public Class Manual_Weight
         '   myportnames = SerialPort.GetPortNames
         If IsNothing(Mycom) Then
             Mycom = New SerialPort
-
-
-
 
             AddHandler Mycom.DataReceived, AddressOf Mycom_Datareceived ' handler for data received event
             ' For the Mettler Toledo
