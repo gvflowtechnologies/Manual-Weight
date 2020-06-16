@@ -375,7 +375,7 @@ Public Class Manual_Weight
 
                     If MDataset.Firstweightexists = False Then
                         MDataset.AddCylinder(ccylinder)
-                        '   Writefirstweight()
+                        'Writefirstweight()
                     Else
                         Write_second_weight()
                     End If
@@ -755,24 +755,15 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Writefirstweight()
 
-        Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
-            swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
-            swdataset.Write(ccylinder.Firstweight.ToString & ", ")
-            swdataset.WriteLine(ccylinder.AllO2_WT.ToString)
-        End Using
-
-
-    End Sub
     Private Sub Write_Totals_FirstWT()
 
         Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
 
             For Each cyl In MDataset.CylinderList
                 swdataset.Write(cyl.SerialNumber.ToString & ", ")
-                swdataset.Write(ccylinder.Firstweight.ToString & ", ")
-                swdataset.WriteLine(ccylinder.AllO2_WT.ToString)
+                swdataset.Write(cyl.Firstweight.ToString & ", ")
+                swdataset.WriteLine(cyl.AllO2_WT.ToString)
             Next
             swdataset.WriteLine("END_OF_DATA, ")
             swdataset.WriteLine("First Weight, ")
