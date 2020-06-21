@@ -308,7 +308,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("300")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3000")>  _
         Public Property SF6MinNetWt() As Single
             Get
                 Return CType(Me("SF6MinNetWt"),Single)
@@ -320,7 +320,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("350")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("5000")>  _
         Public Property SF6MaxNetWt() As Single
             Get
                 Return CType(Me("SF6MaxNetWt"),Single)
@@ -332,7 +332,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("300")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3000")>  _
         Public Property C3F8MinNetWt() As Single
             Get
                 Return CType(Me("C3F8MinNetWt"),Single)
@@ -344,7 +344,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("350")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("5000")>  _
         Public Property C3F8MaxNetWt() As Single
             Get
                 Return CType(Me("C3F8MaxNetWt"),Single)

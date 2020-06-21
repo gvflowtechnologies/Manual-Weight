@@ -153,7 +153,7 @@ Public Class Cylinder
             Return dALLO2Weight
         End Get
         Set(value As Double)
-            dALLO2Weight = value / 1000
+            dALLO2Weight = value
         End Set
     End Property
 
