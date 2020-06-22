@@ -78,13 +78,13 @@ Public Class Cylinder
             ' Add test on gas type to determing the weight limit paramater
             If sSN_StartTest = 1 Then
                 weightlimit = My.Settings.SF6WeightCh
-                minweight = My.Settings.SF6MinNetWt / 1000
-                maxweight = My.Settings.SF6MaxNetWt / 1000
+                minweight = My.Settings.SF6MinNetWt
+                maxweight = My.Settings.SF6MaxNetWt
 
             Else
                 weightlimit = My.Settings.C3F8WeightCh
-                minweight = My.Settings.C3F8MinNetWt / 1000
-                maxweight = My.Settings.C3F8MaxNetWt / 1000
+                minweight = My.Settings.C3F8MinNetWt
+                maxweight = My.Settings.C3F8MaxNetWt
 
             End If
 
