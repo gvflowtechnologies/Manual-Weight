@@ -37,7 +37,17 @@ Public Class Cylinder
 
         'Deterimine if the device is good or bad.
 
+        If sSN_StartTest = 1 Then
+            weightlimit = My.Settings.SF6WeightCh
+            minweight = My.Settings.SF6MinNetWt
+            maxweight = My.Settings.SF6MaxNetWt
 
+        Else
+            weightlimit = My.Settings.C3F8WeightCh
+            minweight = My.Settings.C3F8MinNetWt
+            maxweight = My.Settings.C3F8MaxNetWt
+
+        End If
 
 
         If dMyfirstweight = -20 Then
@@ -53,7 +63,7 @@ Public Class Cylinder
         End If
 
 
-        If Not BSecondPass Then 'first pass criteria
+        If Not BSecondPass Then 'first pass criteria  Do not use ALLo2 data.
             Select Case dMyfirstweight
                 Case Is > My.Settings.MaxWeight
                     ddisposition = False
@@ -61,12 +71,12 @@ Public Class Cylinder
                 Case Is < My.Settings.MinWeight
                     ddisposition = False
                     sDispReason = "Too Low"
-                    'Case Is > dALLO2Weight + My.Settings.MaxNetWt
-                    '    ddisposition = False
-                    '    sDispReason = "Net Wt Too High"
-                    'Case Is < dALLO2Weight + My.Settings.MinNetWt
-                    '    ddisposition = False
-                    '    sDispReason = "Net Wt Too Low"
+                Case Is > dALLO2Weight + maxweight
+                    ddisposition = False
+                    sDispReason = "Net Wt Too High"
+                Case Is < dALLO2Weight + minweight
+                    ddisposition = False
+                    sDispReason = "Net Wt Too Low"
                 Case Else
                     ddisposition = True
             End Select
@@ -76,17 +86,7 @@ Public Class Cylinder
 
             weightdifference = dMySecondweight - dMyfirstweight
             ' Add test on gas type to determing the weight limit paramater
-            If sSN_StartTest = 1 Then
-                weightlimit = My.Settings.SF6WeightCh
-                minweight = My.Settings.SF6MinNetWt
-                maxweight = My.Settings.SF6MaxNetWt
 
-            Else
-                weightlimit = My.Settings.C3F8WeightCh
-                minweight = My.Settings.C3F8MinNetWt
-                maxweight = My.Settings.C3F8MaxNetWt
-
-            End If
 
 
             Select Case dMySecondweight

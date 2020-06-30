@@ -703,11 +703,8 @@ Public Class Manual_Weight
         End If
 
         Do Until closewatch.ElapsedMilliseconds > 15000
-
             Application.DoEvents()
             Thread.Sleep(10)
-
-
         Loop
         closewatch.Stop()
 
@@ -726,7 +723,7 @@ Public Class Manual_Weight
         teststate = Weighprocess.idle
         If MDataset.Firstweightexists = True Then
             Write_Totals_SecondWT()
-            '  write_history()
+
         Else
             Write_Totals_FirstWT()
         End If
@@ -749,7 +746,7 @@ Public Class Manual_Weight
                 swdataset.WriteLine(MDataset.Batch)
                 swdataset.WriteLine(MDataset.Pallet)
                 swdataset.WriteLine(MDataset.Timefirstwt.ToString)
-
+                swdataset.WriteLine("S/N, First Wt, AllO2 Wt")
             End Using
         End If
 

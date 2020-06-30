@@ -569,7 +569,7 @@ Partial Class Manual_Weight
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(118, 13)
         Me.Label20.TabIndex = 5
-        Me.Label20.Text = "C3F8 Max Net Wt (mg):"
+        Me.Label20.Text = "C3F8 Max Net Wt (gm):"
         '
         'Label19
         '
@@ -578,7 +578,7 @@ Partial Class Manual_Weight
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(115, 13)
         Me.Label19.TabIndex = 4
-        Me.Label19.Text = "C3F8 Min Net Wt (mg):"
+        Me.Label19.Text = "C3F8 Min Net Wt (gm):"
         '
         'TB_SF6_MaxNetWt
         '
@@ -601,7 +601,7 @@ Partial Class Manual_Weight
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(112, 13)
         Me.Label18.TabIndex = 1
-        Me.Label18.Text = "SF6 Max Net Wt (mg):"
+        Me.Label18.Text = "SF6 Max Net Wt (gm):"
         '
         'Label17
         '
@@ -610,7 +610,7 @@ Partial Class Manual_Weight
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(109, 13)
         Me.Label17.TabIndex = 0
-        Me.Label17.Text = "SF6 Min Net Wt (mg):"
+        Me.Label17.Text = "SF6 Min Net Wt (gm):"
         '
         'GroupBox5
         '

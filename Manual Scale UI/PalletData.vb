@@ -251,7 +251,8 @@ Public Class PalletData
         'Copy reading data into the array.
         For x = 0 To iNumRows
             If ALLO2WeightReading(x, 0) = SerialNumber Then
-                Allo2TareWt = ALLO2WeightReading(x, 1)
+                Allo2TareWt = ALLO2WeightReading(x, 1) / 1000
+
                 ' canisternumber += 1
                 Exit For
             End If
@@ -278,6 +279,7 @@ Public Class PalletData
                 batchid = tmpstream.ReadLine()
                 tmpstream.ReadLine()
                 sttimefirst = Convert.ToDateTime(tmpstream.ReadLine())
+                tmpstream.ReadLine()
             Else
                 MsgBox("First Weight File is Empty", MsgBoxStyle.Critical)
             End If
