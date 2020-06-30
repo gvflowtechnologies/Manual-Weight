@@ -347,8 +347,8 @@ Public Class PalletData
 
     End Sub
 
-    Public Function SN_Does_Not_Exist(ByVal SerialNumber As String) As Boolean
-        'Looks through all of the Cylinders.  IF a duplicate is found return false.
+    Public Function SN_Already_Exists(ByVal SerialNumber As String) As Boolean
+        'Looks through all of the Cylinders.  IF a duplicate is found return true.
         'Indicate duplicate was found
         'Set Weight of the cylinder already in the system to -20
 
@@ -358,10 +358,10 @@ Public Class PalletData
         SNINDEX = CylinderList.FindIndex(Function(CYL As Cylinder) CYL.SerialNumber = SerialNumber)
 
         If SNINDEX = -1 Then
-            CylinderDoesNotExist = True
+            CylinderDoesNotExist = False
 
         Else
-            CylinderDoesNotExist = False
+            CylinderDoesNotExist = True
             CylinderList(SNINDEX).Firstweight = -20
         End If
 

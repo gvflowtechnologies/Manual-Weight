@@ -248,7 +248,7 @@ Public Class Manual_Weight
 
                         ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
 
-                        If Not MDataset.SN_Does_Not_Exist(ccylinder.SerialNumber) Then  ' Serial number is a duplicate
+                        If MDataset.SN_Already_Exists(ccylinder.SerialNumber) Then  ' Serial number is a duplicate
                             ccylinder.Firstweight = -20
                             Disposition()
                             teststate = Weighprocess.prompting
