@@ -102,10 +102,10 @@ Public Class Manual_Weight
         Lbl_LastCal.Text = My.Settings.LastCalDate.ToString("d")
         Lbl_NextCal.Text = My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency).ToString("d")
         Lbl_CalInt.Text = My.Settings.CalFrequency.ToString
-        TB_SF6_MinNetWt.Text = My.Settings.SF6MinNetWt.ToString("N1")
-        TB_SF6_MaxNetWt.Text = My.Settings.SF6MaxNetWt.ToString("N1")
-        TB_C3F8_MinNetWt.Text = My.Settings.C3F8MinNetWt.ToString("N1")
-        TB_C3F8_MaxNetWt.Text = My.Settings.C3F8MaxNetWt.ToString("N1")
+        TB_SF6_MinNetWt.Text = My.Settings.SF6MinNetWt.ToString("N4")
+        TB_SF6_MaxNetWt.Text = My.Settings.SF6MaxNetWt.ToString("N4")
+        TB_C3F8_MinNetWt.Text = My.Settings.C3F8MinNetWt.ToString("N4")
+        TB_C3F8_MaxNetWt.Text = My.Settings.C3F8MaxNetWt.ToString("N4")
 
         Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
         Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
@@ -1336,7 +1336,7 @@ Public Class Manual_Weight
 
 
 
-    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating, TB_C3F8_MaxNetWt.Validated
+    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating
         Dim Testresult As Boolean
         Dim MaxWt As Single
         Testresult = Single.TryParse(TB_C3F8_MaxNetWt.Text, MaxWt)
@@ -1363,6 +1363,8 @@ Public Class Manual_Weight
         My.Settings.C3F8MaxNetWt = Single.Parse(TB_C3F8_MaxNetWt.Text)
         My.Settings.Save()
     End Sub
+
+
 
 
 
