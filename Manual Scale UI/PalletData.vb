@@ -91,13 +91,7 @@ Public Class PalletData
         End If
         Me.disposed = True
     End Sub
-    'Protected Overrides Sub Finalize()
-    '    ' Do not change this code.
-    '    ' Put cleanup code in
-    '    ' Dispose(ByVal disposing As Boolean) above.
-    '    Dispose(False)
-    '    MyBase.Finalize()
-    'End Sub
+
 
     Public Sub RenewFileList()
         currentfilename = Nothing
