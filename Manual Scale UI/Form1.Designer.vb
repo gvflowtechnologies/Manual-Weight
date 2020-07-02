@@ -854,7 +854,7 @@ Partial Class Manual_Weight
         '
         'Btn_SerialPort
         '
-        Me.Btn_SerialPort.Location = New System.Drawing.Point(18, 301)
+        Me.Btn_SerialPort.Location = New System.Drawing.Point(18, 298)
         Me.Btn_SerialPort.Name = "Btn_SerialPort"
         Me.Btn_SerialPort.Size = New System.Drawing.Size(132, 23)
         Me.Btn_SerialPort.TabIndex = 24
@@ -917,10 +917,10 @@ Partial Class Manual_Weight
         'LB_SerialPorts
         '
         Me.LB_SerialPorts.FormattingEnabled = True
-        Me.LB_SerialPorts.Location = New System.Drawing.Point(175, 307)
-        Me.LB_SerialPorts.MinimumSize = New System.Drawing.Size(4, 22)
+        Me.LB_SerialPorts.Location = New System.Drawing.Point(176, 291)
+        Me.LB_SerialPorts.MinimumSize = New System.Drawing.Size(4, 28)
         Me.LB_SerialPorts.Name = "LB_SerialPorts"
-        Me.LB_SerialPorts.Size = New System.Drawing.Size(173, 17)
+        Me.LB_SerialPorts.Size = New System.Drawing.Size(173, 30)
         Me.LB_SerialPorts.TabIndex = 14
         '
         'Btn_UpdateWeight
@@ -953,7 +953,7 @@ Partial Class Manual_Weight
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(173, 291)
+        Me.Label3.Location = New System.Drawing.Point(173, 263)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(189, 13)
         Me.Label3.TabIndex = 9

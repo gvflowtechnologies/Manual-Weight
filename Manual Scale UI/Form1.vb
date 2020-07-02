@@ -229,7 +229,7 @@ Public Class Manual_Weight
                     TB_SerialNumber.Text = ""
                     Checkpalletcomplete()
                     LBL_Rationalle.Text = ""
-                    cylindersorter.Sort(255)
+                    If sorterattached Then cylindersorter.Sort(255)
 
                 End If
 
@@ -350,40 +350,43 @@ Public Class Manual_Weight
                     End If
                 End If
                 Tmr_ScreenUpdate.Stop()
-                If cylindersorter.Dropped = False Then
-                    Dim login As String
-                    Dim count As Integer
-                    cylindersorter.Sort(255)
-                    ' msg box stuff here.
-                    Do
-                        login = InputBox("Supervisor Approval Required", "Cylinder not put in sorter", "")
-                        If login <> My.Settings.Password Then
-                            MsgBox("You have " & (5 - count).ToString & " attempts remaining", MsgBoxStyle.OkOnly, "Login Incorrect")
-                            count += 1
-                            If count > 5 Then
-                                Closepallet()
-                                Exit Sub
+                If sorterattached Then
+                    If cylindersorter.Dropped = False Then
+                        Dim login As String
+                        Dim count As Integer
+                        cylindersorter.Sort(255)
+                        ' msg box stuff here.
+                        Do
+                            login = InputBox("Supervisor Approval Required", "Cylinder not put in sorter", "")
+                            If login <> My.Settings.Password Then
+                                MsgBox("You have " & (5 - count).ToString & " attempts remaining", MsgBoxStyle.OkOnly, "Login Incorrect")
+                                count += 1
+                                If count > 5 Then
+                                    Closepallet()
+                                    Exit Sub
+                                End If
                             End If
+
+                        Loop Until login = My.Settings.Password
+                    Else
+                        ' *****
+                        '********
+                        '*********
+                        'Need to rethink how we wirte to a file.
+
+                        If MDataset.Firstweightexists = False Then
+                            MDataset.AddCylinder(ccylinder)
+                            'Writefirstweight()
+                        Else
+                            Write_second_weight()
                         End If
 
-                    Loop Until login = My.Settings.Password
-                Else
-                    ' *****
-                    '********
-                    '*********
-                    'Need to rethink how we wirte to a file.
+                        ' update the counters for disposition 
+                        Updatecounts()
 
-                    If MDataset.Firstweightexists = False Then
-                        MDataset.AddCylinder(ccylinder)
-                        'Writefirstweight()
-                    Else
-                        Write_second_weight()
                     End If
-
-                    ' update the counters for disposition 
-                    Updatecounts()
-
                 End If
+
 
                 'If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
                 teststate = Weighprocess.Scanning
@@ -1336,7 +1339,7 @@ Public Class Manual_Weight
 
 
 
-    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating
+    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating, TB_C3F8_MaxNetWt.Validated
         Dim Testresult As Boolean
         Dim MaxWt As Single
         Testresult = Single.TryParse(TB_C3F8_MaxNetWt.Text, MaxWt)
@@ -1363,6 +1366,7 @@ Public Class Manual_Weight
         My.Settings.C3F8MaxNetWt = Single.Parse(TB_C3F8_MaxNetWt.Text)
         My.Settings.Save()
     End Sub
+
 
 
 

@@ -62,7 +62,7 @@ Public Class PalletData
         End If
         fweight = My.Settings.File_Directory & "\In Process"
         completed = My.Settings.File_Directory & "\Completed"
-        '   Archived = My.Settings.File_Directory & "\Archived"
+        Archived = My.Settings.File_Directory & "\Archived"
 
         If CylinderList Is Nothing Then
             CylinderList = New List(Of Cylinder)
@@ -551,7 +551,7 @@ Public Class PalletData
             Dim x As Integer ' Counter Variable
             ALL02wt = -30
             'Redimension both the temp and permanent storage arrays
-            iNumRows = UBound(FirstWeightReading, 2)
+            iNumRows = UBound(FirstWeightReading, 1)
 
             'Copy reading data into the array.
             For x = 0 To iNumRows
