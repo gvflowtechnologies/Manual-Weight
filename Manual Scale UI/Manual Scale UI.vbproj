@@ -62,10 +62,10 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>54350C6C2DFB3B00A8591F139F0F7F4B928DFB52</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>466633452B05F765AA249F8DFA0D51B7429899E7</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Manual Scale UI_2_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Manual Scale UI_3_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -175,7 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Manual Scale UI_1_TemporaryKey.pfx" />
-    <None Include="Manual Scale UI_2_TemporaryKey.pfx" />
+    <None Include="Manual Scale UI_3_TemporaryKey.pfx" />
     <None Include="Manual Scale UI_TemporaryKey.pfx" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
