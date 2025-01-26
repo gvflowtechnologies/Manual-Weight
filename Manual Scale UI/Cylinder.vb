@@ -81,7 +81,6 @@ Public Class Cylinder
                     ddisposition = True
             End Select
 
-
         Else
 
             weightdifference = dMySecondweight - dMyfirstweight
