@@ -87,8 +87,6 @@ Public Class Cylinder
             weightdifference = dMySecondweight - dMyfirstweight
             ' Add test on gas type to determing the weight limit paramater
 
-
-
             Select Case dMySecondweight
                 Case Is > My.Settings.MaxWeight
                     ddisposition = False
@@ -96,23 +94,18 @@ Public Class Cylinder
                 Case Is < My.Settings.MinWeight
                     ddisposition = False
                     sDispReason = "Too Low"
-                    'Case Is > dALLO2Weight + My.Settings.MaxNetWt
-                    '    ddisposition = False
-                    '    sDispReason = "Net Wt Too High"
-                    'Case Is < dALLO2Weight + My.Settings.MinNetWt
-                    '    ddisposition = False
-                    '    sDispReason = "Net Wt Too Low"
+
                 Case Else
 
                     ' what things do we want to check for
                     If Math.Abs(weightdifference) > weightlimit Then
                         ddisposition = False
+
                         If dMySecondweight > dMyfirstweight Then
                             sDispReason = "Gained Weight"
                         Else
                             sDispReason = "Lost Weight"
                         End If
-
 
                     Else
                         ddisposition = True
@@ -120,10 +113,12 @@ Public Class Cylinder
                     End If
 
                     If ddisposition = True Then ' Look at net weights from fist reading.
+
                         If dMyfirstweight > dALLO2Weight + maxweight Then
                             ddisposition = False
                             sDispReason = "Net Wt Too High"
                         End If
+
                         If dMyfirstweight < dALLO2Weight + minweight Then
                             ddisposition = False
                             sDispReason = "Net Wt Too Low"
@@ -132,10 +127,7 @@ Public Class Cylinder
 
             End Select
 
-
-
         End If
-
 
     End Sub
 

@@ -27,7 +27,6 @@ Public Class Manual_Weight
         Public _Type As String
     End Structure
 
-
     ' Constants
     Private Const sloginvalue As String = "AV_QAE"
     Private Const nocanweight As Double = 2.0
@@ -51,7 +50,6 @@ Public Class Manual_Weight
     Private updateweight As scaledata
     Private teststate As Weighprocess
     Private entering As Boolean ' Entering a new state
-
     Private tmrcycle As Stopwatch
     Private tmrsort As Stopwatch
     Private scanned As Boolean
@@ -60,17 +58,13 @@ Public Class Manual_Weight
 
     Private Declare Function SetThreadExecutionState Lib "Kernel32" (ByVal esflags As EXECUTION_STATE) As EXECUTION_STATE
 
-
-
-    ' Form open close stuff
     Private Sub Manual_Weight_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         newdata = New Datareceive
         tmrcycle = New Stopwatch
-        ' loginhandling()
         sartorius = New Scalemanagement
         tmrsort = New Stopwatch
         cylindercollect = New Collection
-
 
         For Each sp As String In My.Computer.Ports.SerialPortNames
             LB_SerialPorts.Items.Add(sp)
@@ -86,14 +80,9 @@ Public Class Manual_Weight
         RB_FinalWeightq.Enabled = True
         RB_FirstWeight.Enabled = True
         Btn_StopPallet.Enabled = False
-
-
         Lbl_BatchN.Text = ""
-
         Lbl_BadCount.Text = My.Settings.TotalBad
         Lbl_GoodCount.Text = My.Settings.TotalGood
-
-
         TB_BagCapacity.Text = My.Settings.Bag_Limit
         LBFinal_Data_File.Text = My.Settings.File_Directory
         Lbl_RetareLimit.Text = My.Settings.TareLimit.ToString("N4")
@@ -106,22 +95,18 @@ Public Class Manual_Weight
         TB_SF6_MaxNetWt.Text = My.Settings.SF6MaxNetWt.ToString("N4")
         TB_C3F8_MinNetWt.Text = My.Settings.C3F8MinNetWt.ToString("N4")
         TB_C3F8_MaxNetWt.Text = My.Settings.C3F8MaxNetWt.ToString("N4")
-
         Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
         Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
         Lbl_WeightLoss.Text = My.Settings.SF6WeightCh.ToString("N4")
         LBL_C3F8Weight.Text = My.Settings.C3F8WeightCh.ToString("N4")
         Lbl_Instruction.Text = "Standby"
-
         LB_SerialPorts.ScrollAlwaysVisible = True
-
 
         If sorterattached Then
             Sorter.Checked = True
         Else
             Sorter.Checked = False
         End If
-
 
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
@@ -203,21 +188,18 @@ Public Class Manual_Weight
             MsgBox("Please Shut Down System and Serivce Scale", vbOKOnly, "System Error")
         End If
 
-
         Select Case teststate
 
             Case Weighprocess.idle
                 If entering Then
                     entering = False
                     Lbl_Instruction.BackColor = Color.White
+
                     If sorterattached Then
                         cylindersorter.Sort(255)
                         tmrsort.Reset()
                     End If
-
                 End If
-
-
 
             Case Weighprocess.Scanning
                 If entering Then
@@ -230,7 +212,6 @@ Public Class Manual_Weight
                     Checkpalletcomplete()
                     LBL_Rationalle.Text = ""
                     If sorterattached Then cylindersorter.Sort(255)
-
                 End If
 
 
@@ -238,7 +219,6 @@ Public Class Manual_Weight
                 If scanned = True Then 'Cylinder is now Scanned
                     entering = True
                     teststate = Weighprocess.taring
-
 
                     If MDataset.Firstweightexists Then ' If this is a second weight get data from previous cycle.
                         '  ccylinder.SerialNumber = TB_SerialNumber.Text
@@ -253,20 +233,15 @@ Public Class Manual_Weight
                             Disposition()
                             teststate = Weighprocess.prompting
                         End If
-                        ' ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
+
                     End If
                 End If
 
             Case Weighprocess.taring
                 If entering Then
                     entering = False
-
-                    ' Setting up cylinder for second weight
-
-                    'set label colors
                     Lbl_Instruction.Text = "Zeroing"
                     Lbl_Instruction.BackColor = Color.Blue
-
                 End If
 
                 ' Check to see if something is on scale when it should not be and if it is, turn the background color red.
@@ -277,11 +252,8 @@ Public Class Manual_Weight
                     Me.BackColor = SystemColors.Control
                 End If
 
-
-                ''Taring Section
-                '' check for scale health and stability
-
                 If sartorius.Stable Then
+
                     Select Case Math.Abs(sartorius.CurrentReading)
 
                         Case Is < My.Settings.TareLimit / 1000
@@ -330,7 +302,6 @@ Public Class Manual_Weight
                             entering = True
                             Disposition()
 
-
                     End Select
 
                 Else
@@ -369,10 +340,6 @@ Public Class Manual_Weight
 
                         Loop Until login = My.Settings.Password
                     Else
-                        ' *****
-                        '********
-                        '*********
-                        'Need to rethink how we wirte to a file.
 
                         If MDataset.Firstweightexists = False Then
                             MDataset.AddCylinder(ccylinder)
@@ -381,14 +348,11 @@ Public Class Manual_Weight
                             Write_second_weight()
                         End If
 
-                        ' update the counters for disposition 
-                        Updatecounts()
+                        Updatecounts() 'update the counters for disposition
 
                     End If
                 End If
 
-
-                'If sartorius.CurrentReading < My.Settings.MinWeight / 2 Then ' Do not exit until the canister is removed.
                 teststate = Weighprocess.Scanning
                 entering = True
                 ccylinder.Dispose()
@@ -405,12 +369,9 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
     Private Sub Disposition()
 
         ccylinder.DetermineDisposition()
-
 
         If ccylinder.Disposition = True Then
             Lbl_Instruction.Text = "Pass"
@@ -433,7 +394,6 @@ Public Class Manual_Weight
             For x = 0 To 2
                 My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Exclamation)
             Next
-
 
         End If
 
@@ -462,14 +422,6 @@ Public Class Manual_Weight
 
         Dim DataFileFound As Boolean
         DataFileFound = False
-        'Dim DoWeSelectFile As MsgBoxResult
-        ' Do we want to select a file.
-        'DoWeSelectFile = MsgBox("Do you have ALLO2file to input?", MsgBoxStyle.YesNo, "Confrim File Selection")
-        'If DoWeSelectFile = MsgBoxResult.No Then
-        '    DataFileFound = True 'We did not find a file, but we decided we did not need one.
-        '    Return DataFileFound
-        '    Exit Function
-        'End If
 
         ' If we want to find a file, what is the file name.
         Dim fd As OpenFileDialog = New OpenFileDialog With
@@ -584,9 +536,6 @@ Public Class Manual_Weight
 
         End If
 
-        '  MDataset.RenewFileList()
-
-
         Do
             MDataset.Pallet = InputBox("Enter Bag #", "Bag Number", , , )
             If MDataset.Pallet = "" Then Exit Sub
@@ -598,15 +547,6 @@ Public Class Manual_Weight
             End If
         Loop Until followup = MsgBoxResult.Yes
 
-
-
-
-        ' send pallet number and 
-        ' if pallet exists pull batch number   
-
-
-
-        ' send pallet number and 
 
         Do
             MDataset.Batch = InputBox("Enter Batch ID", "Batch Identification")
@@ -622,9 +562,6 @@ Public Class Manual_Weight
         Lbl_BatchN.Text = MDataset.Batch
         Lbl_BagNum.Text = MDataset.Pallet
 
-
-
-        ' Else
         If firstweight Then
             'Read in existing file to get batch number
             MDataset.Firstweight("_" & MDataset.Pallet & "_", MDataset.Batch)
@@ -634,9 +571,8 @@ Public Class Manual_Weight
                 Exit Sub
             End If
             MDataset.GetCurrentCount() ' Getting the current count
-            ' and then write the file header.
-            Writefileheader2()
-            'and set the cylinder index to 0
+            Writefileheader2() ' write the file header
+
         Else
             WritefileHeader1()
         End If
@@ -870,10 +806,6 @@ Public Class Manual_Weight
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         ChangePassword.Enabled = True
         ChangePassword.Show()
-
-
-
-
     End Sub
 
     Private Sub Btn_Tare_Click(sender As Object, e As EventArgs) Handles Btn_Tare.Click
@@ -917,10 +849,6 @@ Public Class Manual_Weight
             End If
         End While
 
-
-
-
-
     End Sub
 
     Private Sub Btn_SerialPort_Click(sender As Object, e As EventArgs) Handles Btn_SerialPort.Click
@@ -936,11 +864,6 @@ Public Class Manual_Weight
             MsgBox("Port name Changed to " & My.Settings.SerialPort)
 
         End If
-
-
-
-        ' I could put a routine in here to send a text string and look for a response.
-
 
     End Sub
 
@@ -982,12 +905,23 @@ Public Class Manual_Weight
     Private Sub Btn_ManualTare_Click(sender As Object, e As EventArgs) Handles Btn_ManualTare.Click
         Updatetare()
     End Sub
+    Private Sub ResetBad()
+        ' Resetting cumulative counter
 
+        My.Settings.TotalBad = 0
+        My.Settings.Save()
+        Lbl_BadCount.Text = My.Settings.TotalBad
+
+    End Sub
+
+    Private Sub ResetGood()
+        ' Resettin cumulative good counter
+        My.Settings.TotalGood = 0
+        My.Settings.Save()
+        Lbl_GoodCount.Text = My.Settings.TotalGood
+
+    End Sub
 #End Region
-
-
-
-
 
 #Region "Communication"
     Private Sub Portclosing()
@@ -1024,12 +958,6 @@ Public Class Manual_Weight
 
             AddHandler Mycom.DataReceived, AddressOf Mycom_Datareceived ' handler for data received event
             ' For the Mettler Toledo
-            '            Factory Defaults
-            '9600:       Baud()
-            '8:          bits()
-            '            No Parity
-            '1 Stop Bit
-            '            No Handshake
 
         End If
         With Mycom
@@ -1064,9 +992,6 @@ Public Class Manual_Weight
             Scalesetupstring()
         End If
 
-
-
-
     End Sub
 
     Private Sub Scalesetupstring()
@@ -1093,26 +1018,6 @@ Public Class Manual_Weight
 
     End Sub
 #End Region
-
-
-
-
-    Private Sub ResetBad()
-        ' Resetting cumulative counter
-
-        My.Settings.TotalBad = 0
-        My.Settings.Save()
-        Lbl_BadCount.Text = My.Settings.TotalBad
-
-    End Sub
-
-    Private Sub ResetGood()
-        ' Resettin cumulative good counter
-        My.Settings.TotalGood = 0
-        My.Settings.Save()
-        Lbl_GoodCount.Text = My.Settings.TotalGood
-
-    End Sub
 
 #Region "Input Validation"
 
@@ -1366,12 +1271,6 @@ Public Class Manual_Weight
         My.Settings.C3F8MaxNetWt = Single.Parse(TB_C3F8_MaxNetWt.Text)
         My.Settings.Save()
     End Sub
-
-
-
-
-
-
 
 
 #End Region

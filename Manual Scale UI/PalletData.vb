@@ -174,7 +174,7 @@ Public Class PalletData
     Public Sub ReadAllO2Data(ByVal ALLO2_File_Name As String)
         'Routine for reading in ALLo2 data into an list. Create an list of cylinders
         ' Or a list of type ALLO2 Need to capture the S/N and the Tare Wt.
-        ' When readign first weight add the tare wt.
+        ' When reading first weight add the tare wt.
 
         If File.Exists(ALLO2_File_Name) Then
             Dim tmpstream As StreamReader = File.OpenText(ALLO2_File_Name)
@@ -383,15 +383,9 @@ Public Class PalletData
                 sbname.Append(DateTime.Now.Year).Append("_")
 
                 STfullname = sbname.ToString & ".csv"
-                ' check for file in completed.
-                'Do Until File.Exists(completed & "\" & STfullname & iaddpallet.ToString & ".csv") = False
 
-                '    iaddpallet += 1
-
-                'Loop
-                'STfullname = STfullname & iaddpallet.ToString() & ".csv"
                 currentfilename = STfullname
-                '                Return STfullname
+
             End If
 
             Return currentfilename
@@ -520,9 +514,6 @@ Public Class PalletData
 
             Dim x As Integer ' Counter Variable
 
-
-
-
             'Redimension both the temp and permanent storage arrays
             iNumRows = UBound(FirstWeightReading, 1)
 
@@ -559,20 +550,6 @@ Public Class PalletData
 
         End Get
     End Property
-
-
-    'Public WriteOnly Property Firstweightpath As String 'Datapath of first weight
-    '    Set(value As String)
-    '        fweight = value
-    '    End Set
-    'End Property
-
-    'Public WriteOnly Property Finalweightpath As String ' datapath of second weight
-    '    Set(value As String)
-    '        completed = value
-    '    End Set
-    'End Property
-
 
 
 End Class
