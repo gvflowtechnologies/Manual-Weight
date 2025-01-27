@@ -39,12 +39,6 @@ Public Class Scalemanagement
         Bstable = False
         bcalrequest = False
 
-
-
-
-
-
-
     End Sub
 
     Public Sub ParseData(ByVal reading As String)
@@ -204,17 +198,6 @@ Public Class Scalemanagement
         End Set
     End Property
 
-    'ReadOnly Property Msec_Since_Last_Data As Long
-    '    ' Time since last reading
-    '    Get
-    '        If tmrlasttime.IsRunning Then
-    '            Return tmrlasttime.ElapsedMilliseconds
-    '        Else
-    '            Return 0
-    '        End If
-
-    '    End Get
-    'End Property
 
     Public ReadOnly Property CurrentReading As Double
         ' Represents last stable reading
