@@ -28,7 +28,7 @@ Public Class Manual_Weight
     End Structure
 
     ' Constants
-    Private Const sloginvalue As String = "AV_QAE"
+    ' Private Const sloginvalue As String = "AV_QAE"
     Private Const nocanweight As Double = 2.0
 
     Public WithEvents Mycom As SerialPort 'Serial port for communicating with the scale
@@ -521,7 +521,7 @@ Public Class Manual_Weight
 
         ALLO2FileName = ""
 
-        If Not firstweight Then ' Only Look for ALLO2_WT on the first pass through the data.
+        If firstweight Then ' Only Look for ALLO2_WT on the second pass through the data.
             If Not ALLO2_DataFile() Then 'Try and Select an ALLO2 File
                 MsgBox("AllO2 File Selection Failed")
                 Exit Sub
@@ -685,7 +685,7 @@ Public Class Manual_Weight
                 swdataset.WriteLine(MDataset.Batch)
                 swdataset.WriteLine(MDataset.Pallet)
                 swdataset.WriteLine(MDataset.Timefirstwt.ToString)
-                swdataset.WriteLine("S/N, First Wt, AllO2 Wt")
+                swdataset.WriteLine("S/N, First Wt")
             End Using
         End If
 
@@ -699,7 +699,7 @@ Public Class Manual_Weight
             For Each cyl In MDataset.CylinderList
                 swdataset.Write(cyl.SerialNumber.ToString & ", ")
                 swdataset.Write(cyl.Firstweight.ToString & ", ")
-                swdataset.WriteLine(cyl.AllO2_WT.ToString)
+
             Next
             swdataset.WriteLine("END_OF_DATA, ")
             swdataset.WriteLine("First Weight, ")
