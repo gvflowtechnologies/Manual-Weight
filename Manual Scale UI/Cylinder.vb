@@ -9,7 +9,7 @@ Public Class Cylinder
     Private myindex As Integer
     Private sDispReason As String
     Private sSN As String
-    Private BSecondPass As Boolean
+    Private BSecondPass As Boolean 'True = This is the second Weight, False - This is the first weight?
     Private sSN_StartTest As String
 
 
@@ -71,12 +71,7 @@ Public Class Cylinder
                 Case Is < My.Settings.MinWeight
                     ddisposition = False
                     sDispReason = "Too Low"
-                Case Is > dALLO2Weight + maxweight
-                    ddisposition = False
-                    sDispReason = "Net Wt Too High"
-                Case Is < dALLO2Weight + minweight
-                    ddisposition = False
-                    sDispReason = "Net Wt Too Low"
+
                 Case Else
                     ddisposition = True
             End Select
