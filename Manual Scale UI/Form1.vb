@@ -136,7 +136,7 @@ Public Class Manual_Weight
 
     Private Sub Manual_Weight_isclosing(Sender As Object, e As EventArgs) Handles MyBase.FormClosing
         Portclosing()
-        cylindersorter.Sort(255)
+        If My.Settings.Sorter_Attached Then cylindersorter.Sort(255)
         If Not IsNothing(swdataset) Then swdataset.Close()
         If Not IsNothing(swlogdata) Then swlogdata.Close()
         If Not IsNothing(Calibration) Then Calibration.Close()
@@ -512,7 +512,6 @@ Public Class Manual_Weight
             firstweight = True ' We already have a first weight
         Else
             firstweight = False
-
         End If
 
         If MDataset IsNot Nothing Then
@@ -526,15 +525,11 @@ Public Class Manual_Weight
                 MsgBox("AllO2 File Selection Failed")
                 Exit Sub
             End If
-
         End If
 
         MDataset = New PalletData(firstweight)
-        If UseALLO2 Then
-            'We located a file and we want to use a file.  Process it here.
-            MDataset.ReadAllO2Data(ALLO2FileName)
+        If UseALLO2 Then MDataset.ReadAllO2Data(ALLO2FileName)   'We located a file and we want to use a file.  Process it here.
 
-        End If
 
         Do
             MDataset.Pallet = InputBox("Enter Bag #", "Bag Number", , , )
