@@ -333,19 +333,16 @@ Public Class Manual_Weight
                             End If
 
                         Loop Until login = My.Settings.Password
-                    Else
-
-                        If MDataset.Firstweightexists = False Then
-                            MDataset.AddCylinder(ccylinder)
-                            'Writefirstweight()
-                        Else
-                            Write_second_weight()
-                        End If
-
-                        Updatecounts() 'update the counters for disposition
-
                     End If
                 End If
+                If MDataset.Firstweightexists = False Then
+                    MDataset.AddCylinder(ccylinder)
+                    'Writefirstweight()
+                Else
+                    Write_second_weight()
+                End If
+
+                Updatecounts() 'update the counters for disposition
 
                 teststate = Weighprocess.Scanning
                 entering = True
