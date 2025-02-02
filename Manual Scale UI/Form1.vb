@@ -587,7 +587,7 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub Checkpalletcomplete()
-        ' Closepallet()
+
 
         If Not MDataset.Firstweightexists Then 'If this is a first weight check for button press and exit if button was pressed.
             If manualstop Then
@@ -684,7 +684,7 @@ Public Class Manual_Weight
 
             For Each cyl In MDataset.CylinderList
                 swdataset.Write(cyl.SerialNumber.ToString & ", ")
-                swdataset.Write(cyl.Firstweight.ToString & ", ")
+                swdataset.WriteLine(cyl.Firstweight.ToString)
 
             Next
             swdataset.WriteLine("END_OF_DATA, ")
@@ -1230,7 +1230,7 @@ Public Class Manual_Weight
 
 
 
-    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating
+    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating, TB_C3F8_MaxNetWt.Validated
         Dim Testresult As Boolean
         Dim MaxWt As Single
         Testresult = Single.TryParse(TB_C3F8_MaxNetWt.Text, MaxWt)
@@ -1257,6 +1257,8 @@ Public Class Manual_Weight
         My.Settings.C3F8MaxNetWt = Single.Parse(TB_C3F8_MaxNetWt.Text)
         My.Settings.Save()
     End Sub
+
+
 
 
 #End Region
