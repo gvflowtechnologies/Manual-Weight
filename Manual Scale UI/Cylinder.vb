@@ -117,6 +117,12 @@ Public Class Cylinder
                             ddisposition = False
                             sDispReason = "Net Wt Too Low"
                         End If
+
+                        If dALLO2Weight = -30 Then
+                            ddisposition = False
+                            sDispReason = "Cylinder Not in System"
+                        End If
+
                     End If
 
             End Select
