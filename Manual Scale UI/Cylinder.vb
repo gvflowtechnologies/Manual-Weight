@@ -120,7 +120,7 @@ Public Class Cylinder
 
                         If dALLO2Weight = -30 Then
                             ddisposition = False
-                            sDispReason = "Cylinder Not in System"
+                            sDispReason = "Serial Number Not in System"
                         End If
 
                     End If

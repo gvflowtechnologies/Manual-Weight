@@ -1029,16 +1029,36 @@ Public Class Manual_Weight
     Private Function ValidSerialNumber(ByVal SerialNumber As String, ByRef errorMessage As String) As Boolean
         ' Function to check the serial number entered is 10 charaters long
 
+        Dim Stringtest As String
+        Dim StringTestValue As String
+
+        Stringtest = SerialNumber.Substring(0, 1)
+
+        If RB_SF6.Checked Then
+            StringTestValue = 1
+        Else
+            StringTestValue = 2
+        End If
+
+
         If SerialNumber.Length = 0 Then
             errorMessage = "No Serial Number Entered"
             Return False
         End If
 
+        If Stringtest <> StringTestValue Then
+
+            errorMessage = "Wrong Gas Type"
+            Return False
+
+        End If
 
         If SerialNumber.Length = 10 Then
             errorMessage = ""
             Return True
         End If
+
+
 
         errorMessage = "Serial Number is not the Correct Length"
         Return False
