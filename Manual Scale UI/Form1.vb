@@ -1067,12 +1067,21 @@ Public Class Manual_Weight
 
     Private Sub SN_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_SerialNumber.Validating
 
+        Dim login As String
         Dim errormsg As String = ""
 
         If Not ValidSerialNumber(TB_SerialNumber.Text, errormsg) Then
             e.Cancel = True
             TB_SerialNumber.Select(0, TB_SerialNumber.Text.Length)
             Me.ErrorProvider1.SetError(TB_SerialNumber, errormsg)
+            If errormsg = "Wrong Gas Type" Then
+                Do
+                    login = InputBox("Contact Supervisor to clear", "Error - Wrong SN Prefix", "")
+
+
+                Loop Until login = My.Settings.Password
+            End If
+
         End If
 
 
@@ -1250,7 +1259,7 @@ Public Class Manual_Weight
 
 
 
-    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating, TB_C3F8_MaxNetWt.Validated
+    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating
         Dim Testresult As Boolean
         Dim MaxWt As Single
         Testresult = Single.TryParse(TB_C3F8_MaxNetWt.Text, MaxWt)
@@ -1277,7 +1286,6 @@ Public Class Manual_Weight
         My.Settings.C3F8MaxNetWt = Single.Parse(TB_C3F8_MaxNetWt.Text)
         My.Settings.Save()
     End Sub
-
 
 
 
