@@ -225,7 +225,7 @@ Public Class Manual_Weight
 
                         If MDataset.SN_Already_Exists(ccylinder.SerialNumber) Then  ' Serial number is a duplicate
                             ccylinder.Firstweight = -20
-                            Disposition()
+                            Disposition() 'duplicate serial number.
                             teststate = Weighprocess.prompting
                         End If
                     End If
@@ -1076,8 +1076,7 @@ Public Class Manual_Weight
             Me.ErrorProvider1.SetError(TB_SerialNumber, errormsg)
             If errormsg = "Wrong Gas Type" Then
                 Do
-                    login = InputBox("Contact Supervisor to clear", "Error - Wrong SN Prefix", "")
-
+                    login = InputBox("Supervisor Approval Required", "Error - Wrong SN Prefix", "")
 
                 Loop Until login = My.Settings.Password
             End If
