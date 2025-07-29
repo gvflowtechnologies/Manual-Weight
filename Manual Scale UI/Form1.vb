@@ -224,13 +224,14 @@ Public Class Manual_Weight
                     Else 'If this is a first weight, check for a duplicate serial number
 
                         If MDataset.SN_Already_Exists(ccylinder.SerialNumber) Then  ' Serial number is a duplicate
+                            Dim login As String
 
                             Do
                                 login = InputBox("Supervisor Approval Required", "Error - Wrong SN Prefix", "")
 
                             Loop Until login = My.Settings.Password
 
-                            teststate = Weighprocess.idle
+                            teststate = Weighprocess.Scanning
                         End If
                     End If
                 End If
