@@ -220,21 +220,26 @@ Public Class Manual_Weight
 
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
                         ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
+                    End If
 
-                    Else 'If this is a first weight, check for a duplicate serial number
 
-                        If MDataset.SN_Already_Exists(ccylinder.SerialNumber) Then  ' Serial number is a duplicate
-                            Dim login As String
 
-                            Do
-                                login = InputBox("Supervisor Approval Required", "Error - Wrong SN Prefix", "")
+                    If MDataset.SN_Already_Exists(ccylinder.SerialNumber) Then  ' Serial number is a duplicate
 
-                            Loop Until login = My.Settings.Password
+                        Dim login As String
+                        Tmr_ScreenUpdate.Stop()
+                        ccylinder.Dispose()
+                        teststate = Weighprocess.Scanning
 
-                            teststate = Weighprocess.Scanning
-                        End If
+                        Do
+                            login = InputBox("Supervisor Approval Required", "Error - Duplicate SN", "")
+
+                        Loop Until login = My.Settings.Password
+                        Tmr_ScreenUpdate.Start()
+
                     End If
                 End If
+
 
             Case Weighprocess.taring
                 If entering Then
