@@ -11,6 +11,11 @@ Public Class Cylinder
     Private sSN As String
     Private BSecondPass As Boolean 'True = This is the second Weight, False - This is the first weight?
     Private sSN_StartTest As String
+    Private weightdifference As Double
+    Private weightlimit As Double
+    Private minweight As Double
+    Private maxweight As Double
+
 
 
     Public Sub New(ByVal SecondPass As Boolean, ByVal SerialNum As String, ByVal ssnstart As String)
@@ -22,20 +27,7 @@ Public Class Cylinder
         sSN = SerialNum
         sSN_StartTest = ssnstart
 
-    End Sub
 
-    Public Sub Dispose()
-        Me.Finalize()
-    End Sub
-
-    Public Sub DetermineDisposition()
-
-        Dim weightdifference As Double
-        Dim weightlimit As Double
-        Dim minweight As Double
-        Dim maxweight As Double
-
-        'Deterimine if the device is good or bad.
 
         If sSN_StartTest = 1 Then
             weightlimit = My.Settings.SF6WeightCh
@@ -48,6 +40,19 @@ Public Class Cylinder
             maxweight = My.Settings.C3F8MaxNetWt
 
         End If
+
+    End Sub
+
+    Public Sub Dispose()
+        Me.Finalize()
+    End Sub
+
+    Public Sub DetermineDisposition()
+
+
+
+        'Deterimine if the device is good or bad.
+
 
 
         If dMyfirstweight = -20 Then
