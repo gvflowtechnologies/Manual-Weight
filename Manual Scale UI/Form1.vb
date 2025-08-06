@@ -319,7 +319,7 @@ Public Class Manual_Weight
 
                     ' update canister number
                     If sorterattached Then
-                        If ccylinder.Disposition = False Then
+                        If ccylinder.Disposition = False Then ' Greg need to check why this is here.
                             cylindersorter.Sort(2)
                         End If
                     End If
