@@ -318,11 +318,7 @@ Public Class Manual_Weight
                     entering = False
 
                     ' update canister number
-                    If sorterattached Then
-                        If ccylinder.Disposition = False Then ' Greg need to check why this is here.
-                            cylindersorter.Sort(2)
-                        End If
-                    End If
+
                 End If
                 Tmr_ScreenUpdate.Stop()
                 If sorterattached Then
