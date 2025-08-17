@@ -216,13 +216,6 @@ Public Class Manual_Weight
                     entering = True
                     teststate = Weighprocess.taring
 
-                    If MDataset.Firstweightexists Then ' If this is a second weight get data from previous cycle.
-
-                        ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
-                        ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
-                    End If
-
-
 
                     If MDataset.SN_Already_Exists(ccylinder.SerialNumber) Then  ' Serial number is a duplicate
 
@@ -238,6 +231,14 @@ Public Class Manual_Weight
                         Tmr_ScreenUpdate.Start()
 
                     End If
+
+                    If MDataset.Firstweightexists Then ' If this is a second weight get data from previous cycle.
+
+                        ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
+                        ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
+                    End If
+
+
                 End If
 
 

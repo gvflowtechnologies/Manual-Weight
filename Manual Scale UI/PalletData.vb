@@ -346,20 +346,21 @@ Public Class PalletData
         'Indicate duplicate was found
         'Set Weight of the cylinder already in the system to -20
 
-        Dim CylinderDoesNotExist As Boolean
+        Dim CylinderExists As Boolean
         Dim SNINDEX As Integer
+        CylinderExists = False
 
         SNINDEX = CylinderList.FindIndex(Function(CYL As Cylinder) CYL.SerialNumber = SerialNumber)
 
         If SNINDEX = -1 Then
-            CylinderDoesNotExist = False
-
-        Else
-            CylinderDoesNotExist = True
+            CylinderExists = False
             CylinderList(SNINDEX).Firstweight = -20
+        Else
+            CylinderExists = True
+
         End If
 
-        Return CylinderDoesNotExist
+        Return CylinderExists
     End Function
 
 
