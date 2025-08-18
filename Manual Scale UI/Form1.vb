@@ -254,7 +254,7 @@ Public Class Manual_Weight
 
                 ' Check to see if something is on scale when it should not be and if it is, turn the background color red.
 
-                If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
+                If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit / 1000 Then
                     Me.BackColor = Color.Red
                 Else
                     Me.BackColor = SystemColors.Control
@@ -294,7 +294,7 @@ Public Class Manual_Weight
                 End If
 
                 If sartorius.Stable Then
-                    If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
+                    If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit / 1000 Then
 
                         If MDataset.Firstweightexists = False Then
                             ' first weight reading
