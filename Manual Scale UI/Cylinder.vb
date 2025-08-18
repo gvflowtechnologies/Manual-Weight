@@ -50,7 +50,6 @@ Public Class Cylinder
     Public Sub DetermineDisposition()
 
 
-
         'Deterimine if the device is good or bad.
 
 
@@ -177,9 +176,7 @@ Public Class Cylinder
         Get
             Return ddisposition
         End Get
-        Set(value As Boolean)
-            ddisposition = value
-        End Set
+
     End Property
 
     Public ReadOnly Property DispReason As String

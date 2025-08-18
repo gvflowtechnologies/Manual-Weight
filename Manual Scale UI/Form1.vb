@@ -229,6 +229,7 @@ Public Class Manual_Weight
 
                         Loop Until login = My.Settings.Password
                         Tmr_ScreenUpdate.Start()
+                        Exit Sub
 
                     End If
 
@@ -344,7 +345,7 @@ Public Class Manual_Weight
                 End If
                 If MDataset.Firstweightexists = False Then
                     MDataset.AddCylinder(ccylinder)
-                    'Writefirstweight()
+
                 Else
                     Write_second_weight()
                 End If
