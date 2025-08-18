@@ -172,7 +172,7 @@ Public Class Cylinder
         End Set
     End Property
 
-    Public Property Disposition As Boolean
+    Public ReadOnly Property Disposition As Boolean
         Get
             Return ddisposition
         End Get

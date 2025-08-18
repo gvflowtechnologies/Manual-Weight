@@ -304,9 +304,10 @@ Public Class Manual_Weight
 
                             End If
 
+                            Disposition()
                             teststate = Weighprocess.prompting
                             entering = True
-                            Disposition()
+
 
                     End Select
 
