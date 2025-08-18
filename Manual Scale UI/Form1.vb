@@ -292,27 +292,22 @@ Public Class Manual_Weight
                 End If
 
                 If sartorius.Stable Then
-                    Select Case sartorius.CurrentReading
+                    If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
 
-                        Case Is > My.Settings.MinWeight - 2 * My.Settings.TareLimit
-                            If MDataset.Firstweightexists = False Then
-                                ' first weight reading
-                                ccylinder.Firstweight = sartorius.CurrentReading
-                            Else
-                                ' Second weight reading
-                                ccylinder.Secondweight = sartorius.CurrentReading
+                        If MDataset.Firstweightexists = False Then
+                            ' first weight reading
+                            ccylinder.Firstweight = sartorius.CurrentReading
+                        Else
+                            ' Second weight reading
+                            ccylinder.Secondweight = sartorius.CurrentReading
 
-                            End If
+                        End If
 
-                            Disposition()
-                            teststate = Weighprocess.prompting
-                            entering = True
+                        Disposition()
+                        teststate = Weighprocess.prompting
+                        entering = True
 
-
-                    End Select
-
-                Else
-
+                    End If
                 End If
 
             Case Weighprocess.prompting
