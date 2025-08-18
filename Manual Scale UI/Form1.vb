@@ -343,7 +343,6 @@ Public Class Manual_Weight
                 End If
                 If MDataset.Firstweightexists = False Then
                     MDataset.AddCylinder(ccylinder)
-
                 Else
                     Write_second_weight()
                 End If
