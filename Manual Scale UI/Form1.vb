@@ -228,6 +228,7 @@ Public Class Manual_Weight
                             login = InputBox("Supervisor Approval Required", "Error - Duplicate SN", "")
 
                         Loop Until login = My.Settings.Password
+
                         Tmr_ScreenUpdate.Start()
                         Exit Sub
 
@@ -237,6 +238,7 @@ Public Class Manual_Weight
 
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
                         ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
+
                     End If
 
 

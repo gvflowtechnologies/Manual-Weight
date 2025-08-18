@@ -53,7 +53,6 @@ Public Class Cylinder
         'Deterimine if the device is good or bad.
 
 
-
         If dMyfirstweight = -20 Then
             ddisposition = False
             sDispReason = "Incorrect Serial Number"
