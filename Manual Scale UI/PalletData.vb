@@ -354,10 +354,10 @@ Public Class PalletData
 
         If SNINDEX = -1 Then
             CylinderExists = False
-            CylinderList(SNINDEX).Firstweight = -20
+
         Else
             CylinderExists = True
-
+            CylinderList(SNINDEX).Cylinder_Weight(-20.0)
         End If
 
         Return CylinderExists

@@ -236,7 +236,7 @@ Public Class Manual_Weight
 
                     If MDataset.Firstweightexists Then ' If this is a second weight get data from previous cycle.
 
-                        ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
+                        ccylinder.Cylinder_Weight(MDataset.Initialweight(ccylinder.SerialNumber))
                         ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
 
                     End If
@@ -294,16 +294,9 @@ Public Class Manual_Weight
                 End If
 
                 If sartorius.Stable Then
-                    If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit / 1000 Then
+                    If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
 
-                        If MDataset.Firstweightexists = False Then
-                            ' first weight reading
-                            ccylinder.Firstweight = sartorius.CurrentReading
-                        Else
-                            ' Second weight reading
-                            ccylinder.Secondweight = sartorius.CurrentReading
-
-                        End If
+                        ccylinder.Cylinder_Weight(sartorius.CurrentReading)
 
                         Disposition()
                         teststate = Weighprocess.prompting

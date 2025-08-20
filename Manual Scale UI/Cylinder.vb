@@ -3,13 +3,13 @@ Option Explicit On
 Public Class Cylinder
 
     Private dALLO2Weight As Double
-    Private dMyfirstweight As Double
-    Private dMySecondweight As Double
+    Private dCylinder_First_Weight As Double
+    Private dCylinder_Second_Weight As Double
     Private ddisposition As Boolean 'True = pass, False = Fail
     Private myindex As Integer
     Private sDispReason As String
     Private sSN As String
-    Private BSecondPass As Boolean 'True = This is the second Weight, False - This is the first weight?
+    Private BSecondPass As Boolean 'True = This is the second Weight, False - This is the first weight
     Private sSN_StartTest As String
     Private weightdifference As Double
     Private weightlimit As Double
@@ -22,8 +22,8 @@ Public Class Cylinder
 
         BSecondPass = SecondPass
         ddisposition = False
-        dMyfirstweight = 0.0
-        dMySecondweight = 0.0
+        dCylinder_First_Weight = 0.0
+        dCylinder_Second_Weight = 0.0
         sSN = SerialNum
         sSN_StartTest = ssnstart
 
@@ -53,7 +53,7 @@ Public Class Cylinder
         'Deterimine if the device is good or bad.
 
 
-        If dMyfirstweight = -20 Then
+        If dCylinder_First_Weight = -20 Then
             ddisposition = False
             sDispReason = "Incorrect Serial Number"
             Exit Sub
@@ -67,7 +67,7 @@ Public Class Cylinder
 
 
         If Not BSecondPass Then 'first pass criteria  Do not use ALLo2 data.
-            Select Case dMyfirstweight
+            Select Case dCylinder_First_Weight
                 Case Is > My.Settings.MaxWeight
                     ddisposition = False
                     sDispReason = "Too High"
@@ -81,10 +81,10 @@ Public Class Cylinder
 
         Else
 
-            weightdifference = dMySecondweight - dMyfirstweight
+            weightdifference = dCylinder_Second_Weight - dCylinder_First_Weight
             ' Add test on gas type to determing the weight limit paramater
 
-            Select Case dMySecondweight
+            Select Case dCylinder_Second_Weight
                 Case Is > My.Settings.MaxWeight
                     ddisposition = False
                     sDispReason = "Too High"
@@ -98,7 +98,7 @@ Public Class Cylinder
                     If Math.Abs(weightdifference) > weightlimit Then
                         ddisposition = False
 
-                        If dMySecondweight > dMyfirstweight Then
+                        If dCylinder_Second_Weight > dCylinder_First_Weight Then
                             sDispReason = "Gained Weight"
                         Else
                             sDispReason = "Lost Weight"
@@ -111,12 +111,12 @@ Public Class Cylinder
 
                     If ddisposition = True Then ' Look at net weights from fist reading.
 
-                        If dMyfirstweight > dALLO2Weight + maxweight Then
+                        If dCylinder_First_Weight > dALLO2Weight + maxweight Then
                             ddisposition = False
                             sDispReason = "Net Wt Too High"
                         End If
 
-                        If dMyfirstweight < dALLO2Weight + minweight Then
+                        If dCylinder_First_Weight < dALLO2Weight + minweight Then
                             ddisposition = False
                             sDispReason = "Net Wt Too Low"
                         End If
@@ -129,6 +129,19 @@ Public Class Cylinder
                     End If
 
             End Select
+
+        End If
+
+    End Sub
+
+    Public Sub Cylinder_Weight(ByVal ScaleReading As Double)
+        If BSecondPass Then  'Second Weight Reading 
+
+            dCylinder_Second_Weight = ScaleReading
+
+        Else ' First Weight Reading
+
+            dCylinder_First_Weight = ScaleReading
 
         End If
 
@@ -153,22 +166,18 @@ Public Class Cylinder
     End Property
 
 
-    Public Property Firstweight As Double
+    Public ReadOnly Property Firstweight As Double
         Get
-            Return dMyfirstweight
+            Return dCylinder_First_Weight
         End Get
-        Set(value As Double)
-            dMyfirstweight = value
-        End Set
+
     End Property
 
-    Public Property Secondweight As Double
+    Public ReadOnly Property Secondweight As Double
         Get
-            Return dMySecondweight
+            Return dCylinder_Second_Weight
         End Get
-        Set(value As Double)
-            dMySecondweight = value
-        End Set
+
     End Property
 
     Public ReadOnly Property Disposition As Boolean
