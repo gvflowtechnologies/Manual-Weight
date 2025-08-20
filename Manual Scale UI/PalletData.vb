@@ -260,6 +260,9 @@ Public Class PalletData
         Dim B_File_Already_Exists As Boolean
         Dim FNreadfirst As String
         B_File_Already_Exists = False
+
+        Firstweight(Pallet, Batch)
+
         FNreadfirst = fweight & "\" & currentfilename
 
         If File.Exists(FNreadfirst) Then B_File_Already_Exists = True

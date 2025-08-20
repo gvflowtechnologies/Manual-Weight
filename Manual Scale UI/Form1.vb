@@ -236,7 +236,8 @@ Public Class Manual_Weight
 
                     If MDataset.Firstweightexists Then ' If this is a second weight get data from previous cycle.
 
-                        ccylinder.Cylinder_Weight(MDataset.Initialweight(ccylinder.SerialNumber))
+
+                        ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
                         ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
 
                     End If
@@ -483,11 +484,15 @@ Public Class Manual_Weight
             MsgBox("Weighing Process Not Selected")
             Exit Sub
         End If
+
         If Not RB_SF6.Checked And Not RBC3F8.Checked Then
             MsgBox("Gas Type Not Selected")
             Exit Sub
         End If
-
+        RB_FinalWeightq.Enabled = False
+        RB_FirstWeight.Enabled = False
+        RB_SF6.Enabled = False
+        RBC3F8.Enabled = False
         ' Load gas properties based on selection.
         If RB_SF6.Checked Then
             cylindergas.SNStart = 1
@@ -570,6 +575,8 @@ Public Class Manual_Weight
         Btn_StartPallet.Enabled = False
         RB_FinalWeightq.Enabled = False
         RB_FirstWeight.Enabled = False
+        RB_SF6.Enabled = False
+        RBC3F8.Enabled = False
         Btn_StopPallet.Enabled = True
         teststate = Weighprocess.Scanning ' Start weighing Process
         Tmr_ScreenUpdate.Start()
@@ -589,15 +596,15 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub Checkpalletcomplete()
+    'Private Sub Checkpalletcomplete()
 
 
-        If MDataset.PalletComplete() Then 'Check to see if the pallet is complete for either first of second weight. 
-            Closepallet()
+    '    If MDataset.PalletComplete() Then 'Check to see if the pallet is complete for either first of second weight. 
+    '        Closepallet()
 
-        End If
+    '    End If
 
-    End Sub
+    'End Sub
 
     Private Sub Closepallet()
         'Dim updatedinstruction As String
@@ -654,6 +661,12 @@ Public Class Manual_Weight
 
 
         MsgBox("Bag Complete")
+        Lbl_BagCount.Text = "0"
+        RB_FirstWeight.Enabled = True
+        RB_FinalWeightq.Enabled = True
+        RBC3F8.Enabled = True
+        RB_SF6.Enabled = True
+
 
     End Sub
 #Region "DATA FILE"
@@ -893,6 +906,7 @@ Public Class Manual_Weight
 
         My.Settings.TotalBad = 0
         My.Settings.Save()
+
         Lbl_BadCount.Text = My.Settings.TotalBad
 
     End Sub

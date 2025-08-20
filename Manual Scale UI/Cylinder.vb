@@ -166,10 +166,13 @@ Public Class Cylinder
     End Property
 
 
-    Public ReadOnly Property Firstweight As Double
+    Public Property Firstweight As Double
         Get
             Return dCylinder_First_Weight
         End Get
+        Set(value As Double)
+            dCylinder_First_Weight = value
+        End Set
 
     End Property
 
