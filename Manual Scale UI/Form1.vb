@@ -241,7 +241,6 @@ Public Class Manual_Weight
 
                     End If
 
-
                 End If
 
 
@@ -297,7 +296,6 @@ Public Class Manual_Weight
                     If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
 
                         ccylinder.Cylinder_Weight(sartorius.CurrentReading)
-
                         Disposition()
                         teststate = Weighprocess.prompting
                         entering = True
@@ -334,6 +332,7 @@ Public Class Manual_Weight
                         Loop Until login = My.Settings.Password
                     End If
                 End If
+
                 If MDataset.Firstweightexists = False Then
                     MDataset.AddCylinder(ccylinder)
                 Else
@@ -558,6 +557,11 @@ Public Class Manual_Weight
             Writefileheader2() ' write the file header
 
         Else
+            ' check to see if a file alread exists and stop the processes.
+            If MDataset.Wasthisfilealreadystarted Then
+                MsgBox("Batch and Bag Already in the System")
+                Exit Sub
+            End If
             WritefileHeader1()
         End If
 
@@ -653,6 +657,10 @@ Public Class Manual_Weight
         Lbl_BatchN.Text = ""
         Lbl_BagNum.Text = ""
         Lbl_Instruction.Text = ""
+        RB_FirstWeight.Checked = False
+        RB_FinalWeightq.Checked = False
+        RBC3F8.Checked = False
+        RB_SF6.Checked = False
 
         MsgBox("Bag Complete")
 

@@ -43,7 +43,7 @@ Public Class Scalemanagement
 
     Public Sub ParseData(ByVal reading As String)
 
-
+        'Scale is sendign data in units of Grams.
         ' Parses the data string from the scale when it comes in on serial port.  
         ' Getting Stability and weight reading.
         ' Not parsing for error codes 
