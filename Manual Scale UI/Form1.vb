@@ -205,8 +205,8 @@ Public Class Manual_Weight
                     Lbl_Instruction.Text = "Scan"
                     Lbl_Instruction.BackColor = Color.CornflowerBlue
                     TB_SerialNumber.Text = ""
-                    Checkpalletcomplete()
                     LBL_Rationalle.Text = ""
+                    If MDataset.PalletComplete() Then Closepallet()
                     If sorterattached Then cylindersorter.Sort(255)
                 End If
 
