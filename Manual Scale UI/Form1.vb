@@ -559,7 +559,7 @@ Public Class Manual_Weight
         Else
             ' check to see if a file alread exists and stop the processes.
             If MDataset.Wasthisfilealreadystarted Then
-                MsgBox("Batch and Bag Already in the System")
+                MsgBox("Contact Supervisor: Batch and Bag Already in the System")
                 Exit Sub
             End If
             WritefileHeader1()
@@ -584,31 +584,18 @@ Public Class Manual_Weight
     Private Sub Btn_StopPallet_Click(sender As Object, e As EventArgs) Handles Btn_StopPallet.Click
         ' Empty MDataset of ID information.
         manualstop = True
-        Checkpalletcomplete()
+        Closepallet()
+        manualstop = False
 
     End Sub
 
     Private Sub Checkpalletcomplete()
 
 
-        If Not MDataset.Firstweightexists Then 'If this is a first weight check for button press and exit if button was pressed.
-            If manualstop Then
-                Closepallet()
-                Exit Sub
-            End If
-        End If
-
-        If MDataset.PalletComplete() Then 'If this wsa a second weight and the pallet is complete.  close the pallet.
+        If MDataset.PalletComplete() Then 'Check to see if the pallet is complete for either first of second weight. 
             Closepallet()
-            Exit Sub
+
         End If
-
-
-        If manualstop Then
-
-            Closepallet()
-        End If
-
 
     End Sub
 
@@ -642,18 +629,11 @@ Public Class Manual_Weight
             cylindersorter.Sort(255)
         End If
 
-        ' Toggle buttons
+        ' Toggle buttons and reset for next batch
         Btn_StartPallet.Enabled = True
         RB_FinalWeightq.Enabled = True
         RB_FirstWeight.Enabled = True
         Btn_StopPallet.Enabled = False
-        teststate = Weighprocess.idle
-        If MDataset.Firstweightexists = True Then
-            Write_Totals_SecondWT()
-
-        Else
-            Write_Totals_FirstWT()
-        End If
         Lbl_BatchN.Text = ""
         Lbl_BagNum.Text = ""
         Lbl_Instruction.Text = ""
@@ -661,6 +641,17 @@ Public Class Manual_Weight
         RB_FinalWeightq.Checked = False
         RBC3F8.Checked = False
         RB_SF6.Checked = False
+
+        teststate = Weighprocess.idle
+
+
+        If MDataset.Firstweightexists = True Then
+            Write_Totals_SecondWT()
+
+        Else
+            Write_Totals_FirstWT()
+        End If
+
 
         MsgBox("Bag Complete")
 

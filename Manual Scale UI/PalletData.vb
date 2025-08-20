@@ -328,15 +328,15 @@ Public Class PalletData
         ' IF this is a first weight return false the pallet is not complete.  
         'If this is a second weight ane the number of canisters in the pallet is greater than the current canister the pallet is not full
         bpalletcomplete = True
-        If BFirstweightExists Then
+        If BFirstweightExists Then ' second time through
 
-            If number_of_Canisters > canisternumber Then
+            If number_of_Canisters > canisternumber Then ' As long as the max number is greater than the current count keep going.
                 bpalletcomplete = False
             End If
 
-        Else
+        Else  ' first time through
 
-            If number_of_Canisters > CountGood Then
+            If number_of_Canisters > CountGood Then ' As long as the max number is greater than the number of good canisters keep goin.
                 bpalletcomplete = False
             End If
 
