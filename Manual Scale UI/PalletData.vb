@@ -75,22 +75,7 @@ Public Class PalletData
 
     End Sub
 
-    Public Sub Dispose() Implements IDisposable.Dispose
-        Dispose(True)
-        Me.Finalize()
-    End Sub
 
-    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
-        If Not Me.disposed Then
-
-            If disposing Then
-                ' Free other state (managed objects).
-            End If
-            ' Free your own state (unmanaged objects).
-            ' Set large fields to null.
-        End If
-        Me.disposed = True
-    End Sub
 
 
     Public Sub RenewFileList()
@@ -375,6 +360,26 @@ Public Class PalletData
 
         Return CylinderExists
     End Function
+#Region "Disposing"
+    Public Sub Dispose() Implements IDisposable.Dispose
+        Dispose(True)
+        Me.Finalize()
+    End Sub
+
+    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
+        If Not Me.disposed Then
+
+            If disposing Then
+                ' Free other state (managed objects).
+            End If
+            ' Free your own state (unmanaged objects).
+            ' Set large fields to null.
+        End If
+        Me.disposed = True
+    End Sub
+#End Region
+
+#Region "Properties" 'Properties
 
 
     Public Property Filename As String
@@ -564,6 +569,7 @@ Public Class PalletData
 
         End Get
     End Property
+#End Region
 
 
 End Class

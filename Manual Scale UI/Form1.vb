@@ -466,15 +466,13 @@ Public Class Manual_Weight
         Lbl_BagNum.Text = ""
         manualstop = False
         UseALLO2 = False
+        RadioButtonsENabled(True)
 
         Portclosing()
 
         If Checkdate() = False Then
             Btn_StartPallet.Enabled = False
-            RB_FinalWeightq.Enabled = False
-            RB_FirstWeight.Enabled = False
-            RB_SF6.Enabled = False
-            RBC3F8.Enabled = False
+            RadioButtonsENabled(False)
             MsgBox("Calibration is Past Due, ReCal Required")
             Exit Sub
         End If
@@ -489,10 +487,7 @@ Public Class Manual_Weight
             MsgBox("Gas Type Not Selected")
             Exit Sub
         End If
-        RB_FinalWeightq.Enabled = False
-        RB_FirstWeight.Enabled = False
-        RB_SF6.Enabled = False
-        RBC3F8.Enabled = False
+        RadioButtonsENabled(False)
         ' Load gas properties based on selection.
         If RB_SF6.Checked Then
             cylindergas.SNStart = 1
@@ -521,8 +516,8 @@ Public Class Manual_Weight
         End If
 
         MDataset = New PalletData(firstweight)
-        If UseALLO2 Then MDataset.ReadAllO2Data(ALLO2FileName)   'We located a file and we want to use a file.  Process it here.
 
+        If UseALLO2 Then MDataset.ReadAllO2Data(ALLO2FileName)   'We located a file and we want to use a file.  Process it here.
 
         Do
             MDataset.Pallet = InputBox("Enter Bag #", "Bag Number", , , )
@@ -573,10 +568,8 @@ Public Class Manual_Weight
         ResetGood()
         ResetBad()
         Btn_StartPallet.Enabled = False
-        RB_FinalWeightq.Enabled = False
-        RB_FirstWeight.Enabled = False
-        RB_SF6.Enabled = False
-        RBC3F8.Enabled = False
+        RadioButtonsENabled(False)
+
         Btn_StopPallet.Enabled = True
         teststate = Weighprocess.Scanning ' Start weighing Process
         Tmr_ScreenUpdate.Start()
@@ -585,6 +578,23 @@ Public Class Manual_Weight
         entering = True
         TB_SerialNumber.CausesValidation = True
         TB_SerialNumber.Select()
+
+    End Sub
+    Private Sub RadioButtonsENabled(ByVal setsate As Boolean)
+
+        If setsate Then
+
+            RB_FinalWeightq.Enabled = True
+            RB_FirstWeight.Enabled = True
+            RB_SF6.Enabled = True
+            RBC3F8.Enabled = True
+        Else
+            RB_FinalWeightq.Enabled = False
+            RB_FirstWeight.Enabled = False
+            RB_SF6.Enabled = False
+            RBC3F8.Enabled = False
+
+        End If
 
     End Sub
 
@@ -596,15 +606,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    'Private Sub Checkpalletcomplete()
 
-
-    '    If MDataset.PalletComplete() Then 'Check to see if the pallet is complete for either first of second weight. 
-    '        Closepallet()
-
-    '    End If
-
-    'End Sub
 
     Private Sub Closepallet()
         'Dim updatedinstruction As String
@@ -1269,7 +1271,7 @@ Public Class Manual_Weight
 
 
 
-    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating
+    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating, TB_C3F8_MaxNetWt.Validated
         Dim Testresult As Boolean
         Dim MaxWt As Single
         Testresult = Single.TryParse(TB_C3F8_MaxNetWt.Text, MaxWt)
