@@ -197,15 +197,13 @@ Public Class PalletData
 
             'Copy data read into a 2D array.
             For x = 0 To iNumRows
+
                 STempline = Stemplines(x).Split(",")
 
-                For y = 0 To iNumCols 'Populate
-                    'ALLo2 weight from file into table
+                'ALLo2 weight from file into table
 
-                    ALLO2WeightReading(x, 0) = STempline(4) 'Serial Number is column 4
-                    ALLO2WeightReading(x, 1) = STempline(6) ' Tare weight is in column 6
-
-                Next
+                ALLO2WeightReading(x, 0) = STempline(4) 'Serial Number is column 4
+                ALLO2WeightReading(x, 1) = STempline(6) ' Tare weight is in column 6
 
             Next
 
