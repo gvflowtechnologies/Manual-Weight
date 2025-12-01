@@ -32,9 +32,6 @@
     <Setting Name="RowSpace" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0.5</Value>
     </Setting>
-    <Setting Name="SF6WeightCh" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0.001</Value>
-    </Setting>
     <Setting Name="MaxWeight" Type="System.Single" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
@@ -62,20 +59,11 @@
     <Setting Name="Bag_Limit" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">300</Value>
     </Setting>
-    <Setting Name="C3F8WeightCh" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0.1</Value>
-    </Setting>
-    <Setting Name="SF6MinNetWt" Type="System.Single" Scope="User">
+    <Setting Name="MinNetWt" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0.292</Value>
     </Setting>
-    <Setting Name="SF6MaxNetWt" Type="System.Single" Scope="User">
+    <Setting Name="MaxNetWt" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0.341</Value>
-    </Setting>
-    <Setting Name="C3F8MinNetWt" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0.346</Value>
-    </Setting>
-    <Setting Name="C3F8MaxNetWt" Type="System.Single" Scope="User">
-      <Value Profile="(Default)">0.395</Value>
     </Setting>
   </Settings>
 </SettingsFile>

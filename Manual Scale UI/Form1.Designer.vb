@@ -20,7 +20,7 @@ Partial Class Manual_Weight
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
@@ -31,9 +31,6 @@ Partial Class Manual_Weight
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
         Me.Lbl_BagCount = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
-        Me.GroupBox7 = New System.Windows.Forms.GroupBox()
-        Me.RBC3F8 = New System.Windows.Forms.RadioButton()
-        Me.RB_SF6 = New System.Windows.Forms.RadioButton()
         Me.GroupBox6 = New System.Windows.Forms.GroupBox()
         Me.RB_FinalWeightq = New System.Windows.Forms.RadioButton()
         Me.RB_FirstWeight = New System.Windows.Forms.RadioButton()
@@ -59,15 +56,6 @@ Partial Class Manual_Weight
         Me.Lbl_BatchN = New System.Windows.Forms.Label()
         Me.Btn_StartPallet = New System.Windows.Forms.Button()
         Me.Setup = New System.Windows.Forms.TabPage()
-        Me.GroupBox9 = New System.Windows.Forms.GroupBox()
-        Me.TB_C3F8_MaxNetWt = New System.Windows.Forms.TextBox()
-        Me.TB_C3F8_MinNetWt = New System.Windows.Forms.TextBox()
-        Me.Label20 = New System.Windows.Forms.Label()
-        Me.Label19 = New System.Windows.Forms.Label()
-        Me.TB_SF6_MaxNetWt = New System.Windows.Forms.TextBox()
-        Me.TB_SF6_MinNetWt = New System.Windows.Forms.TextBox()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.Label17 = New System.Windows.Forms.Label()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.TB_BagCapacity = New System.Windows.Forms.TextBox()
@@ -88,12 +76,12 @@ Partial Class Manual_Weight
         Me.Btn_ScaleCal = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.LBL_C3F8Weight = New System.Windows.Forms.Label()
+        Me.TB_Max_Net_Wt_GMs = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
+        Me.TB_Min_Net_WT_GM = New System.Windows.Forms.TextBox()
         Me.Btn_SerialPort = New System.Windows.Forms.Button()
         Me.Lbl_MinWeight = New System.Windows.Forms.Label()
         Me.Lbl_MaxWeight = New System.Windows.Forms.Label()
-        Me.Lbl_WeightLoss = New System.Windows.Forms.Label()
         Me.Lbl_TareError = New System.Windows.Forms.Label()
         Me.Lbl_RetareLimit = New System.Windows.Forms.Label()
         Me.LB_SerialPorts = New System.Windows.Forms.ListBox()
@@ -110,16 +98,15 @@ Partial Class Manual_Weight
         Me.Tmr_ScreenUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+        Me.Label21 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.RunPage.SuspendLayout()
         Me.GroupBox8.SuspendLayout()
-        Me.GroupBox7.SuspendLayout()
         Me.GroupBox6.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GB_Scale.SuspendLayout()
         Me.GBBinData.SuspendLayout()
         Me.Setup.SuspendLayout()
-        Me.GroupBox9.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -143,7 +130,6 @@ Partial Class Manual_Weight
         Me.RunPage.Controls.Add(Me.Lbl_BagNum)
         Me.RunPage.Controls.Add(Me.Label16)
         Me.RunPage.Controls.Add(Me.GroupBox8)
-        Me.RunPage.Controls.Add(Me.GroupBox7)
         Me.RunPage.Controls.Add(Me.GroupBox6)
         Me.RunPage.Controls.Add(Me.TB_SerialNumber)
         Me.RunPage.Controls.Add(Me.Label4)
@@ -204,7 +190,6 @@ Partial Class Manual_Weight
         Me.GroupBox8.Size = New System.Drawing.Size(280, 136)
         Me.GroupBox8.TabIndex = 16
         Me.GroupBox8.TabStop = False
-        Me.GroupBox8.Text = "Bag Count"
         '
         'Lbl_BagCount
         '
@@ -221,42 +206,9 @@ Partial Class Manual_Weight
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(26, 63)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(105, 25)
+        Me.Label10.Size = New System.Drawing.Size(118, 25)
         Me.Label10.TabIndex = 0
-        Me.Label10.Text = "Bag Count"
-        '
-        'GroupBox7
-        '
-        Me.GroupBox7.Controls.Add(Me.RBC3F8)
-        Me.GroupBox7.Controls.Add(Me.RB_SF6)
-        Me.GroupBox7.Location = New System.Drawing.Point(29, 100)
-        Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(430, 72)
-        Me.GroupBox7.TabIndex = 15
-        Me.GroupBox7.TabStop = False
-        Me.GroupBox7.Text = "Gas Type"
-        '
-        'RBC3F8
-        '
-        Me.RBC3F8.AutoSize = True
-        Me.RBC3F8.Location = New System.Drawing.Point(243, 34)
-        Me.RBC3F8.Name = "RBC3F8"
-        Me.RBC3F8.Size = New System.Drawing.Size(79, 29)
-        Me.RBC3F8.TabIndex = 1
-        Me.RBC3F8.TabStop = True
-        Me.RBC3F8.Text = "C3F8"
-        Me.RBC3F8.UseVisualStyleBackColor = True
-        '
-        'RB_SF6
-        '
-        Me.RB_SF6.AutoSize = True
-        Me.RB_SF6.Location = New System.Drawing.Point(36, 34)
-        Me.RB_SF6.Name = "RB_SF6"
-        Me.RB_SF6.Size = New System.Drawing.Size(67, 29)
-        Me.RB_SF6.TabIndex = 0
-        Me.RB_SF6.TabStop = True
-        Me.RB_SF6.Text = "SF6"
-        Me.RB_SF6.UseVisualStyleBackColor = True
+        Me.Label10.Text = "Pallet Count"
         '
         'GroupBox6
         '
@@ -513,7 +465,6 @@ Partial Class Manual_Weight
         '
         'Setup
         '
-        Me.Setup.Controls.Add(Me.GroupBox9)
         Me.Setup.Controls.Add(Me.GroupBox5)
         Me.Setup.Controls.Add(Me.GroupBox4)
         Me.Setup.Controls.Add(Me.LBL_Version)
@@ -531,87 +482,6 @@ Partial Class Manual_Weight
         Me.Setup.Text = "Update Setting"
         Me.Setup.UseVisualStyleBackColor = True
         '
-        'GroupBox9
-        '
-        Me.GroupBox9.Controls.Add(Me.TB_C3F8_MaxNetWt)
-        Me.GroupBox9.Controls.Add(Me.TB_C3F8_MinNetWt)
-        Me.GroupBox9.Controls.Add(Me.Label20)
-        Me.GroupBox9.Controls.Add(Me.Label19)
-        Me.GroupBox9.Controls.Add(Me.TB_SF6_MaxNetWt)
-        Me.GroupBox9.Controls.Add(Me.TB_SF6_MinNetWt)
-        Me.GroupBox9.Controls.Add(Me.Label18)
-        Me.GroupBox9.Controls.Add(Me.Label17)
-        Me.GroupBox9.Location = New System.Drawing.Point(727, 114)
-        Me.GroupBox9.Name = "GroupBox9"
-        Me.GroupBox9.Size = New System.Drawing.Size(200, 156)
-        Me.GroupBox9.TabIndex = 20
-        Me.GroupBox9.TabStop = False
-        Me.GroupBox9.Text = "ALL02 Comparison"
-        '
-        'TB_C3F8_MaxNetWt
-        '
-        Me.TB_C3F8_MaxNetWt.Location = New System.Drawing.Point(126, 126)
-        Me.TB_C3F8_MaxNetWt.Name = "TB_C3F8_MaxNetWt"
-        Me.TB_C3F8_MaxNetWt.Size = New System.Drawing.Size(50, 20)
-        Me.TB_C3F8_MaxNetWt.TabIndex = 7
-        '
-        'TB_C3F8_MinNetWt
-        '
-        Me.TB_C3F8_MinNetWt.Location = New System.Drawing.Point(126, 96)
-        Me.TB_C3F8_MinNetWt.Name = "TB_C3F8_MinNetWt"
-        Me.TB_C3F8_MinNetWt.Size = New System.Drawing.Size(50, 20)
-        Me.TB_C3F8_MinNetWt.TabIndex = 6
-        '
-        'Label20
-        '
-        Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(3, 129)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(118, 13)
-        Me.Label20.TabIndex = 5
-        Me.Label20.Text = "C3F8 Max Net Wt (gm):"
-        '
-        'Label19
-        '
-        Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(6, 99)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(115, 13)
-        Me.Label19.TabIndex = 4
-        Me.Label19.Text = "C3F8 Min Net Wt (gm):"
-        '
-        'TB_SF6_MaxNetWt
-        '
-        Me.TB_SF6_MaxNetWt.Location = New System.Drawing.Point(126, 53)
-        Me.TB_SF6_MaxNetWt.Name = "TB_SF6_MaxNetWt"
-        Me.TB_SF6_MaxNetWt.Size = New System.Drawing.Size(50, 20)
-        Me.TB_SF6_MaxNetWt.TabIndex = 3
-        '
-        'TB_SF6_MinNetWt
-        '
-        Me.TB_SF6_MinNetWt.Location = New System.Drawing.Point(126, 24)
-        Me.TB_SF6_MinNetWt.Name = "TB_SF6_MinNetWt"
-        Me.TB_SF6_MinNetWt.Size = New System.Drawing.Size(50, 20)
-        Me.TB_SF6_MinNetWt.TabIndex = 2
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(9, 56)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(112, 13)
-        Me.Label18.TabIndex = 1
-        Me.Label18.Text = "SF6 Max Net Wt (gm):"
-        '
-        'Label17
-        '
-        Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(12, 27)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(109, 13)
-        Me.Label17.TabIndex = 0
-        Me.Label17.Text = "SF6 Min Net Wt (gm):"
-        '
         'GroupBox5
         '
         Me.GroupBox5.Controls.Add(Me.Label8)
@@ -621,16 +491,15 @@ Partial Class Manual_Weight
         Me.GroupBox5.Size = New System.Drawing.Size(200, 92)
         Me.GroupBox5.TabIndex = 19
         Me.GroupBox5.TabStop = False
-        Me.GroupBox5.Text = "Bag Limit"
         '
         'Label8
         '
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(16, 45)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(70, 13)
+        Me.Label8.Size = New System.Drawing.Size(77, 13)
         Me.Label8.TabIndex = 1
-        Me.Label8.Text = "Bag Capacity"
+        Me.Label8.Text = "Pallet Capacity"
         '
         'TB_BagCapacity
         '
@@ -808,12 +677,12 @@ Partial Class Manual_Weight
         '
         'GroupBox2
         '
-        Me.GroupBox2.Controls.Add(Me.LBL_C3F8Weight)
+        Me.GroupBox2.Controls.Add(Me.TB_Max_Net_Wt_GMs)
         Me.GroupBox2.Controls.Add(Me.Label9)
+        Me.GroupBox2.Controls.Add(Me.TB_Min_Net_WT_GM)
         Me.GroupBox2.Controls.Add(Me.Btn_SerialPort)
         Me.GroupBox2.Controls.Add(Me.Lbl_MinWeight)
         Me.GroupBox2.Controls.Add(Me.Lbl_MaxWeight)
-        Me.GroupBox2.Controls.Add(Me.Lbl_WeightLoss)
         Me.GroupBox2.Controls.Add(Me.Lbl_TareError)
         Me.GroupBox2.Controls.Add(Me.Lbl_RetareLimit)
         Me.GroupBox2.Controls.Add(Me.LB_SerialPorts)
@@ -832,25 +701,28 @@ Partial Class Manual_Weight
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Scale Parameters"
         '
-        'LBL_C3F8Weight
+        'TB_Max_Net_Wt_GMs
         '
-        Me.LBL_C3F8Weight.AutoSize = True
-        Me.LBL_C3F8Weight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.LBL_C3F8Weight.Location = New System.Drawing.Point(278, 155)
-        Me.LBL_C3F8Weight.Name = "LBL_C3F8Weight"
-        Me.LBL_C3F8Weight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.LBL_C3F8Weight.Size = New System.Drawing.Size(47, 15)
-        Me.LBL_C3F8Weight.TabIndex = 26
-        Me.LBL_C3F8Weight.Text = "Label14"
+        Me.TB_Max_Net_Wt_GMs.Location = New System.Drawing.Point(278, 154)
+        Me.TB_Max_Net_Wt_GMs.Name = "TB_Max_Net_Wt_GMs"
+        Me.TB_Max_Net_Wt_GMs.Size = New System.Drawing.Size(50, 20)
+        Me.TB_Max_Net_Wt_GMs.TabIndex = 3
         '
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(124, 157)
+        Me.Label9.Location = New System.Drawing.Point(169, 157)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(135, 13)
+        Me.Label9.Size = New System.Drawing.Size(90, 13)
         Me.Label9.TabIndex = 25
-        Me.Label9.Text = "C3F8 Weight Change (gm):"
+        Me.Label9.Text = "Max Net Wt (gm):"
+        '
+        'TB_Min_Net_WT_GM
+        '
+        Me.TB_Min_Net_WT_GM.Location = New System.Drawing.Point(278, 123)
+        Me.TB_Min_Net_WT_GM.Name = "TB_Min_Net_WT_GM"
+        Me.TB_Min_Net_WT_GM.Size = New System.Drawing.Size(50, 20)
+        Me.TB_Min_Net_WT_GM.TabIndex = 2
         '
         'Btn_SerialPort
         '
@@ -882,17 +754,6 @@ Partial Class Manual_Weight
         Me.Lbl_MaxWeight.Size = New System.Drawing.Size(47, 15)
         Me.Lbl_MaxWeight.TabIndex = 22
         Me.Lbl_MaxWeight.Text = "Label14"
-        '
-        'Lbl_WeightLoss
-        '
-        Me.Lbl_WeightLoss.AutoSize = True
-        Me.Lbl_WeightLoss.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_WeightLoss.Location = New System.Drawing.Point(277, 124)
-        Me.Lbl_WeightLoss.Name = "Lbl_WeightLoss"
-        Me.Lbl_WeightLoss.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.Lbl_WeightLoss.Size = New System.Drawing.Size(47, 15)
-        Me.Lbl_WeightLoss.TabIndex = 16
-        Me.Lbl_WeightLoss.Text = "Label14"
         '
         'Lbl_TareError
         '
@@ -962,11 +823,11 @@ Partial Class Manual_Weight
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(130, 126)
+        Me.Label11.Location = New System.Drawing.Point(172, 126)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(129, 13)
+        Me.Label11.Size = New System.Drawing.Size(87, 13)
         Me.Label11.TabIndex = 9
-        Me.Label11.Text = "SF6 Weight Change (gm):"
+        Me.Label11.Text = "Min Net Wt (gm):"
         '
         'sLbl_retare
         '
@@ -1024,23 +885,31 @@ Partial Class Manual_Weight
         '
         Me.ErrorProvider1.ContainerControl = Me
         '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(1058, 0)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(45, 13)
+        Me.Label21.TabIndex = 1
+        Me.Label21.Text = "Label21"
+        '
         'Manual_Weight
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CausesValidation = False
         Me.ClientSize = New System.Drawing.Size(1384, 421)
+        Me.Controls.Add(Me.Label21)
         Me.Controls.Add(Me.TabControl1)
         Me.Name = "Manual_Weight"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
-        Me.Text = "Altaviz Manual Weighing System"
+        Me.Text = "PicoFILL Weighing System"
         Me.TabControl1.ResumeLayout(False)
         Me.RunPage.ResumeLayout(False)
         Me.RunPage.PerformLayout()
         Me.GroupBox8.ResumeLayout(False)
         Me.GroupBox8.PerformLayout()
-        Me.GroupBox7.ResumeLayout(False)
-        Me.GroupBox7.PerformLayout()
         Me.GroupBox6.ResumeLayout(False)
         Me.GroupBox6.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
@@ -1051,8 +920,6 @@ Partial Class Manual_Weight
         Me.GBBinData.PerformLayout()
         Me.Setup.ResumeLayout(False)
         Me.Setup.PerformLayout()
-        Me.GroupBox9.ResumeLayout(False)
-        Me.GroupBox9.PerformLayout()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
         Me.GroupBox4.ResumeLayout(False)
@@ -1063,6 +930,7 @@ Partial Class Manual_Weight
         Me.GroupBox2.PerformLayout()
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
@@ -1111,7 +979,6 @@ Partial Class Manual_Weight
     Friend WithEvents Lbl_RetareLimit As System.Windows.Forms.Label
     Friend WithEvents Lbl_MinWeight As System.Windows.Forms.Label
     Friend WithEvents Lbl_MaxWeight As System.Windows.Forms.Label
-    Friend WithEvents Lbl_WeightLoss As System.Windows.Forms.Label
     Friend WithEvents Lbl_TareError As System.Windows.Forms.Label
     Friend WithEvents Btn_SerialPort As System.Windows.Forms.Button
     Friend WithEvents Lbl_Instruction As System.Windows.Forms.Label
@@ -1130,26 +997,16 @@ Partial Class Manual_Weight
     Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents TB_BagCapacity As System.Windows.Forms.TextBox
-    Friend WithEvents LBL_C3F8Weight As System.Windows.Forms.Label
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
     Friend WithEvents RB_FinalWeightq As System.Windows.Forms.RadioButton
     Friend WithEvents RB_FirstWeight As System.Windows.Forms.RadioButton
-    Friend WithEvents GroupBox7 As System.Windows.Forms.GroupBox
-    Friend WithEvents RBC3F8 As System.Windows.Forms.RadioButton
-    Friend WithEvents RB_SF6 As System.Windows.Forms.RadioButton
     Friend WithEvents GroupBox8 As System.Windows.Forms.GroupBox
     Friend WithEvents Lbl_BagCount As System.Windows.Forms.Label
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents Lbl_BagNum As System.Windows.Forms.Label
     Friend WithEvents Label16 As System.Windows.Forms.Label
-    Friend WithEvents GroupBox9 As GroupBox
-    Friend WithEvents TB_SF6_MaxNetWt As TextBox
-    Friend WithEvents TB_SF6_MinNetWt As TextBox
-    Friend WithEvents Label18 As Label
-    Friend WithEvents Label17 As Label
-    Friend WithEvents TB_C3F8_MaxNetWt As TextBox
-    Friend WithEvents TB_C3F8_MinNetWt As TextBox
-    Friend WithEvents Label20 As Label
-    Friend WithEvents Label19 As Label
+    Friend WithEvents TB_Max_Net_Wt_GMs As TextBox
+    Friend WithEvents TB_Min_Net_WT_GM As TextBox
+    Friend WithEvents Label21 As Label
 End Class

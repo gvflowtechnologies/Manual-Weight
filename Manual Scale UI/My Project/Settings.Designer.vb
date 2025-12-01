@@ -176,18 +176,6 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.001")>  _
-        Public Property SF6WeightCh() As Single
-            Get
-                Return CType(Me("SF6WeightCh"),Single)
-            End Get
-            Set
-                Me("SF6WeightCh") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("10")>  _
         Public Property MaxWeight() As Single
             Get
@@ -296,61 +284,25 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.1")>  _
-        Public Property C3F8WeightCh() As Single
-            Get
-                Return CType(Me("C3F8WeightCh"),Single)
-            End Get
-            Set
-                Me("C3F8WeightCh") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0.292")>  _
-        Public Property SF6MinNetWt() As Single
+        Public Property MinNetWt() As Single
             Get
-                Return CType(Me("SF6MinNetWt"),Single)
+                Return CType(Me("MinNetWt"),Single)
             End Get
             Set
-                Me("SF6MinNetWt") = value
+                Me("MinNetWt") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0.341")>  _
-        Public Property SF6MaxNetWt() As Single
+        Public Property MaxNetWt() As Single
             Get
-                Return CType(Me("SF6MaxNetWt"),Single)
+                Return CType(Me("MaxNetWt"),Single)
             End Get
             Set
-                Me("SF6MaxNetWt") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.346")>  _
-        Public Property C3F8MinNetWt() As Single
-            Get
-                Return CType(Me("C3F8MinNetWt"),Single)
-            End Get
-            Set
-                Me("C3F8MinNetWt") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.395")>  _
-        Public Property C3F8MaxNetWt() As Single
-            Get
-                Return CType(Me("C3F8MaxNetWt"),Single)
-            End Get
-            Set
-                Me("C3F8MaxNetWt") = value
+                Me("MaxNetWt") = value
             End Set
         End Property
     End Class
