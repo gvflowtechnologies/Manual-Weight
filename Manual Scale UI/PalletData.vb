@@ -166,7 +166,7 @@ Public Class PalletData
             Dim Stemplines(0) As String ' temporary array holding all of the first weights.
             Dim STempline() As String ' Temporary array holding the parsed first weight for an individual canister.
             Dim x As Integer ' Counter Variable
-            Dim y As Integer ' counter variable
+
 
 
             If tmpstream.Peek <> -1 Then
@@ -354,11 +354,14 @@ Public Class PalletData
 
         Else
             CylinderExists = True
+
             CylinderList(SNINDEX).Cylinder_Weight(-20.0)
+
         End If
 
         Return CylinderExists
     End Function
+
 #Region "Disposing"
     Public Sub Dispose() Implements IDisposable.Dispose
         Dispose(True)

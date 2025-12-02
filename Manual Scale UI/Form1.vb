@@ -234,8 +234,7 @@ Public Class Manual_Weight
 
                     End If
 
-                    If MDataset.Firstweightexists Then ' If this is a second weight get data from previous cycle.
-
+                    If MDataset.Firstweightexists Then ' This is a second weight get data from previous cycle.
 
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
                         ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
@@ -334,11 +333,9 @@ Public Class Manual_Weight
                     End If
                 End If
 
-                If MDataset.Firstweightexists = False Then
-                    MDataset.AddCylinder(ccylinder)
-                Else
-                    Write_second_weight()
-                End If
+                MDataset.AddCylinder(ccylinder)
+
+                If MDataset.Firstweightexists = True Then Write_second_weight()
 
                 Updatecounts() 'update the counters for disposition
 
@@ -1297,6 +1294,10 @@ Public Class Manual_Weight
         ErrorProvider1.SetError(TB_C3F8_MaxNetWt, "")
         My.Settings.C3F8MaxNetWt = Single.Parse(TB_C3F8_MaxNetWt.Text)
         My.Settings.Save()
+    End Sub
+
+    Private Sub RB_FirstWeight_CheckedChanged(sender As Object, e As EventArgs) Handles RB_FirstWeight.CheckedChanged
+
     End Sub
 
 
