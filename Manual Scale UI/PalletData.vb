@@ -139,7 +139,7 @@ Public Class PalletData
 
         If File.Exists(FNsecondwt) Then
             '   Dim tmpstream As StreamReader = File.OpenText(FNsecondwt)
-            Using tmpstream As StreamReader = New StreamReader(FNsecondwt)
+            Using tmpstream As New StreamReader(FNsecondwt)
 
                 ' cycle through the file
                 Do While tmpstream.Peek <> -1
