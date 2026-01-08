@@ -233,8 +233,7 @@ Public Class Manual_Weight
 
                     End If
 
-                    If MDataset.Firstweightexists Then ' If this is a second weight get data from previous cycle.
-
+                    If MDataset.Firstweightexists Then ' This is a second weight get data from previous cycle.
 
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
                         ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
@@ -333,11 +332,9 @@ Public Class Manual_Weight
                     End If
                 End If
 
-                If MDataset.Firstweightexists = False Then
-                    MDataset.AddCylinder(ccylinder)
-                Else
-                    Write_second_weight()
-                End If
+                MDataset.AddCylinder(ccylinder)
+
+                If MDataset.Firstweightexists = True Then Write_second_weight()
 
                 Updatecounts() 'update the counters for disposition
 
@@ -412,7 +409,7 @@ Public Class Manual_Weight
         DataFileFound = False
 
         ' If we want to find a file, what is the file name.
-        Dim fd As OpenFileDialog = New OpenFileDialog With
+        Dim fd As New OpenFileDialog With
          {
             .Title = "Open ALL02 File",
             .InitialDirectory = "C:\",
@@ -678,7 +675,7 @@ Public Class Manual_Weight
 
         'Write
         If Not File.Exists(DataFileName) Then
-            Using swdataset As StreamWriter = New StreamWriter(DataFileName, False)
+            Using swdataset As New StreamWriter(DataFileName, False)
                 swdataset.WriteLine(MDataset.Batch)
                 swdataset.WriteLine(MDataset.Pallet)
                 swdataset.WriteLine(MDataset.Timefirstwt.ToString)
@@ -691,7 +688,7 @@ Public Class Manual_Weight
 
     Private Sub Write_Totals_FirstWT()
 
-        Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
+        Using swdataset As New StreamWriter(DataFileName, True)
 
             For Each cyl In MDataset.CylinderList
                 swdataset.Write(cyl.SerialNumber.ToString & ", ")
@@ -708,7 +705,7 @@ Public Class Manual_Weight
     End Sub
     Private Sub Write_Totals_SecondWT()
 
-        Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
+        Using swdataset As New StreamWriter(DataFileName, True)
             swdataset.WriteLine("END_OF_DATA")
             swdataset.WriteLine("SecondWeight")
             swdataset.WriteLine("Good, " & My.Settings.TotalGood.ToString)
@@ -726,7 +723,7 @@ Public Class Manual_Weight
         If Not File.Exists(DataFileName) Then
             'Write a new header only if the file does not exist.
 
-            Using swdataset As StreamWriter = New StreamWriter(DataFileName, False)
+            Using swdataset As New StreamWriter(DataFileName, False)
 
                 swdataset.Write("1st Weight Time,")
                 swdataset.WriteLine(MDataset.Timefirstwt.ToString)
@@ -743,7 +740,7 @@ Public Class Manual_Weight
     End Sub
 
     Private Sub Write_second_weight()
-        Using swdataset As StreamWriter = New StreamWriter(DataFileName, True)
+        Using swdataset As New StreamWriter(DataFileName, True)
             swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
             swdataset.Write(ccylinder.AllO2_WT.ToString("N4") & ", ")
             swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
@@ -1296,6 +1293,18 @@ Public Class Manual_Weight
         ErrorProvider1.SetError(TB_C3F8_MaxNetWt, "")
         My.Settings.C3F8MaxNetWt = Single.Parse(TB_C3F8_MaxNetWt.Text)
         My.Settings.Save()
+    End Sub
+
+    Private Sub Label8_Click(sender As Object, e As EventArgs) Handles Label8.Click
+
+    End Sub
+
+    Private Sub Label8_Click(sender As Object, e As EventArgs) Handles Label8.Click
+
+    End Sub
+
+    Private Sub Label8_Click(sender As Object, e As EventArgs) Handles Label8.Click
+
     End Sub
 
     Private Sub Label8_Click(sender As Object, e As EventArgs) Handles Label8.Click
