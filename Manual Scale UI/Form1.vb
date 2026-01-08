@@ -479,18 +479,9 @@ Public Class Manual_Weight
             Exit Sub
         End If
 
-        If Not RB_SF6.Checked And Not RBC3F8.Checked Then
-            MsgBox("Gas Type Not Selected")
-            Exit Sub
-        End If
-        RadioButtonsENabled(False)
-        ' Load gas properties based on selection.
-        If RB_SF6.Checked Then
-            cylindergas.SNStart = 1
 
-        Else
-            cylindergas.SNStart = 2
-        End If
+        RadioButtonsENabled(False)
+
 
         If RB_FinalWeightq.Checked Then
             firstweight = True ' We already have a first weight
@@ -582,13 +573,10 @@ Public Class Manual_Weight
 
             RB_FinalWeightq.Enabled = True
             RB_FirstWeight.Enabled = True
-            RB_SF6.Enabled = True
-            RBC3F8.Enabled = True
+
         Else
             RB_FinalWeightq.Enabled = False
             RB_FirstWeight.Enabled = False
-            RB_SF6.Enabled = False
-            RBC3F8.Enabled = False
 
         End If
 
@@ -644,8 +632,7 @@ Public Class Manual_Weight
         Lbl_Instruction.Text = ""
         RB_FirstWeight.Checked = False
         RB_FinalWeightq.Checked = False
-        RBC3F8.Checked = False
-        RB_SF6.Checked = False
+
 
         teststate = Weighprocess.idle
 
@@ -662,8 +649,7 @@ Public Class Manual_Weight
         Lbl_BagCount.Text = "0"
         RB_FirstWeight.Enabled = True
         RB_FinalWeightq.Enabled = True
-        RBC3F8.Enabled = True
-        RB_SF6.Enabled = True
+
 
 
     End Sub
@@ -1043,11 +1029,7 @@ Public Class Manual_Weight
 
         Stringtest = SerialNumber.Substring(0, 1)
 
-        If RB_SF6.Checked Then
-            StringTestValue = 1
-        Else
-            StringTestValue = 2
-        End If
+
 
 
         If SerialNumber.Length = 0 Then
@@ -1246,7 +1228,7 @@ Public Class Manual_Weight
 
         End If
 
-        If MinWt >= My.Settings.C3F8MaxNetWt Then
+        If MinWt >= My.Settings.MaxNetWt Then
 
             Dim errormsg As String = "Min Wt Greater than Max Wt"
             e.Cancel = True
