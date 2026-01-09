@@ -59,10 +59,10 @@
     <Setting Name="Bag_Limit" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">300</Value>
     </Setting>
-    <Setting Name="MinNetWt" Type="System.Single" Scope="User">
+    <Setting Name="MinNetWt_Change" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0.292</Value>
     </Setting>
-    <Setting Name="MaxNetWt" Type="System.Single" Scope="User">
+    <Setting Name="MaxNetWt_Change" Type="System.Single" Scope="User">
       <Value Profile="(Default)">0.341</Value>
     </Setting>
   </Settings>

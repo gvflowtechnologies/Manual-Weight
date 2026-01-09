@@ -285,24 +285,24 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0.292")>  _
-        Public Property MinNetWt() As Single
+        Public Property MinNetWt_Change() As Single
             Get
-                Return CType(Me("MinNetWt"),Single)
+                Return CType(Me("MinNetWt_Change"),Single)
             End Get
             Set
-                Me("MinNetWt") = value
+                Me("MinNetWt_Change") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0.341")>  _
-        Public Property MaxNetWt() As Single
+        Public Property MaxNetWt_Change() As Single
             Get
-                Return CType(Me("MaxNetWt"),Single)
+                Return CType(Me("MaxNetWt_Change"),Single)
             End Get
             Set
-                Me("MaxNetWt") = value
+                Me("MaxNetWt_Change") = value
             End Set
         End Property
     End Class

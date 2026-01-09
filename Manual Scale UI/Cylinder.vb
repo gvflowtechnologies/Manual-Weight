@@ -31,8 +31,8 @@ Public Class Cylinder
 
         If sSN_StartTest = 1 Then
             weightlimit = My.Settings.SF6WeightCh
-            minweight = My.Settings.MinNetWt
-            maxweight = My.Settings.MaxNetWt
+            minweight = My.Settings.MinNetWt_Change
+            maxweight = My.Settings.MaxNetWt_Change
 
         Else
             weightlimit = My.Settings.C3F8WeightCh
