@@ -988,9 +988,7 @@ Public Class Manual_Weight
         ' Function to check the serial number entered is 10 charaters long
 
         Dim Stringtest As String
-        Dim StringTestValue As String
 
-        Stringtest = SerialNumber.Substring(0, 1)
 
 
 
@@ -1000,12 +998,8 @@ Public Class Manual_Weight
             Return False
         End If
 
-        If Stringtest <> StringTestValue Then
 
-            errorMessage = "Wrong Gas Type"
-            Return False
 
-        End If
 
         If SerialNumber.Length = 10 Then
             errorMessage = ""
