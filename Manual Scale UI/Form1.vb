@@ -53,7 +53,7 @@ Public Class Manual_Weight
     Private tmrcycle As Stopwatch
     Private tmrsort As Stopwatch
     Private scanned As Boolean
-    Private cylindercollect As Collection
+
     Private DataFileName As String
 
     Private Declare Function SetThreadExecutionState Lib "Kernel32" (ByVal esflags As EXECUTION_STATE) As EXECUTION_STATE
@@ -64,7 +64,7 @@ Public Class Manual_Weight
         tmrcycle = New Stopwatch
         sartorius = New Scalemanagement
         tmrsort = New Stopwatch
-        cylindercollect = New Collection
+
 
         For Each sp As String In My.Computer.Ports.SerialPortNames
             LB_SerialPorts.Items.Add(sp)
