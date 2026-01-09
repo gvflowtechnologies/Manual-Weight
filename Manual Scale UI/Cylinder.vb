@@ -12,7 +12,8 @@ Public Class Cylinder
     Private BSecondPass As Boolean 'True = This is the second Weight, False - This is the first weight
     Private sSN_StartTest As String
     Private weightdifference As Double
-    Private weightlimit As Double
+    Private Max_weight_change As Double
+    Private Min_Weight_Change As Double
     Private minweight As Double
     Private maxweight As Double
 
@@ -29,17 +30,12 @@ Public Class Cylinder
 
 
 
-        If sSN_StartTest = 1 Then
-            weightlimit = My.Settings.SF6WeightCh
-            minweight = My.Settings.MinNetWt_Change
-            maxweight = My.Settings.MaxNetWt_Change
+        Min_Weight_Change = My.Settings.MinNetWt_Change
+        Max_weight_change = My.Settings.MaxNetWt_Change
+        minweight = My.Settings.MinNetWt_Change
+        maxweight = My.Settings.MaxNetWt_Change
 
-        Else
-            weightlimit = My.Settings.C3F8WeightCh
-            minweight = My.Settings.C3F8MinNetWt
-            maxweight = My.Settings.C3F8MaxNetWt
 
-        End If
 
     End Sub
 
@@ -95,7 +91,7 @@ Public Class Cylinder
                 Case Else
 
                     ' what things do we want to check for
-                    If Math.Abs(weightdifference) > weightlimit Then
+                    If Math.Abs(weightdifference) > Max_weight_change Then
                         ddisposition = False
 
                         If dCylinder_Second_Weight > dCylinder_First_Weight Then
