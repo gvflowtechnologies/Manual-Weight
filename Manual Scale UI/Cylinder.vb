@@ -8,12 +8,12 @@ Public Class Cylinder
     Private myindex As Integer
     Private sDispReason As String
     Private sSN As String
-    Private BSecondPass As Boolean 'True = This is the second Weight, False - This is the first weight
+    Private ReadOnly BSecondPass As Boolean 'True = This is the second Weight, False - This is the first weight
     Private weightdifference As Double
     Private Max_weight_change As Double ' Maximum weight change between first and final weight. Postive value means weight was lost  (Initial wt minus Final wt)
-    Private Min_Weight_Change As Double ' Mininum weight change between first and final weight. Positive value weight was lost  (Initial wt minus Final wt)
-    Private minweight As Double ' Mininum gross weight of cylinder plus gas
-    Private maxweight As Double ' Maximum gross weight of cylinder plus gas
+    Private ReadOnly Min_Weight_Change As Double ' Mininum weight change between first and final weight. Positive value weight was lost  (Initial wt minus Final wt)
+    Private ReadOnly minweight As Double ' Mininum gross weight of cylinder plus gas
+    Private ReadOnly maxweight As Double ' Maximum gross weight of cylinder plus gas
 
 
 
@@ -24,9 +24,6 @@ Public Class Cylinder
         dCylinder_First_Weight = 0.0
         dCylinder_Second_Weight = 0.0
         sSN = SerialNum
-
-
-
 
         Min_Weight_Change = My.Settings.MinNetWt_Change
         Max_weight_change = My.Settings.MaxNetWt_Change
@@ -46,13 +43,7 @@ Public Class Cylinder
 
         'Deterimine if the device is good or bad.  Only performed on the second pass
 
-
-        If dCylinder_First_Weight = -20 Then
-            ddisposition = False
-            sDispReason = "Incorrect Serial Number"
-            Exit Sub
-        End If
-
+        ddisposition = False ' Set default disposition to false and only update if it passes.
 
 
         If BSecondPass Then 'first pass criteria  Do not use ALLo2 data.
@@ -62,14 +53,14 @@ Public Class Cylinder
 
             Select Case dCylinder_Second_Weight
                 Case Is > maxweight
-                    ddisposition = False
+
                     sDispReason = "Gross weight too high"
                 Case Is < minweight
-                    ddisposition = False
+
                     sDispReason = "Gross weight too low"
 
                 Case Is > dCylinder_First_Weight
-                    ddisposition = False
+
                     sDispReason = "Cylinder gained weight"
 
                 Case Else
@@ -77,11 +68,11 @@ Public Class Cylinder
                     ' Check that the weight loss is in the range.
                     Select Case weightdifference
                         Case Is < Min_Weight_Change
-                            ddisposition = False
+
                             sDispReason = "Cylinder did not loose enough weight"
 
                         Case Is > Max_weight_change
-                            ddisposition = False
+
                             sDispReason = "Cylinder lost too much weight"
                         Case Else
                             ddisposition = True
@@ -89,7 +80,8 @@ Public Class Cylinder
                     End Select
 
             End Select
-
+        Else
+            ddisposition = True
         End If
 
     End Sub
