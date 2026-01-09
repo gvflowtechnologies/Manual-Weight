@@ -93,11 +93,9 @@ Public Class Manual_Weight
         Lbl_CalInt.Text = My.Settings.CalFrequency.ToString
         TB_Min_Net_WT_GM.Text = My.Settings.MinNetWt_Change.ToString("N4")
         TB_Max_Net_Wt_GMs.Text = My.Settings.MaxNetWt_Change.ToString("N4")
-
         Lbl_MaxWeight.Text = My.Settings.MaxWeight.ToString("N4")
         Lbl_MinWeight.Text = My.Settings.MinWeight.ToString("N4")
-        TB_Min_Net_WT_GM.Text = My.Settings.MinNetWt_Change.ToString("N4")
-        TB_Max_Net_Wt_GMs.Text = My.Settings.MaxNetWt_Change.ToString("N4")
+
         Lbl_Instruction.Text = "Standby"
         LB_SerialPorts.ScrollAlwaysVisible = True
 

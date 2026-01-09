@@ -30,8 +30,8 @@ Public Class Cylinder
 
         Min_Weight_Change = My.Settings.MinNetWt_Change
         Max_weight_change = My.Settings.MaxNetWt_Change
-        minweight = My.Settings.MinNetWt_Change
-        maxweight = My.Settings.MaxNetWt_Change
+        minweight = My.Settings.MinWeight
+        maxweight = My.Settings.MaxWeight
 
 
 
@@ -44,7 +44,7 @@ Public Class Cylinder
     Public Sub DetermineDisposition()
 
 
-        'Deterimine if the device is good or bad.
+        'Deterimine if the device is good or bad.  Only performed on the second pass
 
 
         If dCylinder_First_Weight = -20 Then
@@ -55,50 +55,38 @@ Public Class Cylinder
 
 
 
-        If Not BSecondPass Then 'first pass criteria  Do not use ALLo2 data.
-            Select Case dCylinder_First_Weight
-                Case Is > My.Settings.MaxWeight
-                    ddisposition = False
-                    sDispReason = "Too High"
-                Case Is < My.Settings.MinWeight
-                    ddisposition = False
-                    sDispReason = "Too Low"
+        If BSecondPass Then 'first pass criteria  Do not use ALLo2 data.
 
-                Case Else
-                    ddisposition = True
-            End Select
-
-        Else
-
-            weightdifference = dCylinder_Second_Weight - dCylinder_First_Weight
+            weightdifference = dCylinder_First_Weight - dCylinder_Second_Weight
             ' Add test on gas type to determing the weight limit paramater
 
             Select Case dCylinder_Second_Weight
-                Case Is > My.Settings.MaxWeight
+                Case Is > maxweight
                     ddisposition = False
-                    sDispReason = "Too High"
-                Case Is < My.Settings.MinWeight
+                    sDispReason = "Gross weight too high"
+                Case Is < minweight
                     ddisposition = False
-                    sDispReason = "Too Low"
+                    sDispReason = "Gross weight too low"
+
+                Case Is > dCylinder_First_Weight
+                    ddisposition = False
+                    sDispReason = "Cylinder gained weight"
 
                 Case Else
 
-                    ' what things do we want to check for
-                    If Math.Abs(weightdifference) > Max_weight_change Then
-                        ddisposition = False
+                    ' Check that the weight loss is in the range.
+                    Select Case weightdifference
+                        Case Is < Min_Weight_Change
+                            ddisposition = False
+                            sDispReason = "Cylinder did not loose enough weight"
 
-                        If dCylinder_Second_Weight > dCylinder_First_Weight Then
-                            sDispReason = "Gained Weight"
-                        Else
-                            sDispReason = "Lost Weight"
-                        End If
-
-                    Else
-                        ddisposition = True
-                        sDispReason = ""
-                    End If
-
-
+                        Case Is > Max_weight_change
+                            ddisposition = False
+                            sDispReason = "Cylinder lost too much weight"
+                        Case Else
+                            ddisposition = True
+                            sDispReason = ""
+                    End Select
 
             End Select
 
