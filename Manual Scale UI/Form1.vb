@@ -34,7 +34,7 @@ Public Class Manual_Weight
     Public WithEvents Mycom As SerialPort 'Serial port for communicating with the scale
     Private newdata As Datareceive
     ' Variables
-    Public ALLO2FileName As String
+
     Private UseALLO2 As Boolean ' Flag to indicate if are using Using Allo2 data.  Normally false
     Private manualstop As Boolean ' Flag indicating that a manual stop has been requested
     Private cylindergas As GasType
@@ -400,34 +400,7 @@ Public Class Manual_Weight
         Lbl_Remove.BackColor = Color.Gold
 
     End Sub
-    Private Function ALLO2_DataFile() As Boolean
-        ' Returns a Flag of true if a file is found and you wnat to use one.
 
-        Dim DataFileFound As Boolean
-        DataFileFound = False
-
-        ' If we want to find a file, what is the file name.
-        Dim fd As New OpenFileDialog With
-         {
-            .Title = "Open ALL02 File",
-            .InitialDirectory = "C:\",
-            .Filter = "All files (*.*)|*.*|All files (*.*)|*.*",
-            .FilterIndex = 2,
-            .RestoreDirectory = True
-        }
-
-        If fd.ShowDialog() = DialogResult.OK Then
-            ALLO2FileName = fd.FileName
-
-            If File.Exists(ALLO2FileName) Then
-                DataFileFound = True
-                UseALLO2 = True
-            End If
-
-        End If
-        Return DataFileFound
-
-    End Function
     Private Sub Updatecounts()
         ' updating both the pallet and static counters
 
@@ -491,18 +464,11 @@ Public Class Manual_Weight
             MDataset.Dispose()
         End If
 
-        ALLO2FileName = ""
 
-        If firstweight Then ' Only Look for ALLO2_WT on the second pass through the data.
-            If Not ALLO2_DataFile() Then 'Try and Select an ALLO2 File
-                MsgBox("AllO2 File Selection Failed")
-                Exit Sub
-            End If
-        End If
 
         MDataset = New PalletData(firstweight)
 
-        If UseALLO2 Then MDataset.ReadAllO2Data(ALLO2FileName)   'We located a file and we want to use a file.  Process it here.
+
 
         Do
             MDataset.Pallet = InputBox("Enter Bag #", "Bag Number", , , )
