@@ -213,31 +213,7 @@ Public Class PalletData
 
     End Sub
 
-    Public Function ADDALLO2WttoCylinder(ByVal SerialNumber As String) As Single
-        'Input a serial Number and return the tare wt.
-        Dim Allo2TareWt As Single
 
-        Allo2TareWt = -30 'Set dummy ALL02 Weight to a bad number
-
-        'Sort through the array of first weights
-
-        Dim x As Integer ' Counter Variable
-
-        'Redimension both the temp and permanent storage arrays
-        iNumRows = UBound(ALLO2WeightReading, 1)
-
-        'Copy reading data into the array.
-        For x = 0 To iNumRows
-            If ALLO2WeightReading(x, 0) = SerialNumber Then
-                Allo2TareWt = ALLO2WeightReading(x, 1) / 1000
-
-                ' canisternumber += 1
-                Exit For
-            End If
-        Next
-
-        Return Allo2TareWt
-    End Function
 
     Public Function Wasthisfilealreadystarted() As Boolean
         'Test to see if file already exists.  Return true if it does and false if it does not.

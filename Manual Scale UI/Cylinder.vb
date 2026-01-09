@@ -2,7 +2,6 @@
 Option Explicit On
 Public Class Cylinder
 
-    Private dALLO2Weight As Double
     Private dCylinder_First_Weight As Double
     Private dCylinder_Second_Weight As Double
     Private ddisposition As Boolean 'True = pass, False = Fail
@@ -99,24 +98,7 @@ Public Class Cylinder
                         sDispReason = ""
                     End If
 
-                    If ddisposition = True Then ' Look at net weights from fist reading.
 
-                        If dCylinder_First_Weight > dALLO2Weight + maxweight Then
-                            ddisposition = False
-                            sDispReason = "Net Wt Too High"
-                        End If
-
-                        If dCylinder_First_Weight < dALLO2Weight + minweight Then
-                            ddisposition = False
-                            sDispReason = "Net Wt Too Low"
-                        End If
-
-                        If dALLO2Weight = -30 Then
-                            ddisposition = False
-                            sDispReason = "Serial Number Not in System"
-                        End If
-
-                    End If
 
             End Select
 
@@ -146,14 +128,7 @@ Public Class Cylinder
         End Set
     End Property
 
-    Public Property AllO2_WT As Double
-        Get
-            Return dALLO2Weight
-        End Get
-        Set(value As Double)
-            dALLO2Weight = value
-        End Set
-    End Property
+
 
 
     Public Property Firstweight As Double

@@ -236,7 +236,7 @@ Public Class Manual_Weight
                     If MDataset.Firstweightexists Then ' This is a second weight get data from previous cycle.
 
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
-                        ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
+
 
                     End If
 
@@ -728,7 +728,6 @@ Public Class Manual_Weight
     Private Sub Write_second_weight()
         Using swdataset As New StreamWriter(DataFileName, True)
             swdataset.Write(ccylinder.SerialNumber.ToString & ", ")
-            swdataset.Write(ccylinder.AllO2_WT.ToString("N4") & ", ")
             swdataset.Write(ccylinder.Firstweight.ToString("N4") & ", ")
             swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
             swdataset.Write(ccylinder.Disposition & ", ")

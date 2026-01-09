@@ -175,11 +175,11 @@ Partial Class Manual_Weight
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(113, 208)
+        Me.Label16.Location = New System.Drawing.Point(100, 208)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(53, 25)
+        Me.Label16.Size = New System.Drawing.Size(66, 25)
         Me.Label16.TabIndex = 17
-        Me.Label16.Text = "Bag:"
+        Me.Label16.Text = "Pallet:"
         '
         'GroupBox8
         '
