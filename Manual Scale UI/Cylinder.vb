@@ -10,12 +10,11 @@ Public Class Cylinder
     Private sDispReason As String
     Private sSN As String
     Private BSecondPass As Boolean 'True = This is the second Weight, False - This is the first weight
-    Private sSN_StartTest As String
     Private weightdifference As Double
-    Private Max_weight_change As Double
-    Private Min_Weight_Change As Double
-    Private minweight As Double
-    Private maxweight As Double
+    Private Max_weight_change As Double ' Maximum weight change between first and final weight. Postive value means weight was lost  (Initial wt minus Final wt)
+    Private Min_Weight_Change As Double ' Mininum weight change between first and final weight. Positive value weight was lost  (Initial wt minus Final wt)
+    Private minweight As Double ' Mininum gross weight of cylinder plus gas
+    Private maxweight As Double ' Maximum gross weight of cylinder plus gas
 
 
 
@@ -26,7 +25,7 @@ Public Class Cylinder
         dCylinder_First_Weight = 0.0
         dCylinder_Second_Weight = 0.0
         sSN = SerialNum
-        sSN_StartTest = ssnstart
+
 
 
 
@@ -55,11 +54,6 @@ Public Class Cylinder
             Exit Sub
         End If
 
-        If sSN.Substring(0, 1) <> sSN_StartTest Then
-            ddisposition = False
-            sDispReason = "Incorrect Serial Number"
-            Exit Sub
-        End If
 
 
         If Not BSecondPass Then 'first pass criteria  Do not use ALLo2 data.
