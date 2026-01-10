@@ -993,6 +993,7 @@ Public Class Manual_Weight
     Private Sub SN_KeyDown(sender As Object, e As KeyEventArgs) Handles TB_SerialNumber.KeyDown
         ' Should set the scanned = true to start a test when the enter key is hit when entering the serial number.
         If e.KeyCode = Keys.Return Then
+            ccylinder.SerialNumber = TB_SerialNumber.Text
             scanned = True
 
         End If
