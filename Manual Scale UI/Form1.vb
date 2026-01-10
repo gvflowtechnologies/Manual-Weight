@@ -1165,8 +1165,60 @@ Public Class Manual_Weight
         My.Settings.Save()
     End Sub
 
+    Private Sub TB_Max_WT_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_Max_Wt.Validating
+
+        Dim Testresult As Boolean
+        Dim MaxWt As Single
+        Testresult = Single.TryParse(TB_Max_Wt.Text, MaxWt)
+
+        If Not Testresult Then
+
+            Dim errormsg As String = "Not a valid number"
+            e.Cancel = True
+            Me.ErrorProvider1.SetError(TB_Max_Wt, errormsg)
+
+        End If
+
+        If MaxWt <= My.Settings.MinWeight Then
+
+            Dim errormsg As String = "Max Wt Less than Min Wt"
+            e.Cancel = True
+            Me.ErrorProvider1.SetError(TB_Max_Wt, errormsg)
+
+        End If
+
+    End Sub
+
+    Private Sub TB_Max_WT_Validated(sender As Object, e As EventArgs) Handles TB_Max_Wt.Validated
+
+    End Sub
 
 
+    Private Sub TB_Min_WT_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_Min_Weight.Validating
+        Dim Testresult As Boolean
+        Dim TestWeight As Single
+        Testresult = Single.TryParse(TB_Max_Wt.Text, TestWeight)
+
+        If Not Testresult Then
+
+            Dim errormsg As String = "Not a valid number"
+            e.Cancel = True
+            Me.ErrorProvider1.SetError(TB_Max_Wt, errormsg)
+
+        End If
+
+        If TestWeight >= My.Settings.MinWeight Then
+
+            Dim errormsg As String = "Max Wt Less than Min Wt"
+            e.Cancel = True
+            Me.ErrorProvider1.SetError(TB_Max_Wt, errormsg)
+
+        End If
+    End Sub
+
+    Private Sub TB_Min_WT_Validated(sender As Object, e As EventArgs) Handles TB_Min_Weight.Validated
+
+    End Sub
 
 
 

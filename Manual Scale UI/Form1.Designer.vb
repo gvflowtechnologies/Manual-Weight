@@ -76,6 +76,8 @@ Partial Class Manual_Weight
         Me.Btn_ScaleCal = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.TB_Max_Wt = New System.Windows.Forms.TextBox()
+        Me.TB_Min_Weight = New System.Windows.Forms.TextBox()
         Me.TB_Max_Net_Wt_GMs = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.TB_Min_Net_WT_GM = New System.Windows.Forms.TextBox()
@@ -677,6 +679,8 @@ Partial Class Manual_Weight
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.TB_Max_Wt)
+        Me.GroupBox2.Controls.Add(Me.TB_Min_Weight)
         Me.GroupBox2.Controls.Add(Me.TB_Max_Net_Wt_GMs)
         Me.GroupBox2.Controls.Add(Me.Label9)
         Me.GroupBox2.Controls.Add(Me.TB_Min_Net_WT_GM)
@@ -700,6 +704,20 @@ Partial Class Manual_Weight
         Me.GroupBox2.TabIndex = 11
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Scale Parameters"
+        '
+        'TB_Max_Wt
+        '
+        Me.TB_Max_Wt.Location = New System.Drawing.Point(270, 213)
+        Me.TB_Max_Wt.Name = "TB_Max_Wt"
+        Me.TB_Max_Wt.Size = New System.Drawing.Size(58, 20)
+        Me.TB_Max_Wt.TabIndex = 27
+        '
+        'TB_Min_Weight
+        '
+        Me.TB_Min_Weight.Location = New System.Drawing.Point(278, 180)
+        Me.TB_Min_Weight.Name = "TB_Min_Weight"
+        Me.TB_Min_Weight.Size = New System.Drawing.Size(37, 20)
+        Me.TB_Min_Weight.TabIndex = 26
         '
         'TB_Max_Net_Wt_GMs
         '
@@ -737,7 +755,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_MinWeight.AutoSize = True
         Me.Lbl_MinWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_MinWeight.Location = New System.Drawing.Point(278, 212)
+        Me.Lbl_MinWeight.Location = New System.Drawing.Point(59, 241)
         Me.Lbl_MinWeight.Name = "Lbl_MinWeight"
         Me.Lbl_MinWeight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.Lbl_MinWeight.Size = New System.Drawing.Size(47, 15)
@@ -748,7 +766,7 @@ Partial Class Manual_Weight
         '
         Me.Lbl_MaxWeight.AutoSize = True
         Me.Lbl_MaxWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_MaxWeight.Location = New System.Drawing.Point(278, 182)
+        Me.Lbl_MaxWeight.Location = New System.Drawing.Point(59, 222)
         Me.Lbl_MaxWeight.Name = "Lbl_MaxWeight"
         Me.Lbl_MaxWeight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.Lbl_MaxWeight.Size = New System.Drawing.Size(47, 15)
@@ -796,7 +814,7 @@ Partial Class Manual_Weight
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(192, 214)
+        Me.Label13.Location = New System.Drawing.Point(187, 188)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(67, 13)
         Me.Label13.TabIndex = 17
@@ -805,7 +823,7 @@ Partial Class Manual_Weight
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(189, 184)
+        Me.Label12.Location = New System.Drawing.Point(184, 216)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(70, 13)
         Me.Label12.TabIndex = 16
@@ -1009,4 +1027,6 @@ Partial Class Manual_Weight
     Friend WithEvents TB_Max_Net_Wt_GMs As TextBox
     Friend WithEvents TB_Min_Net_WT_GM As TextBox
     Friend WithEvents Label21 As Label
+    Friend WithEvents TB_Max_Wt As TextBox
+    Friend WithEvents TB_Min_Weight As TextBox
 End Class
