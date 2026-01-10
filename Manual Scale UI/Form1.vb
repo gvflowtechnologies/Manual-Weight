@@ -984,69 +984,20 @@ Public Class Manual_Weight
 
 
     End Sub
-    Private Function ValidSerialNumber(ByVal SerialNumber As String, ByRef errorMessage As String) As Boolean
-        ' Function to check the serial number entered is 10 charaters long
-
-        Dim Stringtest As String
 
 
 
 
 
-        If SerialNumber.Length = 0 Then
-            errorMessage = "No Serial Number Entered"
-            Return False
-        End If
-
-
-
-
-        If SerialNumber.Length = 10 Then
-            errorMessage = ""
-            Return True
-        End If
-
-
-
-        errorMessage = "Serial Number is not the Correct Length"
-        Return False
-
-    End Function
-
-    Private Sub SN_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_SerialNumber.Validating
-
-        Dim login As String
-        Dim errormsg As String = ""
-
-        If Not ValidSerialNumber(TB_SerialNumber.Text, errormsg) Then
-            e.Cancel = True
-            TB_SerialNumber.Select(0, TB_SerialNumber.Text.Length)
-            Me.ErrorProvider1.SetError(TB_SerialNumber, errormsg)
-            If errormsg = "Wrong Gas Type" Then
-                Do
-                    login = InputBox("Supervisor Approval Required", "Error - Wrong SN Prefix", "")
-
-                Loop Until login = My.Settings.Password
-            End If
-
-        End If
-
-
-    End Sub
-
-    Private Sub SN_Validated(sender As Object, e As EventArgs) Handles TB_SerialNumber.Validated
-        ccylinder.SerialNumber = TB_SerialNumber.Text
-        scanned = True
-        ErrorProvider1.SetError(TB_SerialNumber, "")
-        TB_SerialNumber.Select()
-
-    End Sub
 
     Private Sub SN_KeyDown(sender As Object, e As KeyEventArgs) Handles TB_SerialNumber.KeyDown
 
         If e.KeyCode = Keys.Return Then
+            scanned = True
             Lbl_BatchN.Select()
             TB_SerialNumber.Select()
+
+
         End If
 
     End Sub
@@ -1191,32 +1142,42 @@ Public Class Manual_Weight
 
     Private Sub TB_Max_WT_Validated(sender As Object, e As EventArgs) Handles TB_Max_Wt.Validated
 
+        ErrorProvider1.SetError(TB_Max_Wt, "")
+        My.Settings.MaxWeight = Single.Parse(TB_Max_Wt.Text)
+        My.Settings.Save()
+
+
     End Sub
 
 
     Private Sub TB_Min_WT_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_Min_Weight.Validating
         Dim Testresult As Boolean
         Dim TestWeight As Single
-        Testresult = Single.TryParse(TB_Max_Wt.Text, TestWeight)
+        Testresult = Single.TryParse(TB_Min_Weight.Text, TestWeight)
 
         If Not Testresult Then
 
             Dim errormsg As String = "Not a valid number"
             e.Cancel = True
-            Me.ErrorProvider1.SetError(TB_Max_Wt, errormsg)
+            Me.ErrorProvider1.SetError(TB_Min_Weight, errormsg)
 
         End If
 
-        If TestWeight >= My.Settings.MinWeight Then
+        If TestWeight >= My.Settings.MaxWeight Then
 
             Dim errormsg As String = "Max Wt Less than Min Wt"
             e.Cancel = True
-            Me.ErrorProvider1.SetError(TB_Max_Wt, errormsg)
+            Me.ErrorProvider1.SetError(TB_Min_Weight, errormsg)
 
         End If
     End Sub
 
     Private Sub TB_Min_WT_Validated(sender As Object, e As EventArgs) Handles TB_Min_Weight.Validated
+
+        ErrorProvider1.SetError(TB_Min_Weight, "")
+        My.Settings.MinNetWt_Change = Single.Parse(TB_Min_Weight.Text)
+        My.Settings.Save()
+
 
     End Sub
 
