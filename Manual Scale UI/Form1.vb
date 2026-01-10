@@ -35,7 +35,7 @@ Public Class Manual_Weight
     Private newdata As Datareceive
     ' Variables
 
-    Private UseALLO2 As Boolean ' Flag to indicate if are using Using Allo2 data.  Normally false
+    Private cylinderindex As Integer     ' index to select sylinder that we are weighing.
     Private manualstop As Boolean ' Flag indicating that a manual stop has been requested
     Private cylindergas As GasType
     Private MDataset As PalletData
@@ -199,7 +199,7 @@ Public Class Manual_Weight
                     entering = False
                     ccylinder = New Cylinder(MDataset.Firstweightexists, "", cylindergas.SNStart)
                     scanned = False
-                    Lbl_Instruction.Text = "Scan"
+                    Lbl_Instruction.Text = "Enter Serial Number (If desired)"
                     Lbl_Instruction.BackColor = Color.CornflowerBlue
                     TB_SerialNumber.Text = ""
                     LBL_Rationalle.Text = ""
@@ -212,7 +212,7 @@ Public Class Manual_Weight
                 If scanned = True Then 'Cylinder is now Scanned
                     entering = True
                     teststate = Weighprocess.taring
-
+                    ccylinder.SerialNumber = 
 
                     If MDataset.SN_Already_Exists(ccylinder.SerialNumber) Then  ' Serial number is a duplicate
 
@@ -432,7 +432,7 @@ Public Class Manual_Weight
         Lbl_BatchN.Text = ""
         Lbl_BagNum.Text = ""
         manualstop = False
-        UseALLO2 = False
+        cylinderindex = 0
         RadioButtonsENabled(True)
 
         Portclosing()
@@ -991,12 +991,9 @@ Public Class Manual_Weight
 
 
     Private Sub SN_KeyDown(sender As Object, e As KeyEventArgs) Handles TB_SerialNumber.KeyDown
-
+        ' Should set the scanned = true to start a test when the enter key is hit when entering the serial number.
         If e.KeyCode = Keys.Return Then
             scanned = True
-            Lbl_BatchN.Select()
-            TB_SerialNumber.Select()
-
 
         End If
 
@@ -1180,13 +1177,6 @@ Public Class Manual_Weight
 
 
     End Sub
-
-
-
-
-
-
-
 
 #End Region
 
