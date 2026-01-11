@@ -199,12 +199,19 @@ Public Class Manual_Weight
                     entering = False
                     ccylinder = New Cylinder(MDataset.Firstweightexists, "", cylindergas.SNStart)
                     scanned = False
+
                     Lbl_Instruction.Text = "Enter Serial Number (If desired)"
                     Lbl_Instruction.BackColor = Color.CornflowerBlue
-                    TB_SerialNumber.Text = ""
+
+
                     LBL_Rationalle.Text = ""
                     If MDataset.PalletComplete() Then Closepallet()
                     If sorterattached Then cylindersorter.Sort(255)
+
+
+                    TB_SerialNumber.Text = cylinderindex.ToString
+                    cylinderindex += 1
+
                 End If
 
 
@@ -212,24 +219,7 @@ Public Class Manual_Weight
                 If scanned = True Then 'Cylinder is now Scanned
                     entering = True
                     teststate = Weighprocess.taring
-                    ccylinder.SerialNumber = 
 
-                    If MDataset.SN_Already_Exists(ccylinder.SerialNumber) Then  ' Serial number is a duplicate
-
-                        Dim login As String
-                        Tmr_ScreenUpdate.Stop()
-                        ccylinder.Dispose()
-                        teststate = Weighprocess.Scanning
-
-                        Do
-                            login = InputBox("Supervisor Approval Required", "Error - Duplicate SN", "")
-
-                        Loop Until login = My.Settings.Password
-
-                        Tmr_ScreenUpdate.Start()
-                        Exit Sub
-
-                    End If
 
                     If MDataset.Firstweightexists Then ' This is a second weight get data from previous cycle.
 
