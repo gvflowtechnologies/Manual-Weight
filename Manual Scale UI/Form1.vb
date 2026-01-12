@@ -212,6 +212,8 @@ Public Class Manual_Weight
                     TB_SerialNumber.Text = cylinderindex.ToString
                     cylinderindex += 1
 
+                    ' If MDataset.Firstweightexists Then scanned = True
+
                 End If
 
 
@@ -461,9 +463,9 @@ Public Class Manual_Weight
 
 
         Do
-            MDataset.Pallet = InputBox("Enter Bag #", "Bag Number", , , )
+            MDataset.Pallet = InputBox("Enter Pallet #", "Pallet Number", , , )
             If MDataset.Pallet = "" Then Exit Sub
-            followup = MsgBox("You entered " & MDataset.Pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Bag Number")
+            followup = MsgBox("You entered " & MDataset.Pallet & " is this correct?", MsgBoxStyle.YesNoCancel, "Confirm Pallet Number")
 
             If followup = MsgBoxResult.Cancel Then
                 MDataset.Pallet = ""
@@ -491,7 +493,7 @@ Public Class Manual_Weight
             MDataset.Firstweight("_" & MDataset.Pallet & "_", MDataset.Batch)
             MDataset.Readfirstweight()
             If IsNothing(MDataset.Filename) Then
-                MsgBox("Invalid Batch and Bag Combination Entered")
+                MsgBox("Invalid Batch and Pallet Combination Entered")
                 Exit Sub
             End If
             MDataset.GetCurrentCount() ' Getting the current count
@@ -500,7 +502,7 @@ Public Class Manual_Weight
         Else
             ' check to see if a file alread exists and stop the processes.
             If MDataset.Wasthisfilealreadystarted Then
-                MsgBox("Contact Supervisor: Batch and Bag Already in the System")
+                MsgBox("Contact Supervisor: Batch and Pallet Already in the System")
                 Exit Sub
             End If
             WritefileHeader1()
