@@ -234,10 +234,11 @@ Public Class Manual_Weight
 
                     End If
 
-                    If MDataset.Firstweightexists Then ' This is a second weight get data from previous cycle.
+                    If MDataset.Firstweightexists Then
+                        ' This is a second weight.  Retrieve the first weight and AllO2 weight data from previous cycle.
 
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
-                        ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
+                        ccylinder.AllO2_WT = MDataset.All02Wt2nd_Pass(ccylinder.SerialNumber) ' used to be add allo2 data to cylinder I think this was incorrect
 
                     End If
 
