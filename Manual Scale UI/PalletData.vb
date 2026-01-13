@@ -6,7 +6,15 @@ Imports System.Text
 
 
 Public Class PalletData
+
     Implements IDisposable
+
+    Private Structure Firstweightdata
+        Public SerialNumber As String
+        Public Firstweight As Single
+    End Structure
+
+
     Private palletid As String ' current active pallet
     Private batchid As String ' current active pallet
     Private currentfilename As String ' Current Active File.
@@ -17,7 +25,8 @@ Public Class PalletData
     Private DateScaleCalNext As Date ' Date of next scale calibratin.
     Private FirstWeightReading(,) As String ' Array holding the serial numbers, First Weights.
     Private ALLO2WeightReading(,) As String ' Array holding the Serial number and ALL02 tare wt,  Serial Number is in column 0, wt in column 1
-
+    ' Private FirstWeight As Firstweightdata
+    Private ReadOnly AllFirstWeights As List(Of Firstweightdata)
 
     Private CountBad As Integer    ' Number of bad parts in pallet
     Private CountGood As Integer ' Number of good parts in pallet
@@ -72,13 +81,15 @@ Public Class PalletData
             CylinderList.Clear()
         End If
 
+        If AllFirstWeights Is Nothing Then
+            AllFirstWeights = New List(Of Firstweightdata)
+        Else
+            AllFirstWeights.Clear()
+        End If
 
         RenewFileList()
 
     End Sub
-
-
-
 
     Public Sub RenewFileList()
         currentfilename = Nothing
@@ -290,6 +301,12 @@ Public Class PalletData
             'Copy reading data into the array.
             For x = 0 To iNumRows
                 STempline = Stemplines(x).Split(",")
+
+                AllFirstWeights.Add(New Firstweightdata With {.SerialNumber = STempline(0), .Firstweight = CSng(STempline(1))}) 'Danger.
+                '    P
+
+                'Private SerialNumber As String
+                'Private Firstweight As String
 
                 For y = 0 To iNumCols
                     FirstWeightReading(x, y) = STempline(y)
@@ -534,6 +551,13 @@ Public Class PalletData
             iNumRows = UBound(FirstWeightReading, 1)
 
             'Copy reading data into the array.
+
+            For Each Firstweightholder In AllFirstWeights
+                If Firstweightholder.SerialNumber = serialnumber Then
+                    init_weight = Firstweightholder.Firstweight
+                End If
+            Next
+
             For x = 0 To iNumRows
                 If FirstWeightReading(x, 0) = serialnumber Then
                     init_weight = FirstWeightReading(x, 1)
