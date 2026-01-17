@@ -1168,12 +1168,12 @@ Public Class Manual_Weight
         My.Settings.MinNetWt_Change = Single.Parse(TB_Min_Weight.Text)
         My.Settings.Save()
 
-    Private Sub RB_FirstWeight_CheckedChanged(sender As Object, e As EventArgs) Handles RB_FirstWeight.CheckedChanged
-
     End Sub
 
 
-    End Sub
+
+
+
 
 #End Region
 

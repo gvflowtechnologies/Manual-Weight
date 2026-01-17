@@ -212,18 +212,8 @@ Public Class PalletData
             tmpstream.Dispose()
 
         End If
+    End Sub
 
-    Public Function ADDALLO2WttoCylinder(ByVal SerialNumber As String) As Single
-        'Input a serial Number and return the tare wt.
-        Dim Allo2TareWt As Single
-
-        Allo2TareWt = -30 'Set dummy ALL02 Weight to a bad number
-
-        End If
-        Next
-
-        Return Allo2TareWt
-    End Function
 
     Public Function Wasthisfilealreadystarted() As Boolean
         'Test to see if file already exists.  Return true if it does and false if it does not.
