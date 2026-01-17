@@ -24,16 +24,14 @@ Public Class PalletData
     Private DateScaleCalLast As Date ' Date of last scale calibration.
     Private DateScaleCalNext As Date ' Date of next scale calibratin.
 
-    Private ReadOnly AllFirstWeights As List(Of Firstweightdata)
+    Private ReadOnly FirstWeightsfromSWAMY As List(Of Firstweightdata)
     Private ReadOnly ALLO2_Weight_Data As List(Of Firstweightdata)
 
     Private CountBad As Integer    ' Number of bad parts in pallet
     Private CountGood As Integer ' Number of good parts in pallet
     Private CylinderSerialNumber As String
     Private iNumRows As Integer
-    Private iNumCols As Integer
-    Private iCurRow As Integer
-    Private iCurCol As Integer
+
     Public CylinderList As List(Of Cylinder)
     Private number_of_Canisters As Integer ' number of canisters in pallet
     Private canisternumber As Integer ' Currrent Canister weighed
@@ -45,7 +43,6 @@ Public Class PalletData
 
     Private currentfirstweights() As String ' Array of short file names of first pallets in the system
     Private Currentfirstpallets() As String ' Array of first pallets in the system
-    Private ReadOnly Index_filename As Integer ' Index in array of filenames that contains the current file
     Private fweight As String ' String with fweight data path
     Private completed As String ' String with completed Data Path
     Private Archived As String ' String with archive of first weights
@@ -80,10 +77,10 @@ Public Class PalletData
             CylinderList.Clear()
         End If
 
-        If AllFirstWeights Is Nothing Then
-            AllFirstWeights = New List(Of Firstweightdata)
+        If FirstWeightsfromSWAMY Is Nothing Then
+            FirstWeightsfromSWAMY = New List(Of Firstweightdata)
         Else
-            AllFirstWeights.Clear()
+            FirstWeightsfromSWAMY.Clear()
         End If
 
         If ALLO2_Weight_Data Is Nothing Then
@@ -91,8 +88,6 @@ Public Class PalletData
         Else
             ALLO2_Weight_Data.Clear()
         End If
-
-
 
         RenewFileList()
 
@@ -124,8 +119,6 @@ Public Class PalletData
 
         End If
 
-
-
     End Sub
 
     Public Sub Firstweight(ByVal firstpallet As String, ByVal firstbatch As String)
@@ -142,7 +135,6 @@ Public Class PalletData
             End If
 
         Next
-
     End Sub
 
     Public Sub GetCurrentCount()
@@ -167,22 +159,16 @@ Public Class PalletData
             'Count the number of cylinders already processed.
 
         End If
-
-
     End Sub
 
     Public Sub ReadAllO2Data(ByVal ALLO2_File_Name As String)
         'Routine for reading in ALLo2 data into an list. 
-        ' Or a list of type ALLO2 Need to capture the S/N and the Tare Wt.
-        ' When reading first weight add the tare wt.
 
         If File.Exists(ALLO2_File_Name) Then
             Dim tmpstream As StreamReader = File.OpenText(ALLO2_File_Name)
             Dim Stemplines(0) As String ' temporary array holding all of the first weights.
             Dim STempline() As String ' Temporary array holding the parsed first weight for an individual canister.
             Dim x As Integer ' Counter Variable
-
-
 
             If tmpstream.Peek <> -1 Then
                 'Read the header information and strip out.
@@ -208,24 +194,35 @@ Public Class PalletData
             iNumRows = UBound(Stemplines)
             STempline = Stemplines(0).Split(",")
             iNumCols = UBound(STempline)
+<<<<<<< HEAD
+            ReDim ALLO2WeightReading(iNumRows, 1)
+=======
 
 
+>>>>>>> 87783bc (Completed initial conversion from array to list with intuitive variable names and strongere types.)
             'Copy data read into a 2D array.
+            'Copy data read into a list of weights and serial numbers.
             For x = 0 To iNumRows
 
-                STempline = Stemplines(x).Split(",")
 
-                ALLO2_Weight_Data.Add(New Firstweightdata With {.SerialNumber = STempline(4), .Firstweight = CSng(STempline(6))})
+                'ALLo2 weight from file into table
+
+
 
             Next
 
             tmpstream.Dispose()
 
-        End If
-
-    End Sub
 
 
+
+
+
+
+        End Sub
+
+
+        Dim y As Integer ' counter variable
 
     Public Function Wasthisfilealreadystarted() As Boolean
         'Test to see if file already exists.  Return true if it does and false if it does not.
@@ -244,7 +241,7 @@ Public Class PalletData
 
 
 
-    Public Sub Readfirstweight() ' Reads all of the first weights for the batch.
+    Public Sub Readfirstweight() ' Reads all of the first weights for the batch and adds to a list of first weights.
         Dim FNreadfirst As String
         FNreadfirst = fweight & "\" & currentfilename
         If File.Exists(FNreadfirst) Then
@@ -276,15 +273,18 @@ Public Class PalletData
 
             'Redimension both the temp and permanent storage arrays
             iNumRows = UBound(Stemplines)
+<<<<<<< HEAD
+=======
             STempline = Stemplines(0).Split(",")
             iNumCols = UBound(STempline)
 
+>>>>>>> 87783bc (Completed initial conversion from array to list with intuitive variable names and strongere types.)
 
             'Copy reading data into the array.
             For x = 0 To iNumRows
                 STempline = Stemplines(x).Split(",")
 
-                AllFirstWeights.Add(New Firstweightdata With {.SerialNumber = STempline(0), .Firstweight = CSng(STempline(1))}) 'Danger. potential conversion error  not checked for.
+                FirstWeightsfromSWAMY.Add(New Firstweightdata With {.SerialNumber = STempline(0), .Firstweight = CSng(STempline(1))}) 'Danger. potential conversion error  not checked for.
 
             Next
 
@@ -293,7 +293,6 @@ Public Class PalletData
             File.Delete(FNreadfirst)
 
         End If
-
     End Sub
     Public Function PalletComplete()
 
@@ -368,7 +367,6 @@ Public Class PalletData
 #End Region
 
 #Region "Properties" 'Properties
-
 
     Public Property Filename As String
 
@@ -517,7 +515,7 @@ Public Class PalletData
             Dim init_weight As Single ' the return value
             init_weight = -20
 
-            For Each Firstweightholder In AllFirstWeights
+            For Each Firstweightholder In FirstWeightsfromSWAMY
                 If Firstweightholder.SerialNumber = serialnumber Then
                     init_weight = Firstweightholder.Firstweight
                     Exit For
@@ -529,7 +527,6 @@ Public Class PalletData
     End Property
 
     Public ReadOnly Property All02Wt2nd_Pass(ByVal serialnumber As String) As Single
-
         Get
             'Input a serial Number and return the tare wt.
             Dim Allo2TareWt As Single
@@ -551,6 +548,5 @@ Public Class PalletData
 
     End Property
 #End Region
-
 
 End Class
