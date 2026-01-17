@@ -192,15 +192,15 @@ Public Class PalletData
 
             'Redimension both the temp and permanent storage arrays
             iNumRows = UBound(Stemplines)
-            STempline = Stemplines(0).Split(",")
-            iNumCols = UBound(STempline)
+
 
             'Copy data read into a 2D array.
             'Copy data read into a list of weights and serial numbers.
             For x = 0 To iNumRows
 
-
+                STempline = Stemplines(x).Split(",")
                 'ALLo2 weight from file into table
+                ALLO2_Weight_Data.Add(New Firstweightdata With {.SerialNumber = STempline(4), .Firstweight = CSng(STempline(6))})
 
 
 
@@ -208,13 +208,13 @@ Public Class PalletData
 
             tmpstream.Dispose()
 
+        End If
 
 
 
 
 
-
-        End Sub
+    End Sub
 
 
 
