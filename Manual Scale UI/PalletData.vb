@@ -6,7 +6,15 @@ Imports System.Text
 
 
 Public Class PalletData
+
     Implements IDisposable
+
+    Private Structure Firstweightdata
+        Public SerialNumber As String
+        Public Firstweight As Single
+    End Structure
+
+
     Private palletid As String ' current active pallet
     Private batchid As String ' current active pallet
     Private currentfilename As String ' Current Active File.
@@ -15,15 +23,15 @@ Public Class PalletData
     Private Sttimesecond As Date ' time stamp of second weight
     Private DateScaleCalLast As Date ' Date of last scale calibration.
     Private DateScaleCalNext As Date ' Date of next scale calibratin.
-    Private FirstWeightReading(,) As String ' Array holding the serial numbers, First Weights, and ALL02 Weights.
+
+    Private ReadOnly FirstWeightsfromSWAMY As List(Of Firstweightdata)
+    Private ReadOnly ALLO2_Weight_Data As List(Of Firstweightdata)
 
     Private CountBad As Integer    ' Number of bad parts in pallet
     Private CountGood As Integer ' Number of good parts in pallet
     Private CylinderSerialNumber As String
     Private iNumRows As Integer
-    Private iNumCols As Integer
-    Private iCurRow As Integer
-    Private iCurCol As Integer
+
     Public CylinderList As List(Of Cylinder)
     Private number_of_Canisters As Integer ' number of canisters in pallet
     Private canisternumber As Integer ' Currrent Canister weighed
@@ -35,7 +43,6 @@ Public Class PalletData
 
     Private currentfirstweights() As String ' Array of short file names of first pallets in the system
     Private Currentfirstpallets() As String ' Array of first pallets in the system
-    Private ReadOnly Index_filename As Integer ' Index in array of filenames that contains the current file
     Private fweight As String ' String with fweight data path
     Private completed As String ' String with completed Data Path
     Private Archived As String ' String with archive of first weights
@@ -44,7 +51,7 @@ Public Class PalletData
     ' ALL O2 File Handling
     '************************
     Dim ALLO2Index As Integer
-    Private ALLO2WeightReading(,) As String ' Array holding the first weights and serial numbers,  Serial Number is in column 0, wt in column 1
+
 
     Public Sub New(ByVal firstweight As Boolean)
         number_of_Canisters = My.Settings.Bag_Limit
@@ -70,13 +77,21 @@ Public Class PalletData
             CylinderList.Clear()
         End If
 
+        If FirstWeightsfromSWAMY Is Nothing Then
+            FirstWeightsfromSWAMY = New List(Of Firstweightdata)
+        Else
+            FirstWeightsfromSWAMY.Clear()
+        End If
+
+        If ALLO2_Weight_Data Is Nothing Then
+            ALLO2_Weight_Data = New List(Of Firstweightdata)
+        Else
+            ALLO2_Weight_Data.Clear()
+        End If
 
         RenewFileList()
 
     End Sub
-
-
-
 
     Public Sub RenewFileList()
         currentfilename = Nothing
@@ -93,9 +108,8 @@ Public Class PalletData
             y = 0
 
             For Each fweightflname In allfiles
-                ' get the file name portion only.
 
-                currentfirstweights(y) = Path.GetFileName(fweightflname)
+                currentfirstweights(y) = Path.GetFileName(fweightflname)                 ' get the file name portion only.
                 y += 1
 
             Next
@@ -105,8 +119,6 @@ Public Class PalletData
 
         End If
 
-
-
     End Sub
 
     Public Sub Firstweight(ByVal firstpallet As String, ByVal firstbatch As String)
@@ -114,20 +126,15 @@ Public Class PalletData
         ' The second function is to set the time of either the first weight date and time or the second weight date and time.
 
         Dim filename As String
-        Dim x As Integer
-        x = 0
 
         For Each filename In currentfirstweights
 
             If filename.Contains(firstpallet) And filename.Contains(firstbatch) Then
-
-                currentfilename = currentfirstweights(x)
-            Else
-
-                x += 1
+                currentfilename = filename
+                Exit For
             End If
-        Next
 
+        Next
     End Sub
 
     Public Sub GetCurrentCount()
@@ -152,20 +159,17 @@ Public Class PalletData
             'Count the number of cylinders already processed.
 
         End If
-
-
     End Sub
 
     Public Sub ReadAllO2Data(ByVal ALLO2_File_Name As String)
-        'Routine for reading in ALLo2 data into an list. Create an list of cylinders
-        ' Or a list of type ALLO2 Need to capture the S/N and the Tare Wt.
-        ' When reading first weight add the tare wt.
+        'Routine for reading in ALLo2 data into an list. 
 
         If File.Exists(ALLO2_File_Name) Then
             Dim tmpstream As StreamReader = File.OpenText(ALLO2_File_Name)
             Dim Stemplines(0) As String ' temporary array holding all of the first weights.
             Dim STempline() As String ' Temporary array holding the parsed first weight for an individual canister.
             Dim x As Integer ' Counter Variable
+            Dim y As Integer ' counter variable
 
 
 
@@ -191,19 +195,17 @@ Public Class PalletData
 
             'Redimension both the temp and permanent storage arrays
             iNumRows = UBound(Stemplines)
-            STempline = Stemplines(0).Split(",")
-            iNumCols = UBound(STempline)
-            ReDim ALLO2WeightReading(iNumRows, 1)
+
 
             'Copy data read into a 2D array.
+            'Copy data read into a list of weights and serial numbers.
             For x = 0 To iNumRows
 
                 STempline = Stemplines(x).Split(",")
-
                 'ALLo2 weight from file into table
+                ALLO2_Weight_Data.Add(New Firstweightdata With {.SerialNumber = STempline(4), .Firstweight = CSng(STempline(6))})
 
-                ALLO2WeightReading(x, 0) = STempline(4) 'Serial Number is column 4
-                ALLO2WeightReading(x, 1) = STempline(6) ' Tare weight is in column 6
+
 
             Next
 
@@ -211,9 +213,17 @@ Public Class PalletData
 
         End If
 
-    End Sub
+    Public Function ADDALLO2WttoCylinder(ByVal SerialNumber As String) As Single
+        'Input a serial Number and return the tare wt.
+        Dim Allo2TareWt As Single
 
+        Allo2TareWt = -30 'Set dummy ALL02 Weight to a bad number
 
+        End If
+        Next
+
+        Return Allo2TareWt
+    End Function
 
     Public Function Wasthisfilealreadystarted() As Boolean
         'Test to see if file already exists.  Return true if it does and false if it does not.
@@ -232,7 +242,7 @@ Public Class PalletData
 
 
 
-    Public Sub Readfirstweight() ' Reads all of the first weights for the batch.
+    Public Sub Readfirstweight() ' Reads all of the first weights for the batch and adds to a list of first weights.
         Dim FNreadfirst As String
         FNreadfirst = fweight & "\" & currentfilename
         If File.Exists(FNreadfirst) Then
@@ -240,7 +250,7 @@ Public Class PalletData
             Dim Stemplines(0) As String ' temporary array holding all of the first weights.
             Dim STempline() As String ' Temporary array holding the parsed first weight for an individual canister.
             Dim x As Integer ' Counter Variable
-            Dim y As Integer ' counter variable
+
 
             If tmpstream.Peek <> -1 Then
                 batchid = tmpstream.ReadLine()
@@ -264,17 +274,13 @@ Public Class PalletData
 
             'Redimension both the temp and permanent storage arrays
             iNumRows = UBound(Stemplines)
-            STempline = Stemplines(0).Split(",")
-            iNumCols = UBound(STempline)
-            ReDim FirstWeightReading(iNumRows, iNumCols)
+
 
             'Copy reading data into the array.
             For x = 0 To iNumRows
                 STempline = Stemplines(x).Split(",")
 
-                For y = 0 To iNumCols
-                    FirstWeightReading(x, y) = STempline(y)
-                Next
+                FirstWeightsfromSWAMY.Add(New Firstweightdata With {.SerialNumber = STempline(0), .Firstweight = CSng(STempline(1))}) 'Danger. potential conversion error  not checked for.
 
             Next
 
@@ -283,7 +289,6 @@ Public Class PalletData
             File.Delete(FNreadfirst)
 
         End If
-
     End Sub
     Public Function PalletComplete()
 
@@ -358,7 +363,6 @@ Public Class PalletData
 #End Region
 
 #Region "Properties" 'Properties
-
 
     Public Property Filename As String
 
@@ -507,18 +511,9 @@ Public Class PalletData
             Dim init_weight As Single ' the return value
             init_weight = -20
 
-            'Sort through the array of first weights
-
-            Dim x As Integer ' Counter Variable
-
-            'Redimension both the temp and permanent storage arrays
-            iNumRows = UBound(FirstWeightReading, 1)
-
-            'Copy reading data into the array.
-            For x = 0 To iNumRows
-                If FirstWeightReading(x, 0) = serialnumber Then
-                    init_weight = FirstWeightReading(x, 1)
-                    canisternumber += 1
+            For Each Firstweightholder In FirstWeightsfromSWAMY
+                If Firstweightholder.SerialNumber = serialnumber Then
+                    init_weight = Firstweightholder.Firstweight
                     Exit For
                 End If
             Next
@@ -529,25 +524,25 @@ Public Class PalletData
 
     Public ReadOnly Property All02Wt2nd_Pass(ByVal serialnumber As String) As Single
         Get
-            Dim ALL02wt As Single
-            Dim x As Integer ' Counter Variable
-            ALL02wt = -30
-            'Redimension both the temp and permanent storage arrays
-            iNumRows = UBound(FirstWeightReading, 1)
+            'Input a serial Number and return the tare wt.
+            Dim Allo2TareWt As Single
 
-            'Copy reading data into the array.
-            For x = 0 To iNumRows
-                If FirstWeightReading(x, 0) = serialnumber Then
-                    ALL02wt = FirstWeightReading(x, 2)
+            Allo2TareWt = -30 'Set dummy ALL02 Weight to a bad number
+
+            'Sort through list of ALLo2 weights
+
+            For Each ALLO2_Weight In ALLO2_Weight_Data
+                If ALLO2_Weight.SerialNumber = serialnumber Then
+                    Allo2TareWt = ALLO2_Weight.Firstweight / 1000
                     Exit For
                 End If
+
             Next
 
-            Return ALL02wt
-
+            Return Allo2TareWt
         End Get
+
     End Property
 #End Region
-
 
 End Class
