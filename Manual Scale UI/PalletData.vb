@@ -194,12 +194,7 @@ Public Class PalletData
             iNumRows = UBound(Stemplines)
             STempline = Stemplines(0).Split(",")
             iNumCols = UBound(STempline)
-<<<<<<< HEAD
-            ReDim ALLO2WeightReading(iNumRows, 1)
-=======
 
-
->>>>>>> 87783bc (Completed initial conversion from array to list with intuitive variable names and strongere types.)
             'Copy data read into a 2D array.
             'Copy data read into a list of weights and serial numbers.
             For x = 0 To iNumRows
@@ -222,7 +217,6 @@ Public Class PalletData
         End Sub
 
 
-        Dim y As Integer ' counter variable
 
     Public Function Wasthisfilealreadystarted() As Boolean
         'Test to see if file already exists.  Return true if it does and false if it does not.
@@ -273,12 +267,7 @@ Public Class PalletData
 
             'Redimension both the temp and permanent storage arrays
             iNumRows = UBound(Stemplines)
-<<<<<<< HEAD
-=======
-            STempline = Stemplines(0).Split(",")
-            iNumCols = UBound(STempline)
 
->>>>>>> 87783bc (Completed initial conversion from array to list with intuitive variable names and strongere types.)
 
             'Copy reading data into the array.
             For x = 0 To iNumRows
