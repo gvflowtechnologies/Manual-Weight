@@ -48,7 +48,7 @@ Public Class Cylinder
 
         If BSecondPass Then 'first pass criteria  Do not use ALLo2 data.
 
-            weightdifference = dCylinder_First_Weight - dCylinder_Second_Weight
+            weightdifference = dCylinder_Second_Weight - dCylinder_First_Weight
             ' Add test on gas type to determing the weight limit paramater
 
             Select Case dCylinder_Second_Weight
@@ -59,21 +59,17 @@ Public Class Cylinder
 
                     sDispReason = "Gross weight too low"
 
-                Case Is > dCylinder_First_Weight
-
-                    sDispReason = "Cylinder gained weight"
-
                 Case Else
 
                     ' Check that the weight loss is in the range.
                     Select Case weightdifference
                         Case Is < Min_Weight_Change
 
-                            sDispReason = "Cylinder did not loose enough weight"
+                            sDispReason = "Cylinder did not gain enough weight"
 
                         Case Is > Max_weight_change
 
-                            sDispReason = "Cylinder lost too much weight"
+                            sDispReason = "Cylinder gained too much weight"
                         Case Else
                             ddisposition = True
                             sDispReason = ""
