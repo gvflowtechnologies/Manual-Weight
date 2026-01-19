@@ -51,7 +51,7 @@ Public Class Manual_Weight
     Private teststate As Weighprocess
     Private entering As Boolean ' Entering a new state
     Private tmrcycle As Stopwatch
-    Private tmrsort As Stopwatch
+
     Private scanned As Boolean
 
     Private DataFileName As String
@@ -63,7 +63,7 @@ Public Class Manual_Weight
         newdata = New Datareceive
         tmrcycle = New Stopwatch
         sartorius = New Scalemanagement
-        tmrsort = New Stopwatch
+
 
 
         For Each sp As String In My.Computer.Ports.SerialPortNames
@@ -190,7 +190,7 @@ Public Class Manual_Weight
 
                     If sorterattached Then
                         cylindersorter.Sort(255)
-                        tmrsort.Reset()
+
                     End If
                 End If
 
@@ -360,13 +360,14 @@ Public Class Manual_Weight
         Else
             If sorterattached Then
                 cylindersorter.Sort(2) 'CSorter.SorterState.Fail
+
+
             End If
 
-            tmrsort.Restart()
             Lbl_Instruction.Text = "Fail"
             Lbl_Instruction.BackColor = Color.Red
             LBL_Rationalle.Text = ccylinder.DispReason
-            For x = 0 To 2
+            For x = 0 To 3
                 My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Exclamation)
             Next
 
