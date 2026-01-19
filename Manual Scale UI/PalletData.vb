@@ -169,7 +169,7 @@ Public Class PalletData
             Dim Stemplines(0) As String ' temporary array holding all of the first weights.
             Dim STempline() As String ' Temporary array holding the parsed first weight for an individual canister.
             Dim x As Integer ' Counter Variable
-            Dim y As Integer ' counter variable
+
 
 
 

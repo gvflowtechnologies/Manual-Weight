@@ -200,7 +200,7 @@ Public Class Manual_Weight
                     ccylinder = New Cylinder(MDataset.Firstweightexists, "", cylindergas.SNStart)
                     scanned = False
 
-                    Lbl_Instruction.Text = "Enter Serial Number (If desired)"
+                    Lbl_Instruction.Text = "Enter SN (If desired)"
                     Lbl_Instruction.BackColor = Color.CornflowerBlue
 
 
@@ -553,7 +553,7 @@ Public Class Manual_Weight
         'updatedinstruction = Lbl_Instruction.Text
         'updatedinstruction = updatedinstruction & "Closing Pallet"
         Lbl_Instruction.BackColor = Color.White
-        Lbl_Instruction.Text = "Finalizing Bag"
+        Lbl_Instruction.Text = "Finalizing Pallet"
         ' Provide 15 seconds to get last sort.
 
         Dim closewatch As Stopwatch
@@ -601,7 +601,7 @@ Public Class Manual_Weight
         End If
 
 
-        MsgBox("Bag Complete")
+        MsgBox("Pallet Complete")
         Lbl_BagCount.Text = "0"
         RB_FirstWeight.Enabled = True
         RB_FinalWeightq.Enabled = True
