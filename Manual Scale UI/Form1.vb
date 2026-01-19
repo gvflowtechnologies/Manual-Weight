@@ -1170,11 +1170,6 @@ Public Class Manual_Weight
 
     End Sub
 
-
-
-
-
-
 #End Region
 
 End Class
