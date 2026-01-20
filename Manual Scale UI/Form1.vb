@@ -321,17 +321,24 @@ Public Class Manual_Weight
                         Loop Until login = My.Settings.Password
                     End If
                 End If
+                Tmr_ScreenUpdate.Start()
 
                 MDataset.AddCylinder(ccylinder)
 
                 If MDataset.Firstweightexists = True Then Write_second_weight()
-
+                ccylinder.Dispose()
                 Updatecounts() 'update the counters for disposition
 
-                teststate = Weighprocess.Scanning
-                entering = True
-                ccylinder.Dispose()
-                Tmr_ScreenUpdate.Start()
+                'Section for Picocyl wait until you take the cylinder of the scale to tranisition to the next process.
+                If sartorius.Stable Then
+
+                    If Math.Abs(sartorius.CurrentReading) > (2 * (My.Settings.TareError / 1000)) Then
+                        teststate = Weighprocess.Scanning
+                        entering = True
+                    End If
+                End If
+
+
 
             Case Weighprocess.erroring ' if we end up here stop processing
                 If entering Then
@@ -358,11 +365,7 @@ Public Class Manual_Weight
                 My.Computer.Audio.PlaySystemSound(Media.SystemSounds.Asterisk)
             Next
         Else
-            If sorterattached Then
-                cylindersorter.Sort(2) 'CSorter.SorterState.Fail
-
-
-            End If
+            If sorterattached Then cylindersorter.Sort(2) 'CSorter.SorterState.Fail
 
             Lbl_Instruction.Text = "Fail"
             Lbl_Instruction.BackColor = Color.Red
