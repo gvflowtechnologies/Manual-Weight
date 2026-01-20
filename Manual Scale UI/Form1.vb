@@ -817,12 +817,11 @@ Public Class Manual_Weight
         Dim Max_Net_WT_Change As Single = My.Settings.MaxNetWt_Change
 
 
-        Supdatevalues("Enter SF6 Weight Change limit in grams", Min_Net_WT_Change)
-        Supdatevalues("Enter C3F8 Weight Change limit in grams", Max_Net_WT_Change)
-
+        Supdatevalues("Enter Weight Change limit in grams", Min_Net_WT_Change)
+        Supdatevalues("Enter Weight Change limit in grams", Max_Net_WT_Change)
+        Supdatevalues("Enter Minimum Acceptable Weight in grams", sminweight)
         Supdatevalues("Enter Maximum Acceptable Weight in grams", smaxweight)
 
-        Supdatevalues("Enter Minimum Acceptable Weight in grams", sminweight)
 
 
         My.Settings.MaxWeight = smaxweight
@@ -1107,7 +1106,7 @@ Public Class Manual_Weight
         My.Settings.Save()
     End Sub
 
-    Private Sub TB_Max_WT_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_Max_Wt.Validating
+    Private Sub TB_Max_WT_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs)
 
         Dim Testresult As Boolean
         Dim MaxWt As Single
@@ -1131,7 +1130,7 @@ Public Class Manual_Weight
 
     End Sub
 
-    Private Sub TB_Max_WT_Validated(sender As Object, e As EventArgs) Handles TB_Max_Wt.Validated
+    Private Sub TB_Max_WT_Validated(sender As Object, e As EventArgs)
 
         ErrorProvider1.SetError(TB_Max_Wt, "")
         My.Settings.MaxWeight = Single.Parse(TB_Max_Wt.Text)
@@ -1141,7 +1140,7 @@ Public Class Manual_Weight
     End Sub
 
 
-    Private Sub TB_Min_WT_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_Min_Weight.Validating
+    Private Sub TB_Min_WT_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs)
         Dim Testresult As Boolean
         Dim TestWeight As Single
         Testresult = Single.TryParse(TB_Min_Weight.Text, TestWeight)
@@ -1163,11 +1162,15 @@ Public Class Manual_Weight
         End If
     End Sub
 
-    Private Sub TB_Min_WT_Validated(sender As Object, e As EventArgs) Handles TB_Min_Weight.Validated
+    Private Sub TB_Min_WT_Validated(sender As Object, e As EventArgs)
 
         ErrorProvider1.SetError(TB_Min_Weight, "")
         My.Settings.MinNetWt_Change = Single.Parse(TB_Min_Weight.Text)
         My.Settings.Save()
+
+    End Sub
+
+    Private Sub LBL_Min_WT_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles Lbl_MinWeight.Validating
 
     End Sub
 

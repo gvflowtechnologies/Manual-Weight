@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Manual_Weight
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -76,8 +76,6 @@ Partial Class Manual_Weight
         Me.Btn_ScaleCal = New System.Windows.Forms.Button()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.TB_Max_Wt = New System.Windows.Forms.TextBox()
-        Me.TB_Min_Weight = New System.Windows.Forms.TextBox()
         Me.TB_Max_Net_Wt_GMs = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.TB_Min_Net_WT_GM = New System.Windows.Forms.TextBox()
@@ -679,8 +677,6 @@ Partial Class Manual_Weight
         '
         'GroupBox2
         '
-        Me.GroupBox2.Controls.Add(Me.TB_Max_Wt)
-        Me.GroupBox2.Controls.Add(Me.TB_Min_Weight)
         Me.GroupBox2.Controls.Add(Me.TB_Max_Net_Wt_GMs)
         Me.GroupBox2.Controls.Add(Me.Label9)
         Me.GroupBox2.Controls.Add(Me.TB_Min_Net_WT_GM)
@@ -704,20 +700,6 @@ Partial Class Manual_Weight
         Me.GroupBox2.TabIndex = 11
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Scale Parameters"
-        '
-        'TB_Max_Wt
-        '
-        Me.TB_Max_Wt.Location = New System.Drawing.Point(270, 213)
-        Me.TB_Max_Wt.Name = "TB_Max_Wt"
-        Me.TB_Max_Wt.Size = New System.Drawing.Size(58, 20)
-        Me.TB_Max_Wt.TabIndex = 27
-        '
-        'TB_Min_Weight
-        '
-        Me.TB_Min_Weight.Location = New System.Drawing.Point(278, 180)
-        Me.TB_Min_Weight.Name = "TB_Min_Weight"
-        Me.TB_Min_Weight.Size = New System.Drawing.Size(37, 20)
-        Me.TB_Min_Weight.TabIndex = 26
         '
         'TB_Max_Net_Wt_GMs
         '
@@ -755,23 +737,23 @@ Partial Class Manual_Weight
         '
         Me.Lbl_MinWeight.AutoSize = True
         Me.Lbl_MinWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_MinWeight.Location = New System.Drawing.Point(59, 241)
+        Me.Lbl_MinWeight.Location = New System.Drawing.Point(281, 188)
         Me.Lbl_MinWeight.Name = "Lbl_MinWeight"
         Me.Lbl_MinWeight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.Lbl_MinWeight.Size = New System.Drawing.Size(47, 15)
+        Me.Lbl_MinWeight.Size = New System.Drawing.Size(60, 15)
         Me.Lbl_MinWeight.TabIndex = 23
-        Me.Lbl_MinWeight.Text = "Label14"
+        Me.Lbl_MinWeight.Text = "Lbl Min Wt"
         '
         'Lbl_MaxWeight
         '
         Me.Lbl_MaxWeight.AutoSize = True
         Me.Lbl_MaxWeight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Lbl_MaxWeight.Location = New System.Drawing.Point(59, 222)
+        Me.Lbl_MaxWeight.Location = New System.Drawing.Point(281, 216)
         Me.Lbl_MaxWeight.Name = "Lbl_MaxWeight"
         Me.Lbl_MaxWeight.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.Lbl_MaxWeight.Size = New System.Drawing.Size(47, 15)
+        Me.Lbl_MaxWeight.Size = New System.Drawing.Size(63, 15)
         Me.Lbl_MaxWeight.TabIndex = 22
-        Me.Lbl_MaxWeight.Text = "Label14"
+        Me.Lbl_MaxWeight.Text = "Lbl Max Wt"
         '
         'Lbl_TareError
         '
@@ -1027,6 +1009,4 @@ Partial Class Manual_Weight
     Friend WithEvents TB_Max_Net_Wt_GMs As TextBox
     Friend WithEvents TB_Min_Net_WT_GM As TextBox
     Friend WithEvents Label21 As Label
-    Friend WithEvents TB_Max_Wt As TextBox
-    Friend WithEvents TB_Min_Weight As TextBox
 End Class
