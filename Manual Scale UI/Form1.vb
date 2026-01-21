@@ -320,6 +320,14 @@ Public Class Manual_Weight
 
                         Loop Until login = My.Settings.Password
                     End If
+                Else
+                    If sartorius.Stable Then
+
+                        If Math.Abs(sartorius.CurrentReading) < (3 * (My.Settings.TareError / 1000)) Then
+                            teststate = Weighprocess.Scanning
+                            entering = True
+                        End If
+                    End If
                 End If
                 Tmr_ScreenUpdate.Start()
 
@@ -330,13 +338,7 @@ Public Class Manual_Weight
                 Updatecounts() 'update the counters for disposition
 
                 'Section for Picocyl wait until you take the cylinder of the scale to tranisition to the next process.
-                If sartorius.Stable Then
 
-                    If Math.Abs(sartorius.CurrentReading) > (2 * (My.Settings.TareError / 1000)) Then
-                        teststate = Weighprocess.Scanning
-                        entering = True
-                    End If
-                End If
 
 
 
