@@ -28,6 +28,7 @@ Public Class Manual_Weight
     End Structure
 
     ' Constants
+    'Signing Certificate TFLOW_Signed.pfx Password AV-QAE
     ' Private Const sloginvalue As String = "AV_QAE"
     Private Const nocanweight As Double = 2.0
 
@@ -327,10 +328,12 @@ Public Class Manual_Weight
                             teststate = Weighprocess.Scanning
                             entering = True
                         End If
+
                     End If
                 End If
                 Tmr_ScreenUpdate.Start()
 
+                If teststate = Weighprocess.prompting Then Exit Sub
                 MDataset.AddCylinder(ccylinder)
 
                 If MDataset.Firstweightexists = True Then Write_second_weight()
