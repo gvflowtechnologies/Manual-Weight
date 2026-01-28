@@ -216,7 +216,7 @@ Public Class PalletData
 
 
     Public Function Wasthisfilealreadystarted() As Boolean
-        'Test to see if file already exists.  Return true if it does and false if it does not.
+        'Test on first weight to see if file already exists.  Return true if it does and false if it does not.
         Dim B_File_Already_Exists As Boolean
         Dim FNreadfirst As String
         B_File_Already_Exists = False

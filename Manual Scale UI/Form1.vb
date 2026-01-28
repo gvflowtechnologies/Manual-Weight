@@ -298,9 +298,10 @@ Public Class Manual_Weight
                 If entering Then
                     entering = False
 
-                    ' update canister number
+
 
                 End If
+
                 Tmr_ScreenUpdate.Stop()
                 If sorterattached Then
                     If cylindersorter.Dropped = False Then
@@ -321,6 +322,8 @@ Public Class Manual_Weight
 
                         Loop Until login = My.Settings.Password
                     End If
+                    teststate = Weighprocess.Scanning
+                    entering = True
                 Else
                     If sartorius.Stable Then
 
@@ -333,16 +336,16 @@ Public Class Manual_Weight
                 End If
                 Tmr_ScreenUpdate.Start()
 
-                If teststate = Weighprocess.prompting Then Exit Sub
-                MDataset.AddCylinder(ccylinder)
+                If teststate = Weighprocess.Scanning Then
+                    MDataset.AddCylinder(ccylinder)
 
-                If MDataset.Firstweightexists = True Then Write_second_weight()
-                ccylinder.Dispose()
-                Updatecounts() 'update the counters for disposition
+                    If MDataset.Firstweightexists = True Then Write_second_weight()
+                    ccylinder.Dispose()
+                    Updatecounts() 'update the counters for disposition
 
-                'Section for Picocyl wait until you take the cylinder of the scale to tranisition to the next process.
+                    'Section for Picocyl wait until you take the cylinder of the scale to tranisition to the next process.
 
-
+                End If
 
 
             Case Weighprocess.erroring ' if we end up here stop processing
@@ -404,6 +407,7 @@ Public Class Manual_Weight
 
     Private Sub Updatecounts()
         ' updating both the pallet and static counters
+        MDataset.Canisternum += 1
 
         If ccylinder.Disposition = True Then
 
@@ -422,7 +426,7 @@ Public Class Manual_Weight
         End If
         Lbl_BadCount.Text = My.Settings.TotalBad
         Lbl_GoodCount.Text = My.Settings.TotalGood
-        Lbl_BagCount.Text = MDataset.Numgood.ToString
+        Lbl_BagCount.Text = MDataset.Canisternum.ToString
 
 
     End Sub
@@ -505,7 +509,7 @@ Public Class Manual_Weight
                 MsgBox("Invalid Batch and Pallet Combination Entered")
                 Exit Sub
             End If
-            MDataset.GetCurrentCount() ' Getting the current count
+            '  MDataset.GetCurrentCount() ' Getting the current count
             Writefileheader2() ' write the file header
 
         Else
