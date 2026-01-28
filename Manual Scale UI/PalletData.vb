@@ -51,7 +51,7 @@ Public Class PalletData
     ' ALL O2 File Handling
     '************************
     Dim ALLO2Index As Integer
-
+    'ksj
 
     Public Sub New(ByVal firstweight As Boolean)
         number_of_Canisters = My.Settings.Bag_Limit
