@@ -24,7 +24,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>2.6.3.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -63,10 +63,10 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>12CFDBE078C2F0168E7F614E2E0DE5F7E4AF8613</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>B5266060BEC4C7C3557BC907DDEB01ECCAB507FB</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Manual Scale UI_4_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Manual Scale UI_6_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -87,7 +87,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Manual Scale UI_4_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Manual Scale UI_6_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MccDaq, Version=2.6.0.0, Culture=neutral, PublicKeyToken=a37eefcf5c6ca10a, processorArchitecture=MSIL">
@@ -188,6 +188,7 @@
     <None Include="Manual Scale UI_1_TemporaryKey.pfx" />
     <None Include="Manual Scale UI_2_TemporaryKey.pfx" />
     <None Include="Manual Scale UI_4_TemporaryKey.pfx" />
+    <None Include="Manual Scale UI_6_TemporaryKey.pfx" />
     <None Include="Manual Scale UI_TemporaryKey.pfx" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">

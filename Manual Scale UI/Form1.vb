@@ -1296,9 +1296,9 @@ Public Class Manual_Weight
         My.Settings.Save()
     End Sub
 
-    Private Sub RB_FirstWeight_CheckedChanged(sender As Object, e As EventArgs) Handles RB_FirstWeight.CheckedChanged
 
-    End Sub
+
+
 
 
 
