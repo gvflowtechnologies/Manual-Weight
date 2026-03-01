@@ -1008,9 +1008,6 @@ Public Class Manual_Weight
 
         updateweight = New scaledata(AddressOf newdata.newweightdata)
         Me.BeginInvoke(updateweight, sweight)
-        Application.DoEvents()
-
-        '     Thread.Sleep(1)
 
     End Sub
 #End Region
