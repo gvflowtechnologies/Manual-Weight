@@ -158,7 +158,7 @@ Public Class Manual_Weight
         End If
 
 
-        Return True 'pastdue
+        Return pastdue
     End Function
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
