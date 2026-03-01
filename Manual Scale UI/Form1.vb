@@ -1268,7 +1268,7 @@ Public Class Manual_Weight
 
 
 
-    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating, TB_C3F8_MaxNetWt.Validated
+    Private Sub TB_C3F8_MaxNetWt_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_C3F8_MaxNetWt.Validating
         Dim Testresult As Boolean
         Dim MaxWt As Single
         Testresult = Single.TryParse(TB_C3F8_MaxNetWt.Text, MaxWt)
@@ -1290,7 +1290,7 @@ Public Class Manual_Weight
         End If
     End Sub
 
-    Private Sub TB_C3F8_MaxNetWt_TextChanged(sender As Object, e As EventArgs) Handles TB_C3F8_MaxNetWt.Validated
+    Private Sub TB_C3F8_MaxNetWt_Validated(sender As Object, e As EventArgs) Handles TB_C3F8_MaxNetWt.Validated
         ErrorProvider1.SetError(TB_C3F8_MaxNetWt, "")
         My.Settings.C3F8MaxNetWt = Single.Parse(TB_C3F8_MaxNetWt.Text)
         My.Settings.Save()
