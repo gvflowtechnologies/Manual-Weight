@@ -28,8 +28,8 @@ Public Class Manual_Weight
     End Structure
 
     ' Constants
-    ' Private Const sloginvalue As String = "AV_QAE"
-    Private Const nocanweight As Double = 2.0
+
+
 
     Public WithEvents Mycom As SerialPort 'Serial port for communicating with the scale
     Private newdata As Datareceive
@@ -160,7 +160,7 @@ Public Class Manual_Weight
         End If
 
 
-        Return True 'pastdue
+        Return pastdue
     End Function
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
