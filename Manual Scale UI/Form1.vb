@@ -111,10 +111,7 @@ Public Class Manual_Weight
         teststate = Weighprocess.idle ' Start us out in an idle condition.
         Tmr_ScreenUpdate.Stop()
 
-        If Checkdate() = False Then
-            Btn_StartPallet.Enabled = False
-            MsgBox("Calibration is Past Due, Please Update")
-        End If
+
 
         Dim v As String
         If System.Diagnostics.Debugger.IsAttached = False Then
@@ -147,21 +144,7 @@ Public Class Manual_Weight
         Loginhandling()
     End Sub
 
-    Private Function Checkdate() As Boolean
-        ' removed date checking on scale.  
-        'If we are adding back in will need to change retrun from true to past due.
-        Dim pastdue As Boolean
 
-        If Date.Compare(Date.Now, My.Settings.LastCalDate.AddMonths(My.Settings.CalFrequency)) < 0 Then
-
-            pastdue = True
-        Else
-            pastdue = False
-        End If
-
-
-        Return pastdue
-    End Function
 
     Private Sub Tmr_ScreenUpdate_Tick(sender As Object, e As EventArgs) Handles Tmr_ScreenUpdate.Tick
 
@@ -467,12 +450,6 @@ Public Class Manual_Weight
 
         Portclosing()
 
-        If Checkdate() = False Then
-            Btn_StartPallet.Enabled = False
-            RadioButtonsENabled(False)
-            MsgBox("Calibration is Past Due, ReCal Required")
-            Exit Sub
-        End If
 
         'Test for first vs second weight
         If Not RB_FinalWeightq.Checked And Not RB_FirstWeight.Checked Then
