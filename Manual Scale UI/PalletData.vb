@@ -141,24 +141,44 @@ Public Class PalletData
         ' Create a file name
         Dim FNsecondwt As String
         FNsecondwt = completed & "\" & currentfilename
+
+        Canisternum = 0
+
         ' Check to see if file already exists
 
 
         If File.Exists(FNsecondwt) Then
+            Dim linecount As Integer
             '   Dim tmpstream As StreamReader = File.OpenText(FNsecondwt)
             Using tmpstream As New StreamReader(FNsecondwt)
 
                 ' cycle through the file
                 Do While tmpstream.Peek <> -1
                     tmpstream.ReadLine()
-                    Canisternum += 1
+                    linecount += 1
 
                 Loop
             End Using
-            Canisternum -= 5 ' Subtract for the header file.
-            'Count the number of cylinders already processed.
 
+            Dim datalines As Integer = linecount - 5
+            If datalines < 0 Then datalines = 0 ' malformed/partial file guard
+
+            Dim resp As MsgBoxResult = MsgBox(
+            "A completed-weight file already exists for this Bag/Batch (" & currentfilename &
+            "), showing " & datalines & " part(s) already processed." & vbCrLf &
+            "Resume from this count?" & vbCrLf & vbCrLf &
+            "If this is unexpected, answer No and contact your supervisor — " &
+            "the existing file will need to be moved before continuing.",
+            MsgBoxStyle.YesNo, "Existing Progress Found")
+
+            If resp = MsgBoxResult.Yes Then
+                Canisternum = datalines
+            End If
+            ' If No: Canisternum stays 0. The stale file in "Completed" is left as-is —
+            ' cleanup is manual/supervisor-driven, not automated by SWAMY.
         End If
+
+
 
 
     End Sub
