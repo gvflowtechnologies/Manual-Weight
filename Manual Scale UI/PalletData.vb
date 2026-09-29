@@ -114,19 +114,26 @@ Public Class PalletData
         ' The second function is to set the time of either the first weight date and time or the second weight date and time.
 
         Dim filename As String
-        Dim x As Integer
-        x = 0
+        Dim matchcount As Integer = 0
+        currentfilename = Nothing ' do not silently cary a stale file name in.
 
         For Each filename In currentfirstweights
 
             If filename.Contains(firstpallet) And filename.Contains(firstbatch) Then
 
-                currentfilename = currentfirstweights(x)
-            Else
+                currentfilename = filename
+                matchcount += 1
 
-                x += 1
+
             End If
         Next
+
+        If matchcount > 1 Then
+            MsgBox("Contact Supervisor: Multiple files matched Bag " & firstpallet & " / Batch " & firstbatch &
+                   ". Cannot safely determine which file to use.", MsgBoxStyle.Critical, "Ambiguous File Match")
+            currentfilename = Nothing ' block downstream use — force a clean failure
+        End If
+
 
     End Sub
 
@@ -380,6 +387,7 @@ Public Class PalletData
         Me.disposed = True
     End Sub
 #End Region
+
 
 #Region "Properties" 'Properties
 
