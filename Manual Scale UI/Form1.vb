@@ -297,6 +297,7 @@ Public Class Manual_Weight
                 Tmr_ScreenUpdate.Stop()
                 If sorterattached Then
                     If cylindersorter.Dropped = False Then
+                        Const MaxSupervisorAttempts As Integer = 6 ' wrong passwords allowed before the bag is closed
                         Dim login As String
                         Dim count As Integer
                         cylindersorter.Sort(255)
@@ -304,15 +305,30 @@ Public Class Manual_Weight
                         Do
                             login = InputBox("Supervisor Approval Required", "Cylinder not put in sorter", "")
                             If login <> My.Settings.Password Then
-                                MsgBox("You have " & (5 - count).ToString & " attempts remaining", MsgBoxStyle.OkOnly, "Login Incorrect")
                                 count += 1
-                                If count > 5 Then
+                                If count >= MaxSupervisorAttempts Then
+                                    MsgBox("Incorrect password entered " & MaxSupervisorAttempts.ToString & " times. The bag will be closed.", MsgBoxStyle.Critical, "Login Incorrect")
                                     Closepallet()
                                     Exit Sub
                                 End If
+                                MsgBox("You have " & (MaxSupervisorAttempts - count).ToString & " attempts remaining", MsgBoxStyle.OkOnly, "Login Incorrect")
                             End If
 
                         Loop Until login = My.Settings.Password
+
+                        ' Sort timeout acknowledged by supervisor.  The cylinder was not sorted, so its
+                        ' data is discarded: it is NOT added to the bag, NOT written to the data file and
+                        ' NOT counted.  Because it is not in CylinderList, rescanning the same serial
+                        ' number will not raise a duplicate SN error.  The operator rescans and the
+                        ' cylinder is re-weighed and sorted normally.
+                        LBL_Rationalle.Text = "Sort timeout - data for " & ccylinder.SerialNumber & " discarded. Rescan cylinder."
+                        MsgBox("Cylinder " & ccylinder.SerialNumber & " was not sorted and has not been recorded." & vbCrLf &
+                               "Rescan and re-weigh the cylinder.", MsgBoxStyle.Exclamation, "Sort Timeout - Rescan Required")
+                        teststate = Weighprocess.Scanning
+                        entering = True
+                        ccylinder.Dispose()
+                        Tmr_ScreenUpdate.Start()
+                        Exit Sub
                     End If
                 End If
 
@@ -1016,18 +1032,18 @@ Public Class Manual_Weight
         Dim Stringtest As String
         Dim StringTestValue As String
 
+        ' Check for an empty entry first - Substring(0, 1) throws on an empty string.
+        If SerialNumber.Length = 0 Then
+            errorMessage = "No Serial Number Entered"
+            Return False
+        End If
+
         Stringtest = SerialNumber.Substring(0, 1)
 
         If RB_SF6.Checked Then
             StringTestValue = 1
         Else
             StringTestValue = 2
-        End If
-
-
-        If SerialNumber.Length = 0 Then
-            errorMessage = "No Serial Number Entered"
-            Return False
         End If
 
         If Stringtest <> StringTestValue Then
@@ -1059,10 +1075,26 @@ Public Class Manual_Weight
             TB_SerialNumber.Select(0, TB_SerialNumber.Text.Length)
             Me.ErrorProvider1.SetError(TB_SerialNumber, errormsg)
             If errormsg = "Wrong Gas Type" Then
+                ' Serial number belongs to the other gas type (e.g. C3F8 SN in an SF6 lot).
+                ' Open the bad part chute so the cylinder is segregated, tell the operator to halt
+                ' production, and require supervisor approval before continuing.  The cylinder is
+                ' not weighed, recorded or counted.
+                Const WrongSNMsg As String = "Incorrect Serial Number. Halt Production to Investigate"
+                Me.ErrorProvider1.SetError(TB_SerialNumber, WrongSNMsg)
+                Lbl_Instruction.Text = "HALT - Incorrect SN"
+                Lbl_Instruction.BackColor = Color.Red
+                LBL_Rationalle.Text = WrongSNMsg & " (" & TB_SerialNumber.Text & ")"
+                If sorterattached Then cylindersorter.Sort(2) ' open bad part chute
+                MsgBox(WrongSNMsg & vbCrLf & vbCrLf & "Serial Number: " & TB_SerialNumber.Text & vbCrLf &
+                       "Place the cylinder in the bad part chute.", MsgBoxStyle.Critical, "Incorrect Serial Number")
                 Do
-                    login = InputBox("Supervisor Approval Required", "Error - Wrong SN Prefix", "")
+                    login = InputBox("Supervisor Approval Required", "Incorrect Serial Number - Halt Production", "")
 
                 Loop Until login = My.Settings.Password
+                If sorterattached Then cylindersorter.Sort(255) ' close chute
+                TB_SerialNumber.Text = ""
+                Lbl_Instruction.Text = "Scan"
+                Lbl_Instruction.BackColor = Color.CornflowerBlue
             End If
 
         End If
