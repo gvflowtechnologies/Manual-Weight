@@ -202,15 +202,28 @@ Public Class Manual_Weight
 
                     If MDataset.SN_Already_Exists(ccylinder.SerialNumber) Then  ' Serial number is a duplicate
 
-                        Dim login As String
+                        ' Duplicate SN (SR-06, SR-11, SR-12).  The duplicate scan is not weighed: it goes to the
+                        ' bad part chute and is logged.  The first instance is marked "Duplicate SN".
+                        Const DupSNMsg As String = "Duplicate Serial Number"
+                        Dim dupsn As String = ccylinder.SerialNumber
                         Tmr_ScreenUpdate.Stop()
                         ccylinder.Dispose()
                         teststate = Weighprocess.Scanning
 
-                        Do
-                            login = InputBox("Supervisor Approval Required", "Error - Duplicate SN", "")
+                        Lbl_Instruction.Text = "Duplicate SN"
+                        Lbl_Instruction.BackColor = Color.Red
+                        LBL_Rationalle.Text = DupSNMsg & " (" & dupsn & "). Place the cylinder in the bad part chute."
 
-                        Loop Until login = My.Settings.Password
+                        ' Post-weigh: the first instance's line is already in the file and is never rewritten,
+                        ' so a marker line is appended, once per SN (D2).
+                        If Not MDataset.MarkDuplicate(dupsn) AndAlso MDataset.Firstweightexists Then Write_Duplicate_Marker(dupsn)
+
+                        If Not HandleRejectedScan(dupsn, Cylinder.EventDuplicateSN, Cylinder.EventDuplicateSNNotSorted,
+                                                  DupSNMsg, Cylinder.MsgDuplicateNotSorted, "Error - Duplicate SN") Then
+                            TB_SerialNumber.Text = ""
+                            Closepallet()
+                            Exit Sub
+                        End If
 
                         Tmr_ScreenUpdate.Start()
                         Exit Sub
@@ -220,6 +233,7 @@ Public Class Manual_Weight
                     If MDataset.Firstweightexists Then ' This is a second weight get data from previous cycle.
 
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
+                        ccylinder.Status = MDataset.FirstWeightStatus(ccylinder.SerialNumber) ' "Duplicate SN" -> rejected (SR-12)
                         ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
 
                     End If
@@ -297,24 +311,12 @@ Public Class Manual_Weight
                 Tmr_ScreenUpdate.Stop()
                 If sorterattached Then
                     If cylindersorter.Dropped = False Then
-                        Const MaxSupervisorAttempts As Integer = 6 ' wrong passwords allowed before the bag is closed
-                        Dim login As String
-                        Dim count As Integer
                         cylindersorter.Sort(255)
                         ' msg box stuff here.
-                        Do
-                            login = InputBox("Supervisor Approval Required", "Cylinder not put in sorter", "")
-                            If login <> My.Settings.Password Then
-                                count += 1
-                                If count >= MaxSupervisorAttempts Then
-                                    MsgBox("Incorrect password entered " & MaxSupervisorAttempts.ToString & " times. The bag will be closed.", MsgBoxStyle.Critical, "Login Incorrect")
-                                    Closepallet()
-                                    Exit Sub
-                                End If
-                                MsgBox("You have " & (MaxSupervisorAttempts - count).ToString & " attempts remaining", MsgBoxStyle.OkOnly, "Login Incorrect")
-                            End If
-
-                        Loop Until login = My.Settings.Password
+                        If Not RequireSupervisorPassword("Cylinder not put in sorter") Then
+                            Closepallet()
+                            Exit Sub
+                        End If
 
                         ' Sort timeout acknowledged by supervisor.  The cylinder was not sorted, so its
                         ' data is discarded: it is NOT added to the bag, NOT written to the data file and
@@ -454,6 +456,73 @@ Public Class Manual_Weight
 
 
     End Sub
+
+    Private Sub CountEventAsBad()
+        ' Bad count for a logged scan that was not weighed but was dropped in the bad part chute (SR-08, SR-11).
+        MDataset.Numbad += 1
+        My.Settings.TotalBad = My.Settings.TotalBad + 1
+        My.Settings.Save()
+        Lbl_BadCount.Text = My.Settings.TotalBad
+
+    End Sub
+
+    Private Function RequireSupervisorPassword(ByVal title As String) As Boolean
+        ' Supervisor approval with a limited number of attempts (SR-03, SR-14).  Cancel or blank counts as a
+        ' wrong entry.  Returns False after the last wrong entry; the caller then closes the bag.
+        Const MaxSupervisorAttempts As Integer = 6 ' wrong passwords allowed before the bag is closed
+        Dim login As String
+        Dim count As Integer
+
+        Do
+            login = InputBox("Supervisor Approval Required", title, "")
+            If login <> My.Settings.Password Then
+                count += 1
+                If count >= MaxSupervisorAttempts Then
+                    MsgBox("Incorrect password entered " & MaxSupervisorAttempts.ToString & " times. The bag will be closed.", MsgBoxStyle.Critical, "Login Incorrect")
+                    Return False
+                End If
+                MsgBox("You have " & (MaxSupervisorAttempts - count).ToString & " attempts remaining", MsgBoxStyle.OkOnly, "Login Incorrect")
+            End If
+
+        Loop Until login = My.Settings.Password
+
+        Return True
+
+    End Function
+
+    Private Function HandleRejectedScan(ByVal sn As String, ByVal sortedevent As String, ByVal notsortedevent As String,
+                                        ByVal popuptext As String, ByVal notsortedtext As String, ByVal title As String) As Boolean
+        ' Wrong gas or duplicate SN scan (SR-07, SR-08, SR-10, SR-11).  The cylinder is not weighed.
+        ' Opens the bad part chute and waits up to 15 s for the drop.  Nothing modal is shown during the wait:
+        ' the drop sensor only reads true while the part passes, so a pop-up could hide the drop.
+        ' Returns False if the supervisor password was locked out; the caller then closes the bag.
+        Dim dropped As Boolean = True ' No sorter attached: treated as dropped, as for normal sorts (D5)
+
+        Me.Refresh() ' Dropped blocks the UI thread, so show the labels first
+        If sorterattached Then
+            cylindersorter.Sort(2) ' open bad part chute
+            dropped = cylindersorter.Dropped
+        End If
+
+        ' Log before any dialog, so a lockout still records the line.
+        popuptext = popuptext & vbCrLf & vbCrLf & "Serial Number: " & sn
+        If dropped Then
+            LogScanEvent(sn, sortedevent, True)
+            CountEventAsBad()
+        Else
+            cylindersorter.Sort(255) ' close chute
+            LogScanEvent(sn, notsortedevent, False)
+            popuptext = popuptext & vbCrLf & vbCrLf & notsortedtext
+        End If
+
+        MsgBox(popuptext, MsgBoxStyle.Critical, title)
+
+        If Not RequireSupervisorPassword(title) Then Return False
+
+        If sorterattached Then cylindersorter.Sort(255) ' close chute
+        Return True
+
+    End Function
 
     Private Sub Btn_StartPallet_Click(sender As Object, e As EventArgs) Handles Btn_StartPallet.Click
         Dim followup As MsgBoxResult
@@ -686,7 +755,13 @@ Public Class Manual_Weight
 
             For Each cyl In MDataset.CylinderList
                 swdataset.Write(cyl.SerialNumber.ToString & ", ")
-                swdataset.WriteLine(cyl.Firstweight.ToString)
+                If cyl.IsEvent Then
+                    swdataset.WriteLine(", " & cyl.Status) ' blank weight marks a logged scan event (SR-13)
+                ElseIf cyl.Status <> "" Then
+                    swdataset.WriteLine(cyl.Firstweight.ToString & ", " & cyl.Status) ' first instance of a duplicate (SR-12)
+                Else
+                    swdataset.WriteLine(cyl.Firstweight.ToString)
+                End If
 
             Next
             swdataset.WriteLine("END_OF_DATA, ")
@@ -741,6 +816,28 @@ Public Class Manual_Weight
             swdataset.Write(ccylinder.Secondweight.ToString("N4") & ", ")
             swdataset.Write(ccylinder.Disposition & ", ")
             swdataset.WriteLine(ccylinder.DispReason)
+        End Using
+    End Sub
+
+    Private Sub LogScanEvent(ByVal sn As String, ByVal eventtext As String, ByVal countedbad As Boolean)
+        ' Data file line for a scan that was not weighed (SR-08, SR-10, SR-11).  Blank weights mark it as an
+        ' event line, so it is not read as a first weight or counted as a part (SR-13).
+        ' Post-weigh: Disposition is False only when the line was counted bad, so the column totals match
+        ' the bad count; "Not Sorted" lines are not counted (SR-10) and have a blank Disposition.
+        If MDataset.Firstweightexists Then
+            Using swdataset As New StreamWriter(DataFileName, True)
+                swdataset.WriteLine(sn & ", , , , " & If(countedbad, "False", "") & ", " & eventtext)
+            End Using
+        Else
+            MDataset.AddEvent(sn, eventtext, cylindergas.SNStart) ' written in scan order at bag close
+        End If
+    End Sub
+
+    Private Sub Write_Duplicate_Marker(ByVal sn As String)
+        ' Post-weigh: the first instance's line is already recorded and is never rewritten, so a marker line
+        ' is appended (SR-12, D2).  Blank weights and Disposition keep it out of the counts (SR-13).
+        Using swdataset As New StreamWriter(DataFileName, True)
+            swdataset.WriteLine(sn & ", , , , , " & Cylinder.EventDuplicateFirstInstance)
         End Using
     End Sub
 
@@ -1067,34 +1164,38 @@ Public Class Manual_Weight
 
     Private Sub SN_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TB_SerialNumber.Validating
 
-        Dim login As String
         Dim errormsg As String = ""
 
         If Not ValidSerialNumber(TB_SerialNumber.Text, errormsg) Then
             e.Cancel = True
             TB_SerialNumber.Select(0, TB_SerialNumber.Text.Length)
             Me.ErrorProvider1.SetError(TB_SerialNumber, errormsg)
-            If errormsg = "Wrong Gas Type" Then
+            If errormsg = "Wrong Gas Type" AndAlso teststate = Weighprocess.Scanning Then
                 ' Serial number belongs to the other gas type (e.g. C3F8 SN in an SF6 lot).
-                ' Open the bad part chute so the cylinder is segregated, tell the operator to halt
-                ' production, and require supervisor approval before continuing.  The cylinder is
-                ' not weighed, recorded or counted.
+                ' Tell the operator to halt production, send the cylinder to the bad part chute, log it and
+                ' require supervisor approval before continuing (SR-07, SR-08, SR-10).  The cylinder is not weighed.
+                ' Only while scanning: Validating also fires on other focus changes, e.g. Stop Bag (D4).
                 Const WrongSNMsg As String = "Incorrect Serial Number. Halt Production to Investigate"
+                Dim wrongsn As String = TB_SerialNumber.Text
+                Tmr_ScreenUpdate.Stop()
                 Me.ErrorProvider1.SetError(TB_SerialNumber, WrongSNMsg)
                 Lbl_Instruction.Text = "HALT - Incorrect SN"
                 Lbl_Instruction.BackColor = Color.Red
-                LBL_Rationalle.Text = WrongSNMsg & " (" & TB_SerialNumber.Text & ")"
-                If sorterattached Then cylindersorter.Sort(2) ' open bad part chute
-                MsgBox(WrongSNMsg & vbCrLf & vbCrLf & "Serial Number: " & TB_SerialNumber.Text & vbCrLf &
-                       "Place the cylinder in the bad part chute.", MsgBoxStyle.Critical, "Incorrect Serial Number")
-                Do
-                    login = InputBox("Supervisor Approval Required", "Incorrect Serial Number - Halt Production", "")
+                LBL_Rationalle.Text = WrongSNMsg & " (" & wrongsn & "). Place the cylinder in the bad part chute."
 
-                Loop Until login = My.Settings.Password
-                If sorterattached Then cylindersorter.Sort(255) ' close chute
+                If Not HandleRejectedScan(wrongsn, Cylinder.EventWrongGas, Cylinder.EventWrongGasNotSorted,
+                                          WrongSNMsg, Cylinder.MsgWrongGasNotSorted, "Incorrect Serial Number - Halt Production") Then
+                    TB_SerialNumber.Text = ""
+                    Me.ErrorProvider1.SetError(TB_SerialNumber, "")
+                    Closepallet()
+                    Exit Sub
+                End If
+
                 TB_SerialNumber.Text = ""
+                Me.ErrorProvider1.SetError(TB_SerialNumber, "")
                 Lbl_Instruction.Text = "Scan"
                 Lbl_Instruction.BackColor = Color.CornflowerBlue
+                Tmr_ScreenUpdate.Start()
             End If
 
         End If

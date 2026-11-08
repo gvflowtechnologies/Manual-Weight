@@ -149,18 +149,20 @@ Public Class PalletData
 
         If File.Exists(FNsecondwt) Then
             Dim linecount As Integer
+            Dim eventlines As Integer ' logged event and first-instance marker lines have a blank 1st Wt; they are not parts (SR-13)
             '   Dim tmpstream As StreamReader = File.OpenText(FNsecondwt)
             Using tmpstream As New StreamReader(FNsecondwt)
 
                 ' cycle through the file
                 Do While tmpstream.Peek <> -1
-                    tmpstream.ReadLine()
+                    Dim fields() As String = tmpstream.ReadLine().Split(",")
                     linecount += 1
+                    If fields.Length > 2 AndAlso fields(2).Trim = "" Then eventlines += 1
 
                 Loop
             End Using
 
-            Dim datalines As Integer = linecount - 5
+            Dim datalines As Integer = linecount - 5 - eventlines
             If datalines < 0 Then datalines = 0 ' malformed/partial file guard
 
             Dim resp As MsgBoxResult = MsgBox(
@@ -303,29 +305,41 @@ Public Class PalletData
             End If
 
             ' Reading in all of the serial numbers and first weights.
+            ' Lines with a blank weight are logged events (wrong gas, duplicate scan), not parts (SR-13).
             number_of_Canisters = 0
             Do While tmpstream.Peek <> -1
                 Dim CurrentString As String
                 CurrentString = tmpstream.ReadLine
                 If CurrentString.StartsWith("END_OF_DATA") Then Exit Do
+                STempline = CurrentString.Split(",")
+                If STempline.Length < 2 OrElse STempline(1).Trim = "" Then Continue Do
                 ReDim Preserve Stemplines(number_of_Canisters)
                 Stemplines(number_of_Canisters) = CurrentString
                 number_of_Canisters += 1
             Loop
 
             'Redimension both the temp and permanent storage arrays
+            ' Fixed columns: S/N, First Wt, Status.  Files from 2.6.4.2 have no Status column, so pad with "".
             iNumRows = UBound(Stemplines)
-            STempline = Stemplines(0).Split(",")
-            iNumCols = UBound(STempline)
+            iNumCols = 2
             ReDim FirstWeightReading(iNumRows, iNumCols)
 
             'Copy reading data into the array.
             For x = 0 To iNumRows
-                STempline = Stemplines(x).Split(",")
+                If number_of_Canisters = 0 Then ' Empty-file guard (SR-13): no part lines, nothing to look up
+                    STempline = {"", "", ""}
+                Else
+                    STempline = Stemplines(x).Split(",")
+                End If
 
                 For y = 0 To iNumCols
-                    FirstWeightReading(x, y) = STempline(y)
+                    If y <= UBound(STempline) Then
+                        FirstWeightReading(x, y) = STempline(y)
+                    Else
+                        FirstWeightReading(x, y) = ""
+                    End If
                 Next
+                FirstWeightReading(x, 2) = FirstWeightReading(x, 2).Trim
 
             Next
 
@@ -368,13 +382,13 @@ Public Class PalletData
     Public Function SN_Already_Exists(ByVal SerialNumber As String) As Boolean
         'Looks through all of the Cylinders.  IF a duplicate is found return true.
         'Indicate duplicate was found
-        'Set Weight of the cylinder already in the system to -20
+        'Logged scan events are not parts and are ignored.  The first instance is marked by MarkDuplicate (SR-12).
 
         Dim CylinderExists As Boolean
         Dim SNINDEX As Integer
         CylinderExists = False
 
-        SNINDEX = CylinderList.FindIndex(Function(CYL As Cylinder) CYL.SerialNumber = SerialNumber)
+        SNINDEX = CylinderList.FindIndex(Function(CYL As Cylinder) CYL.SerialNumber = SerialNumber AndAlso Not CYL.IsEvent)
 
         If SNINDEX = -1 Then
             CylinderExists = False
@@ -382,12 +396,33 @@ Public Class PalletData
         Else
             CylinderExists = True
 
-            CylinderList(SNINDEX).Cylinder_Weight(-20.0)
-
         End If
 
         Return CylinderExists
     End Function
+
+    Public Function MarkDuplicate(ByVal SerialNumber As String) As Boolean
+        'Marks the first instance of a duplicated SN as "Duplicate SN" (SR-12).
+        'Returns True if it was already marked, so a post-weigh marker line is written only once per SN.
+
+        Dim SNINDEX As Integer
+        SNINDEX = CylinderList.FindIndex(Function(CYL As Cylinder) CYL.SerialNumber = SerialNumber AndAlso Not CYL.IsEvent)
+
+        If SNINDEX = -1 Then Return False
+        If CylinderList(SNINDEX).Status = Cylinder.EventDuplicateSN Then Return True
+
+        CylinderList(SNINDEX).Status = Cylinder.EventDuplicateSN
+        Return False
+    End Function
+
+    Public Sub AddEvent(ByVal SerialNumber As String, ByVal EventText As String, ByVal SNStart As String)
+        'Logged scan event (wrong gas, duplicate scan) kept in scan order for the first-weight file (SR-08, SR-10, SR-11).
+        Dim eventcylinder As New Cylinder(BFirstweightExists, SerialNumber, SNStart)
+        eventcylinder.IsEvent = True
+        eventcylinder.Status = EventText
+        CylinderList.Add(eventcylinder)
+
+    End Sub
 
 #Region "Disposing"
     Public Sub Dispose() Implements IDisposable.Dispose
@@ -576,6 +611,25 @@ Public Class PalletData
             Next
 
             Return init_weight
+        End Get
+    End Property
+
+    Public ReadOnly Property FirstWeightStatus(ByVal serialnumber As String) As String
+        Get
+            'Status column from the first-weight file, e.g. "Duplicate SN" (SR-12).  Does not change canisternumber.
+            Dim status As String = ""
+            Dim x As Integer ' Counter Variable
+
+            iNumRows = UBound(FirstWeightReading, 1)
+
+            For x = 0 To iNumRows
+                If FirstWeightReading(x, 0) = serialnumber Then
+                    status = FirstWeightReading(x, 2)
+                    Exit For
+                End If
+            Next
+
+            Return status
         End Get
     End Property
 

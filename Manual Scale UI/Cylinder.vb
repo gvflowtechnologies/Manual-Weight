@@ -2,6 +2,15 @@
 Option Explicit On
 Public Class Cylinder
 
+    ' Data file texts for scans that are not weighed and for duplicate SN marking (SR-08, SR-10 to SR-12)
+    Public Const EventWrongGas As String = "Wrong Gas"
+    Public Const EventWrongGasNotSorted As String = "Wrong Gas - Not Sorted"
+    Public Const EventDuplicateSN As String = "Duplicate SN"
+    Public Const EventDuplicateSNNotSorted As String = "Duplicate SN - Not Sorted"
+    Public Const EventDuplicateFirstInstance As String = "Duplicate SN - First Instance"
+    Public Const MsgWrongGasNotSorted As String = "Wrong gas cylinder not in bad bin"
+    Public Const MsgDuplicateNotSorted As String = "Duplicate SN cylinder not in bad bin"
+
     Private dALLO2Weight As Double
     Private dCylinder_First_Weight As Double
     Private dCylinder_Second_Weight As Double
@@ -15,6 +24,8 @@ Public Class Cylinder
     Private weightlimit As Double
     Private minweight As Double
     Private maxweight As Double
+    Private bIsEvent As Boolean ' True = logged scan event (wrong gas, duplicate scan), not a weighed part
+    Private sStatus As String ' Event text, or "Duplicate SN" on the first instance of a duplicated SN
 
 
 
@@ -26,6 +37,8 @@ Public Class Cylinder
         dCylinder_Second_Weight = 0.0
         sSN = SerialNum
         sSN_StartTest = ssnstart
+        bIsEvent = False
+        sStatus = ""
 
 
 
@@ -52,6 +65,12 @@ Public Class Cylinder
 
         'Deterimine if the device is good or bad.
 
+
+        If sStatus = EventDuplicateSN Then ' First instance of a duplicated SN in the first-weight file (SR-12)
+            ddisposition = False
+            sDispReason = EventDuplicateSN
+            Exit Sub
+        End If
 
         If dCylinder_First_Weight = -20 Then
             ddisposition = False
@@ -202,6 +221,24 @@ Public Class Cylinder
         End Get
         Set(value As String)
             sSN = value
+        End Set
+    End Property
+
+    Public Property IsEvent As Boolean
+        Get
+            Return bIsEvent
+        End Get
+        Set(value As Boolean)
+            bIsEvent = value
+        End Set
+    End Property
+
+    Public Property Status As String
+        Get
+            Return sStatus
+        End Get
+        Set(value As String)
+            sStatus = value
         End Set
     End Property
 
