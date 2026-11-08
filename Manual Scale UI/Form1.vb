@@ -276,7 +276,7 @@ Public Class Manual_Weight
                 End If
 
                 If sartorius.Stable Then
-                    If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit Then
+                    If sartorius.CurrentReading > My.Settings.MinWeight - 2 * My.Settings.TareLimit / 1000 Then ' TareLimit is in mg; convert to g (matches taring check above)
 
                         ccylinder.Cylinder_Weight(sartorius.CurrentReading)
                         Disposition()
