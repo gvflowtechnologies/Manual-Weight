@@ -1,5 +1,10 @@
 # Implementation Plan: SWAMY 2.6.4.3 (wrong-gas, duplicate SN, password lockout)
 
+> **Superseded in part (9 Nov 2026)** by "SWAMY 2.6.4.3 Change Plan (SR-15 to SR-20)", approved by Greg on 9 Nov 2026 and implemented in commit 3745b8a. Where they differ, the Change Plan wins. In particular:
+> - SR-13 (section 1): the post-weigh resume count no longer exists. Post-weigh cannot be resumed (SR-17), and `GetCurrentCount` was removed, so the `GetCurrentCount` item in section 4 no longer applies.
+> - Open findings (section 5): F3 is fixed by SR-15 and F5 by SR-16; F15 and F16 by SR-17.
+> - Bench tests (section 6): the current list is T-01 to T-21 in `docs/BENCH_TEST_2.6.4.3.md`. T-13b (resume) is replaced by T-17 (refusal to resume).
+
 Status: **PLAN APPROVED IN REVIEW (8 Nov 2026) - waiting for Greg's go-ahead before coding.** Design decisions D1-D5 are recorded in section 3.
 
 - Branch: work and commit on `feature/wronggas-duplicate-lockout`. Merge into `Version_2_6_4_0` only after Greg's bench test passes.
