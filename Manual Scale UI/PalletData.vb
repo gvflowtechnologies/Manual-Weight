@@ -7,6 +7,14 @@ Imports System.Text
 
 Public Class PalletData
     Implements IDisposable
+
+    ' Messages for refusing to start a bag (SR-16 to SR-20)
+    Public Const MsgAlreadyArchived As String = "A first-weight file for this batch and bag has already been archived. Use a new batch name."
+    Public Const MsgPostWeighStarted As String = "Post-weigh has already been started for this bag and cannot be resumed. Use a new batch name."
+    Public Const MsgPreWeighUsed As String = "Batch and bag already used. Use a new batch name."
+    Public Const MsgMultipleMatch As String = "More than one first-weight file matches this batch and bag. Contact Supervisor."
+    Public Const MsgUnrecognizedFile As String = "Unrecognized file for this batch and bag in In Process. Contact Supervisor."
+
     Private palletid As String ' current active pallet
     Private batchid As String ' current active pallet
     Private currentfilename As String ' Current Active File.
@@ -109,17 +117,21 @@ Public Class PalletData
 
     End Sub
 
-    Public Sub Firstweight(ByVal firstpallet As String, ByVal firstbatch As String)
+    Public Function Firstweight(ByVal firstpallet As String, ByVal firstbatch As String) As Integer
 
         ' The second function is to set the time of either the first weight date and time or the second weight date and time.
+        ' Selects the In Process first-weight file for this exact batch and bag (SR-19).  Returns the number of matches;
+        ' currentfilename is set only when there is exactly one.
 
         Dim filename As String
         Dim matchcount As Integer = 0
         currentfilename = Nothing ' do not silently cary a stale file name in.
 
+        If currentfirstweights Is Nothing Then Return 0 ' In Process folder missing: not found
+
         For Each filename In currentfirstweights
 
-            If filename.Contains(firstpallet) And filename.Contains(firstbatch) Then
+            If IsFirstWeightFor(filename, firstpallet, firstbatch) Then
 
                 currentfilename = filename
                 matchcount += 1
@@ -129,61 +141,114 @@ Public Class PalletData
         Next
 
         If matchcount > 1 Then
-            MsgBox("Contact Supervisor: Multiple files matched Bag " & firstpallet & " / Batch " & firstbatch &
-                   ". Cannot safely determine which file to use.", MsgBoxStyle.Critical, "Ambiguous File Match")
             currentfilename = Nothing ' block downstream use — force a clean failure
         End If
 
+        Return matchcount
 
-    End Sub
+    End Function
 
-    Public Sub GetCurrentCount()
-        ' Create a file name
-        Dim FNsecondwt As String
-        FNsecondwt = completed & "\" & currentfilename
+    Public Shared Function ParseFirstWeightName(ByVal name As String, ByRef fbatch As String, ByRef fbag As String,
+                                                ByRef fmonth As Integer, ByRef fday As Integer, ByRef fyear As Integer) As Boolean
+        ' First-weight file name: Batch_Bag_Month_Day_Year_.csv, read from the right (SR-19).  The last three fields
+        ' are the date and the field before them is the bag, all digits; the rest is the batch, which may contain "_".
+        fbatch = ""
+        fbag = ""
+        fmonth = 0
+        fday = 0
+        fyear = 0
 
-        Canisternum = 0
+        If name Is Nothing Then Return False
+        If Not name.EndsWith("_.csv", StringComparison.OrdinalIgnoreCase) Then Return False
 
-        ' Check to see if file already exists
+        Dim fields() As String = name.Substring(0, name.Length - 5).Split("_"c)
+        Dim n As Integer = fields.Length
+        If n < 5 Then Return False
 
+        For i As Integer = n - 4 To n - 1
+            fields(i) = fields(i).Trim
+            If fields(i) = "" Then Return False
+            For Each c As Char In fields(i)
+                If c < "0"c OrElse c > "9"c Then Return False
+            Next
+        Next
 
-        If File.Exists(FNsecondwt) Then
-            Dim linecount As Integer
-            Dim eventlines As Integer ' logged event and first-instance marker lines have a blank 1st Wt; they are not parts (SR-13)
-            '   Dim tmpstream As StreamReader = File.OpenText(FNsecondwt)
-            Using tmpstream As New StreamReader(FNsecondwt)
+        If Not Integer.TryParse(fields(n - 3), fmonth) OrElse Not Integer.TryParse(fields(n - 2), fday) OrElse
+           Not Integer.TryParse(fields(n - 1), fyear) Then Return False
 
-                ' cycle through the file
-                Do While tmpstream.Peek <> -1
-                    Dim fields() As String = tmpstream.ReadLine().Split(",")
-                    linecount += 1
-                    If fields.Length > 2 AndAlso fields(2).Trim = "" Then eventlines += 1
+        fbatch = String.Join("_", fields, 0, n - 4).Trim
+        If fbatch = "" Then Return False
+        fbag = fields(n - 4)
 
-                Loop
-            End Using
+        Return True
+    End Function
 
-            Dim datalines As Integer = linecount - 5 - eventlines
-            If datalines < 0 Then datalines = 0 ' malformed/partial file guard
+    Private Shared Function IsFirstWeightFor(ByVal name As String, ByVal fpallet As String, ByVal fbatch As String) As Boolean
+        ' True when the file name is a valid first-weight name for this exact batch and bag (SR-19).
+        Dim nbatch As String = ""
+        Dim nbag As String = ""
+        Dim m, d, y As Integer
 
-            Dim resp As MsgBoxResult = MsgBox(
-            "A completed-weight file already exists for this Bag/Batch (" & currentfilename &
-            "), showing " & datalines & " part(s) already processed." & vbCrLf &
-            "Resume from this count?" & vbCrLf & vbCrLf &
-            "If this is unexpected, answer No and contact your supervisor — " &
-            "the existing file will need to be moved before continuing.",
-            MsgBoxStyle.YesNo, "Existing Progress Found")
+        If Not ParseFirstWeightName(name, nbatch, nbag, m, d, y) Then Return False
+        Return String.Equals(nbatch, fbatch.Trim, StringComparison.OrdinalIgnoreCase) AndAlso
+               String.Equals(nbag, fpallet.Trim, StringComparison.OrdinalIgnoreCase)
+    End Function
 
-            If resp = MsgBoxResult.Yes Then
-                Canisternum = datalines
-            End If
-            ' If No: Canisternum stays 0. The stale file in "Completed" is left as-is —
-            ' cleanup is manual/supervisor-driven, not automated by SWAMY.
+    Private Shared Function FolderFileNames(ByVal folder As String) As String()
+        ' File names only, top level only.  A missing folder is treated as empty.
+        If Not Directory.Exists(folder) Then Return New String() {}
+        Dim allfiles() As String = Directory.GetFiles(folder)
+        For i As Integer = 0 To allfiles.GetUpperBound(0)
+            allfiles(i) = Path.GetFileName(allfiles(i))
+        Next
+        Return allfiles
+    End Function
+
+    Public Function PostWeighStartedRefusal() As String
+        ' Post-weigh does not resume a bag (SR-17).  Runs before any file is moved.  Returns "" or the refusal message.
+        Dim waiting As New List(Of String)
+
+        If currentfirstweights IsNot Nothing Then
+            For Each fname As String In currentfirstweights
+                If IsFirstWeightFor(fname, Pallet, Batch) Then waiting.Add(fname)
+            Next
         End If
+        If waiting.Count > 1 Then Return MsgMultipleMatch
 
+        For Each fname As String In FolderFileNames(completed)
+            If waiting.Count = 1 Then
+                If String.Equals(fname, waiting(0), StringComparison.OrdinalIgnoreCase) Then Return MsgPostWeighStarted
+            ElseIf IsFirstWeightFor(fname, Pallet, Batch) Then
+                Return MsgPostWeighStarted ' nothing waiting in In Process: any date
+            End If
+        Next
 
+        Return ""
+    End Function
 
+    Public Function UnrecognizedFileRefusal() As String
+        ' Another In Process file named for this batch and bag that is not a first-weight file for a different
+        ' batch and bag, e.g. a renamed copy (SR-20).  Returns "" or the refusal message.
+        Dim prefix As String = Batch.Trim & "_" & Pallet.Trim & "_"
+        Dim nbatch As String = ""
+        Dim nbag As String = ""
+        Dim m, d, y As Integer
 
-    End Sub
+        For Each fname As String In currentfirstweights
+            If String.Equals(fname, currentfilename, StringComparison.OrdinalIgnoreCase) Then Continue For
+            If Not fname.Trim.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) Then Continue For
+            If ParseFirstWeightName(fname, nbatch, nbag, m, d, y) AndAlso Not IsFirstWeightFor(fname, Pallet, Batch) Then Continue For
+            Return MsgUnrecognizedFile
+        Next
+
+        Return ""
+    End Function
+
+    Public Function AlreadyArchivedRefusal() As String
+        ' The selected first-weight file is already in Archived (SR-16).  Returns "" or the refusal message.
+        If File.Exists(Path.Combine(Archived, currentfilename)) Then Return MsgAlreadyArchived
+        Return ""
+    End Function
 
     Public Sub ReadAllO2Data(ByVal ALLO2_File_Name As String)
         'Routine for reading in ALLo2 data into an list. Create an list of cylinders
@@ -268,19 +333,40 @@ Public Class PalletData
         Return Allo2TareWt
     End Function
 
-    Public Function Wasthisfilealreadystarted() As Boolean
-        'Test to see if file already exists.  Return true if it does and false if it does not.
-        Dim B_File_Already_Exists As Boolean
-        Dim FNreadfirst As String
-        B_File_Already_Exists = False
+    Public Function PreWeighStartRefusal() As String
+        ' A batch and bag is used once per day, and not again while its first-weight file waits in In Process (SR-18).
+        ' Returns "" or the refusal message.  Files are counted once by name: a finished bag is in both Completed and Archived.
+        Dim matches As New List(Of String)
+        Dim nbatch As String = ""
+        Dim nbag As String = ""
+        Dim m, d, y As Integer
 
-        Firstweight(Pallet, Batch)
+        ' Today's date, taken from the new file name itself so it is the same value WritefileHeader1 uses.
+        Dim newname As String = Filename
+        Dim datefields() As String = newname.Substring(0, newname.Length - 5).Split("_"c)
+        Dim n As Integer = datefields.Length
+        Dim nmonth As Integer = CInt(datefields(n - 3))
+        Dim nday As Integer = CInt(datefields(n - 2))
+        Dim nyear As Integer = CInt(datefields(n - 1))
 
-        FNreadfirst = fweight & "\" & currentfilename
+        If currentfirstweights IsNot Nothing Then
+            For Each fname As String In currentfirstweights
+                If IsFirstWeightFor(fname, Pallet, Batch) Then matches.Add(fname) ' any date
+            Next
+        End If
 
-        If File.Exists(FNreadfirst) Then B_File_Already_Exists = True
+        For Each folder As String In {completed, Archived}
+            For Each fname As String In FolderFileNames(folder)
+                If Not IsFirstWeightFor(fname, Pallet, Batch) Then Continue For
+                ParseFirstWeightName(fname, nbatch, nbag, m, d, y)
+                If m <> nmonth OrElse d <> nday OrElse y <> nyear Then Continue For
+                If Not matches.Exists(Function(s As String) String.Equals(s, fname, StringComparison.OrdinalIgnoreCase)) Then matches.Add(fname)
+            Next
+        Next
 
-        Return B_File_Already_Exists
+        If matches.Count > 1 Then Return MsgMultipleMatch
+        If matches.Count = 1 Then Return MsgPreWeighUsed
+        Return ""
     End Function
 
 
@@ -605,12 +691,26 @@ Public Class PalletData
             For x = 0 To iNumRows
                 If FirstWeightReading(x, 0) = serialnumber Then
                     init_weight = FirstWeightReading(x, 1)
-                    canisternumber += 1
                     Exit For
                 End If
             Next
 
             Return init_weight
+        End Get
+    End Property
+
+    Public ReadOnly Property IsInFirstWeight(ByVal serialnumber As String) As Boolean
+        Get
+            'True when the SN matches a part line in the first-weight file, whatever its weight or status (SR-15).
+            Dim x As Integer ' Counter Variable
+
+            iNumRows = UBound(FirstWeightReading, 1)
+
+            For x = 0 To iNumRows
+                If FirstWeightReading(x, 0) = serialnumber Then Return True
+            Next
+
+            Return False
         End Get
     End Property
 

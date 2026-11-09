@@ -233,6 +233,7 @@ Public Class Manual_Weight
                     If MDataset.Firstweightexists Then ' This is a second weight get data from previous cycle.
 
                         ccylinder.Firstweight = MDataset.Initialweight(ccylinder.SerialNumber)
+                        ccylinder.Matched = MDataset.IsInFirstWeight(ccylinder.SerialNumber) ' counted toward bag close only once recorded (SR-15)
                         ccylinder.Status = MDataset.FirstWeightStatus(ccylinder.SerialNumber) ' "Duplicate SN" -> rejected (SR-12)
                         ccylinder.AllO2_WT = MDataset.ADDALLO2WttoCylinder(ccylinder.SerialNumber) 'Add All02 weight to the clyinder object
 
@@ -337,6 +338,9 @@ Public Class Manual_Weight
                 MDataset.AddCylinder(ccylinder)
 
                 If MDataset.Firstweightexists = True Then Write_second_weight()
+
+                ' Post-weigh bag close count: only a part from the first-weight file, recorded after its drop (SR-15).
+                If MDataset.Firstweightexists AndAlso ccylinder.Matched Then MDataset.Canisternum += 1
 
                 Updatecounts() 'update the counters for disposition
 
@@ -604,21 +608,45 @@ Public Class Manual_Weight
         Lbl_BatchN.Text = MDataset.Batch
         Lbl_BagNum.Text = MDataset.Pallet
 
+        Dim refusal As String
+
         If firstweight Then
+            ' Checks before any file is moved: SR-17, then SR-19 selection, SR-20, SR-16.
+            refusal = MDataset.PostWeighStartedRefusal()
+            If refusal <> "" Then
+                RefuseStart(refusal)
+                Exit Sub
+            End If
+
             'Read in existing file to get batch number
-            MDataset.Firstweight("_" & MDataset.Pallet & "_", MDataset.Batch)
+            Select Case MDataset.Firstweight(MDataset.Pallet, MDataset.Batch)
+                Case 0
+                    RefuseStart("Invalid Batch and Bag Combination Entered")
+                    Exit Sub
+                Case Is > 1
+                    RefuseStart(PalletData.MsgMultipleMatch)
+                    Exit Sub
+            End Select
+
+            refusal = MDataset.UnrecognizedFileRefusal()
+            If refusal = "" Then refusal = MDataset.AlreadyArchivedRefusal()
+            If refusal <> "" Then
+                RefuseStart(refusal)
+                Exit Sub
+            End If
+
             MDataset.Readfirstweight()
             If IsNothing(MDataset.Filename) Then
                 MsgBox("Invalid Batch and Bag Combination Entered")
                 Exit Sub
             End If
-            MDataset.GetCurrentCount() ' Getting the current count
             Writefileheader2() ' write the file header
 
         Else
-            ' check to see if a file alread exists and stop the processes.
-            If MDataset.Wasthisfilealreadystarted Then
-                MsgBox("Contact Supervisor: Batch and Bag Already in the System")
+            ' check to see if this batch and bag was already used and stop the processes (SR-18).
+            refusal = MDataset.PreWeighStartRefusal()
+            If refusal <> "" Then
+                RefuseStart(refusal)
                 Exit Sub
             End If
             WritefileHeader1()
@@ -639,6 +667,14 @@ Public Class Manual_Weight
         TB_SerialNumber.Select()
 
     End Sub
+    Private Sub RefuseStart(ByVal message As String)
+        ' Bag not started (SR-16 to SR-20): no file has been changed.  Return to batch selection.
+        MsgBox(message, MsgBoxStyle.Critical, "Bag Not Started")
+        RadioButtonsENabled(True)
+        Lbl_BatchN.Text = ""
+        Lbl_BagNum.Text = ""
+    End Sub
+
     Private Sub RadioButtonsENabled(ByVal setsate As Boolean)
 
         If setsate Then

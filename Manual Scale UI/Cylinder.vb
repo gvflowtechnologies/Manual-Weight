@@ -26,6 +26,7 @@ Public Class Cylinder
     Private maxweight As Double
     Private bIsEvent As Boolean ' True = logged scan event (wrong gas, duplicate scan), not a weighed part
     Private sStatus As String ' Event text, or "Duplicate SN" on the first instance of a duplicated SN
+    Private bMatched As Boolean ' True = post-weigh SN matches a part line in the first-weight file (SR-15)
 
 
 
@@ -39,6 +40,7 @@ Public Class Cylinder
         sSN_StartTest = ssnstart
         bIsEvent = False
         sStatus = ""
+        bMatched = False
 
 
 
@@ -239,6 +241,15 @@ Public Class Cylinder
         End Get
         Set(value As String)
             sStatus = value
+        End Set
+    End Property
+
+    Public Property Matched As Boolean
+        Get
+            Return bMatched
+        End Get
+        Set(value As Boolean)
+            bMatched = value
         End Set
     End Property
 
